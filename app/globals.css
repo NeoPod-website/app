@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-color: #000000;
+}
+
+body {
+  background-image: var(--background-color);
+  color: #ffffff;
+}
+
+::-webkit-scrollbar {
+  background: #333;
+  border-radius: 9999px;
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ccd1d2;
+  border-radius: 9999px;
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+  background: #333;
+  border-radius: 9999px;
+  width: 3px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #ccd1d2;
+  border-radius: 9999px;
+}
+
+::selection {
+  background-color: #ff006b;
+  color: #282828;
+}
+
+::-moz-selection {
+  background-color: #ff006b;
+  color: #282828;
+}
+
+::-webkit-selection {
+  background-color: #ff006b;
+  color: #282828;
+}
+
+.prevent-select {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.show-scroll::-webkit-scrollbar {
+  display: block;
+}
+
+.show-scroll {
+  -ms-overflow-style: auto;
+  scrollbar-width: auto;
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Gradient Text */
+.text-gradient {
+  @apply bg-clip-text text-transparent;
+  -webkit-background-clip: text;
+}
