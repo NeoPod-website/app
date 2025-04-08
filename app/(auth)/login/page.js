@@ -1,5 +1,7 @@
 import React from "react";
 
+import AuthMain from "@/components/layout/auth/AuthMain";
+
 export const metadata = {
   title: "Login to NEO POD | Ambassador Dashboard Access",
   description:
@@ -64,7 +66,7 @@ export const metadata = {
 };
 
 const LoginPage = () => {
-  return <div>LoginPage</div>;
+  return <AuthMain />;
 };
 
 export default LoginPage;

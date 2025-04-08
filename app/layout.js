@@ -140,11 +140,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${nunitoSans.className} ${workSans.variable} antialiased`}
       >
-        <WalletProvider>
-          <ReduxProvider>
+        <ReduxProvider>
+          <WalletProvider>
             <UiProvider>{children}</UiProvider>
-          </ReduxProvider>
-        </WalletProvider>
+          </WalletProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

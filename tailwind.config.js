@@ -18,11 +18,26 @@ module.exports = {
         "work-sans": ["var(--font-work-sans)"],
       },
 
-      color: {
-        "text-gray-100": "#ccd1d2",
-        "text-gray-200": "#aaa",
-        "text-gray-300": "#808080",
-        "text-gray-400": "#666666",
+      colors: {
+        gray: {
+          100: "#ccd1d2",
+          200: "#aaa",
+          300: "#808080",
+          400: "#666666",
+          500: "#484848",
+        },
+
+        pink: {
+          pink: "#FF006B",
+        },
+
+        blue: {
+          blue: "#0272FA",
+        },
+      },
+
+      backgroundColor: {
+        dark: "#191919",
       },
 
       backgroundImage: {
@@ -44,6 +59,19 @@ module.exports = {
 
         "gradient-rank-architect":
           "linear-gradient(90deg, #A3282B 0%, #F62F4E 100%)",
+      },
+    },
+
+    animation: {
+      scrollY:
+        "scrollY var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+    },
+
+    keyframes: {
+      scrollY: {
+        to: {
+          transform: "translateY(calc(-50% - 0.5rem))",
+        },
       },
     },
   },
