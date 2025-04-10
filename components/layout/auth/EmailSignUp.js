@@ -4,13 +4,15 @@ import React from "react";
 import { ArrowRight } from "lucide-react";
 import { Button, Input } from "@heroui/react";
 
-const EmailSignUp = () => {
+const EmailSignUp = ({ email, setEmail, isLoading, handleEmailSubmit }) => {
   return (
     <div className="space-y-4">
       <Input
         label="Email Address"
         type="email"
         variant="bordered"
+        value={email}
+        onValueChange={setEmail}
         className="bg-dark"
         classNames={{
           inputWrapper:
@@ -22,6 +24,8 @@ const EmailSignUp = () => {
         className="bg-white text-black font-semibold p-4 text-base h-12"
         fullWidth
         endContent={<ArrowRight size={16} />}
+        onClick={handleEmailSubmit}
+        isLoading={isLoading}
       >
         Continue
       </Button>

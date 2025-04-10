@@ -2,24 +2,50 @@
 
 import React from "react";
 import Image from "next/image";
-import { Button } from "@heroui/react";
+import { Link, Button } from "@heroui/react";
 
 const ContinueWithSocial = () => {
   return (
-    <Button
-      size="lg"
-      fullWidth
-      variant="bordered"
-      className=" bg-dark border-gray-300 gap-2.5"
-      classNames={{
-        content: "text-base",
-      }}
-      startContent={
-        <Image width={32} height={32} src="/auth/google.svg" alt="Google" />
-      }
-    >
-      Continue With Social
-    </Button>
+    <>
+      {/* <a
+        href="/auth/login?connection=github"
+        className="bg-dark text-white p-4"
+      >
+        Github
+      </a>
+
+      <a
+        href="/auth/login?connection=google-oauth2"
+        className="bg-dark text-white p-4"
+      >
+        Google
+      </a>
+
+      <a
+        href="/auth/login?screen_hint=signup"
+        className="bg-dark text-white p-4"
+      >
+        Signup
+      </a>
+
+      <Link href="" className="bg-dark text-white p-4">
+        Login
+      </Link> */}
+
+      <Button
+        size="lg"
+        as={Link}
+        href="/auth/login"
+        fullWidth
+        variant="bordered"
+        className=" bg-dark border-gray-300 gap-2.5"
+        startContent={
+          <Image width={32} height={32} src="/auth/google.svg" alt="Google" />
+        }
+      >
+        Continue With Social
+      </Button>
+    </>
   );
 };
 

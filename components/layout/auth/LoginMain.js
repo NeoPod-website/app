@@ -1,20 +1,20 @@
 import React from "react";
 
+import EmailSignUp from "./EmailSignUp";
 import AuthMainContainer from "./AuthMainContainer";
 
-import EmailSignUp from "./button/EmailSignUp";
 import ContinueWithSocial from "./button/ContinueWithSocial";
 import ContinueWithWallet from "./button/ContinueWithWallet";
 
-const LoginMain = ({ onStepChange }) => {
+const LoginMain = ({ email, setEmail, isLoading, handleEmailSubmit }) => {
   return (
     <AuthMainContainer
       title="Welcome"
       description="Access your account and start completing quests to earn rewards!"
     >
       <div className="space-y-2">
-        <ContinueWithSocial onStepChange={onStepChange} />
-        <ContinueWithWallet onStepChange={onStepChange} />
+        <ContinueWithSocial />
+        <ContinueWithWallet />
       </div>
 
       <div className="text-gray-500 flex items-center gap-2">
@@ -23,7 +23,12 @@ const LoginMain = ({ onStepChange }) => {
         <hr className="border-gray-500 flex-1"></hr>
       </div>
 
-      <EmailSignUp onStepChange={onStepChange} />
+      <EmailSignUp
+        email={email}
+        setEmail={setEmail}
+        isLoading={isLoading}
+        handleEmailSubmit={handleEmailSubmit}
+      />
     </AuthMainContainer>
   );
 };
