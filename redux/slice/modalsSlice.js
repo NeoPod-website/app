@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  activeWallet: null,
-  isNewContactsModalOpen: false,
+  isSocialModalOpen: false,
 };
 
 const modalsSlice = createSlice({
@@ -11,16 +10,12 @@ const modalsSlice = createSlice({
   initialState,
 
   reducers: {
-    toggleNewContactsModal: (state) => {
-      state.isNewContactsModalOpen = !state.isNewContactsModalOpen;
-    },
-
-    setActiveWallet: (state, action) => {
-      state.activeWallet = action.payload;
+    toggleSocialModal: (state) => {
+      state.isSocialModalOpen = !state.isSocialModalOpen;
     },
   },
 });
 
-export const { toggleNewContactsModal, setActiveWallet } = modalsSlice.actions;
+export const { toggleSocialModal } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

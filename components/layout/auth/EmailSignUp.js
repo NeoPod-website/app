@@ -4,9 +4,15 @@ import React from "react";
 import { ArrowRight } from "lucide-react";
 import { Button, Input } from "@heroui/react";
 
-const EmailSignUp = ({ email, setEmail, isLoading, handleEmailSubmit }) => {
+const EmailSignUp = ({
+  email,
+  setEmail,
+  isLoading,
+  isValidEmail,
+  handleEmailSubmit,
+}) => {
   return (
-    <div className="space-y-4">
+    <form onSubmit={handleEmailSubmit} className="space-y-4">
       <Input
         label="Email Address"
         type="email"
@@ -21,15 +27,16 @@ const EmailSignUp = ({ email, setEmail, isLoading, handleEmailSubmit }) => {
       />
 
       <Button
-        className="bg-white text-black font-semibold p-4 text-base h-12"
+        type="submit"
+        className="h-12 bg-white p-4 text-base font-semibold text-black"
         fullWidth
         endContent={<ArrowRight size={16} />}
-        onClick={handleEmailSubmit}
         isLoading={isLoading}
+        isDisabled={!email || !isValidEmail(email)}
       >
         Continue
       </Button>
-    </div>
+    </form>
   );
 };
 

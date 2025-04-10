@@ -8,24 +8,24 @@ const AuthMainContainer = ({
   margin = "space-y-2",
 }) => {
   return (
-    <div className="max-w-sm space-y-12">
-      <div className="text-center space-y-2">
-        <h2 className="text-4xl font-work-sans font-medium">{title}</h2>
+    <div className="flex h-full max-w-sm flex-col items-center justify-center space-y-12">
+      <div className="space-y-2 text-center">
+        <h2 className="font-work-sans text-4xl font-medium">{title}</h2>
 
-        <p className="text-gray-300 ">{description}</p>
+        <p className="text-gray-300">{description}</p>
       </div>
 
-      <div className={`max-w-xs mx-auto ${margin}`}>
+      <div className={`mx-auto max-w-xs ${margin}`}>
         {children}
 
-        <div className="text-gray-300 text-sm mx-auto w-fit">
+        <div className="mx-auto w-fit text-sm text-gray-300">
           Admin?{" "}
-          <Link href="/admin/login" className="underline text-white">
+          <Link href="/admin/login" className="text-white underline">
             Click Here
           </Link>
         </div>
 
-        <div className="text-gray-400 text-center text-sm">
+        <div className="text-center text-sm text-gray-400">
           By continuing, you agree to NeoPod’s{" "}
           <Link href="/terms" className="underline">
             Terms of Service

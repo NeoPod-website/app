@@ -10,7 +10,7 @@ const ContinueWithWallet = () => {
       size="lg"
       fullWidth
       variant="bordered"
-      className=" bg-dark border-gray-300 gap-2.5"
+      className="gap-2.5 border-gray-300 bg-dark"
       classNames={{
         content: "text-base",
       }}

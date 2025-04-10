@@ -10,16 +10,19 @@ import LoginMain from "./LoginMain";
 const AuthMain = () => {
   const router = useRouter();
 
-  const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+
+  const [timeLeft, setTimeLeft] = useState(0);
+
   const [isLoading, setIsLoading] = useState(false);
   const [showOTPForm, setShowOTPForm] = useState(false);
 
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
-
-    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
     if (!email) {
       addToast({
@@ -56,8 +59,14 @@ const AuthMain = () => {
         throw new Error(data.error || "Failed to send verification code");
       }
 
+      setTimeLeft(60);
       setShowOTPForm(true);
     } catch (err) {
+      addToast({
+        title: err.message || "Failed to send verification code",
+        color: "danger",
+      });
+
       setError(err.message);
     } finally {
       setIsLoading(false);
@@ -66,6 +75,17 @@ const AuthMain = () => {
 
   const handleOTPSubmit = async (e) => {
     e.preventDefault();
+
+    if (otp.length !== 6) {
+      addToast({
+        title: "Invalid OTP",
+        description: "Please enter a valid 6-digit OTP.",
+        color: "warning",
+      });
+
+      return;
+    }
+
     setIsLoading(true);
     setError("");
 
@@ -87,18 +107,33 @@ const AuthMain = () => {
       router.push("/");
     } catch (err) {
       setError(err.message);
+
+      addToast({
+        title: err.message || "Failed to send verification code",
+        color: "danger",
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   return showOTPForm ? (
-    <OTPMain />
+    <OTPMain
+      otp={otp}
+      email={email}
+      setOtp={setOtp}
+      timeLeft={timeLeft}
+      isLoading={isLoading}
+      setTimeLeft={setTimeLeft}
+      setShowOTPForm={setShowOTPForm}
+      handleOTPSubmit={handleOTPSubmit}
+    />
   ) : (
     <LoginMain
       email={email}
       setEmail={setEmail}
       isLoading={isLoading}
+      isValidEmail={isValidEmail}
       handleEmailSubmit={handleEmailSubmit}
     />
   );

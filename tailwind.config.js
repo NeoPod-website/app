@@ -38,6 +38,8 @@ module.exports = {
 
       backgroundColor: {
         dark: "#191919",
+        pink: "#FF006B",
+        blue: "#0272FA",
       },
 
       backgroundImage: {

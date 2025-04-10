@@ -24,7 +24,12 @@ const LoginMarquee = () => {
   ];
 
   return (
-    <div className="mx-auto max-w-7xl rounded-3xl bg-gray-950/5 ring-1 ring-neutral-700/10 dark:bg-neutral-800 flex gap-8 rotate-12 -translate-y-40 -translate-x-96 z-20 relative">
+    <div
+      className="relative z-20 mx-auto flex max-w-7xl gap-8 rounded-3xl"
+      style={{
+        transform: "rotate(12deg) translate(-580px, -80px)",
+      }}
+    >
       <InfiniteMovingCards items={images} direction="left" />
       <InfiniteMovingCards items={images} direction="right" />
       <InfiniteMovingCards items={images} direction="left" />

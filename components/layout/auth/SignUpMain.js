@@ -44,7 +44,7 @@ const SignUpMain = () => {
       </Select>
 
       <Button
-        className="bg-white text-black font-semibold p-4 text-base h-12"
+        className="h-12 bg-white p-4 text-base font-semibold text-black"
         fullWidth
         endContent={<ArrowRight size={16} />}
       >

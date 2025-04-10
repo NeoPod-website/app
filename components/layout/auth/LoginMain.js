@@ -6,7 +6,13 @@ import AuthMainContainer from "./AuthMainContainer";
 import ContinueWithSocial from "./button/ContinueWithSocial";
 import ContinueWithWallet from "./button/ContinueWithWallet";
 
-const LoginMain = ({ email, setEmail, isLoading, handleEmailSubmit }) => {
+const LoginMain = ({
+  email,
+  setEmail,
+  isLoading,
+  handleEmailSubmit,
+  isValidEmail,
+}) => {
   return (
     <AuthMainContainer
       title="Welcome"
@@ -17,16 +23,17 @@ const LoginMain = ({ email, setEmail, isLoading, handleEmailSubmit }) => {
         <ContinueWithWallet />
       </div>
 
-      <div className="text-gray-500 flex items-center gap-2">
-        <hr className="border-gray-500 flex-1"></hr>
+      <div className="flex items-center gap-2 text-gray-500">
+        <hr className="flex-1 border-gray-500"></hr>
         or
-        <hr className="border-gray-500 flex-1"></hr>
+        <hr className="flex-1 border-gray-500"></hr>
       </div>
 
       <EmailSignUp
         email={email}
         setEmail={setEmail}
         isLoading={isLoading}
+        isValidEmail={isValidEmail}
         handleEmailSubmit={handleEmailSubmit}
       />
     </AuthMainContainer>
