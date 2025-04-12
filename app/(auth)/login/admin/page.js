@@ -1,5 +1,7 @@
 import React from "react";
 
+import AdminAuth from "@/components/layout/auth/AdminAuth";
+
 export const metadata = {
   title: "Admin Panel | NEO POD",
   description:
@@ -8,11 +10,12 @@ export const metadata = {
   robots: {
     index: false,
     follow: false,
+    nocache: true,
   },
 };
 
 const AdminLoginPage = () => {
-  return <div>AdminLoginPage</div>;
+  return <AdminAuth />;
 };
 
 export default AdminLoginPage;

@@ -5,9 +5,10 @@ import { addToast } from "@heroui/react";
 import { useRouter } from "next/navigation";
 
 import OTPMain from "./OTPMain";
-import LoginMain from "./LoginMain";
+import EmailSignUp from "./EmailSignUp";
+import AuthMainContainer from "./AuthMainContainer";
 
-const AuthMain = () => {
+const AdminAuth = () => {
   const router = useRouter();
 
   const [otp, setOtp] = useState("");
@@ -112,12 +113,12 @@ const AuthMain = () => {
 
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/email/${email}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/admin/email/${email}`,
         );
 
         if (res.ok) {
           const loginRes = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/admin/login`,
             {
               method: "POST",
 
@@ -137,11 +138,6 @@ const AuthMain = () => {
 
           localStorage.setItem("token", userData.token);
           localStorage.setItem("user", JSON.stringify(userData.data.user));
-
-          setOtp("");
-          setEmail("");
-        } else {
-          router.push("/sign-up");
 
           setOtp("");
           setEmail("");
@@ -176,14 +172,19 @@ const AuthMain = () => {
       handleOTPSubmit={handleOTPSubmit}
     />
   ) : (
-    <LoginMain
-      email={email}
-      setEmail={setEmail}
-      isLoading={isLoading}
-      isValidEmail={isValidEmail}
-      handleEmailSubmit={handleEmailSubmit}
-    />
+    <AuthMainContainer
+      title="Welcome back"
+      description="Access the admin dashboard to manage ambassadors, review activity, and keep the community thriving!"
+    >
+      <EmailSignUp
+        email={email}
+        setEmail={setEmail}
+        isLoading={isLoading}
+        isValidEmail={isValidEmail}
+        handleEmailSubmit={handleEmailSubmit}
+      />
+    </AuthMainContainer>
   );
 };
 
-export default AuthMain;
+export default AdminAuth;

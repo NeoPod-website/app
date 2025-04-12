@@ -20,7 +20,7 @@ const AuthMainContainer = ({
 
         <div className="mx-auto w-fit text-sm text-gray-300">
           Admin?{" "}
-          <Link href="/admin/login" className="text-white underline">
+          <Link href="/login/admin" className="text-white underline">
             Click Here
           </Link>
         </div>
