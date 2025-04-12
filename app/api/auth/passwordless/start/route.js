@@ -23,7 +23,7 @@ export async function POST(request) {
             redirect_uri: `${process.env.APP_BASE_URL}/api/auth/callback`,
           },
         }),
-      }
+      },
     );
 
     const data = await response.json();
@@ -31,7 +31,7 @@ export async function POST(request) {
     if (!response.ok) {
       return NextResponse.json(
         { error: data.error_description || "Failed to send OTP" },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -41,7 +41,7 @@ export async function POST(request) {
 
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

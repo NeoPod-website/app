@@ -104,7 +104,48 @@ const AuthMain = () => {
         throw new Error(data.error || "Invalid verification code");
       }
 
-      router.push("/");
+      addToast({
+        title: "OTP Verified",
+        description: "Your email has been verified.",
+        color: "success",
+      });
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/email/${email}`,
+        );
+
+        if (res.ok) {
+          const loginRes = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${data.token}`,
+              },
+
+              body: JSON.stringify({ email, login_method: "email" }),
+              credentials: "include",
+            },
+          );
+
+          router.push("/");
+
+          const userData = await loginRes.json();
+
+          localStorage.setItem("token", userData.token);
+          localStorage.setItem("user", JSON.stringify(userData.data.user));
+        } else {
+          router.push("/sign-up");
+        }
+      } catch (err) {
+        addToast({
+          title: "500: Something went wrong",
+          color: "danger",
+        });
+      }
     } catch (err) {
       setError(err.message);
 
@@ -114,6 +155,8 @@ const AuthMain = () => {
       });
     } finally {
       setIsLoading(false);
+      setOtp("");
+      setEmail("");
     }
   };
 

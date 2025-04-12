@@ -21,8 +21,9 @@ export async function POST(request) {
           realm: "email",
           scope: "openid profile email",
           client_secret: process.env.AUTH0_CLIENT_SECRET,
+          audience: process.env.AUTH0_AUDIENCE,
         }),
-      }
+      },
     );
 
     const data = await response.json();
@@ -30,13 +31,14 @@ export async function POST(request) {
     if (!response.ok) {
       return NextResponse.json(
         { error: data.error_description || "Invalid OTP" },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
-    // Set cookies or session with the tokens
-    const cookieStore = cookies();
+    // Get cookies instance
+    const cookieStore = await cookies();
 
+    // Set cookies or session with the tokens
     cookieStore.set("auth_token", data.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -47,6 +49,7 @@ export async function POST(request) {
     // You can also decode and store user information
     return NextResponse.json({
       success: true,
+      token: data.access_token,
       user: {
         email,
       },
@@ -56,7 +59,7 @@ export async function POST(request) {
 
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

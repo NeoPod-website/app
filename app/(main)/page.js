@@ -1,9 +1,9 @@
-import { auth0 } from "@/lib/auth0";
 import Link from "next/link";
+
+import { auth0 } from "@/lib/auth0";
 
 const DashboardPage = async () => {
   const session = await auth0.getSession();
-  console.log(session);
 
   return (
     <div className="flex flex-col">
