@@ -3,7 +3,13 @@ import { auth0 } from "./lib/auth0";
 import { getAuthCookies } from "@/utils/auth-cookies";
 
 export async function middleware(request) {
-  // const path = request.nextUrl.pathname;
+  const path = request.nextUrl.pathname;
+
+  const session = await auth0.getSession();
+
+  if (path === "/post-auth-redirect" && session === null) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
   // // Define public paths that don't require authentication
   // const publicPaths = ["/login", "/sign-up"];
