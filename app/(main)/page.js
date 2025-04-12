@@ -3,11 +3,9 @@ import Link from "next/link";
 
 const DashboardPage = async () => {
   const session = await auth0.getSession();
-  console.log(session);
 
   return (
     <div className="flex flex-col">
-      Hi
       <Link href="/login">Login</Link>
       <a href="/auth/logout">Logout</a>
     </div>
