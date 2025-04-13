@@ -13,6 +13,7 @@ const ContinueWithSocial = () => {
   const handleModal = () => {
     dispatch(toggleSocialModal());
   };
+
   return (
     <Button
       size="lg"

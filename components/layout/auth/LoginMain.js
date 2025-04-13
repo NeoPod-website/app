@@ -10,8 +10,9 @@ const LoginMain = ({
   email,
   setEmail,
   isLoading,
-  handleEmailSubmit,
   isValidEmail,
+  setShowWalletForm,
+  handleEmailSubmit,
 }) => {
   return (
     <AuthMainContainer
@@ -20,7 +21,7 @@ const LoginMain = ({
     >
       <div className="space-y-2">
         <ContinueWithSocial />
-        <ContinueWithWallet />
+        <ContinueWithWallet setShowWalletForm={setShowWalletForm} />
       </div>
 
       <div className="flex items-center gap-2 text-gray-500">

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import OTPMain from "./OTPMain";
 import LoginMain from "./LoginMain";
+import WalletSignMain from "./WalletSignMain";
 
 const AuthMain = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const AuthMain = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [showOTPForm, setShowOTPForm] = useState(false);
+  const [showWalletForm, setShowWalletForm] = useState(false);
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -175,12 +177,19 @@ const AuthMain = () => {
       setShowOTPForm={setShowOTPForm}
       handleOTPSubmit={handleOTPSubmit}
     />
+  ) : showWalletForm ? (
+    <WalletSignMain
+      isLoading={isLoading}
+      setIsLoading={setIsLoading}
+      setShowWalletForm={setShowWalletForm}
+    />
   ) : (
     <LoginMain
       email={email}
       setEmail={setEmail}
       isLoading={isLoading}
       isValidEmail={isValidEmail}
+      setShowWalletForm={setShowWalletForm}
       handleEmailSubmit={handleEmailSubmit}
     />
   );

@@ -1,9 +1,9 @@
-import * as React from "react";
-import { usePublicClient } from "wagmi";
+import { useMemo } from "react";
+import { useClient } from "wagmi";
 import { providers } from "ethers";
 
-export function publicClientToProvider(publicClient) {
-  const { chain, transport } = publicClient;
+export function clientToProvider(client) {
+  const { chain, transport } = client;
 
   const network = {
     chainId: chain.id,
@@ -14,18 +14,18 @@ export function publicClientToProvider(publicClient) {
   if (transport.type === "fallback")
     return new providers.FallbackProvider(
       transport.transports.map(
-        ({ value }) => new providers.JsonRpcProvider(value?.url, network)
-      )
+        ({ value }) => new providers.JsonRpcProvider(value?.url, network),
+      ),
     );
 
   return new providers.JsonRpcProvider(transport.url, network);
 }
 
 export function useEthersProvider({ chainId } = {}) {
-  const publicClient = usePublicClient({ chainId });
+  const client = useClient < Config > { chainId };
 
-  return React.useMemo(
-    () => publicClientToProvider(publicClient),
-    [publicClient]
+  return useMemo(
+    () => (client ? clientToProvider(client) : undefined),
+    [client],
   );
 }

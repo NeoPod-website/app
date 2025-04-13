@@ -1,10 +1,23 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
+import { useAccount } from "wagmi";
 import { Button } from "@heroui/react";
+import React, { useEffect } from "react";
+import { usePrivy } from "@privy-io/react-auth";
 
-const ContinueWithWallet = () => {
+const ContinueWithWallet = ({ setShowWalletForm }) => {
+  const { status } = useAccount();
+  console.log(status);
+  const { ready, connectWallet } = usePrivy();
+
+  useEffect(() => {
+    // Only run the check if the Privy client is ready and the user is authenticated
+    if (ready && status === "connected") {
+      setShowWalletForm(true);
+    }
+  }, [ready, status, setShowWalletForm]);
+
   return (
     <Button
       size="lg"
@@ -22,6 +35,8 @@ const ContinueWithWallet = () => {
           alt="Wallet Connect"
         />
       }
+      onPress={connectWallet}
+      disabled={!ready && status !== "disconnected"}
     >
       Continue With Wallet
     </Button>
