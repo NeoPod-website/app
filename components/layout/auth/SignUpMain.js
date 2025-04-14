@@ -2,20 +2,49 @@
 
 import React, { useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, Select, SelectItem } from "@heroui/react";
+
+import { setUserState } from "@/redux/slice/userSlice";
 
 import AuthMainContainer from "./AuthMainContainer";
 
-const SignUpMain = () => {
+const SignUpMain = ({ session }) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const email = useSelector((state) => state.user?.email);
+  const address = useSelector((state) => state.user?.address);
+  const login_method = useSelector((state) => state.user?.login_method);
+
   const [username, setUsername] = useState();
+  console.log(username);
   const [selectedLanguage, setSelectedLanguage] = useState(new Set(["zh"]));
 
   const handleSelectionChange = (keys) => {
     setSelectedLanguage(keys);
   };
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
     try {
+      const loginPayload = {
+        login_method,
+        username,
+        language: Array.from(selectedLanguage)[0],
+      };
+
+      if (email) {
+        loginPayload.email = email;
+      } else if (address) {
+        loginPayload.wallet_address = address;
+      } else {
+        loginPayload.email = session.user.email;
+        loginPayload.login_method = "social";
+      }
+
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
         {
@@ -24,22 +53,34 @@ const SignUpMain = () => {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ email: email }),
+          body: JSON.stringify(loginPayload),
         },
       );
 
-      const userData = await res.json();
-
-      localStorage.setItem("token", userData.token);
-      localStorage.setItem("user", JSON.stringify(userData.data.user));
-
       if (res.ok) {
+        const { token, data } = await res.json();
+
+        dispatch(
+          setUserState({
+            role: "ambassador",
+            user: data.user,
+            username: username,
+            email: loginPayload.email,
+            address: loginPayload.address,
+            login_method: loginPayload.login_method,
+          }),
+        );
+
+        localStorage.setItem("neo-token", token);
+
         router.push("/");
       } else {
-        router.push("/error?reason=Backend-login-failed");
+        router.push(
+          `/error?reason=${res.errors.msg || "Backend-signup-failed"}`,
+        );
       }
     } catch (err) {
-      console.error("Client login failed:", err);
+      console.error("Client signup failed:", err);
       router.push("/error?reason=Something-went-wrong");
     }
   };
@@ -54,7 +95,7 @@ const SignUpMain = () => {
           label="Your Username"
           type="text"
           value={username}
-          onChange={setUsername}
+          onValueChange={setUsername}
           variant="bordered"
           className="bg-dark"
           classNames={{

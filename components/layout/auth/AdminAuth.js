@@ -2,14 +2,18 @@
 
 import React, { useState } from "react";
 import { addToast } from "@heroui/react";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
 import OTPMain from "./OTPMain";
 import EmailSignUp from "./EmailSignUp";
 import AuthMainContainer from "./AuthMainContainer";
 
+import { setUserState } from "@/redux/slice/userSlice";
+
 const AdminAuth = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
@@ -134,10 +138,21 @@ const AdminAuth = () => {
 
           router.push("/");
 
-          const userData = await loginRes.json();
+          const { data, token } = await loginRes.json();
 
-          localStorage.setItem("token", userData.token);
-          localStorage.setItem("user", JSON.stringify(userData.data.user));
+          dispatch(
+            setUserState({
+              email,
+              role: "admin",
+              address: null,
+              user: data.user,
+              login_method: "email",
+              username: data.user.username,
+            }),
+          );
+
+          localStorage.setItem("neo-token", token);
+          // localStorage.setItem("user", JSON.stringify(data.user));
 
           setOtp("");
           setEmail("");

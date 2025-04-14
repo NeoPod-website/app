@@ -2,14 +2,22 @@
 
 import React, { useState } from "react";
 import { addToast } from "@heroui/react";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
 import OTPMain from "./OTPMain";
 import LoginMain from "./LoginMain";
 import WalletSignMain from "./WalletSignMain";
 
+import {
+  setUserState,
+  setLoginMethod,
+  setEmail as setReduxEmail,
+} from "@/redux/slice/userSlice";
+
 const AuthMain = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
@@ -128,29 +136,43 @@ const AuthMain = () => {
                 Authorization: `Bearer ${data.token}`,
               },
 
-              body: JSON.stringify({ email, login_method: "email" }),
+              body: JSON.stringify({ email }),
               credentials: "include",
             },
           );
 
           router.push("/");
 
-          const userData = await loginRes.json();
+          const { token, data: loginData } = await loginRes.json();
 
-          localStorage.setItem("token", userData.token);
-          localStorage.setItem("user", JSON.stringify(userData.data.user));
+          dispatch(
+            setUserState({
+              email,
+              role: "ambassador",
+              user: loginData.user,
+              username: loginData.user.username,
+              login_method: loginData.user.login_method,
+              address: loginData.user.wallet_address,
+            }),
+          );
+
+          localStorage.setItem("neo-token", token);
+          // localStorage.setItem("user", JSON.stringify(data.user));
 
           setOtp("");
           setEmail("");
         } else {
           router.push("/sign-up");
 
+          dispatch(setReduxEmail(email));
+          dispatch(setLoginMethod("email"));
+
           setOtp("");
           setEmail("");
         }
       } catch (err) {
         addToast({
-          title: "500: Something went wrong",
+          title: "500: Something went wrong 11",
           color: "danger",
         });
       }

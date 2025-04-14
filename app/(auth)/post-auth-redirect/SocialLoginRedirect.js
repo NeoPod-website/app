@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+
+import { setUserState } from "@/redux/slice/userSlice";
 
 import AuthMainContainer from "@/components/layout/auth/AuthMainContainer";
 
 const SocialLoginRedirect = ({ session }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const loginToBackend = async () => {
@@ -24,15 +28,29 @@ const SocialLoginRedirect = ({ session }) => {
           },
         );
 
-        const userData = await res.json();
+        const { token, data } = await res.json();
+        console.log(data);
 
-        localStorage.setItem("token", userData.token);
-        localStorage.setItem("user", JSON.stringify(userData.data.user));
+        dispatch(
+          setUserState({
+            role: "ambassador",
+            user: data.user,
+            username: data.user.username,
+            login_method: data.user.login_method,
+            address: data.user.wallet_address,
+            email: session.user.email,
+          }),
+        );
+
+        localStorage.setItem("neo-token", token);
+        // localStorage.setItem("user", JSON.stringify(data.user));
 
         if (res.ok) {
           router.push("/");
         } else {
-          router.push("/error?reason=Backend-login-failed");
+          router.push(
+            `/error?reason=${res.errors.msg || "Backend-signup-failed"}`,
+          );
         }
       } catch (err) {
         console.error("Client login failed:", err);

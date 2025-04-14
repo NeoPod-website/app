@@ -1,22 +1,35 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useAccount } from "wagmi";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { ArrowRight, User2Icon } from "lucide-react";
 import { addToast, Button, Input } from "@heroui/react";
 
-import AuthMainContainer from "./AuthMainContainer";
-
-import CopyToClipboard from "@/components/ui/CopyToClipboard";
+import {
+  setAddress,
+  setUserState,
+  setLoginMethod,
+} from "@/redux/slice/userSlice";
 
 import { useEthersSigner } from "@/wagmi/ethersSigner";
 
-const WalletSignMain = ({ isLoading, setIsLoading }) => {
+import AuthMainContainer from "./AuthMainContainer";
+import CopyToClipboard from "@/components/ui/CopyToClipboard";
+
+const WalletSignMain = ({ isLoading, setIsLoading, setShowWalletForm }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { status, address } = useAccount();
 
   const signer = useEthersSigner();
+
+  useEffect(() => {
+    if (status === "disconnected") {
+      setShowWalletForm(false);
+    }
+  }, [status]);
 
   const handleSignMessage = async (e) => {
     e.preventDefault();
@@ -93,12 +106,26 @@ const WalletSignMain = ({ isLoading, setIsLoading }) => {
 
           router.push("/");
 
-          const userData = await loginRes.json();
+          const { token, data } = await loginRes.json();
 
-          localStorage.setItem("token", userData.token);
-          localStorage.setItem("user", JSON.stringify(userData.data.user));
+          dispatch(
+            setUserState({
+              role: "ambassador",
+              user: data.user,
+              address: address,
+              email: data.user.email,
+              username: data.user.username,
+              login_method: data.user.login_method,
+            }),
+          );
+
+          localStorage.setItem("neo-token", token);
+          // localStorage.setItem("user", JSON.stringify(data.user));
         } else if (existRes.status === 404) {
           router.push("/sign-up");
+
+          dispatch(setAddress(address));
+          dispatch(setLoginMethod("wallet"));
 
           return;
         } else {
