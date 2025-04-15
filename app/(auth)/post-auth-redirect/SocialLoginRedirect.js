@@ -29,11 +29,10 @@ const SocialLoginRedirect = ({ session }) => {
         );
 
         const { token, data } = await res.json();
-        console.log(data);
 
         dispatch(
           setUserState({
-            role: "ambassador",
+            role: data.isAdmin ? "admin" : "ambassador",
             user: data.user,
             username: data.user.username,
             login_method: data.user.login_method,

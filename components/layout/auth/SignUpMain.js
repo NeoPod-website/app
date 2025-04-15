@@ -62,7 +62,7 @@ const SignUpMain = ({ session }) => {
 
         dispatch(
           setUserState({
-            role: "ambassador",
+            role: data.isAdmin ? "admin" : "ambassador",
             user: data.user,
             username: username,
             email: loginPayload.email,

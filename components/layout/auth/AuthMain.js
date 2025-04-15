@@ -148,7 +148,7 @@ const AuthMain = () => {
           dispatch(
             setUserState({
               email,
-              role: "ambassador",
+              role: loginData.isAdmin ? "admin" : "ambassador",
               user: loginData.user,
               username: loginData.user.username,
               login_method: loginData.user.login_method,
@@ -172,7 +172,7 @@ const AuthMain = () => {
         }
       } catch (err) {
         addToast({
-          title: "500: Something went wrong 11",
+          title: err.message || "500: Something went wrong 11",
           color: "danger",
         });
       }

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { auth0 } from "@/lib/auth0";
 
-const DashboardPage = async () => {
+const AdminPage = async () => {
   const session = await auth0.getSession();
 
   return (
@@ -13,4 +13,4 @@ const DashboardPage = async () => {
   );
 };
 
-export default DashboardPage;
+export default AdminPage;

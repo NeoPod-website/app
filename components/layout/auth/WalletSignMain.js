@@ -110,7 +110,7 @@ const WalletSignMain = ({ isLoading, setIsLoading, setShowWalletForm }) => {
 
           dispatch(
             setUserState({
-              role: "ambassador",
+              role: data.isAdmin ? "admin" : "ambassador",
               user: data.user,
               address: address,
               email: data.user.email,

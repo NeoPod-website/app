@@ -16,6 +16,7 @@
     "clsx": "^2.1.1",
     "ethers": "^5.7.2",
     "framer-motion": "^12.6.2",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.487.0",
     "motion": "^12.6.3",
     "next": "15.2.4",

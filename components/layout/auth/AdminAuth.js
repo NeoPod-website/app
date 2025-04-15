@@ -138,16 +138,16 @@ const AdminAuth = () => {
 
           router.push("/");
 
-          const { data, token } = await loginRes.json();
+          const { data: loginData, token } = await loginRes.json();
 
           dispatch(
             setUserState({
               email,
-              role: "admin",
+              role: loginData.isAdmin ? "admin" : "ambassador",
               address: null,
-              user: data.user,
+              user: loginData.user,
               login_method: "email",
-              username: data.user.username,
+              username: loginData.user.username,
             }),
           );
 
@@ -159,7 +159,7 @@ const AdminAuth = () => {
         }
       } catch (err) {
         addToast({
-          title: "500: Something went wrong",
+          title: err.message || "500: Something went wrong",
           color: "danger",
         });
       }

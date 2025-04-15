@@ -1,38 +1,61 @@
+import { jwtVerify } from "jose";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+
 import { auth0 } from "./lib/auth0";
-import { getAuthCookies } from "@/utils/auth-cookies";
+
+// Protected routes that require authentication
+const PROTECTED_ROUTES = ["/dashboard", "/admin", "/profile"];
+
+const ADMIN_ROUTES = ["/admin"];
 
 export async function middleware(request) {
-  const path = request.nextUrl.pathname;
+  const { pathname } = request.nextUrl;
 
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  // Original redirect logic for post-auth-redirect
   const session = await auth0.getSession();
 
-  if (path === "/post-auth-redirect" && session === null) {
+  if (pathname === "/post-auth-redirect" && session === null) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // // Define public paths that don't require authentication
-  // const publicPaths = ["/login", "/sign-up"];
+  // Check if the current path is a protected route
+  if (PROTECTED_ROUTES.some((route) => pathname.startsWith(route))) {
+    try {
+      const cookieStore = await cookies();
+      const neoJwtCookie = cookieStore.get("neo-jwt");
 
-  // // Check if API route (these handle their own auth)
-  // const isApiRoute = path.startsWith("/api/");
+      // Redirect to login if the cookie is missing
+      if (!neoJwtCookie) {
+        return NextResponse.redirect(new URL("/login", request.url));
+      }
 
-  // // Check if the route is public
-  // const isPublicPath = publicPaths.some(
-  //   (publicPath) => path === publicPath || path.startsWith(`${publicPath}/`),
-  // );
+      // Check role-based authorization for admin routes
+      if (ADMIN_ROUTES.some((route) => pathname.startsWith(route))) {
+        // Decode the JWT to get the user role
+        const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
-  // // If the route is not public and not an API route, check for auth
-  // if (!isPublicPath && !isApiRoute) {
-  //   const { token } = getAuthCookies(request);
+        const { payload } = await jwtVerify(neoJwtCookie.value, secret);
 
-  //   // If no token found, redirect to login
-  //   if (!token) {
-  //     return NextResponse.redirect(new URL("/login", request.url));
-  //   }
-  // }
+        // If not admin, redirect to unauthorized page
+        if (!payload.user.isAdmin) {
+          return NextResponse.redirect(
+            new URL("/error?reason=unauthorized", request.url),
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Error checking auth:", error);
+      // In case of error reading cookies or decoding token, redirect to login
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  }
 
-  // Run Auth0 middleware after our custom check
+  // Run Auth0 middleware after our custom checks
   return await auth0.middleware(request);
 }
 
