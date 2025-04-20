@@ -9,9 +9,28 @@ const PROTECTED_ROUTES = ["/dashboard", "/admin", "/profile"];
 
 const ADMIN_ROUTES = ["/admin"];
 
+const PUBLIC_AUTH_ROUTES = ["/login", "/sign-up"];
+
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
 
+  const cookieStore = await cookies();
+  const neoJwtCookie = cookieStore.get("neo-jwt");
+
+  let jwtPayload = null;
+
+  if (neoJwtCookie) {
+    try {
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+      const { payload } = await jwtVerify(neoJwtCookie.value, secret);
+
+      jwtPayload = payload;
+    } catch (err) {
+      console.error("JWT verification failed:", err);
+    }
+  }
+
+  // Redirect from root to dashboard
   if (pathname === "/") {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
@@ -23,12 +42,14 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  // Prevent access to login/sign-up for logged-in users
+  if (PUBLIC_AUTH_ROUTES.includes(pathname) && jwtPayload) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
   // Check if the current path is a protected route
   if (PROTECTED_ROUTES.some((route) => pathname.startsWith(route))) {
     try {
-      const cookieStore = await cookies();
-      const neoJwtCookie = cookieStore.get("neo-jwt");
-
       // Redirect to login if the cookie is missing
       if (!neoJwtCookie) {
         return NextResponse.redirect(new URL("/login", request.url));

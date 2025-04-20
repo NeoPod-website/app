@@ -78,6 +78,7 @@ const OTPMain = ({
             onClick={() => {
               setShowOTPForm(false);
               setTimeLeft(0);
+              setOtp("");
             }}
           >
             Go Back
