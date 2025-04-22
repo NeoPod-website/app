@@ -19,7 +19,6 @@ const SignUpMain = ({ session }) => {
   const login_method = useSelector((state) => state.user?.login_method);
 
   const [username, setUsername] = useState();
-  console.log(username);
   const [selectedLanguage, setSelectedLanguage] = useState(new Set(["zh"]));
 
   const handleSelectionChange = (keys) => {

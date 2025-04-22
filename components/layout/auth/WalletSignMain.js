@@ -51,7 +51,6 @@ const WalletSignMain = ({ isLoading, setIsLoading, setShowWalletForm }) => {
       }
 
       const messageData = await requestRed.json();
-      console.log(messageData);
       const message = messageData?.data?.message;
 
       // 2. Sign the message

@@ -5,12 +5,12 @@ import { Modal, ModalBody, ModalHeader, ModalContent } from "@heroui/react";
 
 const MainModal = ({
   title,
-  description,
-  children,
-  footer,
-  showFooter = false,
   isOpen,
+  footer,
+  children,
+  description,
   handleOnClose,
+  showFooter = false,
 }) => {
   return (
     <>

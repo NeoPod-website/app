@@ -17,13 +17,33 @@ export default function Providers({ children }) {
       appId={privyAppId}
       clientId={privyClientId}
       config={{
-        loginMethods: ["wallet"],
-        showWalletLoginFirst: false,
-
         appearance: {
-          theme: "dark",
-          accentColor: "#191919",
-          logo: "https://your-logo-url",
+          accentColor: "#666",
+          theme: "#000000",
+          showWalletLoginFirst: false,
+          logo: "https://auth.privy.io/logos/privy-logo-dark.png",
+          walletChainType: "ethereum",
+          walletList: [
+            "detected_wallets",
+            "coinbase_wallet",
+            "phantom",
+            "wallet_connect",
+          ],
+        },
+        loginMethods: ["wallet"],
+
+        embeddedWallets: {
+          requireUserPasswordOnCreate: false,
+          showWalletUIs: true,
+          ethereum: {
+            createOnLogin: "users-without-wallets",
+          },
+          solana: {
+            createOnLogin: "off",
+          },
+        },
+        mfa: {
+          noPromptOnMfaRequired: false,
         },
       }}
     >

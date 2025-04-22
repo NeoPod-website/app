@@ -8,7 +8,6 @@ import { usePrivy } from "@privy-io/react-auth";
 
 const ContinueWithWallet = ({ setShowWalletForm }) => {
   const { status } = useAccount();
-  console.log(status);
   const { ready, connectWallet } = usePrivy();
 
   useEffect(() => {
