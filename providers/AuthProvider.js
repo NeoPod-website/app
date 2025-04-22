@@ -41,7 +41,7 @@ export default function AuthProvider({ children }) {
         dispatch(setAdminView(data.user.isAdmin));
 
         if (data.user.isAdmin) {
-          router.push("/admin/dashboard");
+          router.replace("/admin/dashboard");
         }
 
         dispatch(

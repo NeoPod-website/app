@@ -4,6 +4,18 @@ import DashboardSidebar from "@/components/common/sidebar/DashboardSidebar";
 
 import { adminMenuItems } from "@/data/sidebarMenuItem";
 
+export const metadata = {
+  title: "Admin Panel | NEO POD",
+  description:
+    "Internal admin dashboard for managing Neo Pod ambassadors and communities.",
+
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
+};
+
 const AdminLayout = async ({ children }) => {
   return (
     <>

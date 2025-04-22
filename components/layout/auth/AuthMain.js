@@ -141,7 +141,7 @@ const AuthMain = () => {
             },
           );
 
-          router.push("/dashboard");
+          router.push("/quests");
 
           const { token, data: loginData } = await loginRes.json();
 

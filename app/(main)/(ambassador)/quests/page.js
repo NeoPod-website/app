@@ -2,7 +2,13 @@ import Link from "next/link";
 
 import { auth0 } from "@/lib/auth0";
 
-const DashboardPage = async () => {
+export const metadata = {
+  title: "Quests | NEO POD",
+  description:
+    "Discover and participate in quests designed to boost your engagement and growth within the Neo Pod community. Earn rewards and unlock achievements.",
+};
+
+const QuestsPage = async () => {
   const session = await auth0.getSession();
 
   return (
@@ -15,4 +21,4 @@ const DashboardPage = async () => {
   );
 };
 
-export default DashboardPage;
+export default QuestsPage;

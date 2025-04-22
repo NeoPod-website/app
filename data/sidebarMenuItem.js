@@ -1,27 +1,27 @@
 import {
+  BellIcon,
   BookCheck,
-  ChartNoAxesCombined,
-  HistoryIcon,
+  UsersIcon,
   InboxIcon,
-  SettingsIcon,
+  HistoryIcon,
   MedalIcon,
   TrophyIcon,
+  ShapesIcon,
+  SettingsIcon,
+  ChartAreaIcon,
+  ShieldUserIcon,
+  LockKeyholeIcon,
   LayoutDashboard,
   FolderKanbanIcon,
-  ShapesIcon,
   ClipboardListIcon,
-  LockKeyholeIcon,
-  ShieldUserIcon,
-  UsersIcon,
-  ChartAreaIcon,
-  BellIcon,
+  ChartNoAxesCombined,
 } from "lucide-react";
 
 const ambassadorMenuItems = [
   {
-    name: "Task Center",
+    name: "Quest Center",
     icon: <BookCheck size={20} />,
-    href: "/dashboard",
+    href: "/quests",
   },
 
   {
@@ -81,7 +81,7 @@ const adminMenuItems = [
   },
 
   {
-    name: "Manage Quests",
+    name: "Manage Tasks",
     icon: <FolderKanbanIcon size={20} />,
     children: [
       {
@@ -91,7 +91,7 @@ const adminMenuItems = [
       },
 
       {
-        name: "Manage Tasks",
+        name: "Manage Quests",
         icon: <ClipboardListIcon size={20} />,
         href: "/admin/manage/quests",
       },
@@ -124,29 +124,29 @@ const adminMenuItems = [
 
   {
     name: "Leaderboard",
-    icon: <LockKeyholeIcon size={20} />,
+    icon: <ChartNoAxesCombined size={20} />,
     children: [
       {
         name: "Operator Leaderboard",
-        icon: <ShieldUserIcon size={20} />,
+        icon: <MedalIcon size={20} />,
         href: "/admin/leaderboard/operator",
       },
 
       {
         name: "Sentinel Leaderboard",
-        icon: <UsersIcon size={20} />,
+        icon: <MedalIcon size={20} />,
         href: "/admin/leaderboard/sentinel",
       },
 
       {
         name: "Architect Leaderboard",
-        icon: <UsersIcon size={20} />,
+        icon: <MedalIcon size={20} />,
         href: "/admin/leaderboard/architect",
       },
 
       {
         name: "All Time Leaderboard",
-        icon: <UsersIcon size={20} />,
+        icon: <TrophyIcon size={20} />,
         href: "/admin/leaderboard",
       },
     ],
