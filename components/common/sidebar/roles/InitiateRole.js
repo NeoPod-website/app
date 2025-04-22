@@ -6,8 +6,17 @@ import React, { useState } from "react";
 import { Button, Progress } from "@heroui/react";
 import { EllipsisVerticalIcon } from "lucide-react";
 
-const InitiateProgress = ({ rank = 40, points = 0, percentileRank = 40 }) => {
+import SidebarProfile from "../SidebarProfile";
+
+import MainModal from "@/components/ui/modals/MainModal";
+
+const InitiateProgress = ({
+  rank = 40,
+  points = 0,
+  percentileRank, // Optional
+}) => {
   const [expanded, setExpanded] = useState(false);
+
   const progress = Math.min((points / 100) * 100, 100);
 
   const getMessage = () => {
@@ -43,35 +52,43 @@ const InitiateProgress = ({ rank = 40, points = 0, percentileRank = 40 }) => {
   };
 
   return (
-    <div className="border-t border-gray-400 p-3 text-gray-100">
-      <div className="flex items-start gap-2.5">
-        <Progress
-          className="max-w-md"
-          color="warning"
-          formatOptions={{ style: "decimal", maximumFractionDigits: 0 }}
-          label="Tier 1: Initiate"
-          maxValue={100}
-          valueLabel={`${points} / 100 PODS`}
-          showValueLabel={true}
-          size="md"
-          value={progress}
-          classNames={{
-            indicator: "bg-gradient-rank-initiate",
-            label: "text-gray-100 text-sm",
-            value: "text-gray-100 text-sm",
-          }}
-        />
+    <>
+      <div className="border-t border-gray-400 p-3 text-gray-100">
+        <div className="flex items-start gap-2.5">
+          <Progress
+            className="max-w-md"
+            color="warning"
+            formatOptions={{ style: "decimal", maximumFractionDigits: 0 }}
+            label="Tier 1: Initiate"
+            maxValue={100}
+            valueLabel={`${points} / 100 PODS`}
+            showValueLabel={true}
+            size="md"
+            value={progress}
+            classNames={{
+              indicator: "bg-gradient-rank-initiate",
+              label: "text-gray-100 text-sm",
+              value: "text-gray-100 text-sm",
+            }}
+          />
 
-        <Button
-          onPress={() => setExpanded((prev) => !prev)}
-          className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700"
-        >
-          <EllipsisVerticalIcon size={16} />
-        </Button>
+          <Button
+            onPress={() => setExpanded(true)}
+            className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700"
+          >
+            <EllipsisVerticalIcon size={16} />
+          </Button>
+        </div>
       </div>
 
-      {expanded && (
-        <div className="mt-4 space-y-2 text-sm">
+      <MainModal
+        title="Tier 1: Initiate Progress"
+        description="Track your progress and learn how to reach the next tier"
+        isOpen={expanded}
+        handleOnClose={() => setExpanded(false)}
+        size="lg"
+      >
+        <div className="space-y-3 text-sm text-gray-100">
           <p>{getMessage()}</p>
 
           <p>
@@ -108,8 +125,8 @@ const InitiateProgress = ({ rank = 40, points = 0, percentileRank = 40 }) => {
             How to Earn PODS
           </Link>
         </div>
-      )}
-    </div>
+      </MainModal>
+    </>
   );
 };
 
@@ -126,19 +143,9 @@ const InitiateProfileImage = () => (
 const InitiateRole = () => {
   return (
     <>
-      <div className="px-3 py-2">
-        <div className="relative w-fit">
-          <Image
-            src="/dashboard/profile/default-profile.png"
-            width={48}
-            height={48}
-            alt="Profile Photo"
-            className="rounded-md"
-          />
-
-          <InitiateProfileImage />
-        </div>
-      </div>
+      <SidebarProfile>
+        <InitiateProfileImage />
+      </SidebarProfile>
 
       <InitiateProgress points={50} rank={40} percentileRank={60} />
     </>

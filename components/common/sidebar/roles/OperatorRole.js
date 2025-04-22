@@ -6,6 +6,20 @@ import React, { useState } from "react";
 import { Button, Progress } from "@heroui/react";
 import { EllipsisVerticalIcon } from "lucide-react";
 
+import SidebarProfile from "../SidebarProfile";
+
+import MainModal from "@/components/ui/modals/MainModal";
+
+const OperatorProfileImage = () => (
+  <Image
+    width={28}
+    height={20}
+    alt="Operator Rank"
+    src="/dashboard/profile/operator-star.png"
+    className="absolute -bottom-2 left-1/2 z-10 -translate-x-1/2"
+  />
+);
+
 const OperatorProgress = ({ userPoints = 0, tenthPlacePoints = 1000 }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -53,39 +67,47 @@ const OperatorProgress = ({ userPoints = 0, tenthPlacePoints = 1000 }) => {
   };
 
   return (
-    <div className="border-t border-gray-400 p-3 text-gray-100">
-      <div className="flex items-start gap-2.5">
-        <Progress
-          className="max-w-md"
-          color="warning"
-          formatOptions={{ style: "decimal", maximumFractionDigits: 0 }}
-          label="Tier 2: Operator"
-          maxValue={tenthPlacePoints}
-          value={userPoints}
-          valueLabel={
-            hasReachedTop10
-              ? `Top 10 Achieved`
-              : `${userPoints} / ${tenthPlacePoints} PODS`
-          }
-          showValueLabel={true}
-          size="md"
-          classNames={{
-            indicator: "bg-gradient-rank-operator",
-            label: "text-gray-100 text-sm",
-            value: "text-gray-100 text-sm",
-          }}
-        />
+    <>
+      <div className="border-t border-gray-400 p-3 text-gray-100">
+        <div className="flex items-start gap-2.5">
+          <Progress
+            className="max-w-md"
+            color="warning"
+            formatOptions={{ style: "decimal", maximumFractionDigits: 0 }}
+            label="Tier 2: Operator"
+            maxValue={tenthPlacePoints}
+            value={userPoints}
+            valueLabel={
+              hasReachedTop10
+                ? `Top 10 Achieved`
+                : `${userPoints} / ${tenthPlacePoints} PODS`
+            }
+            showValueLabel={true}
+            size="md"
+            classNames={{
+              indicator: "bg-gradient-rank-operator",
+              label: "text-gray-100 text-sm",
+              value: "text-gray-100 text-sm",
+            }}
+          />
 
-        <Button
-          onPress={() => setExpanded((prev) => !prev)}
-          className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700"
-        >
-          <EllipsisVerticalIcon size={16} />
-        </Button>
+          <Button
+            onPress={() => setExpanded((prev) => !prev)}
+            className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700"
+          >
+            <EllipsisVerticalIcon size={16} />
+          </Button>
+        </div>
       </div>
 
-      {expanded && (
-        <div className="mt-4 space-y-1.5 text-sm">
+      <MainModal
+        title="Tier 2: Operator Progress"
+        description="You're making waves! Track your progress and see what it takes to reach Sentinel status."
+        isOpen={expanded}
+        handleOnClose={() => setExpanded(false)}
+        size="lg"
+      >
+        <div className="space-y-1.5 text-sm">
           <p>{getMessage()}</p>
 
           <p>
@@ -112,37 +134,17 @@ const OperatorProgress = ({ userPoints = 0, tenthPlacePoints = 1000 }) => {
             View Leaderboard
           </Link>
         </div>
-      )}
-    </div>
+      </MainModal>
+    </>
   );
 };
-
-const OperatorProfileImage = () => (
-  <Image
-    width={28}
-    height={20}
-    alt="Operator Rank"
-    src="/dashboard/profile/operator-star.png"
-    className="absolute -bottom-2 left-1/2 z-10 -translate-x-1/2"
-  />
-);
 
 const OperatorRole = () => {
   return (
     <>
-      <div className="px-3 py-2">
-        <div className="relative w-fit">
-          <Image
-            src="/dashboard/profile/default-profile.png"
-            width={48}
-            height={48}
-            alt="Profile Photo"
-            className="rounded-md"
-          />
-
-          <OperatorProfileImage />
-        </div>
-      </div>
+      <SidebarProfile>
+        <OperatorProfileImage />
+      </SidebarProfile>
 
       <OperatorProgress userPoints={280} tenthPlacePoints={1000} />
     </>

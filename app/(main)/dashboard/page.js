@@ -10,6 +10,7 @@ const DashboardPage = async () => {
       <Link href="/login">Login</Link>
       <a href="/auth/logout">Logout</a>
       <a href="/admin/hi">Logout</a>
+      <Link href="/admin/dashboard">Admin View</Link>
     </div>
   );
 };

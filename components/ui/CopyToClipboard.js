@@ -8,7 +8,7 @@ const CopyToClipboard = ({
   text,
   iconSize = 16,
   className = "",
-  textType = "Wallet",
+  textType = "Wallet address",
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -19,7 +19,7 @@ const CopyToClipboard = ({
     });
 
     addToast({
-      title: `${textType} address copied successfully`,
+      title: `${textType} copied successfully`,
       color: "success",
     });
   };

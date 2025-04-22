@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setUserState } from "@/redux/slice/userSlice";
+import { setAdminView, setUserState } from "@/redux/slice/userSlice";
 
 export default function AuthProvider({ children }) {
   const router = useRouter();
@@ -38,9 +38,15 @@ export default function AuthProvider({ children }) {
           throw new Error("No user found");
         }
 
+        dispatch(setAdminView(data.user.isAdmin));
+
+        if (data.user.isAdmin) {
+          router.push("/admin/dashboard");
+        }
+
         dispatch(
           setUserState({
-            role: data.isAdmin ? "admin" : "ambassador",
+            role: data.user.isAdmin ? "admin" : "ambassador",
             user: data.user,
             username: data.user.username,
             login_method: data.user.login_method,
@@ -60,6 +66,10 @@ export default function AuthProvider({ children }) {
       checkAuth();
     }
   }, [router]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return <>{children}</>;
 }

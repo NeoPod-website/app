@@ -2,9 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Button, Progress } from "@heroui/react";
 import React, { useState } from "react";
+import { Button, Progress } from "@heroui/react";
 import { EllipsisVerticalIcon } from "lucide-react";
+
+import SidebarProfile from "../SidebarProfile";
+
+import MainModal from "@/components/ui/modals/MainModal";
 
 const ArchitectProfileImage = () => (
   <Image
@@ -77,35 +81,43 @@ const ArchitectProgress = ({
   };
 
   return (
-    <div className="max-w-md border-t border-gray-400 p-4 text-gray-100">
-      <div className="flex items-start gap-2.5">
-        <Progress
-          className="max-w-md"
-          color="primary"
-          formatOptions={{ style: "decimal", maximumFractionDigits: 0 }}
-          label="Tier 4: Architect"
-          maxValue={1}
-          valueLabel={`∞ / ∞`}
-          showValueLabel={true}
-          size="md"
-          value={1}
-          classNames={{
-            indicator: "bg-gradient-rank-architect",
-            label: "text-gray-100 text-sm",
-            value: "text-gray-100 text-sm",
-          }}
-        />
+    <>
+      <div className="max-w-md border-t border-gray-400 p-4 text-gray-100">
+        <div className="flex items-start gap-2.5">
+          <Progress
+            className="max-w-md"
+            color="primary"
+            formatOptions={{ style: "decimal", maximumFractionDigits: 0 }}
+            label="Tier 4: Architect"
+            maxValue={1}
+            valueLabel={`∞ / ∞`}
+            showValueLabel={true}
+            size="md"
+            value={1}
+            classNames={{
+              indicator: "bg-gradient-rank-architect",
+              label: "text-gray-100 text-sm",
+              value: "text-gray-100 text-sm",
+            }}
+          />
 
-        <Button
-          onPress={() => setExpanded((prev) => !prev)}
-          className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700"
-        >
-          <EllipsisVerticalIcon size={16} />
-        </Button>
+          <Button
+            onPress={() => setExpanded((prev) => !prev)}
+            className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700"
+          >
+            <EllipsisVerticalIcon size={16} />
+          </Button>
+        </div>
       </div>
 
-      {expanded && (
-        <div className="mt-4 space-y-2 text-sm">
+      <MainModal
+        title="Tier 4: Architect Progress"
+        description="You've reached the top. Review your stats, reviewer rank, and how to stay ahead."
+        isOpen={expanded}
+        handleOnClose={() => setExpanded(false)}
+        size="lg"
+      >
+        <div className="space-y-1.5 text-sm">
           <p>{getStatusMessage()}</p>
 
           <div className="space-y-1">
@@ -146,27 +158,17 @@ const ArchitectProgress = ({
             Review Effectively – See Guide
           </Link>
         </div>
-      )}
-    </div>
+      </MainModal>
+    </>
   );
 };
 
 const ArchitechRole = () => {
   return (
     <>
-      <div className="px-3 py-2">
-        <div className="relative w-fit">
-          <Image
-            src="/dashboard/profile/default-profile.png"
-            width={48}
-            height={48}
-            alt="Profile Photo"
-            className="rounded-md"
-          />
-
-          <ArchitectProfileImage />
-        </div>
-      </div>
+      <SidebarProfile>
+        <ArchitectProfileImage />
+      </SidebarProfile>
 
       <ArchitectProgress rank={10} points={200} reviews={15} />
     </>

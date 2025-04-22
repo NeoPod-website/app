@@ -1,16 +1,7 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
 
-import { auth0 } from "@/lib/auth0";
-
-const AdminPage = async () => {
-  const session = await auth0.getSession();
-
-  return (
-    <div className="flex flex-col">
-      <Link href="/login">Login</Link>
-      <a href="/auth/logout">Logout</a>
-    </div>
-  );
+const AdminPage = () => {
+  redirect("/admin/dashboard");
 };
 
 export default AdminPage;

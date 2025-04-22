@@ -7,6 +7,7 @@ const initialState = {
   address: null,
   username: null,
   login_method: null,
+  adminView: false,
 };
 
 const userSlice = createSlice({
@@ -43,6 +44,10 @@ const userSlice = createSlice({
       Object.assign(state, action.payload);
     },
 
+    setAdminView: (state, action) => {
+      state.adminView = action.payload;
+    },
+
     logout: (state) => {
       state.userInfo = {};
       state.email = null;
@@ -62,6 +67,7 @@ export const {
   setUsername,
   setLoginMethod,
   setUserState,
+  setAdminView,
 } = userSlice.actions;
 
 export default userSlice.reducer;

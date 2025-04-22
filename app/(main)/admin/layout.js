@@ -1,9 +1,17 @@
 import React from "react";
 
-import AuthProvider from "@/providers/AuthProvider";
+import DashboardSidebar from "@/components/common/sidebar/DashboardSidebar";
 
-const AdminLayout = ({ children }) => {
-  return <AuthProvider>{children}</AuthProvider>;
+import { adminMenuItems } from "@/data/sidebarMenuItem";
+
+const AdminLayout = async ({ children }) => {
+  return (
+    <>
+      <DashboardSidebar menuItems={adminMenuItems} />
+
+      <main>{children}</main>
+    </>
+  );
 };
 
 export default AdminLayout;

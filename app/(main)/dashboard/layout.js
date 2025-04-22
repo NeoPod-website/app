@@ -1,9 +1,17 @@
 import React from "react";
 
-import AuthProvider from "@/providers/AuthProvider";
+import DashboardSidebar from "@/components/common/sidebar/DashboardSidebar";
 
-const DashboardLayout = ({ children }) => {
-  return <AuthProvider>{children}</AuthProvider>;
+import { ambassadorMenuItems } from "@/data/sidebarMenuItem";
+
+const AdminLayout = async ({ children }) => {
+  return (
+    <>
+      <DashboardSidebar menuItems={ambassadorMenuItems} />
+
+      <main>{children}</main>
+    </>
+  );
 };
 
-export default DashboardLayout;
+export default AdminLayout;

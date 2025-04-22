@@ -2,9 +2,23 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@heroui/react";
 import React, { useState } from "react";
+import { Button, Progress } from "@heroui/react";
 import { EllipsisVerticalIcon } from "lucide-react";
+
+import SidebarProfile from "../SidebarProfile";
+
+import MainModal from "@/components/ui/modals/MainModal";
+
+const SentinelProfileImage = () => (
+  <Image
+    width={36}
+    height={20}
+    alt="Sentinel Rank"
+    src="/dashboard/profile/sentinel-star.png"
+    className="absolute -bottom-2 left-1/2 z-10 -translate-x-1/2"
+  />
+);
 
 const SentinelProgress = ({
   rank,
@@ -14,6 +28,7 @@ const SentinelProgress = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
 
+  const progress = Math.min((points / cutoffPoints) * 100, 100);
   const isInBottom10 = rank > cutoffRank;
   const nearCutoff = rank >= cutoffRank - 2 && rank <= cutoffRank;
 
@@ -43,7 +58,6 @@ const SentinelProgress = ({
           <span className="font-medium text-red-500">below the cutoff</span>.
           Earn <strong>{cutoffPoints - points}</strong> more PODS to stay in{" "}
           <strong className="text-white">
-            {" "}
             <span className="text-yellow-500">Sentinel</span> status
           </strong>
           . You’ve got this!
@@ -53,25 +67,45 @@ const SentinelProgress = ({
   };
 
   return (
-    <div className="max-w-md border-t border-gray-400 p-4 text-gray-100">
-      <div className="flex items-start gap-2.5">
-        <div className="flex-1">
-          <p className="text-sm font-semibold text-yellow-300">
-            Tier 3: Sentinel
-          </p>
-          <p className="mt-1 text-sm">{getStatusMessage()}</p>
-        </div>
+    <>
+      <div className="border-t border-gray-400 p-4 text-gray-100">
+        <div className="flex items-start gap-2.5">
+          <Progress
+            className="max-w-md"
+            color="warning"
+            formatOptions={{ style: "decimal", maximumFractionDigits: 0 }}
+            label="Tier 3: Sentinel"
+            maxValue={cutoffPoints}
+            valueLabel={`${points} / ${cutoffPoints} PODS`}
+            showValueLabel={true}
+            size="md"
+            value={points}
+            classNames={{
+              indicator: "bg-gradient-rank-sentinel",
+              label: "text-gray-100 text-sm",
+              value: "text-gray-100 text-sm",
+            }}
+          />
 
-        <Button
-          onPress={() => setExpanded((prev) => !prev)}
-          className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700"
-        >
-          <EllipsisVerticalIcon size={16} />
-        </Button>
+          <Button
+            onPress={() => setExpanded((prev) => !prev)}
+            className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700"
+          >
+            <EllipsisVerticalIcon size={16} />
+          </Button>
+        </div>
       </div>
 
-      {expanded && (
-        <div className="mt-4 space-y-2 text-sm">
+      <MainModal
+        title="Tier 3: Sentinel Progress"
+        description="Stay sharp and consistent. Review your progress and see how close you are to becoming an Architect."
+        isOpen={expanded}
+        handleOnClose={() => setExpanded(false)}
+        size="lg"
+      >
+        <div className="space-y-2 text-sm">
+          <p>{getStatusMessage()}</p>
+
           <p>
             <span className="font-bold text-white">Your Rank:</span> #{rank}
           </p>
@@ -98,41 +132,21 @@ const SentinelProgress = ({
             View Leaderboard
           </Link>
         </div>
-      )}
-    </div>
+      </MainModal>
+    </>
   );
 };
-
-const SentinelProfileImage = () => (
-  <Image
-    width={36}
-    height={20}
-    alt="Sentinel Rank"
-    src="/dashboard/profile/sentinel-star.png"
-    className="absolute -bottom-2 left-1/2 z-10 -translate-x-1/2"
-  />
-);
 
 const SentinelRole = () => {
   return (
     <>
-      <div className="px-3 py-2">
-        <div className="relative w-fit">
-          <Image
-            src="/dashboard/profile/default-profile.png"
-            width={48}
-            height={48}
-            alt="Profile Photo"
-            className="rounded-md"
-          />
-
-          <SentinelProfileImage />
-        </div>
-      </div>
+      <SidebarProfile>
+        <SentinelProfileImage />
+      </SidebarProfile>
 
       <SentinelProgress
-        rank={12}
-        points={780}
+        rank={10}
+        points={1100}
         cutoffRank={10}
         cutoffPoints={1150}
       />

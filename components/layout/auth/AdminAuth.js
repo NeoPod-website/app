@@ -9,7 +9,7 @@ import OTPMain from "./OTPMain";
 import EmailSignUp from "./EmailSignUp";
 import AuthMainContainer from "./AuthMainContainer";
 
-import { setUserState } from "@/redux/slice/userSlice";
+import { setAdminView, setUserState } from "@/redux/slice/userSlice";
 
 const AdminAuth = () => {
   const router = useRouter();
@@ -50,6 +50,16 @@ const AdminAuth = () => {
     setError("");
 
     try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/email/${email}`,
+      );
+
+      if (!res.ok) {
+        const data = await res.json();
+
+        throw new Error(data.message || "Something went wrong!");
+      }
+
       const response = await fetch("/api/auth/passwordless/start", {
         method: "POST",
         headers: {
@@ -66,6 +76,7 @@ const AdminAuth = () => {
 
       setTimeLeft(60);
       setShowOTPForm(true);
+      dispatch(setAdminView(true));
     } catch (err) {
       addToast({
         title: err.message || "Failed to send verification code",
@@ -116,47 +127,41 @@ const AdminAuth = () => {
       });
 
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/admin/email/${email}`,
+        const loginRes = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/admin/login`,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${data.token}`,
+            },
+
+            body: JSON.stringify({ email }),
+            credentials: "include",
+          },
         );
 
-        if (res.ok) {
-          const loginRes = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/admin/login`,
-            {
-              method: "POST",
+        router.push("/admin/dashboard");
 
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${data.token}`,
-              },
+        const { data: loginData, token } = await loginRes.json();
 
-              body: JSON.stringify({ email, login_method: "email" }),
-              credentials: "include",
-            },
-          );
+        dispatch(
+          setUserState({
+            email,
+            role: loginData.user.isAdmin ? "admin" : "ambassador",
+            address: null,
+            user: loginData.user,
+            login_method: "email",
+            username: loginData.user.username,
+          }),
+        );
 
-          router.push("/");
+        localStorage.setItem("neo-token", token);
+        // localStorage.setItem("user", JSON.stringify(data.user));
 
-          const { data: loginData, token } = await loginRes.json();
-
-          dispatch(
-            setUserState({
-              email,
-              role: loginData.isAdmin ? "admin" : "ambassador",
-              address: null,
-              user: loginData.user,
-              login_method: "email",
-              username: loginData.user.username,
-            }),
-          );
-
-          localStorage.setItem("neo-token", token);
-          // localStorage.setItem("user", JSON.stringify(data.user));
-
-          setOtp("");
-          setEmail("");
-        }
+        setOtp("");
+        setEmail("");
       } catch (err) {
         addToast({
           title: err.message || "500: Something went wrong",

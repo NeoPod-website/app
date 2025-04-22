@@ -9,6 +9,7 @@ const MainModal = ({
   footer,
   children,
   description,
+  size = "2xl",
   handleOnClose,
   showFooter = false,
 }) => {
@@ -22,7 +23,7 @@ const MainModal = ({
           closeButton: "hover:bg-white/20 p-2 mt-3 mr-3 rounded text-xl",
         }}
         isOpen={isOpen}
-        size="2xl"
+        size={size}
         onClose={handleOnClose}
       >
         <ModalContent>

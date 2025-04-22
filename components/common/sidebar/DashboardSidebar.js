@@ -2,7 +2,7 @@ import React from "react";
 
 import SidebarMenu from "./SidebarMenu";
 import SidebarSocial from "./SidebarSocial";
-import SidebarProfile from "./SidebarProfile";
+import SidebarProfileContainer from "./SidebarProfileContainer";
 
 import { LogoWithText } from "@/components/ui/Logo";
 
@@ -15,7 +15,7 @@ const DashboardSidebar = ({ menuItems }) => {
 
       <div className="space-y-5">
         <SidebarSocial />
-        <SidebarProfile />
+        <SidebarProfileContainer />
       </div>
     </section>
   );

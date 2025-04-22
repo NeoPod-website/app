@@ -141,14 +141,14 @@ const AuthMain = () => {
             },
           );
 
-          router.push("/");
+          router.push("/dashboard");
 
           const { token, data: loginData } = await loginRes.json();
 
           dispatch(
             setUserState({
               email,
-              role: loginData.isAdmin ? "admin" : "ambassador",
+              role: loginData.user.isAdmin ? "admin" : "ambassador",
               user: loginData.user,
               username: loginData.user.username,
               login_method: loginData.user.login_method,

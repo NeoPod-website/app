@@ -6,6 +6,15 @@ import {
   SettingsIcon,
   MedalIcon,
   TrophyIcon,
+  LayoutDashboard,
+  FolderKanbanIcon,
+  ShapesIcon,
+  ClipboardListIcon,
+  LockKeyholeIcon,
+  ShieldUserIcon,
+  UsersIcon,
+  ChartAreaIcon,
+  BellIcon,
 } from "lucide-react";
 
 const ambassadorMenuItems = [
@@ -58,6 +67,96 @@ const ambassadorMenuItems = [
   },
 ];
 
-const adminMenuItems = [];
+const adminMenuItems = [
+  {
+    name: "Dashboard",
+    icon: <LayoutDashboard size={20} />,
+    href: "/admin/dashboard",
+  },
+
+  {
+    name: "Submissions",
+    icon: <HistoryIcon size={20} />,
+    href: "/admin/submissions",
+  },
+
+  {
+    name: "Manage Quests",
+    icon: <FolderKanbanIcon size={20} />,
+    children: [
+      {
+        name: "Manage Categories",
+        icon: <ShapesIcon size={20} />,
+        href: "/admin/manage/categories",
+      },
+
+      {
+        name: "Manage Tasks",
+        icon: <ClipboardListIcon size={20} />,
+        href: "/admin/manage/quests",
+      },
+    ],
+  },
+
+  {
+    name: "Manage Roles",
+    icon: <LockKeyholeIcon size={20} />,
+    children: [
+      {
+        name: "Manage Admins",
+        icon: <ShieldUserIcon size={20} />,
+        href: "/admin/manage/admins",
+      },
+
+      {
+        name: "Manage Ambassadors",
+        icon: <UsersIcon size={20} />,
+        href: "/admin/manage/ambassadors",
+      },
+    ],
+  },
+
+  {
+    name: "Analytics",
+    icon: <ChartAreaIcon size={20} />,
+    href: "/admin/analytics",
+  },
+
+  {
+    name: "Leaderboard",
+    icon: <LockKeyholeIcon size={20} />,
+    children: [
+      {
+        name: "Operator Leaderboard",
+        icon: <ShieldUserIcon size={20} />,
+        href: "/admin/leaderboard/operator",
+      },
+
+      {
+        name: "Sentinel Leaderboard",
+        icon: <UsersIcon size={20} />,
+        href: "/admin/leaderboard/sentinel",
+      },
+
+      {
+        name: "Architect Leaderboard",
+        icon: <UsersIcon size={20} />,
+        href: "/admin/leaderboard/architect",
+      },
+
+      {
+        name: "All Time Leaderboard",
+        icon: <UsersIcon size={20} />,
+        href: "/admin/leaderboard",
+      },
+    ],
+  },
+
+  {
+    name: "Notifications",
+    icon: <BellIcon size={20} />,
+    href: "/admin/notifications",
+  },
+];
 
 export { ambassadorMenuItems, adminMenuItems };

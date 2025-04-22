@@ -32,7 +32,7 @@ const SocialLoginRedirect = ({ session }) => {
 
         dispatch(
           setUserState({
-            role: data.isAdmin ? "admin" : "ambassador",
+            role: data.user.isAdmin ? "admin" : "ambassador",
             user: data.user,
             username: data.user.username,
             login_method: data.user.login_method,
