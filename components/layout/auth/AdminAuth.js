@@ -144,7 +144,7 @@ const AdminAuth = () => {
 
         router.push("/admin/dashboard");
 
-        const { data: loginData, token } = await loginRes.json();
+        const { data: loginData } = await loginRes.json();
 
         dispatch(
           setUserState({
@@ -157,7 +157,7 @@ const AdminAuth = () => {
           }),
         );
 
-        localStorage.setItem("neo-token", token);
+        // localStorage.setItem("neo-token", token);
         // localStorage.setItem("user", JSON.stringify(data.user));
 
         setOtp("");

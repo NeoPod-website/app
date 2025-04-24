@@ -73,3 +73,71 @@ export default function AuthProvider({ children }) {
 
   return <>{children}</>;
 }
+
+// import { cookies } from "next/headers";
+// import { redirect } from "next/navigation";
+// import { setUserState, setAdminView } from "@/redux/slice/userSlice"; // These actions need to be handled differently in a server context
+
+// async function getServerSession() {
+//   const cookieStore = await cookies();
+//   const token = cookieStore.get("neo-jwt")?.value; // Replace with your actual auth token cookie name
+
+//   if (!token) {
+//     redirect("/login");
+//   }
+
+//   try {
+//     const res = await fetch(
+//       `${process.env.NEXT_PUBLIC_API_URL}/auth/login/me`,
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Cookie: `neo-jwt=${token}`,
+//         },
+//       },
+//     );
+
+//     if (!res.ok) {
+//       return null;
+//     }
+
+//     const { data } = await res.json();
+
+//     if (!data?.user) {
+//       return null;
+//     }
+
+//     return {
+//       isAdmin: data.user.isAdmin,
+//       user: {
+//         role: data.user.isAdmin ? "admin" : "ambassador",
+//         user: data.user,
+//         username: data.user.username,
+//         login_method: data.user.login_method,
+//         address: data.user.wallet_address,
+//         email: data.user.email,
+//       },
+//     };
+//   } catch (error) {
+//     console.error("Server-side auth check failed:", error);
+//     return null;
+//   }
+// }
+
+// export default async function AuthProvider({ children }) {
+//   const session = await getServerSession();
+
+//   console.log(session);
+
+//   if (!session?.user) {
+//     redirect("/login"); // Redirect on the server if not authenticated
+//   }
+
+//   // We can't directly dispatch Redux actions in a Server Component.
+//   // The state needs to be managed on the client.
+//   // You'll likely need to pass the user data down to client components
+//   // that need to interact with your Redux store.
+
+//   return <>{children}</>;
+// }

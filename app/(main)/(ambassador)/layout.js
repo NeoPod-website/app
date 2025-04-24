@@ -1,17 +1,44 @@
 import React from "react";
+import { redirect } from "next/navigation";
 
-import DashboardSidebar from "@/components/common/sidebar/DashboardSidebar";
+import { getCachedSession } from "@/lib/userSession";
 
-import { ambassadorMenuItems } from "@/data/sidebarMenuItem";
+const AmbassadorsLayout = async ({ children }) => {
+  const { user, error, isAuthenticated, message } = await getCachedSession();
 
-const AdminLayout = async ({ children }) => {
-  return (
-    <>
-      <DashboardSidebar menuItems={ambassadorMenuItems} />
+  // Handle authentication errors
+  if (error) {
+    console.error(
+      `Authentication error in AmbassadorsLayout: ${error}`,
+      message,
+    );
 
-      <main>{children}</main>
-    </>
-  );
+    // Redirect based on error type
+    if (
+      ["auth/no-token", "auth/invalid-token", "auth/expired-token"].includes(
+        error,
+      )
+    ) {
+      return redirect("/login?reason=session-expired");
+    } else {
+      return redirect(
+        `/error?code=${error}&message=${encodeURIComponent(message || "")}`,
+      );
+    }
+  }
+
+  // Check if user is authenticated
+  if (!isAuthenticated || !user) {
+    return redirect("/login?reason=authentication-required");
+  }
+
+  // Redirect admins to admin dashboard
+  if (user.isAdmin) {
+    return redirect("/admin/dashboard");
+  }
+
+  // Render the layout for regular users
+  return <>{children}</>;
 };
 
-export default AdminLayout;
+export default AmbassadorsLayout;

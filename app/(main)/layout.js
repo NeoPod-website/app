@@ -1,14 +1,107 @@
-import React from "react";
+// import React from "react";
 
-import AuthProvider from "@/providers/AuthProvider";
+// import AuthProvider from "@/providers/AuthProvider";
+
+// const MainLayout = async ({ children }) => {
+//   return (
+//     <AuthProvider>
+//       <div className="flex h-screen bg-[url('/hero-background.png')] bg-cover">
+//         {children}
+//       </div>
+//     </AuthProvider>
+//   );
+// };
+
+// export default MainLayout;
+
+// const MainLayout = async ({ children }) => {
+//   const { user, error } = await getServerSession();
+
+//   if (error) {
+//     // Render an error page or message here
+//     redirect("/error?error=" + encodeURIComponent(error));
+//   }
+
+//   if (!user) {
+//     redirect("/login");
+//   }
+
+//   return (
+//     <div className="flex h-screen bg-[url('/hero-background.png')] bg-cover">
+//       <DashboardSidebar
+//         menuItems={user.isAdmin ? adminMenuItems : ambassadorMenuItems}
+//       />
+
+//       <main className="flex-1">
+//         <DashboardHeader session={user} />
+
+//         {children}
+//       </main>
+//     </div>
+//   );
+// };
+
+import React from "react";
+import { redirect } from "next/navigation";
+
+import { getServerSession } from "@/lib/authorizeUser";
+
+import DashboardHeader from "@/components/common/header/DashboardHeader";
+import DashboardSidebar from "@/components/common/sidebar/DashboardSidebar";
+
+import { adminMenuItems, ambassadorMenuItems } from "@/data/sidebarMenuItem";
 
 const MainLayout = async ({ children }) => {
+  const { user, error, message, details } = await getServerSession();
+
+  // Handle specific authentication errors
+  if (error) {
+    console.error(`Authentication error: ${error}`, details);
+
+    // Handle different error types appropriately
+    switch (error) {
+      case "auth/no-token":
+      case "auth/invalid-token":
+        // Redirect to login for authentication issues
+        return redirect("/login");
+
+      case "auth/server-error":
+      case "auth/timeout":
+        // Show a maintenance or retry page for server issues
+        return redirect(
+          `/system-error?type=${error}&message=${encodeURIComponent(message)}`,
+        );
+
+      case "auth/network-error":
+        // Show offline or connection error page
+        return redirect("/offline");
+
+      default:
+        // Generic error handling for other cases
+        return redirect(
+          `/error?code=${error}&message=${encodeURIComponent(message)}`,
+        );
+    }
+  }
+
+  // No user when there should be one (this is a catch-all in case error wasn't set properly)
+  if (!user) {
+    return redirect("/login");
+  }
+
+  const menuItems = user.isAdmin ? adminMenuItems : ambassadorMenuItems;
+
+  // Render the authenticated layout
   return (
-    <AuthProvider>
-      <div className="flex h-screen bg-[url('/hero-background.png')] bg-cover">
-        {children}
-      </div>
-    </AuthProvider>
+    <div className="flex h-screen bg-[url('/hero-background.png')] bg-cover">
+      <DashboardSidebar menuItems={menuItems} userRole={user.role} />
+
+      <main className="flex-1 overflow-auto">
+        <DashboardHeader session={user} />
+
+        <section className="px-7">{children}</section>
+      </main>
+    </div>
   );
 };
 

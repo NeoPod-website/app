@@ -5,11 +5,21 @@ import { NextResponse } from "next/server";
 import { auth0 } from "./lib/auth0";
 
 // Protected routes that require authentication
-const PROTECTED_ROUTES = ["/dashboard", "/admin", "/profile"];
+const PROTECTED_ROUTES = [
+  "/inbox",
+  "/quests",
+  "/history",
+  "/profile",
+  "/settings",
+  "/submissions",
+  "/leaderboard",
+  "/notifications",
+  "/admin",
+];
 
 const ADMIN_ROUTES = ["/admin"];
 
-const PUBLIC_AUTH_ROUTES = ["/login", "/sign-up"];
+const PUBLIC_AUTH_ROUTES = ["/login", "/sign-up", "/login/admin"];
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
@@ -32,7 +42,7 @@ export async function middleware(request) {
 
   // Redirect from root to dashboard
   if (pathname === "/") {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/quests", request.url));
   }
 
   // Original redirect logic for post-auth-redirect
@@ -44,7 +54,15 @@ export async function middleware(request) {
 
   // Prevent access to login/sign-up for logged-in users
   if (PUBLIC_AUTH_ROUTES.includes(pathname) && jwtPayload) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+
+    const { payload } = await jwtVerify(neoJwtCookie.value, secret);
+
+    if (!payload.user.isAdmin) {
+      return NextResponse.redirect(new URL("/quests", request.url));
+    }
+
+    return NextResponse.redirect(new URL("/admin/dashboard", request.url));
   }
 
   // Check if the current path is a protected route

@@ -25,6 +25,7 @@ module.exports = {
           300: "#808080",
           400: "#666666",
           500: "#484848",
+          600: "#343333",
         },
 
         pink: {
@@ -40,6 +41,10 @@ module.exports = {
         dark: "#191919",
         pink: "#FF006B",
         blue: "#0272FA",
+      },
+
+      borderRadius: {
+        "2.5xl": "1.25rem",
       },
 
       backgroundImage: {

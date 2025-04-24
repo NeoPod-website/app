@@ -13,9 +13,15 @@ const AdminDashboardPage = async () => {
 
   return (
     <div className="flex flex-col">
-      <Link href="/login">Login</Link>
-      <a href="/auth/logout">Logout</a>
-      <Link href="/quests">Ambassador View</Link>
+      <Link href="/login" className="w-fit">
+        Login
+      </Link>
+      <a href="/auth/logout" className="w-fit">
+        Logout
+      </a>
+      <Link href="/history" className="w-fit">
+        History
+      </Link>
     </div>
   );
 };
