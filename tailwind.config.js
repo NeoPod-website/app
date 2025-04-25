@@ -54,6 +54,8 @@ module.exports = {
           "linear-gradient(90deg, #0272FA 0%, #FF006B 100%)",
 
         "gradient-dark": "linear-gradient(180deg, #252525 0%, #000 100%)",
+        "gradient-dark/60":
+          "linear-gradient(180deg, rgba(37, 37, 37, 0.60) 0%, rgba(0, 0, 0, 0.60) 100%)",
 
         "gradient-rank-initiate":
           "linear-gradient(90deg, #4E728C 0%, #83B0CB 100%)",
