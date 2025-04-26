@@ -96,10 +96,10 @@ const MainLayout = async ({ children }) => {
     <div className="flex h-screen bg-[url('/hero-background.png')] bg-cover">
       <DashboardSidebar menuItems={menuItems} userRole={user.role} />
 
-      <main className="flex-1 overflow-auto">
+      <main className="relative flex flex-1 flex-col overflow-hidden">
         <DashboardHeader session={user} />
 
-        <section className="px-7">{children}</section>
+        {children}
       </main>
     </div>
   );

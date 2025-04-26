@@ -1,3 +1,4 @@
+import MainPageScroll from "@/components/common/MainPageScroll";
 import CategoriesList from "@/components/layout/category/CategoriesList";
 
 export const metadata = {
@@ -7,7 +8,11 @@ export const metadata = {
 };
 
 const QuestsPage = async () => {
-  return <CategoriesList />;
+  return (
+    <MainPageScroll>
+      <CategoriesList />
+    </MainPageScroll>
+  );
 };
 
 export default QuestsPage;

@@ -20,8 +20,8 @@ export default function Providers({ children }) {
         appearance: {
           accentColor: "#666",
           theme: "#000000",
-          showWalletLoginFirst: false,
           logo: "https://auth.privy.io/logos/privy-logo-dark.png",
+
           walletChainType: "ethereum",
           walletList: [
             "detected_wallets",
@@ -29,8 +29,11 @@ export default function Providers({ children }) {
             "phantom",
             "wallet_connect",
           ],
+
+          showWalletLoginFirst: false,
         },
-        loginMethods: ["wallet"],
+
+        // loginMethods: ["wallet"],
 
         embeddedWallets: {
           requireUserPasswordOnCreate: false,

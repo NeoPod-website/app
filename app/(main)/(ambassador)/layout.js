@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 
 import { getCachedSession } from "@/lib/userSession";
 
+import MainPageScroll from "@/components/common/MainPageScroll";
+
 const AmbassadorsLayout = async ({ children }) => {
   const { user, error, isAuthenticated, message } = await getCachedSession();
 
@@ -38,7 +40,7 @@ const AmbassadorsLayout = async ({ children }) => {
   }
 
   // Render the layout for regular users
-  return <>{children}</>;
+  return <MainPageScroll>{children}</MainPageScroll>;
 };
 
 export default AmbassadorsLayout;

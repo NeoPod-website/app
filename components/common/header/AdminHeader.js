@@ -17,6 +17,7 @@ const AdminHeader = () => {
       <AdminViewBtn />
 
       <Select
+        aria-label="Language"
         variant="bordered"
         size="lg"
         selectedKeys={selectedLanguage}

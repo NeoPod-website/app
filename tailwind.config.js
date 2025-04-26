@@ -18,6 +18,10 @@ module.exports = {
         "work-sans": ["var(--font-work-sans)"],
       },
 
+      maxWidth: {
+        "4.5xl": "60rem",
+      },
+
       colors: {
         gray: {
           100: "#ccd1d2",

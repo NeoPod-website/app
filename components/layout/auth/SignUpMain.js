@@ -75,7 +75,7 @@ const SignUpMain = ({ session }) => {
         router.push("/");
       } else {
         router.push(
-          `/error?reason=${res.errors.msg || "Backend-signup-failed"}`,
+          `/error?reason=${res.error.msg || "Backend-signup-failed"}`,
         );
       }
     } catch (err) {

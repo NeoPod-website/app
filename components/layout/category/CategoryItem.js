@@ -1,15 +1,15 @@
 import React from "react";
 import Image from "next/image";
 
-const CategoryItem = ({ title, icon, background }) => {
+import CategorySeeMore from "./CategorySeeMore";
+
+const CategoryItem = ({ id, title, icon, background }) => {
   return (
-    <div className="relative h-40 w-full overflow-hidden rounded-2.5xl p-5">
+    <div className="relative h-40 min-h-40 w-full overflow-hidden rounded-2.5xl p-5">
       <div
-        className="absolute inset-0 z-10 bg-cover bg-center opacity-80"
+        className="absolute inset-0 z-10 bg-cover bg-center opacity-70"
         style={{
-          backgroundImage: background
-            ? `url('${background}')`
-            : "url('/dashboard/category/background-2.jpg')",
+          backgroundImage: `url('${background}')`,
         }}
       ></div>
 
@@ -18,6 +18,8 @@ const CategoryItem = ({ title, icon, background }) => {
 
         <h3>{title}</h3>
       </div>
+
+      <CategorySeeMore id={id} />
     </div>
   );
 };

@@ -31,7 +31,6 @@ const categories = [
 ];
 
 const CategoriesList = () => {
-  // You can replace this with a prop or fetch result
   const validCategories = Array.isArray(categories) ? categories : [];
 
   if (validCategories.length === 0) {
