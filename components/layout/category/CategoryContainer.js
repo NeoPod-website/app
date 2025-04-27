@@ -2,6 +2,7 @@ import React from "react";
 
 import CategoryItem from "./CategoryItem";
 import QuestList from "../quests/QuestList";
+import WrapperContainer from "@/components/common/WrapperContainer";
 
 const CategoryContainer = ({
   category,
@@ -9,10 +10,7 @@ const CategoryContainer = ({
   scrollable = false,
 }) => {
   return (
-    <section
-      key={category.id}
-      className={`flex-1 rounded-2.5xl bg-black/50 ${scrollable ? "flex flex-col overflow-hidden" : ""}`}
-    >
+    <WrapperContainer scrollable={scrollable}>
       <CategoryItem
         id={category.id}
         title={category.title ?? "No Category"}
@@ -27,7 +25,7 @@ const CategoryContainer = ({
         compact={compact}
         scrollable={scrollable}
       />
-    </section>
+    </WrapperContainer>
   );
 };
 

@@ -1,15 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import { Heart, Repeat, MessageCircle, ShieldAlertIcon } from "lucide-react";
+import React, { useState, useEffect } from "react";
+
 import { Button, Input, Avatar } from "@heroui/react";
-import {
-  ShieldAlertIcon,
-  MessageCircle,
-  Repeat,
-  Heart,
-  Calendar,
-  Users,
-} from "lucide-react";
+import Image from "next/image";
 
 // Task Types
 const X_TASK_TYPES = {
@@ -50,11 +45,13 @@ const XAccountCard = ({ account }) => {
             alt={account.name}
             className="h-10 w-10 rounded-full"
           />
+
           <div>
             <p className="font-medium text-gray-100">{account.name}</p>
             <p className="text-sm text-gray-400">@{account.handle}</p>
           </div>
         </div>
+
         <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
           Follow
         </Button>
@@ -73,12 +70,14 @@ const XTweetCard = ({ tweet }) => {
           alt={tweet.name}
           className="h-8 w-8 rounded-full"
         />
+
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <p className="font-medium text-gray-100">{tweet.name}</p>
             <p className="text-sm text-gray-400">@{tweet.handle}</p>
             <span className="text-xs text-gray-400">• {tweet.time}</span>
           </div>
+
           <p className="my-2 text-gray-200">{tweet.content}</p>
 
           <div className="mt-3 flex items-center justify-between text-gray-400">
@@ -86,10 +85,12 @@ const XTweetCard = ({ tweet }) => {
               <MessageCircle size={16} />
               <span className="text-xs">{tweet.replies}</span>
             </div>
+
             <div className="flex items-center gap-1 hover:text-green-400">
               <Repeat size={16} />
               <span className="text-xs">{tweet.retweets}</span>
             </div>
+
             <div className="flex items-center gap-1 hover:text-red-400">
               <Heart size={16} />
               <span className="text-xs">{tweet.likes}</span>
@@ -101,57 +102,26 @@ const XTweetCard = ({ tweet }) => {
   );
 };
 
-// Twitter Spaces card
-// const XSpacesCard = ({ space }) => {
-//   return (
-//     <div className="mb-3 rounded-xl border border-neutral-700 bg-neutral-800 p-3">
-//       <div className="flex items-start gap-3">
-//         <div className="flex-1">
-//           <div className="mb-2 flex items-center gap-2">
-//             <div className="h-3 w-3 rounded-full bg-red-500"></div>
-//             <p className="text-sm font-medium text-red-400">LIVE</p>
-//           </div>
-
-//           <h3 className="text-lg font-semibold text-gray-100">{space.title}</h3>
-
-//           <div className="mt-2 flex items-center gap-3">
-//             <div className="flex items-center gap-1 text-gray-400">
-//               <Calendar size={14} />
-//               <span className="text-xs">{space.date}</span>
-//             </div>
-//             <div className="flex items-center gap-1 text-gray-400">
-//               <Users size={14} />
-//               <span className="text-xs">{space.listeners} listening</span>
-//             </div>
-//           </div>
-
-//           <div className="mt-3 flex -space-x-2">
-//             {space.hosts.map((host, index) => (
-//               <Avatar
-//                 key={index}
-//                 src={host.image}
-//                 alt={host.name}
-//                 className="h-6 w-6 rounded-full border border-neutral-800"
-//               />
-//             ))}
-//             <div className="ml-2 flex items-center">
-//               <p className="text-xs text-gray-400">
-//                 Hosted by {space.hosts[0].name}
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
 const XSpacesCard = ({ space }) => {
-  // Helper function to determine the status badge
+  const [now, setNow] = useState(null);
+  const [formattedDate, setFormattedDate] = useState("");
+
+  useEffect(() => {
+    setNow(new Date());
+
+    if (space?.date) {
+      try {
+        const date = new Date(space.date);
+        setFormattedDate(date.toLocaleString());
+      } catch {
+        setFormattedDate(space.date); // fallback
+      }
+    }
+  }, [space?.date]);
+
   const renderStatusBadge = () => {
     if (!space) return null;
 
-    // Check if the space is live
     if (space.isLive) {
       return (
         <span className="w-fit rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white">
@@ -160,11 +130,9 @@ const XSpacesCard = ({ space }) => {
       );
     }
 
-    // Check if the space is scheduled
     const spaceDate = space.date ? new Date(space.date) : null;
-    const now = new Date();
 
-    if (spaceDate && spaceDate > now) {
+    if (now && spaceDate && spaceDate > now) {
       return (
         <span className="w-fit rounded-full bg-sky-500 px-2 py-1 text-xs font-bold text-white">
           SCHEDULED
@@ -172,27 +140,17 @@ const XSpacesCard = ({ space }) => {
       );
     }
 
-    // Default to showing nothing or a completed status
-    return (
-      <span className="w-fit rounded-full bg-gray-500 px-2 py-1 text-xs font-bold text-white">
-        ENDED
-      </span>
-    );
-  };
-
-  // Format date for display
-  const formatDate = (dateString) => {
-    if (!dateString) return "Date not available";
-
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleString();
-    } catch (e) {
-      return dateString; // Return original if parsing fails
+    if (now) {
+      return (
+        <span className="w-fit rounded-full bg-gray-500 px-2 py-1 text-xs font-bold text-white">
+          ENDED
+        </span>
+      );
     }
+
+    return null;
   };
 
-  // Safe access to avoid errors with undefined values
   if (!space) {
     return (
       <div className="rounded-lg border bg-gray-50 p-4">
@@ -211,7 +169,11 @@ const XSpacesCard = ({ space }) => {
               {space.title || "Untitled Space"}
             </h3>
           </div>
-          <div className="text-sm text-gray-300">{formatDate(space.date)}</div>
+
+          {/* Only render formattedDate after client mount */}
+          <div className="text-sm text-gray-300">
+            {formattedDate || "Date not available"}
+          </div>
         </div>
 
         <div className="text-sm text-gray-300">
@@ -227,12 +189,14 @@ const XSpacesCard = ({ space }) => {
                   className="h-8 w-8 overflow-hidden rounded-full border-2 border-white bg-gray-200"
                 >
                   {host.avatar ? (
-                    <img
+                    <Image
                       src={host.avatar}
                       alt={host.name || `Host ${index + 1}`}
+                      width={32}
+                      height={32}
                       className="h-full w-full object-cover"
                       onError={(e) => {
-                        e.target.src = "https://via.placeholder.com/40";
+                        e.target.src = "/neo-pod-logo.png";
                         e.target.alt = "Avatar placeholder";
                       }}
                     />
@@ -244,6 +208,7 @@ const XSpacesCard = ({ space }) => {
                 </div>
               ))}
           </div>
+
           <div className="text-sm">
             Hosted by{" "}
             {Array.isArray(space.hosts) && space.hosts.length > 0
@@ -272,16 +237,14 @@ const QuestXTask = ({
   const sampleAccount = account || {
     name: "Neo Blockchain",
     handle: "Neo_Blockchain",
-    profileImage:
-      "https://pbs.twimg.com/profile_images/1622129808884662272/hCOfsm1H_400x400.jpg",
+    profileImage: "/neo-pod-logo.png",
   };
 
   const sampleTweet = tweet || {
     name: "Neo Blockchain",
     handle: "Neo_Blockchain",
     time: "2h",
-    profileImage:
-      "https://pbs.twimg.com/profile_images/1622129808884662272/hCOfsm1H_400x400.jpg",
+    profileImage: "/neo-pod-logo.png",
     content:
       "Join us for the launch of Neo N3 - the most powerful and feature-complete blockchain platform for the Smart Economy. #Neo #Blockchain #SmartEconomy",
     replies: 42,
@@ -297,13 +260,11 @@ const QuestXTask = ({
     hosts: [
       {
         name: "Neo Official",
-        avatar:
-          "https://pbs.twimg.com/profile_images/1622129808884662272/hCOfsm1H_400x400.jpg",
+        avatar: "/neo-pod-logo.png",
       },
       {
         name: "Da Hongfei",
-        avatar:
-          "https://pbs.twimg.com/profile_images/958500267661746176/KiaXhxb-_400x400.jpg",
+        avatar: "/neo-pod-logo.png",
       },
     ],
   };
@@ -317,7 +278,7 @@ const QuestXTask = ({
   //     {
   //       name: "Neo Dev Team",
   //       avatar:
-  //         "https://pbs.twimg.com/profile_images/1456298123453675521/abc1234_normal.jpg",
+  //         "/neo-pod-logo.png",
   //     },
   //   ],
   // };

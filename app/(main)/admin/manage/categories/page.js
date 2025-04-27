@@ -1,5 +1,7 @@
 import React from "react";
 
+import AdminCategoriesList from "@/components/layout/category/admin/AdminCategoriesList";
+
 export const metadata = {
   title: "Manage Categories | Admin Panel | NEO POD",
   description:
@@ -7,7 +9,7 @@ export const metadata = {
 };
 
 const ManageCategoriesPage = () => {
-  return <div>ManageCategoriesPage</div>;
+  return <AdminCategoriesList />;
 };
 
 export default ManageCategoriesPage;

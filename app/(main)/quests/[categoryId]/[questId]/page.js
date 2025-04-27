@@ -1,7 +1,6 @@
 import React from "react";
 
 import NeoBreadcrumbs from "@/components/ui/NeoBreadcrumbs";
-import MainPageScroll from "@/components/common/MainPageScroll";
 import QuestDetails from "@/components/layout/quests/detail/QuestDetails";
 import CategoryContainer from "@/components/layout/category/CategoryContainer";
 
@@ -31,7 +30,7 @@ const QuestDetailsPage = async ({ params }) => {
   const { categoryId, questId } = await params;
 
   return (
-    <MainPageScroll scrollable={false}>
+    <>
       <NeoBreadcrumbs list={breadcrumbsList} />
 
       <section className="flex flex-1 gap-4 overflow-hidden">
@@ -39,7 +38,7 @@ const QuestDetailsPage = async ({ params }) => {
 
         <QuestDetails />
       </section>
-    </MainPageScroll>
+    </>
   );
 };
 

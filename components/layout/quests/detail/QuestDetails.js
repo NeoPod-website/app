@@ -1,19 +1,21 @@
 import React from "react";
 
 import QuestMainTask from "../tasks/QuestMainTask";
+import QuestVisitLink from "../tasks/QuestVisitLink";
+import QuestSocialTask from "../tasks/QuestSocialTask";
+import QuestNFTTask from "../tasks/onchain/QuestNFTTask";
+import QuestTokenTask from "../tasks/onchain/QuestTokenTask";
+import QuestFileUploadTask from "../tasks/QuestFileUploadTask";
 
 import QuestDetailReward from "./QuestDetailReward";
 import QuestDetailHeading from "./QuestDetailHeading";
 import QuestDetailDescription from "./QuestDetailDescription";
 
+import WrapperContainer from "@/components/common/WrapperContainer";
+
 import ShareQuestBtn from "@/components/ui/buttons/quest/ShareQuestBtn";
 import SubmitQuestBtn from "@/components/ui/buttons/quest/SubmitQuestBtn";
 import HighlightsQuestBtn from "@/components/ui/buttons/quest/HighlightsQuestBtn";
-import QuestFileUploadTask from "../tasks/QuestFileUploadTask";
-import QuestVisitLink from "../tasks/QuestVisitLink";
-import QuestSocialTask from "../tasks/QuestSocialTask";
-import QuestNFTTask from "../tasks/onchain/QuestNFTTask";
-import QuestTokenTask from "../tasks/onchain/QuestTokenTask";
 
 const questDetails = {
   id: 1,
@@ -121,7 +123,7 @@ const questDetails = {
 
 const QuestDetails = ({ questId }) => {
   return (
-    <section className="flex max-w-4.5xl flex-[2] flex-col overflow-hidden rounded-2.5xl bg-black/60 p-10">
+    <WrapperContainer scrollable className="max-w-4.5xl flex-[2] p-10">
       <div className="hide-scroll flex-1 space-y-9 overflow-y-auto">
         <QuestDetailHeading
           title={questDetails.title}
@@ -174,7 +176,7 @@ const QuestDetails = ({ questId }) => {
           <SubmitQuestBtn />
         </div>
       </div>
-    </section>
+    </WrapperContainer>
   );
 };
 

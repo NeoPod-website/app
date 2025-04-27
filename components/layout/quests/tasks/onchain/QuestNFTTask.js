@@ -8,7 +8,7 @@ import { ImageIcon, SendHorizonalIcon } from "lucide-react";
 import QuestTask from "../QuestTask";
 
 const QuestNFTTask = () => {
-  const NFTImage = "";
+  const NFTImage = "/neo-pod-logo.png";
   const NFTname = "NEO POD";
   const NFTDesp = "NEO POD";
 

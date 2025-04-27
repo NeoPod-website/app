@@ -1,5 +1,4 @@
 import NeoBreadcrumbs from "@/components/ui/NeoBreadcrumbs";
-import MainPageScroll from "@/components/common/MainPageScroll";
 import CategoryContainer from "@/components/layout/category/CategoryContainer";
 
 export const metadata = {
@@ -28,10 +27,10 @@ const breadcrumbsList = [
 
 const CategoryPage = async () => {
   return (
-    <MainPageScroll scrollable={false}>
+    <>
       <NeoBreadcrumbs list={breadcrumbsList} />
       <CategoryContainer scrollable={true} category={category} />
-    </MainPageScroll>
+    </>
   );
 };
 

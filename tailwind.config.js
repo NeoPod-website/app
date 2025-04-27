@@ -41,6 +41,10 @@ module.exports = {
         },
       },
 
+      backdropBlur: {
+        xs: "2px",
+      },
+
       backgroundColor: {
         dark: "#191919",
         pink: "#FF006B",
