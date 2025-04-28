@@ -13,6 +13,7 @@ const AdminCategoryMain = ({
   id,
   icon = "",
   title = "",
+  isNew = false,
   description = "",
   background = "",
 }) => {
@@ -21,12 +22,11 @@ const AdminCategoryMain = ({
   let [selectedFile, setSelectedFile] = useState(background);
   let [categoryDescription, setCategoryDescription] = useState(description);
 
-  console.log(categoryTitle);
-
   return (
     <section className="flex flex-1 gap-4 overflow-hidden">
       <WrapperContainer scrollable className="space-y-10 p-10">
         <CategoryForm
+          isNew={isNew}
           icon={categoryIcon}
           setIcon={setCatgoryIcon}
           title={categoryTitle}
@@ -41,6 +41,7 @@ const AdminCategoryMain = ({
       <WrapperContainer scrollable>
         <CategoryItem
           id={id}
+          showDescription
           title={categoryTitle ?? "No Category"}
           description={categoryDescription ?? ""}
           icon={categoryIcon ?? "/dashboard/category/icon-1.png"}

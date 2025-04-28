@@ -13,7 +13,9 @@ const CategoryContainer = ({
     <WrapperContainer scrollable={scrollable}>
       <CategoryItem
         id={category.id}
+        showDescription
         title={category.title ?? "No Category"}
+        description={category.description ?? ""}
         icon={category.icon ?? "/dashboard/category/icon-1.png"}
         background={
           category.background ?? "/dashboard/category/background-2.jpg"

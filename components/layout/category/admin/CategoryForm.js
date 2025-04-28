@@ -4,13 +4,15 @@ import React from "react";
 import { SendHorizonalIcon } from "lucide-react";
 import { Button, Input, Link, Textarea } from "@heroui/react";
 
+import AdminIconUpload from "./AdminIconUpload";
 import ImageUpload from "@/components/ui/ImageUpload";
 
 const CategoryForm = ({
   isNew = false,
+  icon,
+  setIcon,
   title,
   setTitle,
-  setIcon,
   selectedFile,
   setSelectedFile,
   description,
@@ -23,6 +25,7 @@ const CategoryForm = ({
 
   const handleIconFileChange = (e) => {
     const file = e.target.files[0];
+
     if (file) {
       setIcon(file);
     }
@@ -55,21 +58,14 @@ const CategoryForm = ({
         />
 
         <div className="mx-auto max-w-xl space-y-4">
-          <Input
-            type="file"
-            accept="image/*"
-            variant="bordered"
-            name="category-icon"
+          <AdminIconUpload
             label="Category Icon"
-            onChange={handleIconFileChange}
-            className="bg-dark"
-            classNames={{
-              inputWrapper:
-                "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
-            }}
+            initialIcon={icon}
+            onChange={(file) => setIcon(file)}
           />
 
           <Input
+            required
             type="text"
             value={title}
             variant="bordered"
@@ -87,13 +83,16 @@ const CategoryForm = ({
           <Textarea
             type="text"
             isClearable
-            minRows={10}
+            minRows={6}
+            maxLength={100}
             variant="bordered"
             value={description}
             name="category_description"
             label="Category Description"
             onValueChange={setDescription}
             placeholder="Provide more details about your category"
+            isInvalid={description.length >= 100}
+            errorMessage="The description cannot be 100 characters long."
             className="bg-dark"
             classNames={{
               inputWrapper:

@@ -10,6 +10,7 @@ export const metadata = {
 const category = {
   id: 1,
   title: "Hot Campaigns",
+  description: "This is description of the category,",
   icon: "/dashboard/category/icon-1.png",
   background: "/dashboard/category/background-2.jpg",
 };

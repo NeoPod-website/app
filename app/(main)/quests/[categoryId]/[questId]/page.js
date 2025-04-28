@@ -24,6 +24,7 @@ const category = {
   title: "Hot Campaigns",
   icon: "/dashboard/category/icon-1.png",
   background: "/dashboard/category/background-2.jpg",
+  description: "This is description of the category,",
 };
 
 const QuestDetailsPage = async ({ params }) => {

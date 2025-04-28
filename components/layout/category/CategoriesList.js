@@ -9,24 +9,28 @@ const categories = [
     title: "Hot Campaigns",
     icon: "/dashboard/category/icon-1.png",
     background: "/dashboard/category/background-2.jpg",
+    description: "This is a description for the category.",
   },
   {
     id: 2,
     title: "Hot Campaigns",
     icon: "/dashboard/category/icon-1.png",
     background: "/dashboard/category/background-2.jpg",
+    description: "This is a description for the category.",
   },
   {
     id: 3,
     title: "Hot Campaigns",
     icon: "/dashboard/category/icon-1.png",
     background: "/dashboard/category/background-2.jpg",
+    description: "This is a description for the category.",
   },
   {
     id: 4,
     title: "Hot Campaigns",
     icon: "/dashboard/category/icon-1.png",
     background: "/dashboard/category/background-2.jpg",
+    description: "This is a description for the category.",
   },
 ];
 
