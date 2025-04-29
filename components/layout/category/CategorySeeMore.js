@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 
 const CategorySeeMore = ({ id }) => {
   const pathname = usePathname();
-  console.log(pathname);
 
   return (
     pathname === "/quests" && (

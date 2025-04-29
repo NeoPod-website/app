@@ -6,6 +6,7 @@ import {
   HourglassIcon,
   GripVerticalIcon,
 } from "lucide-react";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { Reorder, useDragControls } from "framer-motion";
@@ -13,14 +14,18 @@ import { addToast, Checkbox, Select, SelectItem } from "@heroui/react";
 
 import StackedQuests from "../StackedQuests";
 
+import { setCurrentCategory } from "@/redux/slice/categorySlice";
+
 const AdminQuestItem = ({
   quest,
+  category,
   hasChanges,
   selectedQuests,
   onQuestChange,
   onQuestSelect,
 }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const dragControls = useDragControls();
 
   const [selectedStatus, setSelectedStatus] = useState(
@@ -105,6 +110,8 @@ const AdminQuestItem = ({
     }
 
     if (shouldPreventNavigation(e)) return;
+
+    dispatch(setCurrentCategory(category));
 
     router.push(`/admin/manage/quests/${questId}`);
   };

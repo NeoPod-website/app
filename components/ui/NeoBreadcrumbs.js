@@ -11,7 +11,7 @@ const NeoBreadcrumbs = ({ list }) => {
         const isLast = index === list.length - 1;
 
         return (
-          <BreadcrumbItem key={item.title}>
+          <BreadcrumbItem key={item.title} className="truncate">
             {isLast ? item.title : <Link href={item.href}>{item.title}</Link>}
           </BreadcrumbItem>
         );

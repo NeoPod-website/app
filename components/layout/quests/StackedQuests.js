@@ -48,7 +48,7 @@ const StackedQuests = ({ tasks = [] }) => {
             size="sm"
             icon={icon}
             classNames={{
-              base: "bg-red-800 !w-6 !h-6",
+              base: "bg-red-700 !w-6 !h-6",
             }}
           />
         ) : null;
@@ -60,7 +60,7 @@ const StackedQuests = ({ tasks = [] }) => {
     <AvatarGroup
       max={3}
       classNames={{
-        count: "bg-red-800 !w-6 !h-6 text-white",
+        count: "bg-red-700 !w-6 !h-6 text-white",
       }}
     >
       {taskIcons}

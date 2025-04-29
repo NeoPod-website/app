@@ -84,11 +84,18 @@ const quests = [
 ];
 
 const AdminQuestList = ({
+  category,
   categoryId,
   compact = false,
   scrollable = false,
 }) => {
-  return <AdminQuestListClient quests={quests} scrollable={scrollable} />;
+  return (
+    <AdminQuestListClient
+      quests={quests}
+      category={category}
+      scrollable={scrollable}
+    />
+  );
 };
 
 export default AdminQuestList;

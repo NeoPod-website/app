@@ -19,7 +19,7 @@ const AdminQuestContainer = ({ category }) => {
         }
       />
 
-      <AdminQuestList categoryId={category.id} />
+      <AdminQuestList categoryId={category.id} category={category} />
     </WrapperContainer>
   );
 };

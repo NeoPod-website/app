@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 
 import AdminQuestItem from "./AdminQuestItem";
 
-const AdminQuestListClient = ({ quests, scrollable = false }) => {
+const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
   const [hasChanges, setHasChanges] = useState(false);
   const [questsData, setQuestsData] = useState(quests);
   const [changedQuests, setChangedQuests] = useState({});
@@ -223,6 +223,7 @@ const AdminQuestListClient = ({ quests, scrollable = false }) => {
           <AdminQuestItem
             quest={quest}
             key={quest.id}
+            category={category}
             hasChanges={hasChanges}
             selectedQuests={selectedQuests}
             onQuestChange={handleQuestChange}
