@@ -7,7 +7,7 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import { setCurrentQuest } from "@/redux/slice/questSlice";
 
-const AdminDetailClaimLimit = () => {
+const AdminQuestClaimLimit = () => {
   const dispatch = useDispatch();
 
   const limit = useSelector((state) => state.quest.currentQuest.limit) || null;
@@ -102,4 +102,4 @@ const AdminDetailClaimLimit = () => {
   );
 };
 
-export default React.memo(AdminDetailClaimLimit);
+export default React.memo(AdminQuestClaimLimit);

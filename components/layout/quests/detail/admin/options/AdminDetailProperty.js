@@ -3,12 +3,12 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import AdminQuestCooldown from "./AdminQuestCooldown";
-import AdminSelectRewards from "./AdminSelectRewards";
-import AdminSelectCategory from "./AdminSelectCategory";
-import AdminDetailCondition from "./AdminDetailCondition";
-import AdminQuestRecurrence from "./AdminQuestRecurrence";
-import AdminDetailClaimLimit from "./AdminDetailClaimLimit";
+import AdminQuestCooldown from "./properties/AdminQuestCooldown";
+import AdminSelectRewards from "./properties/AdminSelectRewards";
+import AdminSelectCategory from "./properties/AdminSelectCategory";
+import AdminSelectCondition from "./properties/AdminSelectCondition";
+import AdminQuestRecurrence from "./properties/AdminQuestRecurrence";
+import AdminQuestClaimLimit from "./properties/AdminQuestClaimLimit";
 
 import { setCurrentQuest } from "@/redux/slice/questSlice";
 
@@ -42,9 +42,9 @@ const AdminDetailProperty = ({
         <h3 className="text-2xl font-bold">Additional Properties</h3>
 
         <div className="space-y-4">
-          <AdminDetailClaimLimit />
+          <AdminQuestClaimLimit />
           <AdminSelectRewards />
-          <AdminDetailCondition />
+          <AdminSelectCondition />
         </div>
       </section>
     </section>

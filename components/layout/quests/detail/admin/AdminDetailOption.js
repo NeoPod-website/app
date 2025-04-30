@@ -1,7 +1,7 @@
 import React from "react";
 
 import AdminDetailProperty from "./options/AdminDetailProperty";
-import AdminDetailOptionHeader from "./options/AdminDetailOptionHeader";
+import AdminDetailOptionHeader from "./options/properties/AdminDetailOptionHeader";
 
 import WrapperContainer from "@/components/common/WrapperContainer";
 

@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @import "path-to/_variables.scss";
+@import "path-to/_keyframes-animations.scss"; */
+
 :root {
   --background-color: #000000;
 }

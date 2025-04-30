@@ -8,6 +8,7 @@ const initialState = {
     recurrence: null,
     rewards: [],
     conditions: [],
+    description: "",
   },
   loading: false,
   error: null,

@@ -11,7 +11,7 @@ const AdminQuestPage = () => {
       <div className="flex h-full flex-1 gap-4">
         <AdminDetailMain />
 
-        <AdminDetailOption />
+        {/* <AdminDetailOption /> */}
       </div>
     </MainPageScroll>
   );

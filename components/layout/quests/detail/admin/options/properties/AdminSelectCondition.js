@@ -7,7 +7,7 @@ import { Chip, Select, SelectItem, Input, Button } from "@heroui/react";
 
 import { setCurrentQuest } from "@/redux/slice/questSlice";
 
-const AdminDetailCondition = () => {
+const AdminSelectCondition = () => {
   const dispatch = useDispatch();
   let conditions =
     useSelector((state) => state.quest.currentQuest.conditions) || [];
@@ -257,4 +257,4 @@ const AdminDetailCondition = () => {
   );
 };
 
-export default AdminDetailCondition;
+export default AdminSelectCondition;
