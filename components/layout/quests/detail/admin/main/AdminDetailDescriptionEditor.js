@@ -4,7 +4,7 @@ import Tiptap from "@/components/common/tiptap/TiptapContainer";
 
 const AdminDetailDescriptionEditor = () => {
   return (
-    <div className="rounded-2.5xl border border-gray-400 p-4 shadow-lg">
+    <div className="mb-7 rounded-2.5xl border border-gray-400 p-4 shadow-lg">
       <Tiptap />
     </div>
   );

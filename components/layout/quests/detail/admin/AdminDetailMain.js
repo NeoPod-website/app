@@ -1,9 +1,9 @@
 import React from "react";
 
 import AdminDetailMainHeader from "./main/AdminDetailMainHeader";
+import AdminDetailDescriptionContainer from "./main/AdminDetailDescriptionContainer";
 
 import WrapperContainer from "@/components/common/WrapperContainer";
-import AdminDetailDescriptionEditor from "./main/AdminDetailDescriptionEditor";
 
 const AdminDetailMain = () => {
   return (
@@ -11,7 +11,14 @@ const AdminDetailMain = () => {
       <AdminDetailMainHeader />
 
       <WrapperContainer scrollable className="space-y-2 p-10">
-        <AdminDetailDescriptionEditor />
+        <AdminDetailDescriptionContainer
+          title="Share about NEO POD Ambassador Program"
+          tasks={[
+            {
+              name: "url",
+            },
+          ]}
+        />
       </WrapperContainer>
     </div>
   );

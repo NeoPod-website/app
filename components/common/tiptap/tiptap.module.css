@@ -28,15 +28,15 @@
 
 /* Headings */
 .tiptap-editor h1 {
-  font-size: 2.25em;
-  font-weight: 700;
+  font-size: 1.875rem;
+  font-weight: 900;
   margin: 1em 0 0.6em;
   line-height: 1.2;
   color: #fff;
 }
 
 .tiptap-editor h2 {
-  font-size: 1.875em;
+  font-size: 1.5rem;
   font-weight: 700;
   margin: 1em 0 0.6em;
   line-height: 1.25;
@@ -44,7 +44,7 @@
 }
 
 .tiptap-editor h3 {
-  font-size: 1.5em;
+  font-size: 1.25rem;
   font-weight: 600;
   margin: 1em 0 0.6em;
   line-height: 1.3;
@@ -52,7 +52,7 @@
 }
 
 .tiptap-editor h4 {
-  font-size: 1.25em;
+  font-size: 1.125rem;
   font-weight: 600;
   margin: 1em 0 0.6em;
   line-height: 1.35;
@@ -60,7 +60,7 @@
 }
 
 .tiptap-editor h5 {
-  font-size: 1.125em;
+  font-size: 1rem;
   font-weight: 600;
   margin: 1em 0 0.6em;
   line-height: 1.4;
@@ -68,7 +68,7 @@
 }
 
 .tiptap-editor h6 {
-  font-size: 1em;
+  font-size: 0.875rem;
   font-weight: 600;
   margin: 1em 0 0.6em;
   line-height: 1.4;
@@ -128,14 +128,22 @@
 
 .tiptap-editor ul[data-type="taskList"] li {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 0.5em;
+}
+
+.tiptap-editor ul[data-type="taskList"] li[data-checked="false"] {
+  color: #ccd1d2;
 }
 
 .tiptap-editor ul[data-type="taskList"] li input[type="checkbox"] {
   margin-right: 0.5em;
   margin-top: 0.3em;
   cursor: pointer;
+}
+
+.tiptap-editor ul[data-type="taskList"] li p {
+  margin: 0;
 }
 
 /* ===== Blockquote ===== */
@@ -372,4 +380,90 @@
 .tiptap-editor.has-toolbar {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+/* For indentation/tabbing support */
+.tiptap-editor p[style*="padding-left"] {
+  transition: padding-left 0.2s ease-in-out;
+}
+
+/* Custom style for indented text - useful alternative to inline styles */
+.tiptap-editor .indent-1 {
+  padding-left: 2ch;
+}
+
+.tiptap-editor .indent-2 {
+  padding-left: 4ch;
+}
+
+.tiptap-editor .indent-3 {
+  padding-left: 6ch;
+}
+
+.tiptap-editor .indent-4 {
+  padding-left: 8ch;
+}
+
+.tiptap-editor .indent-5 {
+  padding-left: 10ch;
+}
+
+/* Pre-formatted text (preserves spaces and tabs) */
+.tiptap-editor .preserve-whitespace {
+  white-space: pre-wrap;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9em;
+  background-color: #1f2937; /* gray-800 */
+  padding: 0.5em;
+  border-radius: 4px;
+}
+
+/* Mention suggestions list */
+.mention-list {
+  z-index: 50;
+  overflow: hidden;
+}
+
+/* Mention suggestions container */
+.mention-suggestions {
+  border-radius: 6px;
+  border: 1px solid #fff;
+  background-color: #191919;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Mention item in the suggestions list */
+.mention-item {
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 14px;
+  transition: background-color 0.15s ease;
+  width: 100%;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+}
+
+.mention-item:hover {
+  background-color: #252525;
+}
+
+/* Mention item in the editor */
+.mention {
+  border-radius: 0.25rem;
+  padding: 0.2em 0.35em;
+  margin: 0 0.1em;
+  background-color: rgba(255, 0, 107, 0.2);
+  color: #ff006b;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Active mention in the editor */
+.tiptap-editor .mention:hover {
+  background-color: rgba(255, 0, 107, 0.3);
+  cursor: pointer;
 }

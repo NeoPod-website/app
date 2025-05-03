@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isSocialModalOpen: false,
+  isAddTasksModalOpen: false,
 };
 
 const modalsSlice = createSlice({
@@ -13,9 +14,13 @@ const modalsSlice = createSlice({
     toggleSocialModal: (state) => {
       state.isSocialModalOpen = !state.isSocialModalOpen;
     },
+
+    toggleAddTasksModal: (state) => {
+      state.isAddTasksModalOpen = !state.isAddTasksModalOpen;
+    },
   },
 });
 
-export const { toggleSocialModal } = modalsSlice.actions;
+export const { toggleSocialModal, toggleAddTasksModal } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

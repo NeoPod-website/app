@@ -1,15 +1,10 @@
 import React from "react";
 
+import QuestTaskContainer from "./QuestTaskContainer";
+
 const QuestTask = ({ icon, text, color, heading, description, children }) => {
   return (
-    <section className="relative">
-      <div
-        style={{ backgroundColor: color }}
-        className="flex w-fit items-center gap-1 rounded-t-lg px-3 py-1 text-xs uppercase"
-      >
-        {icon} {text}
-      </div>
-
+    <QuestTaskContainer icon={icon} text={text} color={color}>
       <div
         style={{ borderColor: color }}
         className="rounded-2xl rounded-tl-none border bg-gradient-dark p-5 pt-3"
@@ -22,7 +17,7 @@ const QuestTask = ({ icon, text, color, heading, description, children }) => {
 
         {children}
       </div>
-    </section>
+    </QuestTaskContainer>
   );
 };
 

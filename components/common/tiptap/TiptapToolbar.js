@@ -25,14 +25,18 @@ import {
 } from "lucide-react";
 
 import { useState, useRef } from "react";
+
 import styles from "./tiptap.module.css";
 
 const TiptapToolbar = ({ editor }) => {
   const [linkUrl, setLinkUrl] = useState("");
   const [showLinkInput, setShowLinkInput] = useState(false);
-  const [showImageInput, setShowImageInput] = useState(false);
+
   const [imageUrl, setImageUrl] = useState("");
+  const [showImageInput, setShowImageInput] = useState(false);
+
   const [toolbarExpanded, setToolbarExpanded] = useState(false);
+
   const fileInputRef = useRef(null);
 
   if (!editor) {
@@ -283,8 +287,8 @@ const TiptapToolbar = ({ editor }) => {
             className="rounded-md bg-gray-700 p-2 text-sm text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
             <option value="paragraph">Paragraph</option>
-            <option value="1">Heading 1</option>
-            <option value="2">Heading 2</option>
+            {/* <option value="1">Heading 1</option> */}
+            {/* <option value="2">Heading 2</option> */}
             <option value="3">Heading 3</option>
             <option value="4">Heading 4</option>
             <option value="5">Heading 5</option>

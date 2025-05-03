@@ -11,6 +11,7 @@ const MainModal = ({
   description,
   size = "2xl",
   handleOnClose,
+  maxW = "max-w-md",
   showFooter = false,
 }) => {
   return (
@@ -39,9 +40,7 @@ const MainModal = ({
                 </div>
               </ModalHeader>
 
-              <ModalBody className="mx-auto w-full max-w-md pb-6">
-                {children}
-              </ModalBody>
+              <ModalBody className="mx-auto w-full pb-6">{children}</ModalBody>
 
               {showFooter && (
                 <ModalFooter className="flex items-center justify-end gap-2.5">
