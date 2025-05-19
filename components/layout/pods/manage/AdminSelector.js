@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { Select, SelectItem } from "@heroui/react";
 
-const AdminSelector = ({ selectedAdmins = [], onChange }) => {
+const AdminSelector = ({ assignedAdmins = [], onChange }) => {
   const [error, setError] = useState(null);
   const [allAdmins, setAllAdmins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -72,7 +72,7 @@ const AdminSelector = ({ selectedAdmins = [], onChange }) => {
         id="admins"
         variant="bordered"
         aria-label="Assign Admins"
-        selectedKeys={selectedAdmins}
+        selectedKeys={assignedAdmins}
         selectionMode="multiple"
         className="w-full"
         onSelectionChange={handleAdminSelectionChange}

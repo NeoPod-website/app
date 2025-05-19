@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-import PodCard from "./PodCard";
-import LoadMoreButton from "./LoadMoreButton";
+import LoadMorePods from "@/components/ui/buttons/pods/LoadMoreButton";
+
+import PodListLoader from "@/components/ui/loader/pods/PodListLoader";
+import FilterPanelLoader from "@/components/ui/loader/filter/FilterPanelLoader";
+import FilterHeaderLoader from "@/components/ui/loader/filter/FilterHeaderLoader";
 
 export default function PodsList({ initialPods, lastEvaluatedKey, hasMore }) {
   const [isClient, setIsClient] = useState(false);
@@ -13,18 +16,19 @@ export default function PodsList({ initialPods, lastEvaluatedKey, hasMore }) {
   }, []);
 
   return (
-    <div>
-      <div
-        id="pods-container"
-        className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3"
-      >
-        {initialPods.map((pod) => (
-          <PodCard key={pod.pod_id} pod={pod} />
-        ))}
-      </div>
-
-      {isClient && hasMore && lastEvaluatedKey && (
-        <LoadMoreButton initialLastKey={lastEvaluatedKey} />
+    <div className="flex flex-1 flex-col space-y-3 overflow-hidden">
+      {isClient ? (
+        <LoadMorePods
+          initialPods={initialPods}
+          initialLastKey={lastEvaluatedKey}
+          initialHasMore={hasMore}
+        />
+      ) : (
+        <>
+          <FilterHeaderLoader />
+          <FilterPanelLoader />
+          <PodListLoader />
+        </>
       )}
     </div>
   );

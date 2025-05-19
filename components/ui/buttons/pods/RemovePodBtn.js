@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Trash2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { addToast, Button } from "@heroui/react";
 
+import { removePod } from "@/redux/slice/podsSlice";
+
 const RemovePodBtn = ({ podId, name }) => {
-  const router = useRouter();
+  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,7 +31,7 @@ const RemovePodBtn = ({ podId, name }) => {
         throw new Error(`Error: ${response.status}`);
       }
 
-      router.refresh();
+      dispatch(removePod(podId));
 
       addToast({
         title: "Pod Deleted",

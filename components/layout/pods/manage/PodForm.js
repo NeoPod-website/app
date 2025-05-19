@@ -8,23 +8,25 @@ import { Input, Textarea, Select, SelectItem, Button } from "@heroui/react";
 import { languages } from "@/data/langData";
 
 import AdminSelector from "./AdminSelector";
+
 import ImageUpload from "@/components/ui/ImageUpload";
 
 const PodForm = ({
   isNew,
-  podName,
-  setPodName,
-  description,
-  setDescription,
-  coverPhoto,
-  setCoverPhoto,
-  language,
-  setLanguage,
   status,
   setStatus,
-  selectedAdmins,
-  handlePodDataChange,
+  podName,
+  setPodName,
+  language,
+  setLanguage,
+  coverPhoto,
+  setCoverPhoto,
+  description,
+  setDescription,
+  assignedAdmins,
   handleFormSubmit,
+  handlePodDataChange,
+  isSubmitting,
 }) => {
   return (
     <>
@@ -35,7 +37,7 @@ const PodForm = ({
         className="hide-scroll space-y-4 overflow-auto"
       >
         <ImageUpload
-          value={coverPhoto}
+          value={coverPhoto || "/backgrounds/background-1.jpg"}
           label="Cover Photo"
           onChange={setCoverPhoto}
           maxSizeInMB={8}
@@ -43,7 +45,7 @@ const PodForm = ({
         />
 
         <AdminSelector
-          selectedAdmins={selectedAdmins}
+          assignedAdmins={assignedAdmins}
           onChange={handlePodDataChange}
         />
 
@@ -78,21 +80,20 @@ const PodForm = ({
         >
           <SelectItem key="live">Live</SelectItem>
           <SelectItem key="draft">Draft</SelectItem>
-          <SelectItem key="archived">Archived</SelectItem>
+          <SelectItem key="archive">Archive</SelectItem>
         </Select>
 
         <div className="flex items-center justify-end gap-2 pt-4">
-          {isNew && (
-            <Button
-              as={Link}
-              size="lg"
-              radius="full"
-              href="/admin/manage/pods"
-              className="neo-button border border-red-500 bg-red-500/20"
-            >
-              Cancel
-            </Button>
-          )}
+          <Button
+            as={Link}
+            size="lg"
+            radius="full"
+            href="/admin/manage/pods"
+            className="neo-button border border-red-500 bg-red-500/20"
+            disabled={isSubmitting}
+          >
+            Cancel
+          </Button>
 
           <Button
             size="lg"
@@ -100,8 +101,16 @@ const PodForm = ({
             radius="full"
             className="neo-button border border-white bg-gradient-primary"
             endContent={<SendHorizontalIcon size={16} />}
+            disabled={isSubmitting}
+            isLoading={isSubmitting}
           >
-            {isNew ? "Create" : "Update"}
+            {isNew
+              ? isSubmitting
+                ? "Creating..."
+                : "Create"
+              : isSubmitting
+                ? "Updating..."
+                : "Update"}
           </Button>
         </div>
       </form>

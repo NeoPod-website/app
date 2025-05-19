@@ -1,16 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import PodForm from "./PodForm";
+
 import PodCard from "../PodCard";
+import AdminEditPod from "./AdminEditPod";
+import AdminCreatePod from "./AdminCreatePod";
+
 import WrapperContainer from "@/components/common/WrapperContainer";
 
-const AdminPodMain = ({ isNew = false, initialPod = {} }) => {
+const AdminPodMain = ({ isNew = false, initialPod = {}, id = "" }) => {
   const {
     name = "",
-    status = "draft",
+    cover_photo,
     language = "en",
-    cover_photo = "",
+    status = "draft",
     description = "",
     admin_usernames = [],
   } = initialPod;
@@ -23,6 +26,7 @@ const AdminPodMain = ({ isNew = false, initialPod = {} }) => {
     description,
     assignedAdmins: admin_usernames,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handlePodDataChange = (field, value) => {
     setPodData((prev) => ({ ...prev, [field]: value }));
@@ -30,38 +34,36 @@ const AdminPodMain = ({ isNew = false, initialPod = {} }) => {
 
   return (
     <section className="flex flex-1 gap-4 overflow-hidden">
-      <WrapperContainer scrollable className="space-y-10 p-10">
-        <PodForm
+      {isNew ? (
+        <AdminCreatePod
           isNew={isNew}
-          selectedAdmins={podData.assignedAdmins}
-          handlePodDataChange={(admins) =>
-            handlePodDataChange("assignedAdmins", admins)
-          }
-          podName={podData.podName}
-          setPodName={(value) => handlePodDataChange("podName", value)}
-          description={podData.description}
-          setDescription={(value) => handlePodDataChange("description", value)}
-          coverPhoto={podData.coverPhoto}
-          setCoverPhoto={(value) => handlePodDataChange("coverPhoto", value)}
-          language={podData.language}
-          setLanguage={(value) => handlePodDataChange("language", value)}
-          status={podData.status}
-          setStatus={(value) => handlePodDataChange("status", value)}
-          assignedAdmins={podData.assignedAdmins}
+          podData={podData}
+          isSubmitting={isSubmitting}
+          setIsSubmitting={setIsSubmitting}
+          handlePodDataChange={handlePodDataChange}
         />
-      </WrapperContainer>
+      ) : (
+        <AdminEditPod
+          id={id}
+          isNew={isNew}
+          podData={initialPod}
+          isSubmitting={isSubmitting}
+          setIsSubmitting={setIsSubmitting}
+          handlePodDataChange={handlePodDataChange}
+        />
+      )}
 
       <WrapperContainer scrollable>
         <PodCard
           pod={{
             name: podData.podName,
-            description: podData.description,
-            cover_photo: podData.coverPhoto,
-            language: podData.language,
             status: podData.status,
+            language: podData.language,
+            cover_photo: podData.coverPhoto || cover_photo,
+            description: podData.description,
             created_by: "Preview Admin",
-            created_at: new Date().toISOString(),
-            admin_usernames: podData.assignedAdmins, // Pass the assigned admins
+            created_at: initialPod.created_at || new Date().toISOString(),
+            admin_usernames: podData.assignedAdmins,
           }}
           isPreview={true}
         />

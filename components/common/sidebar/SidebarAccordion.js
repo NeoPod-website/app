@@ -8,10 +8,10 @@ const SidebarAccordion = ({ index, item, isActive }) => {
   return (
     <Accordion selectionMode="single" className="p-0">
       <AccordionItem
-        key={`accordion-${index}`}
-        aria-label={item.name}
         title={item.name}
+        aria-label={item.name}
         startContent={item.icon}
+        key={`accordion-${index}`}
         classNames={{
           trigger:
             "py-2.5 gap-4 bg-transparent hover:bg-gray-500 px-3 rounded-md transition-colors hover:bg-gray-500 text-gray-100 hover:text-white",
@@ -21,8 +21,8 @@ const SidebarAccordion = ({ index, item, isActive }) => {
       >
         {item.children.map((child, childIndex) => (
           <Link
-            key={`child-${index}-${childIndex}`}
             href={child.href}
+            key={`child-${index}-${childIndex}`}
             className="sidebar-menu-item ml-8 text-gray-200"
           >
             <span className="mr-4">{child.icon}</span>

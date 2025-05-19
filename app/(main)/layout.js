@@ -1,46 +1,3 @@
-// import React from "react";
-
-// import AuthProvider from "@/providers/AuthProvider";
-
-// const MainLayout = async ({ children }) => {
-//   return (
-//     <AuthProvider>
-//       <div className="flex h-screen bg-[url('/hero-background.png')] bg-cover">
-//         {children}
-//       </div>
-//     </AuthProvider>
-//   );
-// };
-
-// export default MainLayout;
-
-// const MainLayout = async ({ children }) => {
-//   const { user, error } = await getServerSession();
-
-//   if (error) {
-//     // Render an error page or message here
-//     redirect("/error?error=" + encodeURIComponent(error));
-//   }
-
-//   if (!user) {
-//     redirect("/login");
-//   }
-
-//   return (
-//     <div className="flex h-screen bg-[url('/hero-background.png')] bg-cover">
-//       <DashboardSidebar
-//         menuItems={user.isAdmin ? adminMenuItems : ambassadorMenuItems}
-//       />
-
-//       <main className="flex-1">
-//         <DashboardHeader session={user} />
-
-//         {children}
-//       </main>
-//     </div>
-//   );
-// };
-
 import React from "react";
 import { redirect } from "next/navigation";
 
@@ -69,7 +26,7 @@ const MainLayout = async ({ children }) => {
       case "auth/timeout":
         // Show a maintenance or retry page for server issues
         return redirect(
-          `/system-error?type=${error}&message=${encodeURIComponent(message)}`,
+          `/error?type=${error}&message=${encodeURIComponent(message)}`,
         );
 
       case "auth/network-error":
@@ -94,7 +51,7 @@ const MainLayout = async ({ children }) => {
   // Render the authenticated layout
   return (
     <div className="flex h-screen bg-[url('/hero-background.png')] bg-cover">
-      <DashboardSidebar menuItems={menuItems} userRole={user.role} />
+      <DashboardSidebar menuItems={menuItems} />
 
       <main className="relative flex flex-1 flex-col overflow-hidden">
         <DashboardHeader session={user} />

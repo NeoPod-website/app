@@ -78,17 +78,17 @@ module.exports = {
         "gradient-rank-architect":
           "linear-gradient(90deg, #A3282B 0%, #F62F4E 100%)",
       },
-    },
 
-    animation: {
-      scrollY:
-        "scrollY var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
-    },
+      animation: {
+        scrollY:
+          "scrollY var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+      },
 
-    keyframes: {
-      scrollY: {
-        to: {
-          transform: "translateY(calc(-50% - 0.5rem))",
+      keyframes: {
+        scrollY: {
+          to: {
+            transform: "translateY(calc(-50% - 0.5rem))",
+          },
         },
       },
     },

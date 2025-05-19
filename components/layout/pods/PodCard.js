@@ -1,5 +1,7 @@
 "use client";
+
 import { useEffect, useState } from "react";
+
 import EditPodButton from "../../ui/buttons/pods/EditPodBtn";
 import RemovePodButton from "../../ui/buttons/pods/RemovePodBtn";
 
@@ -25,8 +27,6 @@ export default function PodCard({ pod, isPreview = false }) {
       } else if (pod.cover_photo instanceof File) {
         setCoverPhotoUrl(URL.createObjectURL(pod.cover_photo));
       }
-    } else {
-      setCoverPhotoUrl("/dashboard/category/background-2.jpg");
     }
 
     // Cleanup URL objects to prevent memory leaks
@@ -53,7 +53,9 @@ export default function PodCard({ pod, isPreview = false }) {
     >
       <div
         className="h-24 w-full rounded-t-2.5xl bg-cover bg-center"
-        style={{ backgroundImage: `url(${coverPhotoUrl})` }}
+        style={{
+          backgroundImage: `url(${coverPhotoUrl || "/dashboard/category/background-2.jpg"})`,
+        }}
       ></div>
 
       <div className="space-y-2 p-5">
@@ -77,20 +79,21 @@ export default function PodCard({ pod, isPreview = false }) {
           </div>
         </div>
 
-        <p className="line-clamp-3 w-3/4 break-words text-base text-gray-100">
+        <p className="line-clamp-2 w-3/4 break-words text-base text-gray-100">
           {pod.description || "No description provided"}
         </p>
 
-        {/* Pod maintainers section */}
         {admins.length > 0 && (
           <div className="mt-3 flex items-center gap-2">
-            <p className="text-sm text-gray-200">Pod Maintainers:</p>
+            <p className="text-nowrap text-sm text-gray-200">
+              Pod Maintainers:
+            </p>
 
-            <div className="flex flex-wrap gap-1">
+            <div className="hide-scroll flex flex-nowrap gap-1 overflow-x-auto">
               {admins.map((admin, index) => (
                 <span
                   key={index}
-                  className="inline-block rounded bg-gray-700 px-2 py-1 text-xs text-gray-100"
+                  className="inline-block text-nowrap rounded bg-gray-700 px-2 py-1 text-xs text-gray-100"
                 >
                   {admin}
                 </span>
@@ -106,7 +109,6 @@ export default function PodCard({ pod, isPreview = false }) {
           <p>📅 {formattedDate || "Not created yet"}</p>
         </div>
 
-        {/* Only show action buttons if not in preview mode and pod_id exists */}
         {!isPreview && pod.pod_id && (
           <div className="flex justify-end gap-2 pt-2">
             <RemovePodButton podId={pod.pod_id} name={pod.name} />

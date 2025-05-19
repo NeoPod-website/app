@@ -1,54 +1,51 @@
 import React from "react";
 
 import SidebarProfile from "./SidebarProfile";
-
-import InitiateRole from "./roles/InitiateRole";
-import OperatorRole from "./roles/OperatorRole";
-import SentinelRole from "./roles/SentinelRole";
-import ArchitechRole from "./roles/ArchitechRole";
+import SafeAmbassadorRole from "./roles/AmbassadorRoles";
+import SidebarProfileSkeleton from "./loader/SidebarProfileSkeleton";
 
 import { getCachedSession } from "@/lib/userSession";
 
 const SidebarProfileContainer = async () => {
   const { user, error, isAuthenticated } = await getCachedSession();
 
+  // Render placeholder for unauthenticated users
   if (!isAuthenticated) {
-    return (
-      <section className="space-y-1 rounded-lg border-t border-gray-400 bg-gradient-dark">
-        Soon Added
-      </section>
-    );
+    return <UnauthenticatedSidebar error={error} />;
   }
 
-  let RoleComponent;
-
-  if (user.isAdmin) {
-    RoleComponent = <SidebarProfile user={user} />;
-  } else {
-    switch (user.role_type) {
-      case "initiate":
-        RoleComponent = <InitiateRole user={user} />;
-        break;
-      case "operator":
-        RoleComponent = <OperatorRole user={user} />;
-        break;
-      case "sentinel":
-        RoleComponent = <SentinelRole user={user} />;
-        break;
-      case "architect":
-        RoleComponent = <ArchitechRole user={user} />;
-        break;
-      // default:
-      //   RoleComponent = <SidebarProfile user={user} />;
-      //   break;
-    }
-  }
-
+  // Determine which role component to render
   return (
     <section className="space-y-1 rounded-lg border-t border-gray-400 bg-gradient-dark">
-      {RoleComponent}
+      {getRoleComponent(user)}
     </section>
   );
 };
+
+/**
+ * Returns the appropriate role component based on user data
+ * @param {Object} user - The user object
+ * @returns {JSX.Element} The role-specific component
+ */
+
+function getRoleComponent(user) {
+  // Admin users always get the main sidebar profile
+  if (user.isAdmin) {
+    return <SidebarProfile user={user} />;
+  }
+
+  // Get the appropriate component or fallback to default
+  const RoleComponent = SafeAmbassadorRole || SidebarProfile;
+  return <RoleComponent user={user} />;
+}
+
+/**
+ * Renders a placeholder for unauthenticated users
+ * @returns {JSX.Element} The unauthenticated sidebar component
+ */
+
+function UnauthenticatedSidebar() {
+  return <SidebarProfileSkeleton />;
+}
 
 export default SidebarProfileContainer;

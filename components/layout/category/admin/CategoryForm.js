@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { SendHorizonalIcon } from "lucide-react";
+import { SendHorizontalIcon } from "lucide-react";
 import { Button, Input, Link, Textarea } from "@heroui/react";
 
 import AdminIconUpload from "./AdminIconUpload";
@@ -119,7 +119,7 @@ const CategoryForm = ({
             type="submit"
             radius="full"
             className="neo-button border border-white bg-gradient-primary"
-            endContent={<SendHorizonalIcon size={16} />}
+            endContent={<SendHorizontalIcon size={16} />}
           >
             {isNew ? "Create" : "Update"}
           </Button>

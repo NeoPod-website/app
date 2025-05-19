@@ -6,8 +6,8 @@ import CategoryItem from "@/components/layout/category/CategoryItem";
 
 import WrapperContainer from "@/components/common/WrapperContainer";
 
-import QuestListLoader from "@/components/ui/loader/quest/QuestListLoader";
 import CategoryForm from "@/components/layout/category/admin/CategoryForm";
+import QuestListLoader from "@/components/ui/loader/quest/QuestListLoader";
 
 const AdminCategoryMain = ({
   id,

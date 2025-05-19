@@ -1,28 +1,21 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import React, { useState } from "react";
-import { Button, Progress } from "@heroui/react";
-import { EllipsisVerticalIcon } from "lucide-react";
 
 import SidebarProfile from "../SidebarProfile";
-
-import MainModal from "@/components/ui/modals/MainModal";
+import { ProfileBadge, TierProgressBase } from "./AmbassadorRoles";
 
 const OperatorProfileImage = () => (
-  <Image
+  <ProfileBadge
     width={28}
     height={20}
     alt="Operator Rank"
     src="/dashboard/profile/operator-star.png"
-    className="absolute -bottom-2 left-1/2 z-10 -translate-x-1/2"
   />
 );
 
 const OperatorProgress = ({ userPoints = 0, tenthPlacePoints = 1000 }) => {
-  const [expanded, setExpanded] = useState(false);
-
   const hasReachedTop10 = userPoints >= tenthPlacePoints;
   const ratio = tenthPlacePoints === 0 ? 0 : userPoints / tenthPlacePoints;
 
@@ -66,87 +59,68 @@ const OperatorProgress = ({ userPoints = 0, tenthPlacePoints = 1000 }) => {
     }
   };
 
-  return (
+  const modalContent = (
     <>
-      <div className="border-t border-gray-400 p-3 text-gray-100">
-        <div className="flex items-start gap-2.5">
-          <Progress
-            className="max-w-md"
-            color="warning"
-            formatOptions={{ style: "decimal", maximumFractionDigits: 0 }}
-            label="Tier 2: Operator"
-            maxValue={tenthPlacePoints}
-            value={userPoints}
-            valueLabel={
-              hasReachedTop10
-                ? `Top 10 Achieved`
-                : `${userPoints} / ${tenthPlacePoints} PODS`
-            }
-            showValueLabel={true}
-            size="md"
-            classNames={{
-              indicator: "bg-gradient-rank-operator",
-              label: "text-gray-100 text-sm",
-              value: "text-gray-100 text-sm",
-            }}
-          />
+      <p>{getMessage()}</p>
 
-          <Button
-            onPress={() => setExpanded((prev) => !prev)}
-            className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700"
-          >
-            <EllipsisVerticalIcon size={16} />
-          </Button>
-        </div>
-      </div>
+      <p>
+        Your Points: <strong className="text-white">{userPoints} PODS</strong>
+      </p>
 
-      <MainModal
-        title="Tier 2: Operator Progress"
-        description="You're making waves! Track your progress and see what it takes to reach Sentinel status."
-        isOpen={expanded}
-        handleOnClose={() => setExpanded(false)}
-        size="lg"
+      <p>
+        Top 10 Cutoff:{" "}
+        <strong className="text-white">{tenthPlacePoints} PODS</strong>
+      </p>
+
+      {!hasReachedTop10 && (
+        <p className="text-red-500">
+          <strong>{tenthPlacePoints - userPoints}</strong> more points to reach{" "}
+          <strong>Top 10</strong>.
+        </p>
+      )}
+
+      <Link
+        href="/leaderboard/monthly"
+        className="mt-1 inline-block text-white underline"
       >
-        <div className="space-y-1.5 text-sm">
-          <p>{getMessage()}</p>
-
-          <p>
-            Your Points:{" "}
-            <strong className="text-white">{userPoints} PODS</strong>
-          </p>
-
-          <p>
-            Top 10 Cutoff:{" "}
-            <strong className="text-white">{tenthPlacePoints} PODS</strong>
-          </p>
-
-          {!hasReachedTop10 && (
-            <p className="text-red-500">
-              <strong>{tenthPlacePoints - userPoints}</strong> more points to
-              reach <strong>Top 10</strong>.
-            </p>
-          )}
-
-          <Link
-            href="/leaderboard/monthly"
-            className="mt-1 inline-block text-white underline"
-          >
-            View Leaderboard
-          </Link>
-        </div>
-      </MainModal>
+        View Leaderboard
+      </Link>
     </>
+  );
+
+  return (
+    <TierProgressBase
+      tierNumber={2}
+      tierName="Operator"
+      description="You're making waves! Track your progress and see what it takes to reach Sentinel status."
+      gradientClass="bg-gradient-rank-operator"
+      progressProps={{
+        maxValue: tenthPlacePoints,
+        value: userPoints,
+        valueLabel: hasReachedTop10
+          ? `Top 10 Achieved`
+          : `${userPoints} / ${tenthPlacePoints} PODS`,
+      }}
+      modalContent={modalContent}
+    />
   );
 };
 
-const OperatorRole = () => {
+const OperatorRole = ({ user }) => {
+  // Extract user stats if available, otherwise use defaults
+  const { points = 280, tenthPlacePoints = 1000 } =
+    user?.ambassador_stats || {};
+
   return (
     <>
-      <SidebarProfile>
+      <SidebarProfile user={user}>
         <OperatorProfileImage />
       </SidebarProfile>
 
-      <OperatorProgress userPoints={280} tenthPlacePoints={1000} />
+      <OperatorProgress
+        userPoints={points}
+        tenthPlacePoints={tenthPlacePoints}
+      />
     </>
   );
 };

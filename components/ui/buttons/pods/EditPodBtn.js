@@ -1,20 +1,18 @@
 "use client";
 
 import React from "react";
-import { Button } from "@heroui/react";
+import Link from "next/link";
 import { EditIcon } from "lucide-react";
 
-const EditPodBtn = () => {
+const EditPodBtn = ({ podId }) => {
   return (
-    <Button
-      size="md"
-      type="button"
+    <Link
       title="Edit Pod"
-      className="neo-button w-fit border border-gray-400 bg-gradient-dark !px-4"
-      endContent={<EditIcon size={16} />}
+      href={`/admin/manage/pods/${podId}`}
+      className="flex w-fit items-center gap-1 rounded-lg border border-gray-400 bg-gradient-dark px-3 py-0 text-sm"
     >
-      Edit POD
-    </Button>
+      Edit POD <EditIcon size={16} />
+    </Link>
   );
 };
 

@@ -18,6 +18,7 @@ const breadcrumbsList = [
     title: "Admin Categories",
     href: "/admin/manage/categories",
   },
+
   {
     title: "Create Category",
     href: `/admin/manage/categories/create`,

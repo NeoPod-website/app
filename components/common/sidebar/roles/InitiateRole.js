@@ -1,26 +1,38 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import React, { useState } from "react";
-import { Button, Progress } from "@heroui/react";
-import { EllipsisVerticalIcon } from "lucide-react";
 
 import SidebarProfile from "../SidebarProfile";
+import { ProfileBadge, TierProgressBase } from "./AmbassadorRoles";
 
-import MainModal from "@/components/ui/modals/MainModal";
+const InitiateProfileImage = () => (
+  <ProfileBadge
+    width={28}
+    height={20}
+    alt="Initiate Rank"
+    src="/dashboard/profile/initiate-star.png"
+  />
+);
 
-const InitiateProgress = ({
-  rank = 40,
-  points = 0,
-  percentileRank, // Optional
-}) => {
-  const [expanded, setExpanded] = useState(false);
+const InitiateProgress = ({ rank = 40, points = 0, percentileRank }) => {
+  // Ensure points is a valid number for calculations
+  const safePoints =
+    typeof points === "number" && !isNaN(points) && points >= 0 ? points : 0;
 
-  const progress = Math.min((points / 100) * 100, 100);
+  // Ensure percentileRank is valid if provided
+  const safePercentileRank =
+    typeof percentileRank === "number" &&
+    percentileRank >= 0 &&
+    percentileRank <= 100
+      ? percentileRank
+      : undefined;
+
+  // Safe progress calculation to avoid NaN or invalid percentages
+  const progress = Math.min((safePoints / 100) * 100, 100);
 
   const getMessage = () => {
-    if (points >= 90) {
+    if (safePoints >= 90) {
       return (
         <>
           <strong className="text-white">So close!</strong> Just a little more
@@ -29,12 +41,15 @@ const InitiateProgress = ({
           doing great!
         </>
       );
-    } else if (points >= 30) {
+    } else if (safePoints >= 30) {
       return (
         <>
           <strong className="text-white">Keep going!</strong> You're{" "}
-          <span className="font-bold text-white">{points}</span> PODS in — just{" "}
-          <span className="font-bold text-yellow-300">{100 - points} more</span>{" "}
+          <span className="font-bold text-white">{safePoints}</span> PODS in —
+          just{" "}
+          <span className="font-bold text-yellow-300">
+            {100 - safePoints} more
+          </span>{" "}
           to reach{" "}
           <span className="font-semibold text-[#3BAEA1]">Operator</span>.
         </>
@@ -51,103 +66,97 @@ const InitiateProgress = ({
     }
   };
 
-  return (
+  const modalContent = (
     <>
-      <div className="border-t border-gray-400 p-3 text-gray-100">
-        <div className="flex items-start gap-2.5">
-          <Progress
-            className="max-w-md"
-            color="warning"
-            formatOptions={{ style: "decimal", maximumFractionDigits: 0 }}
-            label="Tier 1: Initiate"
-            maxValue={100}
-            valueLabel={`${points} / 100 PODS`}
-            showValueLabel={true}
-            size="md"
-            value={progress}
-            classNames={{
-              indicator: "bg-gradient-rank-initiate",
-              label: "text-gray-100 text-sm",
-              value: "text-gray-100 text-sm",
-            }}
-          />
+      <p>{getMessage()}</p>
 
-          <Button
-            onPress={() => setExpanded(true)}
-            className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700"
-          >
-            <EllipsisVerticalIcon size={16} />
-          </Button>
-        </div>
-      </div>
+      <p>
+        <span>Current Rank:</span>{" "}
+        <strong className="text-white">#{rank}</strong>
+      </p>
 
-      <MainModal
-        title="Tier 1: Initiate Progress"
-        description="Track your progress and learn how to reach the next tier"
-        isOpen={expanded}
-        handleOnClose={() => setExpanded(false)}
-        size="lg"
+      <p>
+        <span>Current Points:</span>{" "}
+        <strong className="text-white">{safePoints} PODS</strong>
+      </p>
+
+      {safePoints < 100 && (
+        <p className="text-red-500">
+          {100 - safePoints} more PODS to become an{" "}
+          <span className="font-semibold text-[#3BAEA1]">Operator</span>.
+        </p>
+      )}
+
+      {safePercentileRank !== undefined && (
+        <p>
+          You're currently in the{" "}
+          <span className="font-semibold text-blue-400">
+            top {100 - safePercentileRank}%
+          </span>{" "}
+          of contributors.
+        </p>
+      )}
+
+      <Link
+        href="/guide/how-to-earn"
+        className="inline-block text-white underline"
       >
-        <div className="space-y-3 text-sm text-gray-100">
-          <p>{getMessage()}</p>
-
-          <p>
-            <span>Current Rank:</span>{" "}
-            <strong className="text-white">#{rank}</strong>
-          </p>
-
-          <p>
-            <span>Current Points:</span>{" "}
-            <strong className="text-white">{points} PODS</strong>
-          </p>
-
-          {points < 100 && (
-            <p className="text-red-500">
-              {100 - points} more PODS to become an{" "}
-              <span className="font-semibold text-[#3BAEA1]">Operator</span>.
-            </p>
-          )}
-
-          {typeof percentileRank === "number" && (
-            <p>
-              You’re currently in the{" "}
-              <span className="font-semibold text-blue-400">
-                top {100 - percentileRank}%
-              </span>{" "}
-              of contributors.
-            </p>
-          )}
-
-          <Link
-            href="/guide/how-to-earn"
-            className="inline-block text-white underline"
-          >
-            How to Earn PODS
-          </Link>
-        </div>
-      </MainModal>
+        How to Earn PODS
+      </Link>
     </>
+  );
+
+  return (
+    <TierProgressBase
+      tierNumber={1}
+      tierName="Initiate"
+      description="Track your progress and learn how to reach the next tier"
+      gradientClass="bg-gradient-rank-initiate"
+      progressProps={{
+        maxValue: 100,
+        valueLabel: `${safePoints} / 100 PODS`,
+        value: progress,
+      }}
+      modalContent={modalContent}
+    />
   );
 };
 
-const InitiateProfileImage = () => (
-  <Image
-    width={28}
-    height={20}
-    alt="Initiate Rank"
-    src="/dashboard/profile/initiate-star.png"
-    className="absolute -bottom-2 left-1/2 z-10 -translate-x-1/2"
-  />
-);
+const InitiateRole = ({ user }) => {
+  // Validate user object
+  if (!user) {
+    console.error("InitiateRole: Missing user object");
+    user = {};
+  }
 
-const InitiateRole = () => {
+  // Extract user stats if available, otherwise use defaults
+  // Use safe defaults by destructuring with fallback values
+  const {
+    rank = 40,
+    points = 0,
+    percentileRank = 60,
+  } = user?.ambassador_stats || {};
+
+  // Ensure points is a non-negative number
+  const safePoints = typeof points === "number" && points >= 0 ? points : 0;
+
+  if (safePoints !== points) {
+    console.warn(
+      `InitiateRole: Invalid points value "${points}", using ${safePoints}`,
+    );
+  }
+
   return (
     <>
-      <SidebarProfile>
+      <SidebarProfile user={user}>
         <InitiateProfileImage />
       </SidebarProfile>
 
-      <InitiateProgress points={50} rank={40} percentileRank={60} />
+      <InitiateProgress
+        rank={rank}
+        points={safePoints}
+        percentileRank={percentileRank}
+      />
     </>
   );
 };

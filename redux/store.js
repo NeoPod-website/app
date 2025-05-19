@@ -6,12 +6,14 @@ import userSlice from "./slice/userSlice";
 import questsReducer from "./slice/questSlice";
 import modalsReducer from "./slice/modalsSlice";
 import categoryReducer from "./slice/categorySlice";
+import podsReducer from "./slice/podsSlice";
 
 export const store = configureStore({
   reducer: {
     user: userSlice,
-    modals: modalsReducer,
+    pods: podsReducer,
     quest: questsReducer,
+    modals: modalsReducer,
     category: categoryReducer,
   },
 

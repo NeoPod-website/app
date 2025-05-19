@@ -65,39 +65,11 @@ const ImageUpload = ({
     if (initialValue) {
       // Handle both string URLs and File objects
       if (typeof initialValue === "string") {
-        const loadImage = async () => {
-          try {
-            const response = await fetch(initialValue);
-            const blob = await response.blob();
-
-            // Try to determine the correct file type from the URL or response
-            let fileType = blob.type;
-            if (!fileType || fileType === "application/octet-stream") {
-              // Try to extract from URL
-              const extension = getFileExtension(initialValue);
-              fileType = extensionToMimeType[extension] || "image/jpeg";
-            }
-
-            const file = new File(
-              [blob],
-              "initial_image." + getFileExtension(initialValue) || "jpg",
-              {
-                type: fileType,
-                lastModified: Date.now(),
-              },
-            );
-
-            setPreview({ url: initialValue, file });
-          } catch (err) {
-            console.error("Failed to load initial image:", err);
-            setError("Failed to load initial image.");
-            onChange(null);
-          }
-        };
-
-        loadImage();
+        // For string URLs (including presigned S3 URLs), just use the URL directly
+        // Don't try to fetch it - simply display it as is
+        setPreview({ url: initialValue, file: null });
       } else if (initialValue instanceof File) {
-        // Handle File object directly
+        // Handle File object directly (this happens when user uploads a new file)
         const reader = new FileReader();
         reader.onload = () => {
           setPreview({ url: reader.result, file: initialValue });
@@ -109,7 +81,7 @@ const ImageUpload = ({
     } else {
       setPreview(null);
     }
-  }, [initialValue, onChange]);
+  }, [initialValue]);
 
   // Handle file selection
   const handleFileChange = useCallback(
@@ -141,6 +113,7 @@ const ImageUpload = ({
       }
 
       const reader = new FileReader();
+
       reader.onload = () => {
         setPreview({ url: reader.result, file });
         onChange(file);
@@ -188,7 +161,9 @@ const ImageUpload = ({
         onClick={triggerInput}
         onDrop={(e) => {
           e.preventDefault();
+
           const file = e.dataTransfer.files?.[0];
+
           if (file) {
             handleFileChange({
               target: { files: e.dataTransfer.files },
@@ -217,12 +192,13 @@ const ImageUpload = ({
         {preview ? (
           <div className="absolute inset-0">
             <img
-              src={preview.url}
+              src={preview.url || preview}
               alt="Uploaded Preview"
               className="h-full w-full object-contain"
             />
 
             <Button
+              type="button"
               variant="destructive"
               onClick={(e) => {
                 e.stopPropagation();

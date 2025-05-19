@@ -12,7 +12,11 @@ const NeoBreadcrumbs = ({ list }) => {
 
         return (
           <BreadcrumbItem key={item.title} className="truncate">
-            {isLast ? item.title : <Link href={item.href}>{item.title}</Link>}
+            {isLast || !item.href ? (
+              item.title
+            ) : (
+              <Link href={item.href}>{item.title}</Link>
+            )}
           </BreadcrumbItem>
         );
       })}

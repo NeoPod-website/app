@@ -3,10 +3,11 @@ import {
   BookCheck,
   UsersIcon,
   InboxIcon,
-  HistoryIcon,
   MedalIcon,
   TrophyIcon,
   ShapesIcon,
+  PackageIcon,
+  HistoryIcon,
   SettingsIcon,
   ChartAreaIcon,
   ShieldUserIcon,
@@ -84,6 +85,12 @@ const adminMenuItems = [
     name: "Manage Tasks",
     icon: <FolderKanbanIcon size={20} />,
     children: [
+      {
+        name: "Manage Pods",
+        icon: <PackageIcon size={20} />,
+        href: "/admin/manage/pods",
+      },
+
       {
         name: "Manage Categories",
         icon: <ShapesIcon size={20} />,

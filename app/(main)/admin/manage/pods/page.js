@@ -1,17 +1,9 @@
-import Link from "next/link";
-import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 import PodsList from "@/components/layout/pods/PodList";
-import PodContainerWrapper from "@/components/layout/pods/PodContainerWrapper";
-
-const breadcrumbsList = [
-  {
-    title: "Admin PODS",
-    href: "/admin/manage/pods",
-  },
-];
+import MainPageScroll from "@/components/common/MainPageScroll";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Manage PODS | Admin Panel | NEO POD",
@@ -19,7 +11,7 @@ export const metadata = {
     "Create, edit, and organize PODS for ambassadors. Shape the journey and engagement through meaningful tasks and challenges.",
 };
 
-async function fetchPods(startKey = null, limit = 3) {
+async function fetchPods(startKey = null, limit = 9) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("neo-jwt");
@@ -37,7 +29,10 @@ async function fetchPods(startKey = null, limit = 3) {
         Authorization: `Bearer ${token.value}`,
       },
       credentials: "include",
+      cache: "no-store",
     });
+
+    const data = await response.json();
 
     if (!response.ok) {
       if (response.status === 404) {
@@ -47,7 +42,7 @@ async function fetchPods(startKey = null, limit = 3) {
       throw new Error(`Failed to fetch pods: ${response.statusText}`);
     }
 
-    return response.json();
+    return data;
   } catch (error) {
     console.error("Error fetching pods:", error);
 
@@ -55,17 +50,15 @@ async function fetchPods(startKey = null, limit = 3) {
   }
 }
 
-const ManagePODSPage = async ({ searchParams }) => {
-  const searchParamsList = await searchParams;
-
-  const podsData = await fetchPods(searchParamsList.startKey);
+const ManagePODSPage = async () => {
+  const podsData = await fetchPods();
 
   const pods = podsData.data.pods || [];
   const hasMore = podsData.data.pagination.hasMore;
   const lastEvaluatedKey = podsData.data.pagination.lastEvaluatedKey;
 
   return (
-    <PodContainerWrapper list={breadcrumbsList}>
+    <MainPageScroll scrollable={false}>
       <Suspense>
         <PodsList
           hasMore={hasMore}
@@ -73,20 +66,7 @@ const ManagePODSPage = async ({ searchParams }) => {
           lastEvaluatedKey={lastEvaluatedKey}
         />
       </Suspense>
-
-      {pods.length === 0 && (
-        <div className="flex h-64 flex-col items-center justify-center gap-4 rounded-lg border border-gray-700 bg-black/30 p-6 text-center">
-          <p className="text-lg text-gray-300">No PODs found</p>
-
-          <Link
-            href="/admin/manage/pods/create"
-            className="rounded-full border border-gray-100 bg-gradient-primary px-6 py-2 hover:border-gray-600"
-          >
-            Create Your First POD
-          </Link>
-        </div>
-      )}
-    </PodContainerWrapper>
+    </MainPageScroll>
   );
 };
 
