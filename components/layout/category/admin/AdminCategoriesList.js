@@ -2,46 +2,7 @@ import React from "react";
 
 import AdminCategoryContainer from "./AdminCategoryContainer";
 
-// Ideally you'd fetch this from props or a data hook.
-const categories = [
-  {
-    id: 1,
-    title: "Hot Campaigns",
-    icon: "/dashboard/category/icon-1.png",
-    background: "/dashboard/category/background-2.jpg",
-    description: "This is a description for the category.",
-  },
-  {
-    id: 2,
-    title: "Hot Campaigns",
-    icon: "/dashboard/category/icon-1.png",
-    background: "/dashboard/category/background-2.jpg",
-    description: "This is a description for the category.",
-  },
-  {
-    id: 3,
-    title: "Hot Campaigns",
-    icon: "/dashboard/category/icon-1.png",
-    background: "/dashboard/category/background-2.jpg",
-    description: "This is a description for the category.",
-  },
-  {
-    id: 4,
-    title: "Hot Campaigns",
-    icon: "/dashboard/category/icon-1.png",
-    background: "/dashboard/category/background-2.jpg",
-    description: "This is a description for the category.",
-  },
-  {
-    id: 5,
-    title: "Hot Campaigns",
-    icon: "/dashboard/category/icon-1.png",
-    background: "/dashboard/category/background-2.jpg",
-    description: "This is a description for the category.",
-  },
-];
-
-const AdminCategoriesList = () => {
+const AdminCategoriesList = ({ categories }) => {
   const validCategories = Array.isArray(categories) ? categories : [];
 
   if (validCategories.length === 0) {
@@ -52,11 +13,17 @@ const AdminCategoriesList = () => {
     );
   }
 
-  return validCategories.map((category) => {
-    if (!category || !category.id) return null;
+  return (
+    <section className="hide-scroll flex flex-1 flex-col justify-start gap-5 overflow-y-auto">
+      {validCategories.map((category) => {
+        if (!category || !category.name) return null;
 
-    return <AdminCategoryContainer key={category.id} category={category} />;
-  });
+        return (
+          <AdminCategoryContainer key={category.name} category={category} />
+        );
+      })}
+    </section>
+  );
 };
 
 export default AdminCategoriesList;

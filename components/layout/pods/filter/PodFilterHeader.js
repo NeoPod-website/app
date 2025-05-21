@@ -11,9 +11,11 @@ const PodFilterHeader = ({
   return (
     <FilterHeader
       headerLabel="pods"
+      linkLabel="Create Pod"
       nameFilter={nameFilter}
       setNameFilter={setNameFilter}
       hasActiveFilters={hasActiveFilters}
+      linkHref="/admin/manage/pods/create"
       activeFiltersCount={activeFiltersCount}
     />
   );

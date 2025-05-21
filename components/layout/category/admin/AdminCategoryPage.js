@@ -11,11 +11,11 @@ import QuestListLoader from "@/components/ui/loader/quest/QuestListLoader";
 
 const AdminCategoryMain = ({
   id,
-  icon = "",
-  title = "",
   isNew = false,
-  description = "",
-  background = "",
+  title = "New Category",
+  description = "New Description",
+  icon = "/dashboard/category/icon-1.png",
+  background = "/dashboard/category/background-2.jpg",
 }) => {
   let [categoryIcon, setCatgoryIcon] = useState(icon);
   let [categoryTitle, setCategoryTitle] = useState(title);
@@ -42,10 +42,10 @@ const AdminCategoryMain = ({
         <CategoryItem
           id={id}
           showDescription
-          title={categoryTitle ?? "No Category"}
-          description={categoryDescription ?? ""}
-          icon={categoryIcon ?? "/dashboard/category/icon-1.png"}
-          background={selectedFile ?? "/dashboard/category/background-2.jpg"}
+          icon={categoryIcon}
+          title={categoryTitle}
+          background={selectedFile}
+          description={categoryDescription}
         />
 
         <QuestListLoader compact={true} scrollable={true} />

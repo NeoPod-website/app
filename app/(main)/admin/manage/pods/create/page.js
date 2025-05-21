@@ -10,7 +10,7 @@ const breadcrumbsList = [
   },
 
   {
-    title: "PODS",
+    title: "Pods",
     href: "/admin/manage/pods",
   },
 

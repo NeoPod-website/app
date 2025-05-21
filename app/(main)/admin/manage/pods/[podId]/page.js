@@ -12,7 +12,7 @@ const breadcrumbsList = [
   },
 
   {
-    title: "PODS",
+    title: "Pods",
     href: "/admin/manage/pods",
   },
 
@@ -67,7 +67,6 @@ const EditPodPage = async ({ params }) => {
   const { podId } = await params;
 
   const podData = await fetchPods(podId);
-  console.log(podData);
 
   return (
     <ManagePageWrapper

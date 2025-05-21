@@ -1,8 +1,8 @@
 "use client";
 
-import { SearchIcon, SlidersHorizontalIcon } from "lucide-react";
 import React from "react";
 import { Button, Input } from "@heroui/react";
+import { SearchIcon, SlidersHorizontalIcon } from "lucide-react";
 
 const SearchHeader = () => {
   return (

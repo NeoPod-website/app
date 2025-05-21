@@ -4,6 +4,7 @@ const initialState = {
   pods: [],
   lastKey: null,
   hasMore: false,
+  currentPod: null,
   isLoading: false,
 };
 
@@ -41,10 +42,25 @@ const podsSlice = createSlice({
         state.pods[index] = { ...state.pods[index], ...action.payload };
       }
     },
+
+    setCurrentPod: (state, action) => {
+      state.currentPod = action.payload;
+    },
+
+    resetCurrentPod: (state) => {
+      state.currentPod = null;
+    },
   },
 });
 
-export const { initializePods, appendPods, removePod, setLoading, updatePod } =
-  podsSlice.actions;
+export const {
+  removePod,
+  updatePod,
+  appendPods,
+  setLoading,
+  setCurrentPod,
+  initializePods,
+  resetCurrentPod,
+} = podsSlice.actions;
 
 export default podsSlice.reducer;

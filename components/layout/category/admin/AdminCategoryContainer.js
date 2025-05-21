@@ -5,15 +5,15 @@ import CategoryItem from "../CategoryItem";
 
 const AdminCategoryContainer = ({ category }) => {
   return (
-    <div key={category.id} className="group relative flex-1 rounded-2.5xl">
+    <div className="group relative rounded-2.5xl">
       <CategoryItem
         showDescription
         id={category.id}
-        title={category.title ?? "No Category"}
+        title={category.name ?? "No Category"}
         description={category.description ?? ""}
         icon={category.icon ?? "/dashboard/category/icon-1.png"}
         background={
-          category.background ?? "/dashboard/category/background-2.jpg"
+          category.cover_photo ?? "/dashboard/category/background-2.jpg"
         }
       />
 

@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 
 const AdminViewBtn = () => {
   const pathname = usePathname();
+
   const isAdminView = pathname.startsWith("/admin");
   const [lastAdminPath, setLastAdminPath] = useState("/admin/dashboard");
 

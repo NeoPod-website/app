@@ -41,7 +41,11 @@ const CategoryItem = ({
           <h3 className="font-work-sans text-2xl font-bold">{title}</h3>
         </div>
 
-        {showDescription && <p className="text-gray-100">{description}</p>}
+        {showDescription && (
+          <p className="line-clamp-2 whitespace-nowrap text-wrap break-all text-gray-100">
+            {description}
+          </p>
+        )}
       </div>
 
       <CategorySeeMore id={id} />
