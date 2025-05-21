@@ -9,7 +9,7 @@ const EditPodBtn = ({ podId }) => {
     <Link
       title="Edit Pod"
       href={`/admin/manage/pods/${podId}`}
-      className="flex w-fit items-center gap-1 rounded-lg border border-gray-400 bg-gradient-dark px-3 py-0 text-sm"
+      className="flex w-fit items-center gap-1 rounded-lg border border-gray-400 bg-gradient-dark px-3 py-0 text-sm opacity-80 transition-opacity hover:opacity-100"
     >
       Edit POD <EditIcon size={16} />
     </Link>

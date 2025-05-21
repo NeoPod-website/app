@@ -1,34 +1,38 @@
 "use client";
 
+import {
+  Button,
+  Input,
+  Link,
+  Select,
+  SelectItem,
+  Textarea,
+} from "@heroui/react";
 import React from "react";
 import { SendHorizontalIcon } from "lucide-react";
-import { Button, Input, Link, Textarea } from "@heroui/react";
 
 import AdminIconUpload from "./AdminIconUpload";
+
 import ImageUpload from "@/components/ui/ImageUpload";
 
 const CategoryForm = ({
+  podId,
   isNew = false,
   icon,
   setIcon,
+  status,
+  setStatus,
   title,
   setTitle,
   selectedFile,
   setSelectedFile,
   description,
   setDescription,
+  isSubmitting,
   handleFormSubmit,
 }) => {
   const handleBackgroundChange = (file) => {
     setSelectedFile(file);
-  };
-
-  const handleIconFileChange = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      setIcon(file);
-    }
   };
 
   return (
@@ -41,9 +45,8 @@ const CategoryForm = ({
         onSubmit={handleFormSubmit}
         className="hide-scroll space-y-4 overflow-auto"
       >
-        {/* Background Upload */}
         <ImageUpload
-          maxSizeInMB={8}
+          maxSizeInMB={5}
           value={selectedFile}
           label="Category Background"
           onChange={handleBackgroundChange}
@@ -80,6 +83,22 @@ const CategoryForm = ({
             }}
           />
 
+          <Select
+            label="Status"
+            variant="bordered"
+            selectedKeys={[status]}
+            onSelectionChange={(keys) => setStatus([...keys][0])}
+            className="bg-dark"
+            classNames={{
+              trigger:
+                "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
+            }}
+          >
+            <SelectItem key="live">Live</SelectItem>
+            <SelectItem key="draft">Draft</SelectItem>
+            <SelectItem key="archive">Archive</SelectItem>
+          </Select>
+
           <Textarea
             type="text"
             isClearable
@@ -102,22 +121,23 @@ const CategoryForm = ({
         </div>
 
         <div className="flex items-center justify-end gap-2">
-          {isNew && (
-            <Button
-              as={Link}
-              size="lg"
-              radius="full"
-              href="/admin/manage/categories"
-              className="neo-button border border-red-500 bg-red-500/20"
-            >
-              Cancel
-            </Button>
-          )}
+          <Button
+            as={Link}
+            size="lg"
+            radius="full"
+            disabled={isSubmitting}
+            href={`/admin/manage/categories/${podId}`}
+            className="neo-button border border-red-500 bg-red-500/20"
+          >
+            Cancel
+          </Button>
 
           <Button
             size="lg"
             type="submit"
             radius="full"
+            disabled={isSubmitting}
+            isLoading={isSubmitting}
             className="neo-button border border-white bg-gradient-primary"
             endContent={<SendHorizontalIcon size={16} />}
           >

@@ -2,7 +2,7 @@ import React from "react";
 
 import AdminCategoryContainer from "./AdminCategoryContainer";
 
-const AdminCategoriesList = ({ categories }) => {
+const AdminCategoriesList = ({ podId, categories }) => {
   const validCategories = Array.isArray(categories) ? categories : [];
 
   if (validCategories.length === 0) {
@@ -19,7 +19,11 @@ const AdminCategoriesList = ({ categories }) => {
         if (!category || !category.name) return null;
 
         return (
-          <AdminCategoryContainer key={category.name} category={category} />
+          <AdminCategoryContainer
+            podId={podId}
+            category={category}
+            key={category.category_id}
+          />
         );
       })}
     </section>

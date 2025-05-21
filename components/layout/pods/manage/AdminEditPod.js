@@ -11,6 +11,7 @@ import WrapperContainer from "@/components/common/WrapperContainer";
 const AdminEditPod = ({
   id,
   podData,
+  initialPod,
   isSubmitting,
   isNew = false,
   setIsSubmitting,
@@ -58,9 +59,10 @@ const AdminEditPod = ({
       // Set loading state after validations pass
       setIsSubmitting(true);
 
-      // If we have a coverPhoto that's a File object (not a string URL), upload it first
-      let coverPhotoKey = podData.coverPhoto;
+      // Initialize the payload as empty object
+      const podPayload = {};
 
+      // Handle cover photo upload if it's a new File object
       if (podData.coverPhoto instanceof File) {
         // Create form data for the image upload
         const formData = new FormData();
@@ -73,7 +75,7 @@ const AdminEditPod = ({
 
         // Upload the image
         const uploadResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/uploads/single/POD?noSubfolder=true&size=BANNER&fileName=${encodeURIComponent(fileName)}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/uploads/single/PODS?noSubfolder=true&size=BANNER&fileName=${encodeURIComponent(fileName)}`,
           {
             method: "POST",
             body: formData,
@@ -86,22 +88,71 @@ const AdminEditPod = ({
           throw new Error(`Failed to upload cover photo: ${errorText}`);
         }
 
-        // Get the key from the response
+        // Get the key from the response and add to payload
         const uploadData = await uploadResponse.json();
-        coverPhotoKey = uploadData.data.key;
+        podPayload.cover_photo = uploadData.data.key;
+
+        // Try to delete old cover photo (don't fail if this doesn't work)
+        if (initialPod.original_cover_photo) {
+          try {
+            await fetch(
+              `${process.env.NEXT_PUBLIC_API_URL}/uploads/file/${initialPod.original_cover_photo}`,
+              {
+                method: "DELETE",
+                credentials: "include",
+              },
+            );
+          } catch (error) {
+            console.warn("Failed to delete old cover photo:", error);
+          }
+        }
       }
 
-      // Create the payload with all pod data, using the uploaded image key
-      const podPayload = {
-        name: podData.podName.trim(),
-        status: podData.status,
-        language: podData.language,
-        cover_photo: coverPhotoKey,
-        admin_usernames: podData.assignedAdmins || [],
-        description: podData.description ? podData.description.trim() : "",
-      };
+      // Only add fields to payload if they have changed from initial values
+      if (podData.podName !== initialPod.name) {
+        podPayload.name = podData.podName.trim();
+      }
 
-      // Send the request to create the pod
+      if (podData.status !== initialPod.status) {
+        podPayload.status = podData.status;
+      }
+
+      if (podData.language !== initialPod.language) {
+        podPayload.language = podData.language;
+      }
+
+      if (podData.description !== initialPod.description) {
+        podPayload.description = podData.description
+          ? podData.description.trim()
+          : "";
+      }
+
+      // Handle assigned admins - compare arrays
+      const initialAdmins = initialPod.admin_usernames || [];
+      const currentAdmins = podData.assignedAdmins || [];
+
+      // Check if arrays are different (simple comparison)
+      const adminsChanged =
+        initialAdmins.length !== currentAdmins.length ||
+        !initialAdmins.every((admin) => currentAdmins.includes(admin)) ||
+        !currentAdmins.every((admin) => initialAdmins.includes(admin));
+
+      if (adminsChanged) {
+        podPayload.admin_usernames = currentAdmins;
+      }
+
+      console.log("Final podPayload:", podPayload);
+
+      // Only send request if there are changes to make
+      if (Object.keys(podPayload).length === 0) {
+        addToast({
+          title: "No changes detected",
+          color: "warning",
+        });
+        return;
+      }
+
+      // Send the request to update the pod
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/pods/${id}`,
         {
@@ -148,13 +199,13 @@ const AdminEditPod = ({
         setPodName={(value) => handlePodDataChange("podName", value)}
         language={podData.language}
         setLanguage={(value) => handlePodDataChange("language", value)}
-        coverPhoto={podData.cover_photo}
-        setCoverPhoto={(value) => handlePodDataChange("cover_photo", value)}
+        coverPhoto={podData.coverPhoto}
+        setCoverPhoto={(value) => handlePodDataChange("coverPhoto", value)}
         description={podData.description}
         setDescription={(value) => handlePodDataChange("description", value)}
         isSubmitting={isSubmitting}
         handleFormSubmit={handleFormSubmit}
-        assignedAdmins={podData.admin_usernames}
+        assignedAdmins={podData.assignedAdmins}
         handlePodDataChange={(admins) =>
           handlePodDataChange("assignedAdmins", admins)
         }

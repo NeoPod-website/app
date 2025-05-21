@@ -51,22 +51,44 @@ const PodForm = ({
 
         <Input
           required
-          label="Pod Name"
+          type="text"
+          name="pod_name"
           value={podName}
+          label="Pod Name"
+          variant="bordered"
           onValueChange={setPodName}
+          className="bg-dark"
+          classNames={{
+            inputWrapper:
+              "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
+          }}
         />
 
         <Textarea
+          type="text"
+          minRows={4}
           label="Description"
           value={description}
+          name="pod_description"
           onValueChange={setDescription}
-          minRows={4}
+          variant="bordered"
+          className="bg-dark"
+          classNames={{
+            inputWrapper:
+              "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
+          }}
         />
 
         <Select
           label="Language"
+          variant="bordered"
           selectedKeys={[language]}
           onSelectionChange={(keys) => setLanguage([...keys][0])}
+          className="bg-dark"
+          classNames={{
+            trigger:
+              "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
+          }}
         >
           {languages.map((lang) => (
             <SelectItem key={lang.code}>{lang.name}</SelectItem>
@@ -75,8 +97,14 @@ const PodForm = ({
 
         <Select
           label="Status"
+          variant="bordered"
           selectedKeys={[status]}
           onSelectionChange={(keys) => setStatus([...keys][0])}
+          className="bg-dark"
+          classNames={{
+            trigger:
+              "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
+          }}
         >
           <SelectItem key="live">Live</SelectItem>
           <SelectItem key="draft">Draft</SelectItem>

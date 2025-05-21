@@ -65,8 +65,10 @@ async function fetchPods(podId) {
 
 const EditPodPage = async ({ params }) => {
   const { podId } = await params;
+  console.log(podId);
 
   const podData = await fetchPods(podId);
+  console.log(podData);
 
   return (
     <ManagePageWrapper

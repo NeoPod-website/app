@@ -72,7 +72,7 @@ const AdminCreatePod = ({
 
         // Upload the image
         const uploadResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/uploads/single/POD?noSubfolder=true&size=BANNER&fileName=${encodeURIComponent(fileName)}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/uploads/single/PODS?noSubfolder=true&size=BANNER&fileName=${encodeURIComponent(fileName)}`,
           {
             method: "POST",
             body: formData,

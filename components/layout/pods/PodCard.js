@@ -111,7 +111,11 @@ export default function PodCard({ pod, isPreview = false }) {
 
         {!isPreview && pod.pod_id && (
           <div className="flex justify-end gap-2 pt-2">
-            <RemovePodButton podId={pod.pod_id} name={pod.name} />
+            <RemovePodButton
+              name={pod.name}
+              podId={pod.pod_id}
+              cover_photo={pod.original_cover_photo}
+            />
             <EditPodButton podId={pod.pod_id} />
           </div>
         )}

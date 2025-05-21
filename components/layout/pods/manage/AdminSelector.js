@@ -71,18 +71,17 @@ const AdminSelector = ({ assignedAdmins = [], onChange }) => {
         size="lg"
         id="admins"
         variant="bordered"
+        isLoading={isLoading}
+        selectionMode="multiple"
         aria-label="Assign Admins"
         selectedKeys={assignedAdmins}
-        selectionMode="multiple"
-        className="w-full"
+        placeholder="Select Admins to Assign"
         onSelectionChange={handleAdminSelectionChange}
-        isLoading={isLoading}
         classNames={{
-          base: "h-auto",
-          value: "text-base",
-          selectorIcon: "hidden",
+          base: "h-auto bg-dark w-full",
+          value: "text-sm",
           trigger:
-            "border border-gray-400 border-[1px] focus-within:!border-t-gray-300 min-h-[44px] max-h-[200px] focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black rounded-xl",
+            "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
         }}
       >
         {allAdmins.map((admin) => (

@@ -13,7 +13,7 @@ const AdminPodMain = ({ isNew = false, initialPod = {}, id = "" }) => {
     name = "",
     cover_photo,
     language = "en",
-    status = "draft",
+    status = "live",
     description = "",
     admin_usernames = [],
   } = initialPod;
@@ -46,7 +46,8 @@ const AdminPodMain = ({ isNew = false, initialPod = {}, id = "" }) => {
         <AdminEditPod
           id={id}
           isNew={isNew}
-          podData={initialPod}
+          podData={podData}
+          initialPod={initialPod}
           isSubmitting={isSubmitting}
           setIsSubmitting={setIsSubmitting}
           handlePodDataChange={handlePodDataChange}
@@ -59,11 +60,12 @@ const AdminPodMain = ({ isNew = false, initialPod = {}, id = "" }) => {
             name: podData.podName,
             status: podData.status,
             language: podData.language,
-            cover_photo: podData.coverPhoto || cover_photo,
-            description: podData.description,
             created_by: "Preview Admin",
-            created_at: initialPod.created_at || new Date().toISOString(),
+            description: podData.description,
             admin_usernames: podData.assignedAdmins,
+            cover_photo: podData.coverPhoto || cover_photo,
+            original_cover_photo: initialPod.original_cover_photo,
+            created_at: initialPod.created_at || new Date().toISOString(),
           }}
           isPreview={true}
         />
