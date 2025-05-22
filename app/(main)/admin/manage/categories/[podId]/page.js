@@ -1,26 +1,10 @@
 import React from "react";
+import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 import MainPageScroll from "@/components/common/MainPageScroll";
-import FilterHeader from "@/components/common/filter/FilterHeader";
-import AdminCategoriesList from "@/components/layout/category/admin/AdminCategoriesList";
-
-const breadcrumbsList = [
-  {
-    title: "Manage",
-  },
-
-  {
-    title: "Pods",
-    href: "/admin/manage/pods",
-  },
-
-  {
-    title: "Categories",
-    href: `/admin/manage/categories`,
-  },
-];
+import CategoriesWithFilter from "@/components/layout/category/admin/CategoriesWithFilter";
 
 export const metadata = {
   title: "Manage POD Categories | Admin Panel | NEO POD",
@@ -42,6 +26,7 @@ async function fetchCategories(podId) {
         Authorization: `Bearer ${token.value}`,
       },
       credentials: "include",
+      cache: "no-store", // Always fetch fresh data
     });
 
     const data = await response.json();
@@ -57,7 +42,6 @@ async function fetchCategories(podId) {
     return data.data;
   } catch (error) {
     console.error("Error fetching categories:", error);
-
     throw error;
   }
 }
@@ -69,17 +53,12 @@ const ManageCategoriesPage = async ({ params }) => {
 
   return (
     <MainPageScroll scrollable={false}>
-      <FilterHeader
-        showFilter={false}
-        list={breadcrumbsList}
-        linkLabel="Create Category"
-        linkHref={`/admin/manage/categories/${podId}/create`}
-      />
-
-      <AdminCategoriesList
-        categories={categoriesData.categories}
-        podId={podId}
-      />
+      <Suspense>
+        <CategoriesWithFilter
+          podId={podId}
+          initialCategories={categoriesData.categories || []}
+        />
+      </Suspense>
     </MainPageScroll>
   );
 };

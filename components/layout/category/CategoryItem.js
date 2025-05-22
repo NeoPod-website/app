@@ -36,7 +36,13 @@ const CategoryItem = ({
 
       <div className="absolute bottom-5 left-5 z-20">
         <div className="flex items-center gap-2.5">
-          <Image src={iconURL} alt={title + " icon"} width={38} height={38} />
+          <Image
+            src={iconURL}
+            alt={title + " icon"}
+            width={38}
+            height={38}
+            className="overflow-hidden rounded-lg"
+          />
 
           <h3 className="font-work-sans text-2xl font-bold">{title}</h3>
         </div>

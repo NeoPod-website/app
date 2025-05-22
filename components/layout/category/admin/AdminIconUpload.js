@@ -36,7 +36,7 @@ const AdminIconUpload = ({
   }, [iconFile, previewUrl]);
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center justify-between gap-3">
       <Input
         type="file"
         accept="image/*"
@@ -44,14 +44,14 @@ const AdminIconUpload = ({
         onChange={handleFileChange}
         variant="bordered"
         name="category-icon"
-        className="min-w-0 bg-dark"
+        className="min-w-0 max-w-md bg-dark"
         classNames={{
           inputWrapper:
             "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
         }}
       />
 
-      <div className="relative h-20 w-20 overflow-hidden rounded-full border border-gray-500">
+      <div className="relative h-16 w-16 overflow-hidden rounded-full border border-gray-500">
         {previewUrl && (
           <Image
             fill
