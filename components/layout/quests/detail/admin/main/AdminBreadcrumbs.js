@@ -2,19 +2,18 @@ import React from "react";
 
 import NeoBreadcrumbs from "@/components/ui/NeoBreadcrumbs";
 
-const AdminBreadcrumbs = () => {
+const AdminBreadcrumbs = ({ isNew }) => {
   const breadcrumbsList = [
     {
-      title: "Quests",
-      href: "/admin/manage/quests",
+      title: "Pods",
+      href: "/admin/manage/pods",
     },
     {
-      title: "Hot Campaigns",
-      href: "/admin/manage/categories/1",
+      title: "Categories",
+      href: "/admin/manage/categories",
     },
     {
-      title: " Share about NEO POD Ambassador Program",
-      href: "/admin/manage/quests/1",
+      title: isNew ? "New Quest" : " Share about NEO POD Ambassador Program",
     },
   ];
 

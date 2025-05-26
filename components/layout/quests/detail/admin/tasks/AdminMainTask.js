@@ -79,8 +79,8 @@ const AnswerField = ({
     currentTask.hasAdminAnswer || false,
   );
 
-  const debouncedPlaceholder = useDebounce(localPlaceholder, 300);
-  const debouncedAdminAnswer = useDebounce(localAdminAnswer, 300);
+  const debouncedPlaceholder = useDebounce(localPlaceholder, 500);
+  const debouncedAdminAnswer = useDebounce(localAdminAnswer, 500);
 
   const config = typeConfig[taskName] || typeConfig.text;
 
@@ -197,6 +197,7 @@ const AnswerField = ({
               </label>
 
               <Input
+                required
                 size="lg"
                 variant="bordered"
                 value={localAdminAnswer}

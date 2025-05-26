@@ -24,11 +24,14 @@ const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
   const handleSelectionChange = useCallback(
     (keys) => {
       setSelectedLanguage(keys);
+
       const selectedPodId = keys.currentKey;
       dispatch(setCurrentPod(selectedPodId));
 
       if (pathname.includes("/admin/manage/categories")) {
         router.push(`/admin/manage/categories/${selectedPodId}`);
+      } else if (pathname.includes("/admin/manage/quests")) {
+        router.push(`/admin/manage/quests/${selectedPodId}`);
       }
     },
     [pathname],

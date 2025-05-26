@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BadgeCheckIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { BadgeCheckIcon, PlusIcon, TrashIcon, XIcon } from "lucide-react";
 import { Chip, Select, SelectItem, Input, Button } from "@heroui/react";
 
 import { setCurrentQuest } from "@/redux/slice/questSlice";
@@ -22,6 +22,8 @@ const AdminSelectCondition = () => {
   );
 
   const handleAddClick = useCallback(() => setIsAdding(true), []);
+
+  const handleCancelAdd = useCallback(() => setIsAdding(false), []);
 
   const handleConditionTypeSelect = useCallback(
     (keys) => {
@@ -90,6 +92,7 @@ const AdminSelectCondition = () => {
               <Select
                 size="sm"
                 selectedKeys={[condition.comparator]}
+                aria-label="Quest Condition Comparator"
                 onSelectionChange={(keys) =>
                   handleConditionChange(
                     index,
@@ -109,6 +112,7 @@ const AdminSelectCondition = () => {
                 size="sm"
                 type="number"
                 placeholder="Level"
+                aria-label="Quest Condition Value"
                 value={condition.value}
                 onChange={(e) =>
                   handleNumberInput(index, "value", e.target.value)
@@ -123,6 +127,7 @@ const AdminSelectCondition = () => {
                 size="sm"
                 placeholder="Quest ID"
                 value={condition.questId}
+                aria-label="Quest Condition Quest ID"
                 onChange={(e) =>
                   handleConditionChange(index, "questId", e.target.value)
                 }
@@ -130,6 +135,7 @@ const AdminSelectCondition = () => {
 
               <Select
                 size="sm"
+                aria-label="Quest Condition Completed"
                 selectedKeys={[
                   condition.completed ? "completed" : "not_completed",
                 ]}
@@ -151,17 +157,21 @@ const AdminSelectCondition = () => {
             <div className="max-w-48 flex-1 space-y-1.5">
               <Input
                 size="sm"
-                placeholder="Contract Address"
+                type="text"
                 value={condition.contract}
+                placeholder="Contract Address"
+                aria-label="Quest Condition Contract Address"
                 onChange={(e) =>
                   handleConditionChange(index, "contract", e.target.value)
                 }
               />
 
               <Input
+                min={1}
                 size="sm"
                 type="number"
                 placeholder="Amount"
+                aria-label="Quest Condition Amount"
                 value={condition.amount}
                 onChange={(e) =>
                   handleNumberInput(index, "amount", e.target.value)
@@ -172,10 +182,13 @@ const AdminSelectCondition = () => {
         case "discord":
           return (
             <Input
+              required
               size="sm"
+              type="text"
               className="w-48"
-              placeholder="Discord Role"
               value={condition.role}
+              placeholder="Discord Role"
+              aria-label="Quest Condition Discord Role"
               onChange={(e) =>
                 handleConditionChange(index, "role", e.target.value)
               }
@@ -206,6 +219,39 @@ const AdminSelectCondition = () => {
         </Button>
       </div>
 
+      {isAdding && (
+        <div className="flex w-full items-center gap-2">
+          <Select
+            size="lg"
+            variant="bordered"
+            selectionMode="single"
+            aria-label="Quest Conditions"
+            className="flex-1 rounded bg-gradient-dark"
+            onSelectionChange={handleConditionTypeSelect}
+            classNames={{
+              base: "h-10",
+              trigger:
+                "border border-gray-400 focus-within:!border-gray-300 h-10 min-h-[40px] focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black rounded",
+              value: "text-base",
+            }}
+          >
+            <SelectItem key="level">Level</SelectItem>
+            <SelectItem key="quest">Quest Completed</SelectItem>
+            <SelectItem key="nft">NFT Ownership</SelectItem>
+            <SelectItem key="discord">Discord Role</SelectItem>
+          </Select>
+
+          <Button
+            isIconOnly
+            onPress={handleCancelAdd}
+            variant="light"
+            className="h-10 w-10 min-w-[40px] text-gray-400 hover:bg-gray-700 hover:text-white"
+          >
+            <XIcon size={16} />
+          </Button>
+        </div>
+      )}
+
       <div className="flex flex-col gap-3">
         {conditions.map((condition, index) => (
           <div
@@ -230,29 +276,6 @@ const AdminSelectCondition = () => {
           </div>
         ))}
       </div>
-
-      {isAdding && (
-        <div className="w-full">
-          <Select
-            size="lg"
-            variant="bordered"
-            selectionMode="single"
-            onSelectionChange={handleConditionTypeSelect}
-            className="w-full rounded bg-gradient-dark"
-            classNames={{
-              base: "h-10",
-              trigger:
-                "border border-gray-400 focus-within:!border-gray-300 h-10 min-h-[40px] focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black rounded",
-              value: "text-base",
-            }}
-          >
-            <SelectItem key="level">Level</SelectItem>
-            <SelectItem key="quest">Quest Completed</SelectItem>
-            <SelectItem key="nft">NFT Ownership</SelectItem>
-            <SelectItem key="discord">Discord Role</SelectItem>
-          </Select>
-        </div>
-      )}
     </div>
   );
 };

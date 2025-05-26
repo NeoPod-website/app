@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { Reorder } from "framer-motion";
 import { addToast, Button } from "@heroui/react";
-import { SaveIcon, TrashIcon } from "lucide-react";
 import React, { useState, useEffect } from "react";
+import { PlusIcon, SaveIcon, TrashIcon } from "lucide-react";
 
 import AdminQuestItem from "./AdminQuestItem";
 
@@ -156,12 +157,29 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
 
   return (
     <div className="relative flex flex-col rounded-b-2.5xl">
+      {!hasChanges && !(selectedQuests > 0) && (
+        <div className="sticky top-0 z-10 mx-4 my-2 flex items-center justify-between rounded-lg border border-gray-400 bg-gray-700 p-4 shadow-md">
+          <p className="text-sm text-white">
+            Ready to expand the{" "}
+            <span className="font-semibold">{category.name}</span> category? Add
+            a new quest.
+          </p>
+
+          <Link
+            href={`/admin/manage/quests/${category.pod_id}/${category.category_id}/create`}
+            className="ml-8 flex w-fit items-center gap-2 rounded-lg border border-white bg-gradient-primary px-6 py-2.5 text-sm transition-opacity hover:scale-100 active:scale-95"
+          >
+            Create New Quest <PlusIcon size={16} className="-mt-0.5" />
+          </Link>
+        </div>
+      )}
+
       {hasChanges && (
-        <div className="sticky top-0 z-10 mx-4 my-2 flex items-center justify-between rounded-2.5xl bg-gray-700 p-4 shadow-md">
-          <span className="text-sm text-white">
+        <div className="sticky top-0 z-10 mx-4 my-2 flex items-center justify-between rounded-lg border border-gray-400 bg-gray-700 p-4 shadow-md">
+          <p className="text-sm text-white">
             You have unsaved changes to {Object.keys(changedQuests).length}{" "}
             quest(s)
-          </span>
+          </p>
 
           <div className="flex gap-2">
             <Button
@@ -186,10 +204,10 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
       )}
 
       {selectedQuests.size > 0 && (
-        <div className="sticky top-0 z-10 mx-4 my-2 flex items-center justify-between rounded-2.5xl bg-gray-700 p-4 shadow-md">
-          <span className="text-sm text-white">
+        <div className="sticky top-0 z-10 mx-4 my-2 flex items-center justify-between rounded-lg border border-gray-400 bg-gray-700 p-4 shadow-md">
+          <p className="text-sm text-white">
             You have selected {selectedQuests.size} quest(s)
-          </span>
+          </p>
 
           <div className="flex gap-2">
             <Button

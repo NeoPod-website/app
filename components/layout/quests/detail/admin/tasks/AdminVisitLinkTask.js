@@ -38,7 +38,7 @@ const LinkUrlField = ({ taskId }) => {
 
   const [localUrl, setLocalUrl] = useState(currentTask.url || "");
 
-  const debouncedUrl = useDebounce(localUrl, 300);
+  const debouncedUrl = useDebounce(localUrl, 500);
 
   useEffect(() => {
     if (currentTask) {
@@ -69,9 +69,11 @@ const LinkUrlField = ({ taskId }) => {
       </label>
 
       <Input
+        required
         size="lg"
-        variant="bordered"
+        type="url"
         value={localUrl}
+        variant="bordered"
         placeholder="https://example.com"
         id="quest-task-visit-link-url"
         onChange={(e) => setLocalUrl(e.target.value)}

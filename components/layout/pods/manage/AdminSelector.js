@@ -1,57 +1,97 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, memo, useMemo } from "react";
 import { Select, SelectItem } from "@heroui/react";
 
-const AdminSelector = ({ assignedAdmins = [], onChange }) => {
+// Memoized admin item component to prevent unnecessary re-renders
+const AdminItem = memo(({ admin }) => (
+  <div className="flex items-center gap-2">
+    {admin.profile_photo && (
+      <Image
+        width={24}
+        height={24}
+        alt={admin.username}
+        src={admin.profile_photo}
+        className="rounded-full object-cover"
+      />
+    )}
+    <span>{admin.username}</span>
+    <span className="text-xs text-gray-400">({admin.role_type})</span>
+  </div>
+));
+
+AdminItem.displayName = "AdminItem";
+
+const AdminSelector = memo(({ assignedAdmins = [], onChange }) => {
   const [error, setError] = useState(null);
   const [allAdmins, setAllAdmins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchAdmins = async () => {
-      setIsLoading(true);
-      setError(null);
+  // Memoized fetch function to prevent recreation
+  const fetchAdmins = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
 
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/super/admins/by-roles?roles=community,moderator`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/super/admins/by-roles?roles=community,moderator`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          credentials: "include",
+        },
+      );
 
-        if (!res.ok) {
-          throw new Error(`Error ${res.status}: ${res.statusText}`);
-        }
-
-        const contentType = res.headers.get("content-type");
-        if (!contentType?.includes("application/json")) {
-          throw new Error("Response is not valid JSON");
-        }
-
-        const data = await res.json();
-        setAllAdmins(data.data.admins || []);
-      } catch (err) {
-        console.error("Failed to fetch admins:", err);
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}: ${res.statusText}`);
       }
-    };
 
-    fetchAdmins();
+      const contentType = res.headers.get("content-type");
+      if (!contentType?.includes("application/json")) {
+        throw new Error("Response is not valid JSON");
+      }
+
+      const data = await res.json();
+      setAllAdmins(data.data.admins || []);
+    } catch (err) {
+      console.error("Failed to fetch admins:", err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  const handleAdminSelectionChange = (keys) => {
-    onChange([...keys]);
-  };
+  useEffect(() => {
+    fetchAdmins();
+  }, [fetchAdmins]);
 
+  // Memoized selection change handler
+  const handleAdminSelectionChange = useCallback(
+    (keys) => {
+      onChange([...keys]);
+    },
+    [onChange],
+  );
+
+  // Memoized admin list to prevent unnecessary re-renders
+  const adminSelectItems = useMemo(
+    () =>
+      allAdmins.map((admin) => (
+        <SelectItem
+          key={admin.username}
+          value={admin.username}
+          textValue={`${admin.username} (${admin.role_type})`}
+        >
+          <AdminItem admin={admin} />
+        </SelectItem>
+      )),
+    [allAdmins],
+  );
+
+  // Early return for error state
   if (error) {
     return (
       <div className="text-sm text-red-500">Error loading admins: {error}</div>
@@ -84,27 +124,7 @@ const AdminSelector = ({ assignedAdmins = [], onChange }) => {
             "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
         }}
       >
-        {allAdmins.map((admin) => (
-          <SelectItem
-            key={admin.username}
-            value={admin.username}
-            textValue={`${admin.username} (${admin.role_type})`}
-          >
-            <div className="flex items-center gap-2">
-              {admin.profile_photo && (
-                <Image
-                  width={24}
-                  height={24}
-                  alt={admin.username}
-                  src={admin.profile_photo}
-                  className="rounded-full object-cover"
-                />
-              )}
-              <span>{admin.username}</span>
-              <span className="text-xs text-gray-400">({admin.role_type})</span>
-            </div>
-          </SelectItem>
-        ))}
+        {adminSelectItems}
       </Select>
 
       {isLoading && (
@@ -112,6 +132,8 @@ const AdminSelector = ({ assignedAdmins = [], onChange }) => {
       )}
     </div>
   );
-};
+});
+
+AdminSelector.displayName = "AdminSelector";
 
 export default AdminSelector;

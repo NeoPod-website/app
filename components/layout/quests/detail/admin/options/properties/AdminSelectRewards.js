@@ -1,75 +1,30 @@
 "use client";
 
-import React, {
-  useRef,
-  useMemo,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GiftIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { GiftIcon, PlusIcon, TrashIcon, XIcon } from "lucide-react";
 import { Chip, Select, SelectItem, Input, Button } from "@heroui/react";
 
 import { setCurrentQuest } from "@/redux/slice/questSlice";
 
 const AdminSelectRewards = () => {
   const dispatch = useDispatch();
-
-  const reduxRewards =
+  const rewards =
     useSelector((state) => state.quest.currentQuest.rewards) || [];
 
   const [isAdding, setIsAdding] = useState(false);
-  const [localRewards, setLocalRewards] = useState(reduxRewards);
 
-  const isUpdatingRedux = useRef(false);
-  const timeoutRef = useRef(null);
-
-  useEffect(() => {
-    setLocalRewards(reduxRewards);
-  }, []);
-
-  // Debounced dispatch
-  useEffect(() => {
-    // Skip this effect if the change originated from Redux
-    if (isUpdatingRedux.current) {
-      isUpdatingRedux.current = false;
-      return;
-    }
-
-    // Clear any existing timeout
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    // Set new timeout for debounced dispatch
-    timeoutRef.current = setTimeout(() => {
-      dispatch(setCurrentQuest({ rewards: localRewards }));
-    }, 500);
-
-    // Cleanup timeout on unmount or when dependencies change
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [localRewards, dispatch]);
-
-  // Update local state when Redux state changes externally
-  useEffect(() => {
-    const reduxStr = JSON.stringify(reduxRewards);
-    const localStr = JSON.stringify(localRewards);
-
-    if (reduxStr !== localStr) {
-      isUpdatingRedux.current = true;
-      setLocalRewards(reduxRewards);
-    }
-  }, [reduxRewards]);
+  const updateRewards = useCallback(
+    (newRewards) => {
+      dispatch(setCurrentQuest({ rewards: newRewards }));
+    },
+    [dispatch],
+  );
 
   // Calculate which reward types are already selected
   const selectedTypes = useMemo(() => {
-    return new Set(localRewards.map((reward) => reward.type));
-  }, [localRewards]);
+    return new Set(rewards.map((reward) => reward.type));
+  }, [rewards]);
 
   // Filter available reward options based on what's already selected
   const availableRewardOptions = useMemo(() => {
@@ -92,47 +47,50 @@ const AdminSelectRewards = () => {
     }
   }, [canAddMoreRewards]);
 
-  const handleRewardTypeSelect = useCallback((keys) => {
-    const type = Array.from(keys)[0];
-    let newReward;
-
-    if (type === "pod" || type === "token") {
-      newReward = { type, amount: "" };
-    } else if (type === "nft") {
-      newReward = { type, contract: "", amount: "" };
-    }
-
-    setLocalRewards((prev) => [...prev, newReward]);
+  const handleCancelAdd = useCallback(() => {
     setIsAdding(false);
   }, []);
 
-  const handleAmountChange = useCallback((index, value) => {
-    // Only update if value is empty or contains only digits
-    if (value === "" || /^\d+$/.test(value)) {
-      setLocalRewards((prev) => {
-        const updated = [...prev];
-        updated[index] = { ...updated[index], amount: value };
-        return updated;
-      });
-    }
-  }, []);
+  const handleRewardTypeSelect = useCallback(
+    (keys) => {
+      const type = Array.from(keys)[0];
+      let newReward;
 
-  // Handle contract change without validation
-  const handleContractChange = useCallback((index, value) => {
-    setLocalRewards((prev) => {
-      const updated = [...prev];
-      updated[index] = { ...updated[index], contract: value };
-      return updated;
-    });
-  }, []);
+      if (type === "pod" || type === "token") {
+        newReward = { type, amount: "" };
+      } else if (type === "nft") {
+        newReward = { type, contract: "", amount: "" };
+      }
 
-  const removeReward = useCallback((index) => {
-    setLocalRewards((prev) => {
-      const updated = [...prev];
+      updateRewards([...rewards, newReward]);
+      setIsAdding(false);
+    },
+    [rewards, updateRewards],
+  );
+
+  const handleRewardChange = useCallback(
+    (index, field, value) => {
+      // Validation for amount field
+      if (field === "amount" && value !== "" && !/^\d+$/.test(value)) {
+        return;
+      }
+
+      const updated = rewards.map((reward, i) =>
+        i === index ? { ...reward, [field]: value } : reward,
+      );
+      updateRewards(updated);
+    },
+    [rewards, updateRewards],
+  );
+
+  const removeReward = useCallback(
+    (index) => {
+      const updated = [...rewards];
       updated.splice(index, 1);
-      return updated;
-    });
-  }, []);
+      updateRewards(updated);
+    },
+    [rewards, updateRewards],
+  );
 
   const getRewardLabel = useCallback((type) => {
     if (type === "token") return "NEO";
@@ -163,7 +121,39 @@ const AdminSelectRewards = () => {
       </div>
 
       <div className="flex flex-col gap-3">
-        {localRewards.map((reward, index) => (
+        {isAdding && (
+          <div className="flex w-full items-center gap-2">
+            <Select
+              size="lg"
+              variant="bordered"
+              selectionMode="single"
+              aria-label="Quest Rewards"
+              onSelectionChange={handleRewardTypeSelect}
+              className="flex-1 rounded bg-gradient-dark"
+              classNames={{
+                base: "h-10",
+                trigger:
+                  "border border-gray-400 focus-within:!border-gray-300 h-10 min-h-[40px] focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black rounded",
+                value: "text-base",
+              }}
+            >
+              {availableRewardOptions.map((option) => (
+                <SelectItem key={option.key}>{option.label}</SelectItem>
+              ))}
+            </Select>
+
+            <Button
+              isIconOnly
+              onPress={handleCancelAdd}
+              variant="light"
+              className="h-10 w-10 min-w-[40px] text-gray-400 hover:bg-gray-700 hover:text-white"
+            >
+              <XIcon size={16} />
+            </Button>
+          </div>
+        )}
+
+        {rewards.map((reward, index) => (
           <div
             key={`reward-${index}`}
             className="flex w-full flex-wrap items-center gap-3 rounded-lg border-t border-gray-400 bg-gradient-dark px-4 py-1.5"
@@ -178,10 +168,16 @@ const AdminSelectRewards = () => {
             <div className="flex flex-1 flex-wrap items-center gap-3">
               {(reward.type === "pod" || reward.type === "token") && (
                 <Input
+                  min={1}
                   size="sm"
+                  required
+                  type="number"
                   placeholder="Amount"
                   value={reward.amount}
-                  onChange={(e) => handleAmountChange(index, e.target.value)}
+                  aria-label="Quest Reward Amount"
+                  onChange={(e) =>
+                    handleRewardChange(index, "amount", e.target.value)
+                  }
                   classNames={{
                     inputWrapper:
                       "border border-gray-400 bg-gradient-dark text-white",
@@ -193,21 +189,31 @@ const AdminSelectRewards = () => {
                 <div className="flex-1 space-y-1.5">
                   <Input
                     size="sm"
-                    placeholder="Contract Address"
+                    required
+                    type="text"
                     value={reward.contract}
+                    placeholder="Contract Address"
+                    aria-label="Quest NFT Contract Address"
                     onChange={(e) =>
-                      handleContractChange(index, e.target.value)
+                      handleRewardChange(index, "contract", e.target.value)
                     }
                     classNames={{
                       inputWrapper:
                         "border border-gray-400 bg-gradient-dark text-white",
                     }}
                   />
+
                   <Input
+                    min={1}
+                    required
                     size="sm"
+                    type="number"
                     placeholder="Amount"
+                    aria-label="Quest NFT Amount"
                     value={reward.amount}
-                    onChange={(e) => handleAmountChange(index, e.target.value)}
+                    onChange={(e) =>
+                      handleRewardChange(index, "amount", e.target.value)
+                    }
                     classNames={{
                       inputWrapper:
                         "border border-gray-400 bg-gradient-dark text-white",
@@ -229,29 +235,6 @@ const AdminSelectRewards = () => {
           </div>
         ))}
       </div>
-
-      {isAdding && (
-        <div className="w-full">
-          <Select
-            size="lg"
-            variant="bordered"
-            aria-label="Rewards"
-            selectionMode="single"
-            onSelectionChange={handleRewardTypeSelect}
-            className="w-full rounded bg-gradient-dark"
-            classNames={{
-              base: "h-10",
-              trigger:
-                "border border-gray-400 focus-within:!border-gray-300 h-10 min-h-[40px] focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black rounded",
-              value: "text-base",
-            }}
-          >
-            {availableRewardOptions.map((option) => (
-              <SelectItem key={option.key}>{option.label}</SelectItem>
-            ))}
-          </Select>
-        </div>
-      )}
     </div>
   );
 };

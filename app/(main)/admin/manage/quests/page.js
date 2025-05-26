@@ -1,7 +1,14 @@
 import React from "react";
 
+import QuestProvider from "@/providers/QuestProvider";
+
 import MainPageScroll from "@/components/common/MainPageScroll";
-import AdminQuestContainer from "@/components/layout/quests/admin/AdminQuestContainer";
+
+import FilterHeader from "@/components/common/filter/FilterHeader";
+import WrapperContainer from "@/components/common/WrapperContainer";
+import QuestListLoader from "@/components/ui/loader/quest/QuestListLoader";
+import FilterPanelLoader from "@/components/ui/loader/filter/FilterPanelLoader";
+import CategoryItemLoader from "@/components/ui/loader/category/CategoryItemLoader";
 
 export const metadata = {
   title: "Manage Quests | Admin Panel | NEO POD",
@@ -9,44 +16,24 @@ export const metadata = {
     "Create, edit, and organize quests for ambassadors. Shape the journey and engagement through meaningful tasks and challenges.",
 };
 
-const categories = [
-  {
-    id: 1,
-    title: "Hot Campaigns",
-    icon: "/dashboard/category/icon-1.png",
-    background: "/dashboard/category/background-2.jpg",
-    description: "This is a description for the category.",
-  },
-  {
-    id: 2,
-    title: "Hot Campaigns",
-    icon: "/dashboard/category/icon-1.png",
-    background: "/dashboard/category/background-2.jpg",
-    description: "This is a description for the category.",
-  },
-  {
-    id: 3,
-    title: "Hot Campaigns",
-    icon: "/dashboard/category/icon-1.png",
-    background: "/dashboard/category/background-2.jpg",
-    description: "This is a description for the category.",
-  },
-  {
-    id: 4,
-    title: "Hot Campaigns",
-    icon: "/dashboard/category/icon-1.png",
-    background: "/dashboard/category/background-2.jpg",
-    description: "This is a description for the category.",
-  },
-];
-
-const ManageQuestsPage = () => {
+const ManageQuestsPage = async () => {
   return (
-    <MainPageScroll scrollable>
-      {categories.map((category) => (
-        <AdminQuestContainer key={category.id} category={category} />
-      ))}
-    </MainPageScroll>
+    <QuestProvider>
+      <MainPageScroll scrollable={false}>
+        <FilterHeader
+          showFilter={false}
+          linkLabel="Loading..."
+          headerLabel="Quests"
+          linkHref="/admin/manage/quests"
+        />
+        <FilterPanelLoader />
+
+        <WrapperContainer>
+          <CategoryItemLoader />
+          <QuestListLoader />
+        </WrapperContainer>
+      </MainPageScroll>
+    </QuestProvider>
   );
 };
 

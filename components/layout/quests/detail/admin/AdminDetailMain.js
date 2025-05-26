@@ -5,22 +5,22 @@ import AdminDetailDescriptionContainer from "./main/AdminDetailDescriptionContai
 
 import WrapperContainer from "@/components/common/WrapperContainer";
 
-const AdminDetailMain = () => {
+const AdminDetailMain = ({ isNew, podId, categoryId }) => {
   return (
-    <div className="flex max-w-7xl flex-1 flex-col gap-2 overflow-hidden">
-      <AdminDetailMainHeader />
+    <form className="flex max-w-7xl flex-1 flex-col gap-2 overflow-hidden">
+      <AdminDetailMainHeader
+        isNew={isNew}
+        podId={podId}
+        categoryId={categoryId}
+      />
 
       <WrapperContainer scrollable className="space-y-2 p-10">
         <AdminDetailDescriptionContainer
-          title="Share about NEO POD Ambassador Program"
-          tasks={[
-            {
-              name: "url",
-            },
-          ]}
+          isNew={isNew}
+          name="Your Quest Title"
         />
       </WrapperContainer>
-    </div>
+    </form>
   );
 };
 

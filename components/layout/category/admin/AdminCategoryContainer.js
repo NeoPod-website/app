@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 import CategoryItem from "../CategoryItem";
+
 import RemoveCategoryBtn from "@/components/ui/buttons/category/RemoveCategoryBtn";
 
 const AdminCategoryContainer = ({ podId, category }) => {

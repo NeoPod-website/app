@@ -78,9 +78,9 @@ const NFTConfig = ({ taskId }) => {
     currentTask.requireTokenId || false,
   );
 
-  const debouncedAmount = useDebounce(amount, 300);
-  const debouncedTokenId = useDebounce(tokenId, 300);
-  const debouncedContractAddress = useDebounce(contractAddress, 300);
+  const debouncedAmount = useDebounce(amount, 500);
+  const debouncedTokenId = useDebounce(tokenId, 500);
+  const debouncedContractAddress = useDebounce(contractAddress, 500);
 
   useEffect(() => {
     if (!taskId) return;
@@ -173,7 +173,9 @@ const NFTConfig = ({ taskId }) => {
         </label>
 
         <Input
+          required
           size="lg"
+          type="text"
           variant="bordered"
           value={contractAddress}
           onChange={(e) => setContractAddress(e.target.value)}
@@ -275,8 +277,8 @@ const TokenConfig = ({ taskId }) => {
   const [network, setNetwork] = useState(currentTask.network || "neo");
   const [amount, setAmount] = useState(currentTask.amount || "");
 
-  const debouncedContractAddress = useDebounce(contractAddress, 300);
-  const debouncedAmount = useDebounce(amount, 300);
+  const debouncedContractAddress = useDebounce(contractAddress, 500);
+  const debouncedAmount = useDebounce(amount, 500);
 
   useEffect(() => {
     if (!taskId) return;
@@ -346,7 +348,9 @@ const TokenConfig = ({ taskId }) => {
         </label>
 
         <Input
+          required
           size="lg"
+          type="text"
           variant="bordered"
           value={contractAddress}
           onChange={(e) => setContractAddress(e.target.value)}

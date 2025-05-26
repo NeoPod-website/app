@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@heroui/react";
 
-const ManageError = ({ error, message }) => {
+const ManageError = ({ error, message, linkHref, linkLabel }) => {
   const handleRetry = () => {
     window.location.reload();
   };
@@ -26,10 +26,10 @@ const ManageError = ({ error, message }) => {
         </Button>
 
         <Link
-          href="/admin/manage/pods"
+          href={linkHref}
           className="rounded-full border border-white bg-gradient-primary px-6 py-2 text-white hover:border-gray-600"
         >
-          Back to PODS
+          {linkLabel}
         </Link>
       </div>
     </div>

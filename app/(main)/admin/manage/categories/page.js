@@ -4,6 +4,7 @@ import PodProvider from "@/providers/PodProvider";
 import MainPageScroll from "@/components/common/MainPageScroll";
 
 import FilterHeader from "@/components/common/filter/FilterHeader";
+import FilterPanelLoader from "@/components/ui/loader/filter/FilterPanelLoader";
 import CategoryListLoader from "@/components/ui/loader/category/CategoryListLoader";
 
 export const metadata = {
@@ -22,7 +23,7 @@ const ManageCategoriesPage = async () => {
           headerLabel="Categories"
           linkHref="/admin/manage/categories"
         />
-
+        <FilterPanelLoader />
         <CategoryListLoader />
       </MainPageScroll>
     </PodProvider>

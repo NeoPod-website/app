@@ -338,7 +338,7 @@ export default function LoadMorePods({
   const isComponentLoading = isLoading || isServerSearching;
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden">
+    <div className="flex flex-1 flex-col space-y-3 overflow-hidden">
       <PodFilterHeader
         nameFilter={nameFilter}
         setNameFilter={setNameFilter}

@@ -83,7 +83,7 @@ const TweetConfig = ({ taskId }) => {
 
   const [includeText, setIncludeText] = useState(currentTask.includeText || "");
 
-  const debouncedIncludeText = useDebounce(includeText, 300);
+  const debouncedIncludeText = useDebounce(includeText, 500);
 
   useEffect(() => {
     if (taskId && debouncedIncludeText !== currentTask.includeText) {
@@ -143,7 +143,7 @@ const FollowConfig = ({ taskId }) => {
 
   const [username, setUsername] = useState(currentTask.username || "");
 
-  const debouncedUsername = useDebounce(username, 300);
+  const debouncedUsername = useDebounce(username, 500);
 
   useEffect(() => {
     if (taskId && debouncedUsername !== currentTask.username) {
@@ -164,7 +164,9 @@ const FollowConfig = ({ taskId }) => {
         </label>
 
         <Input
+          required
           size="lg"
+          type="text"
           variant="bordered"
           value={username}
           onChange={(e) => setUsername(e.target.value.replace("@", ""))}
@@ -208,7 +210,7 @@ const ReactConfig = ({ taskId }) => {
     currentTask.requireReply || false,
   );
 
-  const debouncedTweetUrl = useDebounce(tweetUrl, 300);
+  const debouncedTweetUrl = useDebounce(tweetUrl, 500);
 
   useEffect(() => {
     if (!taskId) return;
@@ -243,6 +245,8 @@ const ReactConfig = ({ taskId }) => {
         <label className="mb-2 block text-sm text-gray-300">Tweet URL</label>
 
         <Input
+          required
+          type="url"
           size="lg"
           variant="bordered"
           value={tweetUrl}
@@ -342,8 +346,8 @@ const SpacesConfig = ({ taskId }) => {
     currentTask.spacePassword || "",
   );
 
-  const debouncedSpaceUrl = useDebounce(spaceUrl, 300);
-  const debouncedSpacePassword = useDebounce(spacePassword, 300);
+  const debouncedSpaceUrl = useDebounce(spaceUrl, 500);
+  const debouncedSpacePassword = useDebounce(spacePassword, 500);
 
   useEffect(() => {
     if (!taskId) return;
@@ -389,7 +393,9 @@ const SpacesConfig = ({ taskId }) => {
         </label>
 
         <Input
+          required
           size="lg"
+          type="url"
           variant="bordered"
           value={spaceUrl}
           onChange={(e) => setSpaceUrl(e.target.value)}

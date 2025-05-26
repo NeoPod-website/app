@@ -5,8 +5,9 @@ import CategorySeeMore from "./CategorySeeMore";
 
 const CategoryItem = ({
   id,
-  title,
   icon,
+  podId,
+  title,
   description,
   background,
   showDescription = false,
@@ -54,7 +55,7 @@ const CategoryItem = ({
         )}
       </div>
 
-      <CategorySeeMore id={id} />
+      <CategorySeeMore id={id} podId={podId} />
     </div>
   );
 };

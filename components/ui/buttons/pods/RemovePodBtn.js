@@ -1,38 +1,41 @@
 "use client";
 
-import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Trash2Icon } from "lucide-react";
-import { addToast, Button, toast } from "@heroui/react";
+import { addToast, Button } from "@heroui/react";
+import React, { useState, useCallback } from "react";
+
+import useUpload from "@/hooks/useUpload";
 
 import { removePod } from "@/redux/slice/podsSlice";
 
 const RemovePodBtn = ({ podId, name, cover_photo }) => {
   const dispatch = useDispatch();
 
+  const { deleteFile } = useUpload();
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleDeletePod = async () => {
+  const handleDeletePod = useCallback(async () => {
+    if (isLoading) return;
+
     setIsLoading(true);
 
     try {
-      const deleteResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/uploads/file/${cover_photo}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        },
-      );
+      // Delete cover photo using the upload hook
+      if (cover_photo) {
+        const success = await deleteFile(cover_photo);
 
-      if (!deleteResponse.ok) {
-        toast({
-          title: "Failed to delete cover photo",
-          description:
-            "Please delete the old cover photo manually from the bucket.",
-          color: "warning",
-        });
+        if (!success) {
+          addToast({
+            title: "Failed to delete cover photo",
+            description: "Please delete manually or contact support.",
+            color: "warning",
+          });
+        }
       }
 
+      // Delete pod from database
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/pods/${podId}`,
         {
@@ -56,8 +59,6 @@ const RemovePodBtn = ({ podId, name, cover_photo }) => {
         color: "success",
       });
     } catch (error) {
-      console.error("Error deleting pod:", error);
-
       addToast({
         title: "Error Deleting Pod",
         description: "Failed to delete pod. Please try again.",
@@ -66,7 +67,7 @@ const RemovePodBtn = ({ podId, name, cover_photo }) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [podId, name, cover_photo, isLoading, dispatch, deleteFile]);
 
   return (
     <Button
@@ -83,4 +84,4 @@ const RemovePodBtn = ({ podId, name, cover_photo }) => {
   );
 };
 
-export default RemovePodBtn;
+export default React.memo(RemovePodBtn);

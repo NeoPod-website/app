@@ -65,7 +65,7 @@ export default function CategoriesWithFilter({ podId, initialCategories }) {
   }, []);
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden">
+    <div className="flex flex-1 flex-col space-y-4 overflow-hidden">
       <CategoryFilterHeader
         nameFilter={nameFilter}
         setNameFilter={setNameFilter}

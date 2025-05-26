@@ -5,13 +5,13 @@ import AdminDetailOptionHeader from "./options/properties/AdminDetailOptionHeade
 
 import WrapperContainer from "@/components/common/WrapperContainer";
 
-const AdminDetailOption = () => {
+const AdminDetailOption = ({ podId, categoryId }) => {
   return (
     <div className="flex max-w-md flex-1 flex-col gap-2 overflow-hidden">
       <AdminDetailOptionHeader />
 
       <WrapperContainer scrollable className="px-10 py-6">
-        <AdminDetailProperty />
+        <AdminDetailProperty podId={podId} categoryId={categoryId} />
       </WrapperContainer>
     </div>
   );

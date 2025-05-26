@@ -5,7 +5,11 @@ import ManagePageWrapper from "@/components/layout/pods/ManagePageWrapper";
 
 const breadcrumbsList = [
   {
-    title: "Admin PODS",
+    title: "Manage",
+  },
+
+  {
+    title: "PODS",
     href: "/admin/manage/pods",
   },
 

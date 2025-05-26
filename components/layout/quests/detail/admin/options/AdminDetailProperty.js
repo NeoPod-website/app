@@ -3,6 +3,8 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
+import AdminQuestStatus from "./properties/AdminQuestStatus";
+import AdminQuestDueDate from "./properties/AdminQuestDueDate";
 import AdminQuestCooldown from "./properties/AdminQuestCooldown";
 import AdminSelectRewards from "./properties/AdminSelectRewards";
 import AdminSelectCategory from "./properties/AdminSelectCategory";
@@ -12,22 +14,18 @@ import AdminQuestClaimLimit from "./properties/AdminQuestClaimLimit";
 
 import { setCurrentQuest } from "@/redux/slice/questSlice";
 
-const AdminDetailProperty = ({
-  quest = {
-    limit: 100,
-  },
-}) => {
+const AdminDetailProperty = ({ podId, categoryId, quest }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (quest) {
       dispatch(setCurrentQuest(quest));
     }
-  }, [quest, dispatch]);
+  }, []);
 
   return (
     <section className="hide-scroll space-y-8 overflow-auto">
-      <AdminSelectCategory />
+      <AdminSelectCategory podId={podId} categoryId={categoryId} />
 
       <section className="space-y-6">
         <h3 className="text-2xl font-bold">Properties</h3>
@@ -35,6 +33,7 @@ const AdminDetailProperty = ({
         <div className="space-y-6">
           <AdminQuestRecurrence />
           <AdminQuestCooldown />
+          <AdminQuestStatus />
         </div>
       </section>
 
@@ -42,6 +41,7 @@ const AdminDetailProperty = ({
         <h3 className="text-2xl font-bold">Additional Properties</h3>
 
         <div className="space-y-4">
+          <AdminQuestDueDate />
           <AdminQuestClaimLimit />
           <AdminSelectRewards />
           <AdminSelectCondition />

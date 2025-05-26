@@ -1,9 +1,11 @@
 import { cookies } from "next/headers";
+import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
 
 import PodsList from "@/components/layout/pods/PodList";
 import MainPageScroll from "@/components/common/MainPageScroll";
-import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Manage PODS | Admin Panel | NEO POD",

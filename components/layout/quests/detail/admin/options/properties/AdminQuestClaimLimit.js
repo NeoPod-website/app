@@ -3,54 +3,41 @@
 import { Input, Button } from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { UsersIcon, PlusIcon, TrashIcon } from "lucide-react";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 
 import { setCurrentQuest } from "@/redux/slice/questSlice";
 
 const AdminQuestClaimLimit = () => {
   const dispatch = useDispatch();
 
-  const limit = useSelector((state) => state.quest.currentQuest.limit) || null;
-  const [inputValue, setInputValue] = useState(limit?.toString() || "");
+  // Simple local state - no complex syncing
+  const [isActive, setIsActive] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
-  const isActive = limit !== null;
+  const handleChange = useCallback(
+    (e) => {
+      const newVal = e.target.value;
 
-  useEffect(() => {
-    setInputValue(limit?.toString() || "");
-  }, [limit]);
+      // Only allow numbers
+      if (/^\d*$/.test(newVal)) {
+        setInputValue(newVal);
 
-  const debouncedDispatch = useCallback(
-    (() => {
-      let timer;
-
-      return (value) => {
-        clearTimeout(timer);
-
-        timer = setTimeout(() => {
-          dispatch(
-            setCurrentQuest({ limit: value === "" ? null : parseInt(value) }),
-          );
-        }, 500);
-      };
-    })(),
+        // Update Redux immediately when user types
+        const numericValue = newVal === "" ? null : parseInt(newVal);
+        dispatch(setCurrentQuest({ limit: numericValue }));
+      }
+    },
     [dispatch],
   );
 
-  const handleChange = (e) => {
-    const newVal = e.target.value;
-
-    if (/^\d*$/.test(newVal)) {
-      setInputValue(newVal);
-      debouncedDispatch(newVal);
-    }
-  };
-
   const handleAdd = useCallback(() => {
-    setInputValue("0");
-    dispatch(setCurrentQuest({ limit: 0 }));
+    setIsActive(true);
+    setInputValue("1");
+    dispatch(setCurrentQuest({ limit: 1 }));
   }, [dispatch]);
 
   const handleRemove = useCallback(() => {
+    setIsActive(false);
     setInputValue("");
     dispatch(setCurrentQuest({ limit: null }));
   }, [dispatch]);
@@ -78,11 +65,15 @@ const AdminQuestClaimLimit = () => {
       {isActive && (
         <div className="flex items-center gap-3">
           <Input
+            min={1}
             size="sm"
-            placeholder="e.g. 100"
+            required
+            type="number"
             value={inputValue}
-            onChange={handleChange}
             className="max-w-xs"
+            placeholder="e.g. 100"
+            onChange={handleChange}
+            aria-label="Quest Claim Limit"
             classNames={{
               inputWrapper:
                 "border border-gray-400 bg-gradient-dark text-white",

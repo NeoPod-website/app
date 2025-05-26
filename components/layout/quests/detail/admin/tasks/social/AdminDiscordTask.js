@@ -47,8 +47,8 @@ const DiscordServerSettings = ({ taskId }) => {
     currentTask.requireVerification || false,
   );
 
-  const debouncedInviteLink = useDebounce(localInviteLink, 300);
-  const debouncedServerName = useDebounce(localServerName, 300);
+  const debouncedInviteLink = useDebounce(localInviteLink, 500);
+  const debouncedServerName = useDebounce(localServerName, 500);
 
   useEffect(() => {
     if (currentTask) {
@@ -106,7 +106,9 @@ const DiscordServerSettings = ({ taskId }) => {
         </label>
 
         <Input
+          required
           size="lg"
+          type="text"
           variant="bordered"
           value={localServerName}
           placeholder="My Community Server"
@@ -130,7 +132,9 @@ const DiscordServerSettings = ({ taskId }) => {
         </label>
 
         <Input
+          required
           size="lg"
+          type="url"
           variant="bordered"
           value={localInviteLink}
           placeholder="https://discord.gg/your-invite-code"

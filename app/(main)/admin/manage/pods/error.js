@@ -8,7 +8,11 @@ import ManagePageWrapper from "@/components/layout/pods/ManagePageWrapper";
 
 const breadcrumbsList = [
   {
-    title: "Admin PODS",
+    title: "Manage",
+  },
+
+  {
+    title: "PODS",
     href: "/admin/manage/pods",
   },
 
@@ -33,6 +37,8 @@ export default function Error({ error, reset }) {
     >
       <ManageError
         error={error}
+        linkLabel="Back to PODS"
+        linkHref="/admin/manage/pods"
         message="Failed to load PODs. Please try again."
       />
     </ManagePageWrapper>

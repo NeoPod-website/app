@@ -4,18 +4,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   quests: [],
   currentQuest: {
-    id: null,
-    title: "",
-    limit: null,
-    cooldown: null,
-    recurrence: null,
-    rewards: [],
-    conditions: [],
-    description: "",
+    name: "",
     tasks: [],
-    isPublished: false,
-    createdAt: null,
-    updatedAt: null,
+    rewards: [],
+    podId: null,
+    description: "",
+    categoryId: null,
   },
   loading: false,
   error: null,
@@ -32,7 +26,6 @@ const questSlice = createSlice({
       state.currentQuest = {
         ...state.currentQuest,
         ...action.payload,
-        updatedAt: Date.now(),
       };
       state.lastUpdated = Date.now();
     },
@@ -44,12 +37,10 @@ const questSlice = createSlice({
         instruction: "",
         description: "",
         placeholder: "",
-        createdAt: Date.now(),
         ...action.payload,
       };
 
       state.currentQuest.tasks.push(taskWithId);
-      state.currentQuest.updatedAt = Date.now();
       state.lastUpdated = Date.now();
     },
 
@@ -70,7 +61,6 @@ const questSlice = createSlice({
           ...state.currentQuest.tasks[taskIndex],
           ...changes,
         };
-        state.currentQuest.updatedAt = Date.now();
         state.lastUpdated = Date.now();
       } else {
         console.error(`Task with ID ${id} not found`);
@@ -89,7 +79,6 @@ const questSlice = createSlice({
         (task) => task.id !== taskId,
       );
 
-      state.currentQuest.updatedAt = Date.now();
       state.lastUpdated = Date.now();
     },
 
@@ -104,7 +93,6 @@ const questSlice = createSlice({
 
       state.currentQuest.tasks.splice(destinationIndex, 0, taskToMove);
 
-      state.currentQuest.updatedAt = Date.now();
       state.lastUpdated = Date.now();
     },
 
@@ -120,11 +108,6 @@ const questSlice = createSlice({
 
     publishCurrentQuest: (state) => {
       state.currentQuest.isPublished = true;
-      state.currentQuest.updatedAt = Date.now();
-
-      if (!state.currentQuest.createdAt) {
-        state.currentQuest.createdAt = Date.now();
-      }
 
       state.lastUpdated = Date.now();
     },

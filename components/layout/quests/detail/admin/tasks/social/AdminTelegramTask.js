@@ -50,8 +50,8 @@ const TelegramChannelSettings = ({ taskId }) => {
     currentTask.isGroup || false,
   );
 
-  const debouncedChannelLink = useDebounce(localChannelLink, 300);
-  const debouncedChannelName = useDebounce(localChannelName, 300);
+  const debouncedChannelLink = useDebounce(localChannelLink, 500);
+  const debouncedChannelName = useDebounce(localChannelName, 500);
 
   useEffect(() => {
     if (currentTask) {
@@ -115,7 +115,9 @@ const TelegramChannelSettings = ({ taskId }) => {
         </label>
 
         <Input
+          required
           size="lg"
+          type="text"
           variant="bordered"
           value={localChannelName}
           placeholder="My Telegram Channel"
@@ -139,7 +141,9 @@ const TelegramChannelSettings = ({ taskId }) => {
         </label>
 
         <Input
+          required
           size="lg"
+          type="url"
           variant="bordered"
           value={localChannelLink}
           placeholder="https://t.me/yourchannel"

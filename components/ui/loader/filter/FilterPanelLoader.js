@@ -5,7 +5,7 @@ import React from "react";
 const FilterPanelLoader = () => {
   return (
     <div className="animate-pulse">
-      <div className="mt-3 flex items-center justify-between px-8">
+      <div className="flex items-center justify-between px-8">
         <div className="flex space-x-2 rounded-full border-2 border-gray-500 p-1">
           <div className="h-8 w-24 rounded-full bg-gray-600"></div>
           <div className="h-8 w-24 rounded-full bg-gray-600"></div>

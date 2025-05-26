@@ -1,12 +1,12 @@
 "use client";
 
 import {
-  Button,
-  Input,
   Link,
+  Input,
+  Button,
   Select,
-  SelectItem,
   Textarea,
+  SelectItem,
 } from "@heroui/react";
 import React from "react";
 import { SendHorizontalIcon } from "lucide-react";
@@ -14,6 +14,24 @@ import { SendHorizontalIcon } from "lucide-react";
 import AdminIconUpload from "./AdminIconUpload";
 
 import ImageUpload from "@/components/ui/ImageUpload";
+
+// Constants to prevent recreation
+const STATUS_OPTIONS = [
+  { key: "live", label: "Live" },
+  { key: "draft", label: "Draft" },
+  { key: "archive", label: "Archive" },
+];
+
+const ALLOWED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/gif",
+  "image/webp",
+  "image/jpg",
+];
+
+const MAX_DESCRIPTION_LENGTH = 100;
+const MAX_IMAGE_SIZE_MB = 5;
 
 const CategoryForm = ({
   podId,
@@ -46,18 +64,12 @@ const CategoryForm = ({
         className="hide-scroll space-y-4 overflow-auto"
       >
         <ImageUpload
-          maxSizeInMB={5}
           value={selectedFile}
           label="Category Background"
+          maxSizeInMB={MAX_IMAGE_SIZE_MB}
           onChange={handleBackgroundChange}
+          allowedTypes={ALLOWED_IMAGE_TYPES}
           prompt="Click to upload or drag and drop a Background Image"
-          allowedTypes={[
-            "image/jpeg",
-            "image/png",
-            "image/gif",
-            "image/webp",
-            "image/jpg",
-          ]}
         />
 
         <div className="mx-auto max-w-xl space-y-4">
@@ -94,23 +106,23 @@ const CategoryForm = ({
                 "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
             }}
           >
-            <SelectItem key="live">Live</SelectItem>
-            <SelectItem key="draft">Draft</SelectItem>
-            <SelectItem key="archive">Archive</SelectItem>
+            {STATUS_OPTIONS.map(({ key, label }) => (
+              <SelectItem key={key}>{label}</SelectItem>
+            ))}
           </Select>
 
           <Textarea
             type="text"
             isClearable
             minRows={6}
-            maxLength={100}
             variant="bordered"
             value={description}
             name="category_description"
             label="Category Description"
             onValueChange={setDescription}
+            maxLength={MAX_DESCRIPTION_LENGTH}
             placeholder="Provide more details about your category"
-            isInvalid={description.length >= 100}
+            isInvalid={description.length >= MAX_DESCRIPTION_LENGTH}
             errorMessage="The description cannot be 100 characters long."
             className="bg-dark"
             classNames={{

@@ -1,13 +1,11 @@
 "use client";
 
-import React from "react";
-
 import { useEffect, useRef } from "react";
 
 export function useAutoScroll({
+  speed = 10,
   scrollContainer,
   threshold = 150,
-  speed = 10,
 }) {
   const scrollingRef = useRef(null);
   const pointerPositionRef = useRef(null);

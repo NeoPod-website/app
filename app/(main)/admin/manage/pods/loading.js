@@ -5,7 +5,7 @@ import FilterHeaderLoader from "@/components/ui/loader/filter/FilterHeaderLoader
 
 const Loading = () => {
   return (
-    <div className="px-7">
+    <div className="space-y-3 px-7">
       <FilterHeaderLoader />
       <FilterPanelLoader />
       <PodListLoader />

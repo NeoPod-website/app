@@ -5,32 +5,28 @@ import { Trash2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { addToast, Button } from "@heroui/react";
 
+import useUpload from "@/hooks/useUpload";
+
 const RemoveCategoryBtn = ({ category }) => {
   const router = useRouter();
+  const { deleteEntityFiles, sanitizeFileName } = useUpload();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDeleteCategory = async () => {
     setIsLoading(true);
 
-    const fileName = category.name
-      .replace(/[^a-zA-Z0-9-_]/g, "-")
-      .toLowerCase();
+    const fileName = sanitizeFileName(category.name);
 
     try {
-      const deleteResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/uploads/entity/QUEST_CATEGORIES/${fileName}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        },
-      );
+      const success = await deleteEntityFiles(fileName, {
+        entityType: "QUEST_CATEGORIES",
+      });
 
-      if (!deleteResponse.ok) {
+      if (!success) {
         addToast({
           title: "Failed to delete category files",
-          description:
-            "Please delete the old cover photo and icon manually from the bucket.",
+          description: "Please delete the files manually or contact support.",
           color: "warning",
         });
       }
@@ -57,9 +53,7 @@ const RemoveCategoryBtn = ({ category }) => {
         description: `Category "${category.name}" deleted successfully`,
         color: "success",
       });
-    } catch (error) {
-      console.error("Error deleting category:", error);
-
+    } catch {
       addToast({
         title: "Error Deleting Category",
         description: "Failed to delete category. Please try again.",

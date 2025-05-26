@@ -1,15 +1,23 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
+import React, { useMemo } from "react";
 import { SendHorizontalIcon } from "lucide-react";
 import { Input, Textarea, Select, SelectItem, Button } from "@heroui/react";
 
 import { languages } from "@/data/langData";
 
 import AdminSelector from "./AdminSelector";
-
 import ImageUpload from "@/components/ui/ImageUpload";
+
+// Constants to prevent recreation
+const STATUS_OPTIONS = [
+  { key: "live", label: "Live" },
+  { key: "draft", label: "Draft" },
+  { key: "archive", label: "Archive" },
+];
+
+const MAX_IMAGE_SIZE_MB = 5;
 
 const PodForm = ({
   isNew,
@@ -28,6 +36,14 @@ const PodForm = ({
   handlePodDataChange,
   isSubmitting,
 }) => {
+  const submitButtonText = useMemo(() => {
+    if (isNew) {
+      return isSubmitting ? "Creating..." : "Create";
+    }
+
+    return isSubmitting ? "Updating..." : "Update";
+  }, [isNew, isSubmitting]);
+
   return (
     <>
       <h2 className="text-2xl font-bold">{isNew ? "Create" : "Edit"} Pod</h2>
@@ -40,7 +56,7 @@ const PodForm = ({
           value={coverPhoto || "/backgrounds/background-1.jpg"}
           label="Cover Photo"
           onChange={setCoverPhoto}
-          maxSizeInMB={8}
+          maxSizeInMB={MAX_IMAGE_SIZE_MB}
           prompt="Upload pod cover image"
         />
 
@@ -106,9 +122,9 @@ const PodForm = ({
               "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
           }}
         >
-          <SelectItem key="live">Live</SelectItem>
-          <SelectItem key="draft">Draft</SelectItem>
-          <SelectItem key="archive">Archive</SelectItem>
+          {STATUS_OPTIONS.map(({ key, label }) => (
+            <SelectItem key={key}>{label}</SelectItem>
+          ))}
         </Select>
 
         <div className="flex items-center justify-end gap-2 pt-4">
@@ -132,13 +148,7 @@ const PodForm = ({
             disabled={isSubmitting}
             isLoading={isSubmitting}
           >
-            {isNew
-              ? isSubmitting
-                ? "Creating..."
-                : "Create"
-              : isSubmitting
-                ? "Updating..."
-                : "Update"}
+            {submitButtonText}
           </Button>
         </div>
       </form>

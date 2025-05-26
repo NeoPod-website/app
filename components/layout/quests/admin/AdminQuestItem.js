@@ -113,7 +113,9 @@ const AdminQuestItem = ({
 
     dispatch(setCurrentCategory(category));
 
-    router.push(`/admin/manage/quests/${questId}`);
+    router.push(
+      `/admin/manage/quests/${category.pod_id}/${category.category_id}/${questId}`,
+    );
   };
 
   const shouldPreventNavigation = (e) => {

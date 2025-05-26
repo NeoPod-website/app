@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {
+  useRef,
+  useMemo,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { useDispatch } from "react-redux";
 import { useEditor, EditorContent } from "@tiptap/react";
 
@@ -48,8 +54,57 @@ const Tiptap = ({
   const dispatch = useDispatch();
   const [isFocused, setIsFocused] = useState(false);
 
-  const editor = useEditor({
-    extensions: [
+  const debounceTimeoutRef = useRef(null);
+
+  // Debounced Redux update function
+  const debouncedUpdateDescription = useCallback(
+    (content) => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+
+      debounceTimeoutRef.current = setTimeout(() => {
+        dispatch(setCurrentQuest({ description: content }));
+      }, 500);
+    },
+    [dispatch],
+  );
+
+  // Memoized event handlers
+  const handleUpdate = useCallback(
+    ({ editor }) => {
+      const content = editor.getHTML();
+
+      // Debounce Redux update (always update, matching original behavior)
+      debouncedUpdateDescription(content);
+
+      // Call custom onUpdate if provided
+      if (onUpdate && typeof onUpdate === "function") {
+        onUpdate(content);
+      }
+    },
+    [debouncedUpdateDescription, onUpdate],
+  );
+
+  const handleFocus = useCallback(() => {
+    setIsFocused(true);
+  }, []);
+
+  const handleBlur = useCallback(() => {
+    setIsFocused(false);
+
+    // Immediately update on blur to ensure data is saved
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+      if (editor) {
+        dispatch(setCurrentQuest({ description: editor.getHTML() }));
+      }
+    }
+  }, [dispatch]);
+
+  // Memoize editor extensions to prevent recreation on every render
+  const extensions = useMemo(
+    () => [
       Document,
       Text,
       Bold,
@@ -139,13 +194,17 @@ const Tiptap = ({
       // Add character count extension
       CharacterCount,
     ],
+    [],
+  );
+
+  const editor = useEditor({
+    extensions,
     content: initialContent,
     immediatelyRender: false,
     editorProps: {
       attributes: {
         class: "focus:outline-none overflow-hidden",
       },
-
       handleKeyDown: (view, event) => {
         if (event.key === "Tab" || (event.shiftKey && event.key === "Tab")) {
           return false;
@@ -153,36 +212,36 @@ const Tiptap = ({
 
         // Add support for custom keyboard shortcuts here
         if ((event.ctrlKey || event.metaKey) && event.key === "b") {
-          editor.commands.toggleBold();
+          editor?.commands.toggleBold();
           return true;
         }
 
         if ((event.ctrlKey || event.metaKey) && event.key === "i") {
-          editor.commands.toggleItalic();
+          editor?.commands.toggleItalic();
           return true;
         }
 
         if ((event.ctrlKey || event.metaKey) && event.key === "u") {
-          editor.commands.toggleUnderline();
+          editor?.commands.toggleUnderline();
           return true;
         }
 
         return false;
       },
     },
-
-    onUpdate: ({ editor }) => {
-      // Call the redux dispatch
-      dispatch(setCurrentQuest({ description: editor.getHTML() }));
-
-      // Call custom onUpdate if provided
-      if (onUpdate && typeof onUpdate === "function") {
-        onUpdate(editor.getHTML());
-      }
-    },
-    onFocus: () => setIsFocused(true),
-    onBlur: () => setIsFocused(false),
+    onUpdate: handleUpdate,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
   });
+
+  // Cleanup debounce timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="tiptap-editor-container">

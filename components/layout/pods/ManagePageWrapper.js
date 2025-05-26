@@ -13,7 +13,7 @@ const ManagePageWrapper = ({
 }) => {
   return (
     <MainPageScroll scrollable={scrollable}>
-      <div className="mb-3 flex items-center justify-between gap-4 rounded-xl border-t border-gray-400 bg-black/60 px-8 py-2.5 backdrop-blur-sm">
+      <div className="flex items-center justify-between gap-4 rounded-xl border-t border-gray-400 bg-black/60 px-8 py-2.5 backdrop-blur-sm">
         <NeoBreadcrumbs list={list} />
 
         <Link

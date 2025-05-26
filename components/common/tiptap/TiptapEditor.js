@@ -30,6 +30,7 @@ import HorizontalRule from "@tiptap/extension-horizontal-rule";
 const TiptapEditor = () => {
   const [linkUrl, setLinkUrl] = useState("");
   const [showLinkInput, setShowLinkInput] = useState(false);
+
   const [imageUrl, setImageUrl] = useState("");
   const [showImageInput, setShowImageInput] = useState(false);
 
@@ -115,7 +116,6 @@ const TiptapEditor = () => {
   return (
     <div className="tiptap-editor w-full rounded border border-gray-400 bg-black p-4 text-white">
       <div className="mb-4 flex flex-wrap gap-1 border-b border-gray-600 p-2">
-        {/* Text Formatting */}
         <div className="mr-2 flex border-r border-gray-600 pr-2">
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
@@ -124,6 +124,7 @@ const TiptapEditor = () => {
           >
             <span className="font-bold">B</span>
           </button>
+
           <button
             onClick={() => editor.chain().focus().toggleItalic().run()}
             className={`${formatButton} ${editor.isActive("italic") ? activeButton : ""}`}
@@ -131,6 +132,7 @@ const TiptapEditor = () => {
           >
             <span className="italic">I</span>
           </button>
+
           <button
             onClick={() => editor.chain().focus().toggleUnderline().run()}
             className={`${formatButton} ${editor.isActive("underline") ? activeButton : ""}`}
@@ -138,6 +140,7 @@ const TiptapEditor = () => {
           >
             <span className="underline">U</span>
           </button>
+
           <button
             onClick={() => editor.chain().focus().toggleStrike().run()}
             className={`${formatButton} ${editor.isActive("strike") ? activeButton : ""}`}
@@ -145,6 +148,7 @@ const TiptapEditor = () => {
           >
             <span className="line-through">S</span>
           </button>
+
           <button
             onClick={() => editor.chain().focus().toggleHighlight().run()}
             className={`${formatButton} ${editor.isActive("highlight") ? activeButton : ""}`}
@@ -154,7 +158,6 @@ const TiptapEditor = () => {
           </button>
         </div>
 
-        {/* Headings */}
         <div className="mr-2 flex border-r border-gray-600 pr-2">
           <select
             onChange={(e) => {
@@ -178,7 +181,6 @@ const TiptapEditor = () => {
           </select>
         </div>
 
-        {/* Lists */}
         <div className="mr-2 flex border-r border-gray-600 pr-2">
           <button
             onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -187,6 +189,7 @@ const TiptapEditor = () => {
           >
             • List
           </button>
+
           <button
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
             className={`${formatButton} ${editor.isActive("orderedList") ? activeButton : ""}`}
@@ -194,6 +197,7 @@ const TiptapEditor = () => {
           >
             1. List
           </button>
+
           <button
             onClick={() => editor.chain().focus().toggleTaskList().run()}
             className={`${formatButton} ${editor.isActive("taskList") ? activeButton : ""}`}
@@ -203,7 +207,6 @@ const TiptapEditor = () => {
           </button>
         </div>
 
-        {/* Alignment */}
         <div className="mr-2 flex border-r border-gray-600 pr-2">
           <button
             onClick={() => editor.chain().focus().setTextAlign("left").run()}
@@ -228,7 +231,6 @@ const TiptapEditor = () => {
           </button>
         </div>
 
-        {/* Media */}
         <div className="mr-2 flex border-r border-gray-600 pr-2">
           <button
             onClick={() => setShowLinkInput(!showLinkInput)}
@@ -237,6 +239,7 @@ const TiptapEditor = () => {
           >
             🔗 Link
           </button>
+
           <button
             onClick={() => setShowImageInput(!showImageInput)}
             className={formatButton}
@@ -246,7 +249,6 @@ const TiptapEditor = () => {
           </button>
         </div>
 
-        {/* Table */}
         <div className="mr-2 flex border-r border-gray-600 pr-2">
           <button
             onClick={addTable}
@@ -296,7 +298,6 @@ const TiptapEditor = () => {
           )}
         </div>
 
-        {/* Other Elements */}
         <div className="flex">
           <button
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
@@ -312,24 +313,9 @@ const TiptapEditor = () => {
           >
             HR
           </button>
-          <button
-            onClick={() => editor.chain().focus().undo().run()}
-            className={formatButton}
-            title="Undo"
-          >
-            ↩
-          </button>
-          <button
-            onClick={() => editor.chain().focus().redo().run()}
-            className={formatButton}
-            title="Redo"
-          >
-            ↪
-          </button>
         </div>
       </div>
 
-      {/* Link Input */}
       {showLinkInput && (
         <div className="mb-2 flex items-center rounded bg-gray-800 p-2">
           <input
@@ -351,7 +337,6 @@ const TiptapEditor = () => {
         </div>
       )}
 
-      {/* Image Input */}
       {showImageInput && (
         <div className="mb-2 flex items-center rounded bg-gray-800 p-2">
           <input
@@ -364,6 +349,7 @@ const TiptapEditor = () => {
           <button onClick={addImage} className="bg-blue-600 rounded p-2">
             Add Image
           </button>
+
           <button
             onClick={() => setShowImageInput(false)}
             className="ml-2 rounded bg-gray-600 p-2"

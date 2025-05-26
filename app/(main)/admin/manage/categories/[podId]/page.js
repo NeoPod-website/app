@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import MainPageScroll from "@/components/common/MainPageScroll";
 import CategoriesWithFilter from "@/components/layout/category/admin/CategoriesWithFilter";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Manage POD Categories | Admin Panel | NEO POD",
   description:

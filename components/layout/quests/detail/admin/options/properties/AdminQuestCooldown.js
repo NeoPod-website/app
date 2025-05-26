@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
+import { HourglassIcon } from "lucide-react";
 import { Select, SelectItem } from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { HourglassIcon } from "lucide-react";
 
 import { setCurrentQuest } from "@/redux/slice/questSlice";
 
