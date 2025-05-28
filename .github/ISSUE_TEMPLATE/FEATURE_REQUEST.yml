@@ -5,15 +5,6 @@ labels: ["feature"]
 assignees: []
 
 body:
-  - type: input
-    id: name
-    attributes:
-      label: "Your Name"
-      description: "Who is submitting this request?"
-      placeholder: "Enter your name here"
-    validations:
-      required: true
-
   - type: textarea
     id: description
     attributes:
