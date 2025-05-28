@@ -1,0 +1,38 @@
+name: "Feature Request"
+description: "Suggest a new feature for the Push Ambassador website."
+title: "[Feature] <Short Description>"
+labels: ["feature"]
+assignees: []
+
+body:
+  - type: input
+    id: name
+    attributes:
+      label: "Your Name"
+      description: "Who is submitting this request?"
+      placeholder: "Enter your name here"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Feature Description"
+      description: "Describe the feature you want to add."
+      placeholder: "Explain what this feature does..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: benefit
+    attributes:
+      label: "Benefit of this Feature"
+      description: "How does this feature improve the website?"
+      placeholder: "Explain why this feature is useful..."
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: "Additional Information"
+      description: "Any extra details or related issues?"
+      placeholder: "Provide any links, screenshots, or references..."
