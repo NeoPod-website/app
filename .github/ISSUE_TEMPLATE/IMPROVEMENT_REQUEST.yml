@@ -4,6 +4,7 @@ title: "[Improvement] <Short Description>"
 labels: ["improvement"]
 assignees: []
 
+body:
   - type: textarea
     id: current_behavior
     attributes:
