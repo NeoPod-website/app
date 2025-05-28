@@ -1,0 +1,21 @@
+name: "Other Issue"
+description: "Report any other issue related to the Push Ambassador website."
+title: "[Other] <Short Description>"
+labels: ["other"]
+assignees: []
+
+  - type: textarea
+    id: issue_description
+    attributes:
+      label: "Issue Description"
+      description: "Explain the issue you are facing."
+      placeholder: "Describe the issue in detail..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: "Additional Information"
+      description: "Any extra details, links, or references?"
+      placeholder: "Provide more details if necessary..."
