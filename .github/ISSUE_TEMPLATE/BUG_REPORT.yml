@@ -1,0 +1,49 @@
+name: "Bug Report"
+description: "Report an issue or bug with the Push Ambassador website."
+title: "[Bug] <Short Description>"
+labels: ["bug"]
+assignees: []
+
+body:
+  - type: input
+    id: name
+    attributes:
+      label: "Your Name"
+      description: "Who is reporting this bug?"
+      placeholder: "Enter your name here"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Bug Description"
+      description: "What happened? Describe the issue."
+      placeholder: "Explain the problem clearly..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps to Reproduce"
+      description: "List the steps to reproduce the issue."
+      placeholder: "1. Go to...\n2. Click on...\n3. See the issue..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: "Expected Behavior"
+      description: "What should happen instead?"
+      placeholder: "Explain what should have happened..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: "Screenshots or Logs"
+      description: "Attach any screenshots or error logs."
+      placeholder: "Paste image links or logs here..."
