@@ -8,8 +8,6 @@ const AuthMainContainer = ({
   isAdmin = false,
   margin = "space-y-2",
 }) => {
-  console.log(isAdmin);
-
   return (
     <div className="flex h-full max-w-sm flex-col items-center justify-center space-y-12">
       <div className="space-y-2 text-center">

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import PodsList from "@/components/layout/pods/PodList";
 import MainPageScroll from "@/components/common/MainPageScroll";
+import DeleteConfirmationModal from "@/components/ui/modals/DeleteConfirmationModal";
 
 export const dynamic = "force-dynamic";
 
@@ -60,15 +61,19 @@ const ManagePODSPage = async () => {
   const lastEvaluatedKey = podsData.data.pagination.lastEvaluatedKey;
 
   return (
-    <MainPageScroll scrollable={false}>
-      <Suspense>
-        <PodsList
-          hasMore={hasMore}
-          initialPods={pods}
-          lastEvaluatedKey={lastEvaluatedKey}
-        />
-      </Suspense>
-    </MainPageScroll>
+    <>
+      <DeleteConfirmationModal />
+
+      <MainPageScroll scrollable={false}>
+        <Suspense>
+          <PodsList
+            hasMore={hasMore}
+            initialPods={pods}
+            lastEvaluatedKey={lastEvaluatedKey}
+          />
+        </Suspense>
+      </MainPageScroll>
+    </>
   );
 };
 

@@ -90,7 +90,7 @@ const AdminCreateCategory = ({
           uploadPromises.push(
             uploadFile(categoryData.cover_photo, {
               entityType: "QUEST_CATEGORIES",
-              entityId: sanitizedFileName,
+              entityId: podId + "-" + sanitizedFileName,
               fileName: sanitizedFileName,
               fileType: "cover_photo",
               size: "BANNER",
@@ -106,7 +106,7 @@ const AdminCreateCategory = ({
           uploadPromises.push(
             uploadFile(categoryData.icon, {
               entityType: "QUEST_CATEGORIES",
-              entityId: sanitizedFileName,
+              entityId: podId + "-" + sanitizedFileName,
               fileName: sanitizedFileName,
               fileType: "icon",
               size: "THUMBNAIL",

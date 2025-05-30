@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  deleteModalData: null,
   isSocialModalOpen: false,
   isAddTasksModalOpen: false,
-  isDeleteConfirmationModalOpen: true,
+  isDeleteConfirmationModalOpen: false,
 };
 
 const modalsSlice = createSlice({
@@ -24,12 +25,22 @@ const modalsSlice = createSlice({
       state.isDeleteConfirmationModalOpen =
         !state.isDeleteConfirmationModalOpen;
     },
+
+    setDeleteModalData: (state, action) => {
+      state.deleteModalData = action.payload;
+    },
+
+    clearDeleteModalData: (state) => {
+      state.deleteModalData = null;
+    },
   },
 });
 
 export const {
   toggleSocialModal,
+  setDeleteModalData,
   toggleAddTasksModal,
+  clearDeleteModalData,
   toggleDeleteConfirmationModal,
 } = modalsSlice.actions;
 

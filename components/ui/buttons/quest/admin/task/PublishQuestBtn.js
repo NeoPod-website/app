@@ -141,8 +141,6 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
           questData.limit = currentQuest.limit;
         }
 
-        console.log("questData", questData);
-
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/quests`,
           {
@@ -314,8 +312,6 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         if (currentQuest.cooldown && currentQuest.cooldown !== "cooldown") {
           questData.cooldown = currentQuest.cooldown;
         }
-
-        console.log("questData", questData);
 
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/quests/${questId}`,

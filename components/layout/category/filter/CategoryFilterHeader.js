@@ -16,8 +16,9 @@ const CategoryFilterHeader = ({
       nameFilter={nameFilter}
       setNameFilter={setNameFilter}
       hasActiveFilters={hasActiveFilters}
-      linkHref={`/admin/manage/categories/${podId}/create`}
       activeFiltersCount={activeFiltersCount}
+      searchPlaceholder="Search Categories..."
+      linkHref={`/admin/manage/categories/${podId}/create`}
     />
   );
 };

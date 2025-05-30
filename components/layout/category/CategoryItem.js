@@ -13,6 +13,7 @@ const CategoryItem = ({
   id,
   icon,
   podId,
+  style,
   title,
   status,
   background,
@@ -48,6 +49,9 @@ const CategoryItem = ({
       className={`relative h-40 min-h-40 w-full overflow-hidden rounded-2.5xl border p-5 ${
         borderColor || "border-transparent"
       }`}
+      style={{
+        ...style,
+      }}
     >
       <div
         className="absolute inset-0 z-10 bg-cover bg-center opacity-70"

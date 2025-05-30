@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 import MainPageScroll from "@/components/common/MainPageScroll";
 import CategoriesWithFilter from "@/components/layout/category/admin/CategoriesWithFilter";
+import DeleteConfirmationModal from "@/components/ui/modals/DeleteConfirmationModal";
 
 export const dynamic = "force-dynamic";
 
@@ -54,14 +55,18 @@ const ManageCategoriesPage = async ({ params }) => {
   const categoriesData = await fetchCategories(podId);
 
   return (
-    <MainPageScroll scrollable={false}>
-      <Suspense>
-        <CategoriesWithFilter
-          podId={podId}
-          initialCategories={categoriesData.categories || []}
-        />
-      </Suspense>
-    </MainPageScroll>
+    <>
+      <DeleteConfirmationModal />
+
+      <MainPageScroll scrollable={false}>
+        <Suspense>
+          <CategoriesWithFilter
+            podId={podId}
+            initialCategories={categoriesData.categories || []}
+          />
+        </Suspense>
+      </MainPageScroll>
+    </>
   );
 };
 

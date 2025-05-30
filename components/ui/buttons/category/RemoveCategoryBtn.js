@@ -1,22 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
 import { Trash2Icon } from "lucide-react";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { addToast, Button } from "@heroui/react";
+import React, { useState, useCallback } from "react";
 
 import useUpload from "@/hooks/useUpload";
 
+import {
+  toggleDeleteConfirmationModal,
+  setDeleteModalData,
+} from "@/redux/slice/modalsSlice";
+
 const RemoveCategoryBtn = ({ category }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const { deleteEntityFiles, sanitizeFileName } = useUpload();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleDeleteCategory = async () => {
+  const handleDeleteCategory = useCallback(async () => {
     setIsLoading(true);
 
-    const fileName = sanitizeFileName(category.name);
+    const fileName = sanitizeFileName(category.pod_id);
 
     try {
       const success = await deleteEntityFiles(fileName, {
@@ -62,7 +70,20 @@ const RemoveCategoryBtn = ({ category }) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [category, router, deleteEntityFiles, sanitizeFileName]);
+
+  const handleOpenDeleteModal = useCallback(() => {
+    dispatch(
+      setDeleteModalData({
+        itemType: "category",
+        itemName: category.name,
+        onConfirmDelete: handleDeleteCategory,
+        isDeleting: isLoading,
+      }),
+    );
+
+    dispatch(toggleDeleteConfirmationModal());
+  }, [dispatch, category.name, handleDeleteCategory, isLoading]);
 
   return (
     <Button
@@ -70,7 +91,7 @@ const RemoveCategoryBtn = ({ category }) => {
       type="button"
       title="Delete Category"
       disabled={isLoading}
-      onPress={handleDeleteCategory}
+      onPress={handleOpenDeleteModal}
       endContent={<Trash2Icon size={16} />}
       className="neo-button w-fit border border-red-500/80 bg-red-400/10 !px-6 !py-2.5 hover:border-red-500 hover:bg-red-400/30"
     >
