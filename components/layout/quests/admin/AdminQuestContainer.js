@@ -47,8 +47,10 @@ const AdminQuestContainer = async ({ category, isQuestPage = false }) => {
   return (
     <WrapperContainer scrollable>
       <CategoryItem
+        isAdmin
         showDescription
         podId={category.pod_id}
+        status={category.status}
         isQuestPage={isQuestPage}
         id={category.category_id}
         title={category.name ?? "No Category"}

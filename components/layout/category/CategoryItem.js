@@ -3,13 +3,22 @@ import Image from "next/image";
 
 import CategorySeeMore from "./CategorySeeMore";
 
+const statusColors = {
+  live: "bg-green-600 text-white",
+  draft: "bg-yellow-500 text-black",
+  archived: "bg-gray-500 text-white",
+};
+
 const CategoryItem = ({
   id,
   icon,
   podId,
   title,
-  description,
+  status,
   background,
+  description,
+  isAdmin = false,
+  isQuestPage = false,
   showDescription = false,
 }) => {
   const backgroundURL =
@@ -26,8 +35,20 @@ const CategoryItem = ({
         ? URL.createObjectURL(icon)
         : "/dashboard/category/icon-1.png";
 
+  const borderColor =
+    isAdmin &&
+    (status === "live"
+      ? "border-green-600"
+      : status === "draft"
+        ? "border-yellow-500"
+        : "border-gray-500");
+
   return (
-    <div className="relative h-40 min-h-40 w-full overflow-hidden rounded-2.5xl p-5">
+    <div
+      className={`relative h-40 min-h-40 w-full overflow-hidden rounded-2.5xl border p-5 ${
+        borderColor || "border-transparent"
+      }`}
+    >
       <div
         className="absolute inset-0 z-10 bg-cover bg-center opacity-70"
         style={{
@@ -55,7 +76,17 @@ const CategoryItem = ({
         )}
       </div>
 
-      <CategorySeeMore id={id} podId={podId} />
+      {isAdmin && (
+        <span
+          className={`absolute right-5 top-5 z-10 rounded-full px-3 py-0.5 text-xs font-medium capitalize ${
+            statusColors[status] || "bg-gray-700 text-white"
+          }`}
+        >
+          {status || "draft"}
+        </span>
+      )}
+
+      {isQuestPage && <CategorySeeMore id={id} podId={podId} />}
     </div>
   );
 };

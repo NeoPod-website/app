@@ -12,8 +12,10 @@ const CategoryContainer = ({
   return (
     <WrapperContainer scrollable={scrollable}>
       <CategoryItem
-        id={category.id}
         showDescription
+        id={category.id}
+        podId={category.pod_id}
+        status={category.status}
         title={category.title ?? "No Category"}
         description={category.description ?? ""}
         icon={category.icon ?? "/dashboard/category/icon-1.png"}
