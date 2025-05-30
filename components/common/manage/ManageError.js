@@ -2,11 +2,15 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@heroui/react";
 
-const ManageError = ({ error, message, linkHref, linkLabel }) => {
-  const handleRetry = () => {
+const ManageError = ({
+  error,
+  message,
+  linkHref,
+  linkLabel,
+  handleRetry = () => {
     window.location.reload();
-  };
-
+  },
+}) => {
   return (
     <div className="mt-8 flex h-full flex-col items-center justify-center rounded-xl border border-red-500/40 bg-red-500/5 p-8">
       <h2 className="mb-4 text-2xl font-semibold text-white">

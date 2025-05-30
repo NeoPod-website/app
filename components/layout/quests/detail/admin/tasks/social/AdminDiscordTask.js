@@ -155,10 +155,9 @@ const DiscordServerSettings = ({ taskId }) => {
 
       <div className="flex items-center gap-2">
         <Switch
-          checked={localRequireVerification}
-          onChange={(e) => handleVerificationChange(e.target.checked)}
           size="sm"
-          readOnly
+          isSelected={localRequireVerification}
+          onValueChange={(value) => handleVerificationChange(value)}
         />
 
         <label className="text-sm text-gray-300">

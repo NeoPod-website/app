@@ -9,7 +9,10 @@ const AdminCategoryContainer = ({ podId, category }) => {
   return (
     <div className="group relative rounded-2.5xl">
       <CategoryItem
+        isAdmin
+        podId={podId}
         showDescription
+        status={category.status}
         id={category.category_id}
         title={category.name ?? "No Category"}
         description={category.description ?? ""}

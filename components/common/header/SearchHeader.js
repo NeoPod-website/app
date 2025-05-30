@@ -23,7 +23,7 @@ const SearchHeader = () => {
         <Button
           isIconOnly
           variant="light"
-          className="h-8 w-8 min-w-0 rounded-full p-1"
+          className="h-8 w-8 min-w-0 rounded-full p-1 text-white"
         >
           <SlidersHorizontalIcon size={16} className="text-white" />
         </Button>

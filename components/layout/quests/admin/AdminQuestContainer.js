@@ -23,7 +23,6 @@ async function fetchQuests(categoryId) {
       credentials: "include",
       cache: "no-store",
     });
-    console.log(response);
 
     const data = await response.json();
 
@@ -42,15 +41,15 @@ async function fetchQuests(categoryId) {
   }
 }
 
-const AdminQuestContainer = async ({ category }) => {
+const AdminQuestContainer = async ({ category, isQuestPage = false }) => {
   const questsData = await fetchQuests(category.category_id);
-  console.log(questsData);
 
   return (
     <WrapperContainer scrollable>
-      {/* <CategoryItem
+      <CategoryItem
         showDescription
         podId={category.pod_id}
+        isQuestPage={isQuestPage}
         id={category.category_id}
         title={category.name ?? "No Category"}
         description={category.description ?? ""}
@@ -60,8 +59,7 @@ const AdminQuestContainer = async ({ category }) => {
         }
       />
 
-      <AdminQuestList categoryId={category.category_id} category={category} /> */}
-      hi
+      <AdminQuestList category={category} quests={questsData.quests} />
     </WrapperContainer>
   );
 };

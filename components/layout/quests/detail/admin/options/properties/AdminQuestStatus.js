@@ -12,7 +12,7 @@ const AdminQuestStatus = () => {
 
   const status = useSelector((state) => state.quest.currentQuest.status);
 
-  const selectedStatus = new Set([status || "publish"]);
+  const selectedStatus = new Set([status || "active"]);
 
   const handleStatusSelectionChange = (keys) => {
     const value = Array.from(keys)[0];
@@ -41,8 +41,8 @@ const AdminQuestStatus = () => {
           value: "text-base",
         }}
       >
-        <SelectItem key="publish" value="Publish">
-          Publish
+        <SelectItem key="active" value="Active">
+          Active
         </SelectItem>
 
         <SelectItem key="draft" value="Draft">

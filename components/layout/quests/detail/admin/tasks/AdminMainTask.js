@@ -178,9 +178,10 @@ const AnswerField = ({
         <div className="mb-3 flex items-center gap-2">
           <Switch
             size="sm"
-            checked={hasAdminAnswer}
-            onChange={(e) => handleToggleAdminAnswer(e.target.checked)}
+            isSelected={hasAdminAnswer}
+            onValueChange={(value) => handleToggleAdminAnswer(value)}
           />
+
           <label className="text-sm text-gray-300">
             Set correct answer (for automatic validation)
           </label>
@@ -201,6 +202,13 @@ const AnswerField = ({
                 size="lg"
                 variant="bordered"
                 value={localAdminAnswer}
+                type={
+                  taskName === "number"
+                    ? "number"
+                    : taskName === "url"
+                      ? "url"
+                      : "text"
+                }
                 placeholder={
                   taskName === "number"
                     ? "123"
@@ -209,7 +217,6 @@ const AnswerField = ({
                       : "Expected answer"
                 }
                 id={`quest-task-admin-answer-${taskName}`}
-                type={taskName === "number" ? "number" : "text"}
                 onChange={(e) => setLocalAdminAnswer(e.target.value)}
                 className="bg-dark"
                 classNames={{

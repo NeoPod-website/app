@@ -6,7 +6,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 const UiProviders = ({ children }) => {
   return (
     <HeroUIProvider>
-      <NextThemesProvider>
+      <NextThemesProvider defaultTheme="dark" forcedTheme="dark">
         <ToastProvider />
         {children}
       </NextThemesProvider>

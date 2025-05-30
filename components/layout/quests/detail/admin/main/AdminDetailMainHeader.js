@@ -2,20 +2,21 @@
 
 import React from "react";
 import { Button } from "@heroui/react";
-import {
-  EyeIcon,
-  ShareIcon,
-  EllipsisVerticalIcon,
-  SendIcon,
-} from "lucide-react";
+import { EyeIcon, ShareIcon, EllipsisVerticalIcon } from "lucide-react";
 
 import AdminBreadcrumbs from "./AdminBreadcrumbs";
-import PublishNewQuestBtn from "@/components/ui/buttons/quest/admin/task/PublishNewQuestBtn";
 
-const AdminDetailMainHeader = ({ isNew, podId, categoryId }) => {
+import PublishQuestBtn from "@/components/ui/buttons/quest/admin/task/PublishQuestBtn";
+
+const AdminDetailMainHeader = ({ quest, isNew, podId, categoryId }) => {
   return (
     <section className="flex items-center justify-between gap-2.5 overflow-hidden rounded-xl border-t border-gray-400 bg-black/50 px-8 py-2.5 backdrop-blur-xs">
-      <AdminBreadcrumbs isNew={isNew} />
+      <AdminBreadcrumbs
+        isNew={isNew}
+        podId={podId}
+        categoryId={categoryId}
+        name={quest?.name || "New Quest"}
+      />
 
       <div className="flex items-center gap-2.5">
         <Button
@@ -41,7 +42,12 @@ const AdminDetailMainHeader = ({ isNew, podId, categoryId }) => {
           Share
         </Button>
 
-        <PublishNewQuestBtn podId={podId} categoryId={categoryId} />
+        <PublishQuestBtn
+          isNew={isNew}
+          podId={podId}
+          categoryId={categoryId}
+          questId={quest?.quest_id}
+        />
       </div>
     </section>
   );

@@ -5,19 +5,22 @@ import AdminDetailDescriptionContainer from "./main/AdminDetailDescriptionContai
 
 import WrapperContainer from "@/components/common/WrapperContainer";
 
-const AdminDetailMain = ({ isNew, podId, categoryId }) => {
+const AdminDetailMain = ({ isNew, podId, categoryId, quest }) => {
   return (
     <form className="flex max-w-7xl flex-1 flex-col gap-2 overflow-hidden">
       <AdminDetailMainHeader
         isNew={isNew}
         podId={podId}
+        quest={quest}
         categoryId={categoryId}
       />
 
       <WrapperContainer scrollable className="space-y-2 p-10">
         <AdminDetailDescriptionContainer
           isNew={isNew}
-          name="Your Quest Title"
+          name={quest?.name}
+          tasks={quest?.tasks}
+          description={quest?.description}
         />
       </WrapperContainer>
     </form>

@@ -71,6 +71,7 @@ const NFTConfig = ({ taskId }) => {
   const [amount, setAmount] = useState(currentTask.amount || "1");
   const [tokenId, setTokenId] = useState(currentTask.tokenId || "");
   const [network, setNetwork] = useState(currentTask.network || "neo");
+
   const [contractAddress, setContractAddress] = useState(
     currentTask.contractAddress || "",
   );
@@ -123,6 +124,7 @@ const NFTConfig = ({ taskId }) => {
 
   const handleNetworkChange = (value) => {
     setNetwork(value);
+
     dispatch(
       updateCurrentQuestTask({
         id: taskId,
@@ -133,6 +135,7 @@ const NFTConfig = ({ taskId }) => {
 
   const handleRequireTokenIdChange = (checked) => {
     setRequireTokenId(checked);
+
     dispatch(
       updateCurrentQuestTask({
         id: taskId,
@@ -222,8 +225,8 @@ const NFTConfig = ({ taskId }) => {
         <div className="mb-3 flex items-center gap-2">
           <Switch
             size="sm"
-            checked={requireTokenId}
-            onChange={(e) => handleRequireTokenIdChange(e.target.checked)}
+            isSelected={requireTokenId}
+            onValueChange={(value) => handleRequireTokenIdChange(value)}
           />
 
           <label className="text-sm text-gray-300">

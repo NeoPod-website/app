@@ -1,45 +1,65 @@
-import React from "react";
+import { cookies } from "next/headers";
+import React, { Suspense } from "react";
+import { notFound } from "next/navigation";
 
-import NeoBreadcrumbs from "@/components/ui/NeoBreadcrumbs";
 import MainPageScroll from "@/components/common/MainPageScroll";
+import AdminQuestContainer from "@/components/layout/quests/admin/AdminQuestContainer";
 
-import AdminCategoryMain from "@/components/layout/category/admin/AdminCategoryPage";
-
-const category = {
-  id: 4,
-  title: "Hot Campaigns Test",
-  icon: "/dashboard/category/icon-1.png",
-  description: "This is a description for the category.",
-  background: "/dashboard/category/background-2.jpg",
+export const metadata = {
+  title: "Manage Quests | Admin Panel | NEO POD",
+  description:
+    "Create, edit, and organize quests for ambassadors. Shape the journey and engagement through meaningful tasks and challenges.",
 };
 
-const breadcrumbsList = [
-  {
-    title: "Admin Categories",
-    href: "/admin/manage/categories",
-  },
-  {
-    title: category.title,
-    href: `/admin/manage/categories/${category.id}`,
-  },
-];
+async function fetchCategories(categoryId) {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("neo-jwt");
 
-const AdminCategoryPage = async ({ params }) => {
+    let url = `${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token.value}`,
+      },
+      credentials: "include",
+      cache: "no-store",
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        notFound();
+      }
+
+      throw new Error(`Failed to fetch categories: ${response.statusText}`);
+    }
+
+    return data.data;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    throw error;
+  }
+}
+
+const ManageQuestsPage = async ({ params }) => {
   const { categoryId } = await params;
 
-  return (
-    <MainPageScroll scrollable={false}>
-      <NeoBreadcrumbs list={breadcrumbsList} />
+  const categoriesData = await fetchCategories(categoryId);
 
-      <AdminCategoryMain
-        id={categoryId}
-        icon={category.icon}
-        title={category.title}
-        background={category.background}
-        description={category.description}
-      />
+  return (
+    <MainPageScroll scrollable>
+      <Suspense>
+        <AdminQuestContainer
+          category={categoriesData.category}
+          key={categoriesData.category.category_id}
+        />
+      </Suspense>
     </MainPageScroll>
   );
 };
 
-export default AdminCategoryPage;
+export default ManageQuestsPage;

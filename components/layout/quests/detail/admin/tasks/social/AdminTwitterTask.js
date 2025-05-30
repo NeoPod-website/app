@@ -417,8 +417,8 @@ const SpacesConfig = ({ taskId }) => {
         <div className="mb-3 flex items-center gap-2">
           <Switch
             size="sm"
-            checked={requirePassword}
-            onChange={(e) => handleRequirePasswordChange(e.target.checked)}
+            isSelected={requirePassword}
+            onValueChange={(value) => handleRequirePasswordChange(value)}
           />
 
           <label className="text-sm text-gray-300">

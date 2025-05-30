@@ -1,12 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { Reorder } from "framer-motion";
 import { addToast, Button } from "@heroui/react";
+import { SaveIcon, TrashIcon } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import { PlusIcon, SaveIcon, TrashIcon } from "lucide-react";
 
 import AdminQuestItem from "./AdminQuestItem";
+
+import CreateNewQuest from "@/components/ui/buttons/quest/admin/CreateNewQuest";
 
 const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
   const [hasChanges, setHasChanges] = useState(false);
@@ -20,7 +21,7 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
     const positions = {};
 
     questsData.forEach((quest) => {
-      positions[quest.id] = quest.position;
+      positions[quest.quest_id] = quest.display_order;
     });
 
     setOriginalPositions(positions);
@@ -40,7 +41,7 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
 
     setQuestsData((prevQuests) =>
       prevQuests.map((quest) =>
-        quest.id === questId ? { ...quest, [field]: value } : quest,
+        quest.quest_id === questId ? { ...quest, [field]: value } : quest,
       ),
     );
 
@@ -48,7 +49,7 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
       ...prev,
       [questId]: {
         ...prev[questId],
-        id: questId,
+        quest_id: questId,
         [field]: value,
       },
     }));
@@ -70,19 +71,19 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
 
     const updatedQuests = newOrder.map((quest, index) => ({
       ...quest,
-      position: index + 1,
+      display_order: index + 1,
     }));
 
     setQuestsData(updatedQuests);
 
     updatedQuests.forEach((quest) => {
-      if (quest.position !== originalPositions[quest.id]) {
+      if (quest.display_order !== originalPositions[quest.quest_id]) {
         setChangedQuests((prev) => ({
           ...prev,
-          [quest.id]: {
-            ...prev[quest.id],
-            id: quest.id,
-            position: quest.position,
+          [quest.quest_id]: {
+            ...prev[quest.quest_id],
+            quest_id: quest.quest_id,
+            display_order: quest.display_order,
           },
         }));
         setHasChanges(true);
@@ -90,26 +91,134 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
     });
   };
 
-  // // Save all changes in batch
-  // const saveChanges = () => {
-  //   if (!hasChanges) return;
+  const handleSaveChange = async () => {
+    if (!hasChanges) return;
 
-  //   const updates = Object.values(changedQuests);
-  //   console.log("Batch updates to send:", updates);
+    const updates = Object.values(changedQuests);
 
-  //   // Here you would dispatch to your API or state management
+    try {
+      // Make PATCH request to update quests in backend
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/quests/batch`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ quests: updates }),
+        },
+      );
 
-  //   // Update original positions after saving
-  //   const newPositions = {};
-  //   questsData.forEach((quest) => {
-  //     newPositions[quest.id] = quest.position;
-  //   });
-  //   setOriginalPositions(newPositions);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-  //   // Reset changes tracker
-  //   setChangedQuests({});
-  //   setHasChanges(false);
-  // };
+      const result = await response.json();
+      console.log("Batch update successful:", result);
+
+      // Update original positions after successful save
+      const newPositions = {};
+
+      questsData.forEach((quest) => {
+        newPositions[quest.quest_id] = quest.display_order;
+      });
+      setOriginalPositions(newPositions);
+
+      // Reset changes tracker
+      setChangedQuests({});
+      setHasChanges(false);
+
+      // Show success toast
+      addToast({
+        color: "success",
+        title: "Changes saved",
+        description: `Successfully updated ${updates.length} quest(s)`,
+      });
+    } catch (error) {
+      console.error("Error saving changes:", error);
+
+      // Show error toast
+      addToast({
+        color: "danger",
+        title: "Save failed",
+        description: "Failed to save changes. Please try again.",
+      });
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedQuests.size === 0) return;
+
+    const questIds = Array.from(selectedQuests);
+
+    try {
+      // Make DELETE request to delete selected quests
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/quests/batch`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ quest_ids: questIds }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("Batch delete successful:", result);
+
+      // Remove deleted quests from local state
+      setQuestsData((prevQuests) =>
+        prevQuests.filter((quest) => !selectedQuests.has(quest.quest_id)),
+      );
+
+      // Clear selected quests
+      setSelectedQuests(new Set());
+
+      // Remove any pending changes for deleted quests
+      setChangedQuests((prev) => {
+        const updated = { ...prev };
+        questIds.forEach((questId) => {
+          delete updated[questId];
+        });
+        return updated;
+      });
+
+      // Update original positions for remaining quests
+      const remainingQuests = questsData.filter(
+        (quest) => !selectedQuests.has(quest.quest_id),
+      );
+
+      const newPositions = {};
+
+      remainingQuests.forEach((quest) => {
+        newPositions[quest.quest_id] = quest.display_order;
+      });
+
+      setOriginalPositions(newPositions);
+
+      // Check if there are still changes after deletion
+      if (Object.keys(changedQuests).length === 0) {
+        setHasChanges(false);
+      }
+
+      // Show success toast
+      addToast({
+        color: "success",
+        title: "Quests deleted",
+        description: `Successfully deleted ${questIds.length} quest(s)`,
+      });
+    } catch (error) {
+      // Show error toast
+      addToast({
+        color: "danger",
+        title: "Delete failed",
+        description: "Failed to delete selected quests. Please try again.",
+      });
+    }
+  };
 
   const discardChanges = () => {
     const resetQuests = [...questsData]
@@ -118,7 +227,7 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
       })
       .map((quest) => ({
         ...quest,
-        position: originalPositions[quest.id],
+        display_order: originalPositions[quest.quest_id],
       }));
 
     setQuestsData(resetQuests);
@@ -157,7 +266,7 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
 
   return (
     <div className="relative flex flex-col rounded-b-2.5xl">
-      {!hasChanges && !(selectedQuests > 0) && (
+      {!hasChanges && selectedQuests.size === 0 && (
         <div className="sticky top-0 z-10 mx-4 my-2 flex items-center justify-between rounded-lg border border-gray-400 bg-gray-700 p-4 shadow-md">
           <p className="text-sm text-white">
             Ready to expand the{" "}
@@ -165,12 +274,7 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
             a new quest.
           </p>
 
-          <Link
-            href={`/admin/manage/quests/${category.pod_id}/${category.category_id}/create`}
-            className="ml-8 flex w-fit items-center gap-2 rounded-lg border border-white bg-gradient-primary px-6 py-2.5 text-sm transition-opacity hover:scale-100 active:scale-95"
-          >
-            Create New Quest <PlusIcon size={16} className="-mt-0.5" />
-          </Link>
+          <CreateNewQuest category={category} />
         </div>
       )}
 
@@ -194,10 +298,11 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
             <Button
               size="md"
               radius="full"
+              onPress={handleSaveChange}
               endContent={<SaveIcon size={16} />}
               className="neo-button border border-white bg-gradient-primary"
             >
-              Save Chnages
+              Save Changes
             </Button>
           </div>
         </div>
@@ -223,6 +328,7 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
               size="md"
               radius="full"
               endContent={<TrashIcon size={16} />}
+              onPress={handleDeleteSelected}
               className="neo-button border border-white bg-gradient-primary"
             >
               Delete Selected
@@ -240,8 +346,8 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
         {questsData.map((quest) => (
           <AdminQuestItem
             quest={quest}
-            key={quest.id}
             category={category}
+            key={quest.quest_id}
             hasChanges={hasChanges}
             selectedQuests={selectedQuests}
             onQuestChange={handleQuestChange}

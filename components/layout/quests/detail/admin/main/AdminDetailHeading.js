@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useCallback, useMemo, memo, useEffect, useRef } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useState, useCallback, useMemo, memo, useEffect, useRef } from "react";
 
 import { setCurrentQuest } from "@/redux/slice/questSlice";
 
@@ -119,7 +119,7 @@ const AdminDetailHeading = memo(({ name, isNew = false, className = "" }) => {
   );
 
   const displayName = useMemo(
-    () => currentQuest.name || name || "Untitled Quest",
+    () => currentQuest.name || name || "Your New Quest Name",
     [currentQuest.name, name],
   );
 

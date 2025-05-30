@@ -60,7 +60,7 @@ const AdminQuestItem = ({
     setSelectedStatus(keys);
 
     if (onQuestChange) {
-      onQuestChange(quest.id, "status", newStatus);
+      onQuestChange(quest.quest_id, "status", newStatus);
     }
   };
 
@@ -71,7 +71,7 @@ const AdminQuestItem = ({
     setSelectedRecurrence(keys);
 
     if (onQuestChange) {
-      onQuestChange(quest.id, "recurrence", newRecurrence);
+      onQuestChange(quest.quest_id, "recurrence", newRecurrence);
     }
   };
 
@@ -82,7 +82,7 @@ const AdminQuestItem = ({
     setSelectedCooldown(keys);
 
     if (onQuestChange) {
-      onQuestChange(quest.id, "cooldown", newCooldown);
+      onQuestChange(quest.quest_id, "cooldown", newCooldown);
     }
   };
 
@@ -134,13 +134,18 @@ const AdminQuestItem = ({
       className="mb-4 select-none"
     >
       <div
-        className="flex w-full items-center justify-between gap-5 rounded-lg border border-gray-400 bg-gradient-dark px-5 py-4"
-        onClick={(e) => handleQuestItemClick(e, quest.id)}
+        className={`flex w-full items-center justify-between gap-5 rounded-lg border border-gray-400 bg-gradient-dark px-5 py-4 ${
+          quest.status === "active"
+            ? "border-green-600"
+            : quest.status === "draft"
+              ? "border-yellow-500 opacity-80 hover:opacity-100"
+              : "border-gray-500 opacity-80 hover:opacity-100"
+        }`}
       >
         <div className="flex flex-1 items-center gap-5">
           <Checkbox
-            isSelected={selectedQuests.has(quest.id)}
-            onValueChange={() => onQuestSelect(quest.id)}
+            isSelected={selectedQuests.has(quest.quest_id)}
+            onValueChange={() => onQuestSelect(quest.quest_id)}
             classNames={{
               base: "p-0",
               wrapper: "after:bg-white text-black",
@@ -148,8 +153,11 @@ const AdminQuestItem = ({
           />
 
           <div className="flex flex-1 items-center gap-2 overflow-hidden">
-            <div className="min-w-0 cursor-pointer rounded-lg border border-gray-400 bg-gray-700 px-4 py-2.5 text-white">
-              <p className="line-clamp-1 text-sm">{quest.title}</p>
+            <div
+              className="min-w-0 cursor-pointer rounded-lg border border-gray-400 bg-gray-700 px-4 py-2.5 text-white"
+              onClick={(e) => handleQuestItemClick(e, quest.quest_id)}
+            >
+              <p className="line-clamp-1 text-sm">{quest.name}</p>
             </div>
 
             <StackedQuests tasks={quest.tasks} />
@@ -174,8 +182,8 @@ const AdminQuestItem = ({
                 "border border-gray-400 border-[1px] focus-within:!border-t-gray-300 h-11 min-h-[44px] max-h-[44px] focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black rounded-full",
             }}
           >
-            <SelectItem key="live" value="Live">
-              Live
+            <SelectItem key="active" value="Active">
+              Active
             </SelectItem>
             <SelectItem key="draft" value="Draft">
               Draft

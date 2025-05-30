@@ -6,9 +6,10 @@ import MainPageScroll from "@/components/common/MainPageScroll";
 
 import FilterHeader from "@/components/common/filter/FilterHeader";
 import WrapperContainer from "@/components/common/WrapperContainer";
-import QuestListLoader from "@/components/ui/loader/quest/QuestListLoader";
+
 import FilterPanelLoader from "@/components/ui/loader/filter/FilterPanelLoader";
 import CategoryItemLoader from "@/components/ui/loader/category/CategoryItemLoader";
+import AdminQuestListLoader from "@/components/ui/loader/quest/admin/AdminQuestListLoader";
 
 export const metadata = {
   title: "Manage Quests | Admin Panel | NEO POD",
@@ -30,7 +31,7 @@ const ManageQuestsPage = async () => {
 
         <WrapperContainer>
           <CategoryItemLoader />
-          <QuestListLoader />
+          <AdminQuestListLoader />
         </WrapperContainer>
       </MainPageScroll>
     </QuestProvider>

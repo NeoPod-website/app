@@ -3,16 +3,27 @@
 import { Input, Button } from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { UsersIcon, PlusIcon, TrashIcon } from "lucide-react";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
 import { setCurrentQuest } from "@/redux/slice/questSlice";
 
 const AdminQuestClaimLimit = () => {
   const dispatch = useDispatch();
 
-  // Simple local state - no complex syncing
+  const limit = useSelector((state) => state.quest.currentQuest.limit);
+
   const [isActive, setIsActive] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    if (limit !== null && limit !== undefined) {
+      setIsActive(true);
+      setInputValue(limit.toString());
+    } else {
+      setIsActive(false);
+      setInputValue("");
+    }
+  }, [limit]);
 
   const handleChange = useCallback(
     (e) => {

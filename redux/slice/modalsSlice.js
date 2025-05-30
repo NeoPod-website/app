@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isSocialModalOpen: false,
   isAddTasksModalOpen: false,
+  isDeleteConfirmationModalOpen: true,
 };
 
 const modalsSlice = createSlice({
@@ -18,9 +19,18 @@ const modalsSlice = createSlice({
     toggleAddTasksModal: (state) => {
       state.isAddTasksModalOpen = !state.isAddTasksModalOpen;
     },
+
+    toggleDeleteConfirmationModal: (state) => {
+      state.isDeleteConfirmationModalOpen =
+        !state.isDeleteConfirmationModalOpen;
+    },
   },
 });
 
-export const { toggleSocialModal, toggleAddTasksModal } = modalsSlice.actions;
+export const {
+  toggleSocialModal,
+  toggleAddTasksModal,
+  toggleDeleteConfirmationModal,
+} = modalsSlice.actions;
 
 export default modalsSlice.reducer;

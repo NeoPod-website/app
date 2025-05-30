@@ -49,13 +49,16 @@ const ManageQuestsPage = async ({ params }) => {
   const { podId } = await params;
 
   const categoriesData = await fetchCategories(podId);
-  console.log(categoriesData);
 
   return (
     <MainPageScroll scrollable>
       <Suspense>
         {categoriesData.categories.map((category) => (
-          <AdminQuestContainer key={category.category_id} category={category} />
+          <AdminQuestContainer
+            isQuestPage
+            category={category}
+            key={category.category_id}
+          />
         ))}
       </Suspense>
     </MainPageScroll>

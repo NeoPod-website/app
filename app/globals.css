@@ -10,7 +10,7 @@
 }
 
 body {
-  background-image: var(--background-color);
+  background-color: var(--background-color);
   color: #ffffff;
 }
 

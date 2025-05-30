@@ -1,11 +1,11 @@
 "use client";
 
+import { DatePicker } from "@heroui/react";
 import { addToast, Button } from "@heroui/react";
-import { DateInput } from "@heroui/react";
-import { CalendarDate, parseDate } from "@internationalized/date";
 import { useDispatch, useSelector } from "react-redux";
-import { CalendarIcon, PlusIcon, TrashIcon, CheckIcon } from "lucide-react";
 import React, { useState, useCallback, useEffect } from "react";
+import { CalendarDate, parseDate } from "@internationalized/date";
+import { CalendarIcon, PlusIcon, TrashIcon, CheckIcon } from "lucide-react";
 
 import { setCurrentQuest } from "@/redux/slice/questSlice";
 
@@ -97,12 +97,21 @@ const AdminQuestDueDate = () => {
 
   // Update original date when component mounts with existing due_date
   useEffect(() => {
-    if (due_date && !originalDate) {
+    if (due_date) {
       const existingDate = parseDate(due_date.split("T")[0]);
       setOriginalDate(existingDate);
       setSelectedDate(existingDate);
+
+      setIsActive(true);
+      setHasChanged(false);
+    } else {
+      setOriginalDate(null);
+      setSelectedDate(null);
+
+      setIsActive(false);
+      setHasChanged(false);
     }
-  }, [due_date, originalDate]);
+  }, [due_date]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -126,7 +135,7 @@ const AdminQuestDueDate = () => {
 
       {isActive && (
         <div className="flex items-center gap-3">
-          <DateInput
+          <DatePicker
             size="sm"
             variant="bordered"
             value={selectedDate}

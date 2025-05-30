@@ -88,7 +88,7 @@ const CategoryForm = ({
             label="Category Title"
             onValueChange={setTitle}
             placeholder="Choose a title for the category"
-            className="bg-dark"
+            className="bg-dark text-white"
             classNames={{
               inputWrapper:
                 "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
@@ -100,7 +100,7 @@ const CategoryForm = ({
             variant="bordered"
             selectedKeys={[status]}
             onSelectionChange={(keys) => setStatus([...keys][0])}
-            className="bg-dark"
+            className="bg-dark text-white"
             classNames={{
               trigger:
                 "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
@@ -124,7 +124,7 @@ const CategoryForm = ({
             placeholder="Provide more details about your category"
             isInvalid={description.length >= MAX_DESCRIPTION_LENGTH}
             errorMessage="The description cannot be 100 characters long."
-            className="bg-dark"
+            className="bg-dark text-white"
             classNames={{
               inputWrapper:
                 "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
@@ -139,7 +139,7 @@ const CategoryForm = ({
             radius="full"
             disabled={isSubmitting}
             href={`/admin/manage/categories/${podId}`}
-            className="neo-button border border-red-500 bg-red-500/20"
+            className="neo-button border border-red-500 bg-red-500/20 text-white"
           >
             Cancel
           </Button>
@@ -150,7 +150,7 @@ const CategoryForm = ({
             radius="full"
             disabled={isSubmitting}
             isLoading={isSubmitting}
-            className="neo-button border border-white bg-gradient-primary"
+            className="neo-button border border-white bg-gradient-primary text-white"
             endContent={<SendHorizontalIcon size={16} />}
           >
             {isNew ? "Create" : "Update"}

@@ -164,10 +164,9 @@ const TelegramChannelSettings = ({ taskId }) => {
 
       <div className="flex items-center gap-2">
         <Switch
-          checked={localIsGroup}
-          onChange={(e) => handleIsGroupChange(e.target.checked)}
           size="sm"
-          readOnly
+          isSelected={localIsGroup}
+          onValueChange={(value) => handleIsGroupChange(value)}
         />
 
         <label className="text-sm text-gray-300">
@@ -177,10 +176,9 @@ const TelegramChannelSettings = ({ taskId }) => {
 
       <div className="flex items-center gap-2">
         <Switch
-          checked={localRequireVerification}
-          onChange={(e) => handleVerificationChange(e.target.checked)}
           size="sm"
-          readOnly
+          isSelected={localRequireVerification}
+          onValueChange={(value) => handleVerificationChange(value)}
         />
 
         <label className="text-sm text-gray-300">

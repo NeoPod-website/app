@@ -10,6 +10,7 @@ const initialState = {
     podId: null,
     description: "",
     categoryId: null,
+    isInitialized: false,
   },
   loading: false,
   error: null,
@@ -117,12 +118,12 @@ const questSlice = createSlice({
 export const {
   setQuests,
   setCurrentQuest,
-  addCurrentQuestTask,
-  updateCurrentQuestTask,
-  removeCurrentQuestTask,
-  reorderCurrentQuestTasks,
   resetCurrentQuest,
+  addCurrentQuestTask,
   publishCurrentQuest,
+  removeCurrentQuestTask,
+  updateCurrentQuestTask,
+  reorderCurrentQuestTasks,
 } = questSlice.actions;
 
 export default questSlice.reducer;

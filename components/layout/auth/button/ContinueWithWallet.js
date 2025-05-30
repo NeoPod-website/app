@@ -22,7 +22,7 @@ const ContinueWithWallet = ({ setShowWalletForm }) => {
       size="lg"
       fullWidth
       variant="bordered"
-      className="gap-2.5 border-gray-300 bg-dark"
+      className="gap-2.5 border-gray-300 bg-dark text-white"
       classNames={{
         content: "text-base",
       }}

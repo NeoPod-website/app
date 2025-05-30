@@ -31,6 +31,7 @@ const AdminTasksList = ({ tasks: initialTasks = [] }) => {
   const containerRef = useRef(null);
 
   const [draggedItem, setDraggedItem] = useState(null);
+  const [tasksWithIds, setTasksWithIds] = useState([]);
   const [initialized, setInitialized] = useState(false);
 
   useAutoScroll({ scrollContainer: containerRef });
@@ -38,8 +39,8 @@ const AdminTasksList = ({ tasks: initialTasks = [] }) => {
   const currentTasks = useSelector((state) => state.quest.currentQuest.tasks);
 
   useEffect(() => {
-    if (!initialized && initialTasks.length > 0) {
-      const tasksWithIds = initialTasks.map((task) =>
+    if (initialTasks.length > 0) {
+      const processedTasks = initialTasks.map((task) =>
         task.id
           ? task
           : {
@@ -51,10 +52,13 @@ const AdminTasksList = ({ tasks: initialTasks = [] }) => {
             },
       );
 
-      dispatch(setCurrentQuest({ tasks: tasksWithIds }));
-    }
+      setTasksWithIds(processedTasks);
 
-    setInitialized(true);
+      if (!initialized) {
+        dispatch(setCurrentQuest({ tasks: processedTasks }));
+        setInitialized(true);
+      }
+    }
   }, [initialTasks, initialized, dispatch]);
 
   const handleReorder = useCallback(
@@ -161,7 +165,7 @@ const AdminTasksList = ({ tasks: initialTasks = [] }) => {
     }
   };
 
-  const tasksToRender = initialized ? [...currentTasks] : [...initialTasks];
+  const tasksToRender = initialized ? [...currentTasks] : tasksWithIds;
 
   return (
     <div className="mb-4">

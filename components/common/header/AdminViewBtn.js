@@ -43,7 +43,7 @@ const AdminViewBtn = () => {
     <Button
       as={Link}
       href={getTargetPath()}
-      className="h-11 w-fit min-w-0 rounded-full border-t border-gray-400 bg-gradient-dark px-4 py-2.5"
+      className="h-11 w-fit min-w-0 rounded-full border-t border-gray-400 bg-gradient-dark px-4 py-2.5 text-white"
     >
       Preview User View
     </Button>
@@ -51,7 +51,7 @@ const AdminViewBtn = () => {
     <Button
       as={Link}
       href={getTargetPath()}
-      className="h-11 w-fit min-w-0 rounded-full border-t border-gray-400 bg-gradient-dark px-4 py-2.5"
+      className="h-11 w-fit min-w-0 rounded-full border-t border-gray-400 bg-gradient-dark px-4 py-2.5 text-white"
       startContent={<Undo2Icon size={20} className="text-white" />}
     >
       Back to Admin View

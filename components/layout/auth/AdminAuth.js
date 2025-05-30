@@ -193,6 +193,7 @@ const AdminAuth = () => {
     />
   ) : (
     <AuthMainContainer
+      isAdmin={true}
       title="Welcome back"
       description="Access the admin dashboard to manage ambassadors, review activity, and keep the community thriving!"
     >
