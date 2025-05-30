@@ -67,11 +67,11 @@ export default function CategoriesWithFilter({ podId, initialCategories }) {
   return (
     <div className="flex flex-1 flex-col space-y-4 overflow-hidden">
       <CategoryFilterHeader
+        podId={podId}
         nameFilter={nameFilter}
         setNameFilter={setNameFilter}
         hasActiveFilters={hasActiveFilters}
         activeFiltersCount={activeFiltersCount}
-        podId={podId}
       />
 
       <CategoryFilterPanel
@@ -86,10 +86,10 @@ export default function CategoriesWithFilter({ podId, initialCategories }) {
       <Suspense fallback={<CategoryListLoader />}>
         <div className="hide-scroll flex flex-1 flex-col overflow-y-auto">
           <AdminCategoriesList
-            categories={filteredCategories}
             podId={podId}
-            hasActiveFilters={hasActiveFilters}
             resetFilters={resetFilters}
+            categories={filteredCategories}
+            hasActiveFilters={hasActiveFilters}
             totalCategories={allCategories.length}
           />
         </div>
