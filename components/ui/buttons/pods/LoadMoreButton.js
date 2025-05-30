@@ -178,7 +178,6 @@ export default function LoadMorePods({
 
       if (data.status === "success") {
         const newPods = data.data.pods || [];
-        console.log(`Loaded ${newPods.length} additional pods`);
 
         // Handle empty results case
         if (newPods.length === 0) {

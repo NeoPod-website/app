@@ -15,6 +15,7 @@ const FilterHeader = ({
   headerLabel,
   setNameFilter,
   hasActiveFilters,
+  searchPlaceholder,
   showFilter = true,
   activeFiltersCount,
 }) => {
@@ -32,7 +33,7 @@ const FilterHeader = ({
             <FilterSearchInput
               nameFilter={nameFilter}
               setNameFilter={setNameFilter}
-              searchPlaceholder="Search Pods..."
+              searchPlaceholder={searchPlaceholder}
             />
 
             <FilterIndicator

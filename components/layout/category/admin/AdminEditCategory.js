@@ -111,6 +111,16 @@ const AdminEditCategory = ({
 
         // Process cover photo ONLY if it's a new File object
         if (categoryData.cover_photo instanceof File) {
+          const success = await deleteFile(initialCategoryData.cover_photo);
+
+          if (!success) {
+            addToast({
+              title: "Failed to delete cover photo",
+              description: "Please delete manually or contact support.",
+              color: "warning",
+            });
+          }
+
           const coverPhotoKey = await uploadFile(categoryData.cover_photo, {
             entityType: "QUEST_CATEGORIES",
             entityId: sanitizedFileName,
@@ -132,6 +142,16 @@ const AdminEditCategory = ({
 
         // Process icon ONLY if it's a new File object
         if (categoryData.icon instanceof File) {
+          const success = await deleteFile(initialCategoryData.icon);
+
+          if (!success) {
+            addToast({
+              title: "Failed to delete icon",
+              description: "Please delete manually or contact support.",
+              color: "warning",
+            });
+          }
+
           const iconKey = await uploadFile(categoryData.icon, {
             entityType: "QUEST_CATEGORIES",
             entityId: sanitizedFileName,

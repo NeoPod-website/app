@@ -14,6 +14,7 @@ const PodFilterHeader = ({
       linkLabel="Create Pod"
       nameFilter={nameFilter}
       setNameFilter={setNameFilter}
+      searchPlaceholder="Search Pods..."
       hasActiveFilters={hasActiveFilters}
       linkHref="/admin/manage/pods/create"
       activeFiltersCount={activeFiltersCount}
