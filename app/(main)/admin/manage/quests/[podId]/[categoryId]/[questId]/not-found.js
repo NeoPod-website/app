@@ -9,8 +9,8 @@ const breadcrumbsList = [
   },
 
   {
-    title: "Categories",
-    href: "/admin/manage/categories",
+    title: "Quests",
+    href: "/admin/manage/quests",
   },
 
   {
@@ -22,16 +22,16 @@ const NotFound = () => {
   return (
     <ManagePageWrapper
       scrollable={false}
-      linkLabel="Back to Categories"
+      linkLabel="Back to Quests"
       list={breadcrumbsList}
-      href="/admin/manage/categories"
+      href="/admin/manage/quests"
       icon={<UndoIcon size={16} className="-mt-0.5" />}
     >
       <ManageNotFound
-        backToLabel="Categories"
+        backToLabel="Quests"
         title="404 - Not Found"
-        backToHref="/admin/manage/categories"
-        description="The Category you're looking for could not be found. Select a different Category to continue."
+        backToHref="/admin/manage/quests"
+        description="The Quest you're looking for could not be found. Select a different Quest to continue."
       />
     </ManagePageWrapper>
   );

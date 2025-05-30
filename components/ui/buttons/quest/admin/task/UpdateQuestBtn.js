@@ -4,11 +4,11 @@ import React from "react";
 import { Button } from "@heroui/react";
 import { SendIcon } from "lucide-react";
 
-const PublishNewQuestBtn = ({ isLoading, handleCreateQuest }) => {
+const UpdateQuestBtn = ({ isLoading, handleUpdateQuest }) => {
   const getButtonText = () => {
-    if (isLoading) return "Publishing...";
+    if (isLoading) return "Updating...";
 
-    return "Publish";
+    return "Update";
   };
 
   return (
@@ -20,7 +20,7 @@ const PublishNewQuestBtn = ({ isLoading, handleCreateQuest }) => {
         const form = e.target.closest("form");
 
         if (form && form.checkValidity()) {
-          handleCreateQuest(e);
+          handleUpdateQuest(e);
         } else {
           // Show validation messages
           form.reportValidity();
@@ -34,4 +34,4 @@ const PublishNewQuestBtn = ({ isLoading, handleCreateQuest }) => {
   );
 };
 
-export default PublishNewQuestBtn;
+export default UpdateQuestBtn;
