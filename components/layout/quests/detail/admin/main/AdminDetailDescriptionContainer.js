@@ -21,7 +21,17 @@ const AdminDetailDescriptionContainer = ({
 
         <h2 className="mb-4 text-2xl font-bold">Tasks</h2>
         <div className="relative">
-          <AdminTasksList tasks={tasks} />
+          <AdminTasksList
+            tasks={
+              tasks || [
+                {
+                  name: "link",
+                  instruction: "",
+                  description: "",
+                },
+              ]
+            }
+          />
         </div>
       </div>
 

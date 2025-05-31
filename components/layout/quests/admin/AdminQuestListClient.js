@@ -113,7 +113,6 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
       }
 
       const result = await response.json();
-      console.log("Batch update successful:", result);
 
       // Update original positions after successful save
       const newPositions = {};
@@ -167,7 +166,6 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
       }
 
       const result = await response.json();
-      console.log("Batch delete successful:", result);
 
       // Remove deleted quests from local state
       setQuestsData((prevQuests) =>
