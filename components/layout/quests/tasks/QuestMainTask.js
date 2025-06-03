@@ -29,7 +29,7 @@ const taskConfig = {
   },
 };
 
-const QuestMainTask = ({ name, heading = "hello", description = "test" }) => {
+const QuestMainTask = ({ name, heading, description }) => {
   // Memoize the task configuration based on the 'name' prop
   const currentTaskConfig = useMemo(() => {
     return taskConfig[name];
@@ -42,11 +42,12 @@ const QuestMainTask = ({ name, heading = "hello", description = "test" }) => {
 
   return (
     <QuestTask
-      icon={currentTaskConfig.icon}
       text={name}
-      color={currentTaskConfig.color}
+      isAdmin={false}
       heading={heading}
       description={description}
+      icon={currentTaskConfig.icon}
+      color={currentTaskConfig.color}
     >
       <Input
         type={currentTaskConfig.type}

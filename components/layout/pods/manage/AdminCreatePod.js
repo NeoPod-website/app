@@ -64,6 +64,12 @@ const validateFieldLengths = (podData) => {
       `Please assign at least ${VALIDATION_RULES.assignedAdmins.min} Community Admin or Moderator`
     );
   }
+
+  if (assignedAdmins.length < VALIDATION_RULES.assignedAdmins.min) {
+    throw new Error(
+      `Please assign at least ${VALIDATION_RULES.assignedAdmins.min} Community Admin or Moderator`,
+    );
+  }
 };
 
 const AdminCreatePod = ({

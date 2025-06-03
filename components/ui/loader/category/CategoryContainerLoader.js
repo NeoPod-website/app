@@ -3,18 +3,25 @@
 import React from "react";
 
 import CategoryItemLoader from "./CategoryItemLoader";
-import QuestListLoader from "../quests/QuestListLoader";
+import QuestListLoader from "../quest/QuestListLoader";
 
-const CategoryContainerLoader = ({ compact = false, scrollable = false }) => {
+import MainPageScroll from "@/components/common/MainPageScroll";
+import WrapperContainer from "@/components/common/WrapperContainer";
+
+const CategoryContainerLoader = ({
+  length = 2,
+  compact = false,
+  scrollable = false,
+}) => {
   return (
-    <section
-      className={`flex-1 rounded-2.5xl bg-black/50 ${
-        scrollable ? "flex flex-col overflow-hidden" : ""
-      }`}
-    >
-      <CategoryItemLoader />
-      <QuestListLoader compact={compact} scrollable={scrollable} />
-    </section>
+    <MainPageScroll scrollable={scrollable}>
+      {Array.from({ length }).map((_, index) => (
+        <WrapperContainer scrollable={scrollable} key={index}>
+          <CategoryItemLoader />
+          <QuestListLoader compact={compact} scrollable={scrollable} />
+        </WrapperContainer>
+      ))}
+    </MainPageScroll>
   );
 };
 

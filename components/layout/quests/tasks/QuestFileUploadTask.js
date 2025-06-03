@@ -136,11 +136,12 @@ const QuestFileUploadTask = ({
 
   return (
     <QuestTask
-      icon={<FileUpIcon size={12} className="text-white" />}
       text="file"
       color="#15803d"
+      isAdmin={false}
       heading={heading}
       description={description}
+      icon={<FileUpIcon size={12} className="text-white" />}
     >
       <div className="flex w-full items-center justify-center">
         {selectedFile ? (

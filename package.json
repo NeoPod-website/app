@@ -50,6 +50,7 @@
     "@tiptap/react": "^2.11.9",
     "@tiptap/starter-kit": "^2.11.9",
     "clsx": "^2.1.1",
+    "dompurify": "^3.2.6",
     "ethers": "^5.7.2",
     "framer-motion": "^12.6.2",
     "jsonwebtoken": "^9.0.2",

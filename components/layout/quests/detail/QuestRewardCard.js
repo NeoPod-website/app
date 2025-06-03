@@ -6,7 +6,7 @@ const QuestRewardCard = ({ reward, rewardType }) => {
       <div className="flex h-full w-full flex-col items-center justify-center rounded-md border border-gray-400 bg-black/70 text-center text-white">
         <p className="text-2xl font-bold">{reward}</p>
 
-        <span className="block text-sm">{rewardType}</span>
+        <span className="block text-sm uppercase">{rewardType}</span>
       </div>
     </div>
   );

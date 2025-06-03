@@ -1,5 +1,3 @@
-"use client";
-
 import {
   LinkIcon,
   EarthIcon,
@@ -9,9 +7,34 @@ import {
   LetterTextIcon,
   SquareArrowOutUpRightIcon,
 } from "lucide-react";
+import React from "react";
 import Image from "next/image";
-import { useMemo } from "react";
-import { Avatar, AvatarGroup } from "@heroui/react";
+
+// Simple Avatar component
+const SimpleAvatar = ({ children, className = "" }) => (
+  <div
+    className={`flex h-6 w-6 items-center justify-center rounded-full bg-red-700 ${className}`}
+  >
+    {children}
+  </div>
+);
+
+const SimpleAvatarGroup = ({ children, max = 3 }) => {
+  const childArray = React.Children.toArray(children);
+  const visibleChildren = childArray.slice(0, max);
+  const remainingCount = childArray.length - max;
+
+  return (
+    <div className="flex -space-x-2">
+      {visibleChildren}
+      {remainingCount > 0 && (
+        <SimpleAvatar className="bg-red-700 text-xs font-medium text-white">
+          +{remainingCount}
+        </SimpleAvatar>
+      )}
+    </div>
+  );
+};
 
 const taskIconMap = {
   number: <ArrowUp01Icon size={12} className="text-white" />,
@@ -31,40 +54,31 @@ const taskIconMap = {
 };
 
 const StackedQuests = ({ tasks = [] }) => {
+  // Process tasks directly on the server
   const safeTasks = Array.isArray(tasks) ? tasks : [];
 
-  // Memoize the task icons to avoid re-renders if tasks prop doesn't change
-  const taskIcons = useMemo(() => {
-    return safeTasks
-      .map((task) => {
-        const taskName =
-          typeof task === "object" && task !== null && task.name
-            ? task.name
-            : task;
-        const icon = taskIconMap[taskName];
-        return icon ? (
-          <Avatar
-            key={taskName}
-            size="sm"
-            icon={icon}
-            classNames={{
-              base: "bg-red-700 !w-6 !h-6",
-            }}
-          />
-        ) : null;
-      })
-      .filter(Boolean);
-  }, [safeTasks]);
+  const taskIcons = safeTasks
+    .map((task, index) => {
+      const taskName =
+        typeof task === "object" && task !== null && task.name
+          ? task.name
+          : task;
+      const icon = taskIconMap[taskName];
+      return icon ? (
+        <SimpleAvatar key={`task-${index}-${taskName}`}>{icon}</SimpleAvatar>
+      ) : null;
+    })
+    .filter(Boolean);
+
+  // Show loading state if no valid icons
+  if (taskIcons.length === 0) {
+    return null;
+  }
 
   return (
-    <AvatarGroup
-      max={3}
-      classNames={{
-        count: "bg-red-700 !w-6 !h-6 text-white",
-      }}
-    >
-      {taskIcons}
-    </AvatarGroup>
+    <div className="min-h-[24px] min-w-[48px]">
+      <SimpleAvatarGroup max={3}>{taskIcons}</SimpleAvatarGroup>
+    </div>
   );
 };
 

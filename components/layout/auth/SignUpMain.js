@@ -1,88 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { ArrowRight } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, Select, SelectItem } from "@heroui/react";
 
-import { setUserState } from "@/redux/slice/userSlice";
-
+import { useSignup } from "@/hooks/useSignup";
 import AuthMainContainer from "./AuthMainContainer";
 
 const SignUpMain = ({ session }) => {
-  const router = useRouter();
-  const dispatch = useDispatch();
+  const {
+    allPods,
+    username,
+    setUsername,
+    selectedPod,
+    isSubmitting,
+    handleSignUp,
+    isLoadingPods,
+    hasValidAccess,
+    getLanguageName,
+    handlePodSelectionChange,
+  } = useSignup(session);
 
-  const email = useSelector((state) => state.user?.email);
-  const address = useSelector((state) => state.user?.address);
-  const login_method = useSelector((state) => state.user?.login_method);
-
-  const [username, setUsername] = useState();
-  const [selectedLanguage, setSelectedLanguage] = useState(new Set(["zh"]));
-
-  const handleSelectionChange = (keys) => {
-    setSelectedLanguage(keys);
-  };
-
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-
-    try {
-      const loginPayload = {
-        login_method,
-        username,
-        language: Array.from(selectedLanguage)[0],
-      };
-
-      if (email) {
-        loginPayload.email = email;
-      } else if (address) {
-        loginPayload.wallet_address = address;
-      } else {
-        loginPayload.email = session.user.email;
-        loginPayload.login_method = "social";
-      }
-
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(loginPayload),
-        },
-      );
-
-      if (res.ok) {
-        const { token, data } = await res.json();
-
-        dispatch(
-          setUserState({
-            role: data.user.isAdmin ? "admin" : "ambassador",
-            user: data.user,
-            username: username,
-            email: loginPayload.email,
-            address: loginPayload.address,
-            login_method: loginPayload.login_method,
-          }),
-        );
-
-        localStorage.setItem("neo-token", token);
-
-        router.push("/");
-      } else {
-        router.push(
-          `/error?reason=${res.error.msg || "Backend-signup-failed"}`,
-        );
-      }
-    } catch (err) {
-      console.error("Client signup failed:", err);
-      router.push("/error?reason=Something-went-wrong");
-    }
-  };
+  if (!hasValidAccess) {
+    <AuthMainContainer title="Signing Up" description="Fetching your email">
+      <div className="flex items-center justify-center">
+        <div className="mb-12 h-8 w-8 animate-spinner-ease-spin rounded-full border-b-2 border-t-2 border-white"></div>
+      </div>
+    </AuthMainContainer>;
+  }
 
   return (
     <AuthMainContainer
@@ -104,23 +49,22 @@ const SignUpMain = ({ session }) => {
         />
 
         <Select
-          label="Your Language"
+          label="Select Your Pod"
           variant="bordered"
-          selectedKeys={selectedLanguage}
-          onSelectionChange={handleSelectionChange}
+          isLoading={isLoadingPods}
+          selectedKeys={selectedPod}
+          onSelectionChange={handlePodSelectionChange}
           className="bg-dark"
           classNames={{
             trigger:
               "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
           }}
         >
-          <SelectItem key="zh" value="Chinese">
-            Chinese
-          </SelectItem>
-          <SelectItem key="en" value="English">
-            English
-          </SelectItem>
-          {/* Add more language options as needed */}
+          {allPods.map((pod) => (
+            <SelectItem key={pod.pod_id} value={pod.pod_id}>
+              {getLanguageName(pod.language)}
+            </SelectItem>
+          ))}
         </Select>
 
         <Button
@@ -128,8 +72,10 @@ const SignUpMain = ({ session }) => {
           className="h-12 bg-white p-4 text-base font-semibold text-black"
           fullWidth
           endContent={<ArrowRight size={16} />}
+          isDisabled={isLoadingPods || isSubmitting}
+          isLoading={isSubmitting}
         >
-          Continue
+          {isSubmitting ? "Creating Account..." : "Continue"}
         </Button>
       </form>
     </AuthMainContainer>

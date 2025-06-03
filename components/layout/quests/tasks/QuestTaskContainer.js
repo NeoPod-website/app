@@ -1,13 +1,21 @@
 import React from "react";
 import { GripVertical } from "lucide-react";
 
-const QuestTaskContainer = ({ icon, color, text, children }) => {
+const QuestTaskContainer = ({
+  icon,
+  color,
+  text,
+  children,
+  isAdmin = true,
+}) => {
   return (
     <section className="task-item">
       <div className="flex items-center gap-2">
-        <div className="ml-12">
-          <GripVertical className="task-drag-indicator hidden" size={16} />
-        </div>
+        {isAdmin && (
+          <div className="ml-12">
+            <GripVertical className="task-drag-indicator hidden" size={16} />
+          </div>
+        )}
 
         <section className="relative flex-1">
           <div

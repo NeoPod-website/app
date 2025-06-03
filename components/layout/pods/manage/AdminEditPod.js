@@ -124,7 +124,7 @@ const AdminEditPod = ({
           });
 
           // Add to payload only after successful upload
-          podPayload.cover_photo = coverPhotoKey;
+          podPayload.cover_photo = coverPhotoKey.key;
 
           // Try to delete old cover photo (don't fail if this doesn't work)
           if (initialPod.original_cover_photo) {
@@ -161,8 +161,6 @@ const AdminEditPod = ({
         if (adminsChanged) {
           podPayload.admin_usernames = currentAdmins;
         }
-
-        console.log("Final podPayload:", podPayload);
 
         // Only send request if there are changes to make (matches your original logic)
         if (Object.keys(podPayload).length === 0) {

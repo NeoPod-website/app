@@ -2,9 +2,17 @@ import React from "react";
 
 import QuestTaskContainer from "./QuestTaskContainer";
 
-const QuestTask = ({ icon, text, color, heading, description, children }) => {
+const QuestTask = ({
+  icon,
+  text,
+  color,
+  heading,
+  isAdmin,
+  children,
+  description,
+}) => {
   return (
-    <QuestTaskContainer icon={icon} text={text} color={color}>
+    <QuestTaskContainer icon={icon} text={text} color={color} isAdmin={isAdmin}>
       <div
         style={{ borderColor: color }}
         className="rounded-2xl rounded-tl-none border bg-gradient-dark p-5 pt-3"

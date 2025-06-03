@@ -6,34 +6,50 @@ import { QuestDetailsChip } from "./QuestChip";
 const QuestDetailHeading = ({
   title,
   due_date,
+  cooldown,
   recurrence,
   claim_limit,
-  cooldown,
 }) => {
+  const formattedDueDate = due_date
+    ? new Date(due_date).toLocaleDateString()
+    : null;
+
   return (
     <div className="space-y-2.5">
       <h2 className="font-work-sans text-4xl font-bold">{title}</h2>
 
       <div className="flex gap-2">
-        <QuestDetailsChip
-          icon={<HourglassIcon size={12} className="text-gray-300" />}
-          text={`Expires in ${due_date}`}
-        />
+        {due_date && (
+          <QuestDetailsChip
+            icon={<HourglassIcon size={12} className="text-gray-300" />}
+            type="Expires in:"
+            text={formattedDueDate}
+          />
+        )}
 
-        <QuestDetailsChip
-          icon={<ClockIcon size={12} className="text-gray-300" />}
-          text={recurrence}
-        />
+        {recurrence && (
+          <QuestDetailsChip
+            icon={<ClockIcon size={12} className="text-gray-300" />}
+            type="Recurrence:"
+            text={recurrence}
+          />
+        )}
 
-        <QuestDetailsChip
-          icon={<HashIcon size={12} className="text-gray-300" />}
-          text={`Claim limit: ${claim_limit}`}
-        />
+        {claim_limit && (
+          <QuestDetailsChip
+            icon={<HashIcon size={12} className="text-gray-300" />}
+            type="Claim limit:"
+            text={claim_limit}
+          />
+        )}
 
-        <QuestDetailsChip
-          icon={<ClockFading size={12} className="text-gray-300" />}
-          text={cooldown}
-        />
+        {cooldown && (
+          <QuestDetailsChip
+            icon={<ClockFading size={12} className="text-gray-300" />}
+            type="Cooldown:"
+            text={cooldown}
+          />
+        )}
       </div>
     </div>
   );

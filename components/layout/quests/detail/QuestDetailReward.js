@@ -10,9 +10,9 @@ const QuestDetailReward = ({ rewards }) => {
       <div className="flex gap-4">
         {rewards.map((reward) => (
           <QuestRewardCard
-            key={reward.name}
-            reward={reward.quantity}
-            rewardType={reward.name}
+            key={reward.type}
+            reward={reward.amount}
+            rewardType={reward.type}
           />
         ))}
       </div>

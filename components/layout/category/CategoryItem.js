@@ -90,7 +90,9 @@ const CategoryItem = ({
         </span>
       )}
 
-      {isQuestPage && <CategorySeeMore id={id} podId={podId} />}
+      {isQuestPage && (
+        <CategorySeeMore id={id} podId={podId} isAdmin={isAdmin} />
+      )}
     </div>
   );
 };

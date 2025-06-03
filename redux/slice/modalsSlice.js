@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  selectedQuest: null,
   deleteModalData: null,
   isSocialModalOpen: false,
   isAddTasksModalOpen: false,
+  isShareQuestModalOpen: true,
   isDeleteConfirmationModalOpen: false,
 };
 
@@ -26,6 +28,14 @@ const modalsSlice = createSlice({
         !state.isDeleteConfirmationModalOpen;
     },
 
+    toggleShareQuestModal: (state) => {
+      state.isShareQuestModalOpen = !state.isShareQuestModalOpen;
+    },
+
+    setSelectedQuest: (state, action) => {
+      state.selectedQuest = action.payload;
+    },
+
     setDeleteModalData: (state, action) => {
       state.deleteModalData = action.payload;
     },
@@ -37,10 +47,12 @@ const modalsSlice = createSlice({
 });
 
 export const {
+  setSelectedQuest,
   toggleSocialModal,
   setDeleteModalData,
   toggleAddTasksModal,
   clearDeleteModalData,
+  toggleShareQuestModal,
   toggleDeleteConfirmationModal,
 } = modalsSlice.actions;
 
