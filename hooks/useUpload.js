@@ -22,8 +22,10 @@ const useUpload = () => {
       const {
         entityType = "QUEST_CATEGORIES",
         entityId,
+        subEntityId,
+        customFolder,
         fileName,
-        fileType = "file", // This maps to fileName query param in backend
+        fileType = "file",
         size = "MEDIUM",
         multiSize = false,
         noSubfolder = false,
@@ -43,17 +45,27 @@ const useUpload = () => {
         const formData = new FormData();
         formData.append("file", file);
 
-        // Build URL - updated to match your backend routes
+        // Build URL - support subEntityId in path
         const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/uploads/single/${entityType}`;
-        const entityPath = entityId ? `/${entityId}` : "";
+        let entityPath = entityId ? `/${entityId}` : "";
 
-        // Build query parameters to match backend expectations
+        // ADD subEntityId to URL if provided
+        if (subEntityId) {
+          entityPath += `/${subEntityId}`;
+        }
+
+        // Build query parameters
         const queryParams = new URLSearchParams({
-          fileName: fileType, // Backend expects this as fileName query param
           size,
+          fileName: fileType,
           multiSize: multiSize.toString(),
           noSubfolder: noSubfolder.toString(),
         });
+
+        // ADD customFolder to query params if provided
+        if (customFolder) {
+          queryParams.set("customFolder", customFolder);
+        }
 
         const uploadResponse = await fetch(
           `${baseUrl}${entityPath}?${queryParams.toString()}`,
@@ -80,6 +92,8 @@ const useUpload = () => {
             key: uploadData.data.key,
             url: uploadData.data.url,
             entityId: uploadData.data.entityId,
+            subEntityId: uploadData.data.subEntityId,
+            customFolder: uploadData.data.customFolder,
           });
         }
 
@@ -104,9 +118,11 @@ const useUpload = () => {
       const {
         entityType = "QUEST_CATEGORIES",
         entityId,
+        subEntityId, // ADD THIS
+        customFolder, // ADD THIS
         size = "MEDIUM",
-        multiSizeMode = false, // Use multi-size endpoint
-        sizes = ["THUMBNAIL", "MEDIUM"], // For multi-size uploads
+        multiSizeMode = false,
+        sizes = ["THUMBNAIL", "MEDIUM"],
         trackingKey = null,
       } = options;
 
@@ -127,12 +143,22 @@ const useUpload = () => {
         // Choose endpoint based on multiSizeMode
         const endpoint = multiSizeMode ? "multi-size" : "multiple";
         const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/uploads/${endpoint}/${entityType}`;
-        const entityPath = entityId ? `/${entityId}` : "";
+        let entityPath = entityId ? `/${entityId}` : "";
+
+        // ADD subEntityId to URL if provided
+        if (subEntityId) {
+          entityPath += `/${subEntityId}`;
+        }
 
         // Build query parameters
         const queryParams = new URLSearchParams({ size });
         if (multiSizeMode && sizes.length > 0) {
           queryParams.set("sizes", sizes.join(","));
+        }
+
+        // ADD customFolder to query params if provided
+        if (customFolder) {
+          queryParams.set("customFolder", customFolder);
         }
 
         const uploadResponse = await fetch(
@@ -187,7 +213,6 @@ const useUpload = () => {
       }
 
       try {
-        // Use encodeURIComponent to handle slashes in S3 keys
         const encodedKey = encodeURIComponent(fileKey);
         const deleteResponse = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/uploads/file/${encodedKey}`,
@@ -244,7 +269,6 @@ const useUpload = () => {
       }
 
       try {
-        // Convert entity type to kebab-case for URL (backend expects kebab-case)
         const kebabCaseEntityType = entityType.toLowerCase().replace(/_/g, "-");
 
         const response = await fetch(
@@ -355,15 +379,13 @@ const useUpload = () => {
       const { trackingKey = null } = options;
 
       try {
-        // Upload new file first
         const uploadResult = await uploadFile(file, {
           ...options,
           trackingKey,
         });
 
-        // Delete old file if it exists (don't fail if delete fails)
         if (oldFileKey) {
-          await deleteFile(oldFileKey, { trackingKey: null }); // Don't track delete
+          await deleteFile(oldFileKey, { trackingKey: null });
         }
 
         return uploadResult;
@@ -492,7 +514,6 @@ const useUpload = () => {
     });
   }, []);
 
-  // Get upload state
   const getUploadState = useCallback(
     (key) => {
       return uploadStates[key] || null;

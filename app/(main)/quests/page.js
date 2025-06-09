@@ -189,7 +189,7 @@ const QuestsPage = async () => {
 
     return (
       <Suspense>
-        <CategoriesList categories={validCategories} />;
+        <CategoriesList categories={validCategories} />
       </Suspense>
     );
   } catch (error) {

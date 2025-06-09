@@ -117,7 +117,7 @@ const AdminEditCategory = ({
             addToast({
               title: "Failed to delete cover photo",
               description: "Please delete manually or contact support.",
-              color: "warning",
+              color: "danger",
             });
           }
 
@@ -148,7 +148,7 @@ const AdminEditCategory = ({
             addToast({
               title: "Failed to delete icon",
               description: "Please delete manually or contact support.",
-              color: "warning",
+              color: "danger",
             });
           }
 
@@ -197,7 +197,7 @@ const AdminEditCategory = ({
       } catch (error) {
         addToast({
           title: error.message || "Failed to update category",
-          color: "warning",
+          color: "danger",
         });
       } finally {
         setIsSubmitting(false);

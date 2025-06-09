@@ -190,6 +190,7 @@ export default function LoadMorePods({
           );
 
           addToast({
+            color: "default",
             title: "No more pods available",
             description: "You've reached the end of results",
           });

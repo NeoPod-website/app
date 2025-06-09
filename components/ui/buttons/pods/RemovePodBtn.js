@@ -118,9 +118,9 @@ const RemovePodBtn = ({ podId, name, cover_photo }) => {
 
         if (!success) {
           addToast({
+            color: "warning",
             title: "Failed to delete cover photo",
             description: "Please delete manually or contact support.",
-            color: "warning",
           });
         }
       }
@@ -144,15 +144,15 @@ const RemovePodBtn = ({ podId, name, cover_photo }) => {
       dispatch(removePod(podId));
 
       addToast({
+        color: "success",
         title: "Pod Deleted",
         description: `Pod "${name}" deleted successfully`,
-        color: "success",
       });
     } catch (error) {
       addToast({
+        color: "danger",
         title: "Error Deleting Pod",
         description: "Failed to delete pod. Please try again.",
-        color: "danger",
       });
     } finally {
       setIsLoading(false);

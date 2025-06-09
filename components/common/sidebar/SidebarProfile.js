@@ -1,10 +1,12 @@
-"use client";
 import React from "react";
 import Image from "next/image";
-import { Button } from "@heroui/react";
-import { EllipsisVerticalIcon, GlobeIcon } from "lucide-react";
+import { GlobeIcon } from "lucide-react";
+
 import shortAddress from "@/utils/shortAddress";
+
 import CopyToClipboard from "@/components/ui/CopyToClipboard";
+import LogoutBtn from "@/components/ui/buttons/sidebar/LogoutBtn";
+import SidebarConnectWallet from "@/components/ui/buttons/sidebar/SidebarConnectWalletBtn";
 
 const SidebarProfile = ({ children, user }) => {
   const isAdmin = user.isAdmin;
@@ -13,12 +15,13 @@ const SidebarProfile = ({ children, user }) => {
     <div className="flex items-center justify-start gap-3 overflow-hidden px-3 py-2">
       <div className="relative h-12 min-w-12">
         <Image
-          src={user.profile_photo || "/dashboard/profile/default-profile.png"}
           width={48}
           height={48}
           alt="Profile Photo"
           className="rounded-md"
+          src={user.profile_photo || "/dashboard/profile/default-profile.png"}
         />
+
         {children}
       </div>
 
@@ -44,11 +47,7 @@ const SidebarProfile = ({ children, user }) => {
             )}
           </div>
 
-          {!isAdmin && (
-            <Button className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700">
-              <EllipsisVerticalIcon size={16} />
-            </Button>
-          )}
+          <LogoutBtn />
         </div>
 
         <div className="flex justify-between">
@@ -64,22 +63,14 @@ const SidebarProfile = ({ children, user }) => {
                 <CopyToClipboard text={user.address} />
               </>
             ) : (
-              <Button
-                size="sm"
-                className="bg-blue-600 hover:bg-blue-700 h-auto rounded !px-0 !py-0 text-xs text-white underline"
-                onPress={() => {
-                  // This would need to be implemented based on your wallet connection flow
-                  console.log("Connect wallet clicked");
-                }}
-              >
-                Connect Wallet
-              </Button>
+              <SidebarConnectWallet />
             )}
           </div>
 
           {!isAdmin && user.location && (
             <div className="flex items-center gap-1">
               <GlobeIcon size={16} />
+
               <p className="text-sm text-gray-100">{user.location}</p>
             </div>
           )}

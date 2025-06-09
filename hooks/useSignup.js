@@ -75,9 +75,9 @@ export const useSignup = (session) => {
         }
       } catch (err) {
         addToast({
-          title: "Error loading pods",
           color: "danger",
           description: err.message,
+          title: "Error loading pods",
         });
       } finally {
         setIsLoadingPods(false);
@@ -95,7 +95,7 @@ export const useSignup = (session) => {
       if (!username.trim()) {
         addToast({
           title: "Username is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -103,9 +103,30 @@ export const useSignup = (session) => {
       if (!selectedPod.size) {
         addToast({
           title: "Pod selection is required",
-          color: "danger",
+          color: "warning",
         });
         return;
+      }
+
+      if (username) {
+        if (username.includes(" ")) {
+          addToast({
+            title: "Username cannot contain spaces",
+            color: "warning",
+          });
+
+          return;
+        }
+
+        if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+          addToast({
+            title:
+              "Username can only contain letters, numbers, and underscores",
+            color: "warning",
+          });
+
+          return;
+        }
       }
 
       setIsSubmitting(true);

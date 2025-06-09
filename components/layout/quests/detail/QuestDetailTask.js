@@ -1,4 +1,7 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import QuestMainTask from "../tasks/QuestMainTask";
 import QuestVisitLink from "../tasks/QuestVisitLink";
@@ -7,8 +10,26 @@ import QuestNFTTask from "../tasks/onchain/QuestNFTTask";
 import QuestTokenTask from "../tasks/onchain/QuestTokenTask";
 import QuestFileUploadTask from "../tasks/QuestFileUploadTask";
 
-const QuestDetailsTask = ({ quest }) => {
-  console.log("quest", quest.tasks);
+import { initializeQuestSubmission } from "@/redux/slice/submissionSlice";
+
+const QuestDetailsTask = ({ quest, user }) => {
+  const dispatch = useDispatch();
+  console.log(quest.tasks);
+
+  // Initialize quest submission when component mounts
+  useEffect(() => {
+    if (quest?.tasks && quest.quest_id) {
+      const taskIds = quest.tasks.map((task) => task.id);
+
+      dispatch(
+        initializeQuestSubmission({
+          questId: quest.quest_id,
+          totalTasks: quest.tasks.length,
+          taskIds: taskIds,
+        }),
+      );
+    }
+  }, [quest?.quest_id, quest?.tasks, dispatch]);
 
   const renderTask = (task) => {
     const { name, id } = task;
@@ -20,6 +41,7 @@ const QuestDetailsTask = ({ quest }) => {
             key={id}
             name="text"
             task={task}
+            questId={quest.quest_id}
             heading={task.instruction}
             description={task.description}
           />
@@ -31,6 +53,7 @@ const QuestDetailsTask = ({ quest }) => {
             key={id}
             name="url"
             task={task}
+            questId={quest.quest_id}
             heading={task.instruction}
             description={task.description}
           />
@@ -42,6 +65,7 @@ const QuestDetailsTask = ({ quest }) => {
             key={id}
             task={task}
             name="number"
+            questId={quest.quest_id}
             heading={task.instruction}
             description={task.description}
           />
@@ -53,16 +77,16 @@ const QuestDetailsTask = ({ quest }) => {
             key={id}
             task={task}
             name="file"
+            questId={quest.quest_id}
             heading={task.instruction}
             description={task.description}
           />
         );
 
       case "link":
-        return <QuestVisitLink key={id} task={task} url={task.url} />;
+        return <QuestVisitLink key={id} task={task} questId={quest.quest_id} />;
 
       case "x":
-        // Determine X/Twitter task type
         const getXTaskType = () => {
           if (task.twitterTaskType === "follow") return "follow";
           if (task.twitterTaskType === "react") return "react";
@@ -75,25 +99,41 @@ const QuestDetailsTask = ({ quest }) => {
             key={id}
             name="x"
             task={task}
+            xUser={user.twitter}
             type={getXTaskType()}
+            questId={quest.quest_id}
           />
         );
 
       case "telegram":
         return (
-          <QuestSocialTask key={id} task={task} type="join" name="telegram" />
+          <QuestSocialTask
+            key={id}
+            task={task}
+            type="join"
+            name="telegram"
+            questId={quest.quest_id}
+            telegramUser={user.telegram}
+          />
         );
 
       case "discord":
         return (
-          <QuestSocialTask key={id} task={task} type="join" name="discord" />
+          <QuestSocialTask
+            key={id}
+            task={task}
+            type="join"
+            name="discord"
+            questId={quest.quest_id}
+            discordUser={user.discord}
+          />
         );
 
       case "nft":
-        return <QuestNFTTask key={id} task={task} />;
+        return <QuestNFTTask key={id} task={task} questId={quest.quest_id} />;
 
       case "token":
-        return <QuestTokenTask key={id} task={task} />;
+        return <QuestTokenTask key={id} task={task} questId={quest.quest_id} />;
 
       default:
         return null;

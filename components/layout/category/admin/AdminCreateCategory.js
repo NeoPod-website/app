@@ -159,7 +159,7 @@ const AdminCreateCategory = ({
       } catch (error) {
         addToast({
           title: error.message || "Failed to create category",
-          color: "warning",
+          color: "danger",
         });
       } finally {
         setIsSubmitting(false);

@@ -29,7 +29,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "Quest name is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -38,7 +38,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "Quest description is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -47,7 +47,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "At least one task is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -56,7 +56,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "At least one reward is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -65,7 +65,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "Pod ID is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -74,7 +74,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "Category ID is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -202,7 +202,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "Quest name is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -211,7 +211,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "Quest description is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -220,7 +220,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "At least one task is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -229,7 +229,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "At least one reward is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -238,7 +238,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "Pod ID is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }
@@ -247,7 +247,7 @@ const PublishQuestBtn = ({ isNew, podId, categoryId, questId }) => {
         addToast({
           title: "Validation Error",
           description: "Category ID is required",
-          color: "danger",
+          color: "warning",
         });
         return;
       }

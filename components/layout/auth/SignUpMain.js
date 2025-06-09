@@ -36,12 +36,12 @@ const SignUpMain = ({ session }) => {
     >
       <form onSubmit={handleSignUp} className="mb-4 space-y-4">
         <Input
-          label="Your Username"
           type="text"
           value={username}
-          onValueChange={setUsername}
           variant="bordered"
+          label="Your Username"
           className="bg-dark"
+          onValueChange={setUsername}
           classNames={{
             inputWrapper:
               "border-gray-300 focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",

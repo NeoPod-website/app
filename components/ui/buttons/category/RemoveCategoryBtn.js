@@ -35,7 +35,7 @@ const RemoveCategoryBtn = ({ category }) => {
         addToast({
           title: "Failed to delete category files",
           description: "Please delete the files manually or contact support.",
-          color: "warning",
+          color: "danger",
         });
       }
 

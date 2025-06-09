@@ -30,7 +30,7 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
   const handleQuestChange = (questId, field, value) => {
     if (selectedQuests.size > 0) {
       addToast({
-        color: "danger",
+        color: "warning",
         title: "Cannot change quest",
         description:
           "You have selected quests. Please deselect before changing.",
@@ -60,7 +60,7 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
   const handleReorder = (newOrder) => {
     if (selectedQuests.size > 0) {
       addToast({
-        color: "danger",
+        color: "warning",
         title: "Cannot reorder quests",
         description:
           "You have selected quests. Please deselect before reordering.",
@@ -133,9 +133,6 @@ const AdminQuestListClient = ({ quests, category, scrollable = false }) => {
         description: `Successfully updated ${updates.length} quest(s)`,
       });
     } catch (error) {
-      console.error("Error saving changes:", error);
-
-      // Show error toast
       addToast({
         color: "danger",
         title: "Save failed",

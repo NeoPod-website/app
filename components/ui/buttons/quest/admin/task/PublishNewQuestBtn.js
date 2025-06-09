@@ -26,8 +26,8 @@ const PublishNewQuestBtn = ({ isLoading, handleCreateQuest }) => {
           form.reportValidity();
         }
       }}
-      className="!h-8 max-h-8 min-h-8 !w-24 rounded border border-white bg-gradient-primary text-xs capitalize focus-within:!border-gray-300 focus-within:!ring-1 focus-within:!ring-gray-300 hover:!bg-black disabled:opacity-50 data-[hover=true]:!bg-black"
       endContent={<SendIcon size={16} />}
+      className="!h-8 max-h-8 min-h-8 !w-24 rounded border border-white bg-gradient-primary text-xs capitalize focus-within:!border-gray-300 focus-within:!ring-1 focus-within:!ring-gray-300 hover:!bg-black disabled:opacity-50 data-[hover=true]:!bg-black"
     >
       {getButtonText()}
     </Button>

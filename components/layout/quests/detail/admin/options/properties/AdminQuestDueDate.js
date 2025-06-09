@@ -81,7 +81,7 @@ const AdminQuestDueDate = () => {
       addToast({
         title: "Due Date Added",
         description: "The due date has been successfully added.",
-        variant: "default",
+        color: "default",
       });
     }
   }, [selectedDate, dispatch]);

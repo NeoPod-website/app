@@ -1,13 +1,12 @@
 import React from "react";
 
 import NeoBreadcrumbs from "@/components/ui/NeoBreadcrumbs";
-import ShareQuestModal from "@/components/ui/modals/ShareQuestModal";
 import SocialModal from "@/components/ui/modals/SocialModal";
+import ShareQuestModal from "@/components/ui/modals/ShareQuestModal";
 
 const QuestLayout = async ({ children, category, quest, params }) => {
   const { questId } = await params;
 
-  // Basic breadcrumbs
   const breadcrumbsList = [
     {
       title: "Quests",
@@ -26,10 +25,10 @@ const QuestLayout = async ({ children, category, quest, params }) => {
 
       <NeoBreadcrumbs list={breadcrumbsList} />
 
-      <section className="flex flex-1 gap-4 overflow-hidden">
+      <form className="flex flex-1 gap-4 overflow-hidden">
         {category}
         {quest}
-      </section>
+      </form>
 
       {children}
     </>

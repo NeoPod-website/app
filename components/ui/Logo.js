@@ -27,7 +27,7 @@ export const LogoWithText = ({ width = 56, height = 56, className }) => {
       />
 
       <div>
-        <h2 className="text-2xl font-bold text-white">NEO POD</h2>
+        <h2 className="text-2xl font-bold text-white">NeoPod</h2>
         <p>Ambassador Program</p>
       </div>
     </div>

@@ -24,15 +24,15 @@ const VALIDATION_RULES = {
 // Helper functions extracted for reusability
 const validateRequiredFields = (podData) => {
   const missingFields = REQUIRED_FIELDS.filter(
-    ({ field }) => !podData[field] || podData[field].trim() === ""
+    ({ field }) => !podData[field] || podData[field].trim() === "",
   );
 
   if (missingFields.length > 0) {
     const missingFieldLabels = missingFields.map(({ label }) => label);
     throw new Error(
       `Please fill in the following required fields: ${missingFieldLabels.join(
-        ", "
-      )}`
+        ", ",
+      )}`,
     );
   }
 };
@@ -42,19 +42,19 @@ const validateFieldLengths = (podData) => {
 
   if (podName.length < VALIDATION_RULES.podName.min) {
     throw new Error(
-      `Pod name must be at least ${VALIDATION_RULES.podName.min} characters long`
+      `Pod name must be at least ${VALIDATION_RULES.podName.min} characters long`,
     );
   }
 
   if (podName.length > VALIDATION_RULES.podName.max) {
     throw new Error(
-      `Pod name cannot exceed ${VALIDATION_RULES.podName.max} characters`
+      `Pod name cannot exceed ${VALIDATION_RULES.podName.max} characters`,
     );
   }
 
   if (description && description.length > VALIDATION_RULES.description.max) {
     throw new Error(
-      `Description cannot exceed ${VALIDATION_RULES.description.max} characters`
+      `Description cannot exceed ${VALIDATION_RULES.description.max} characters`,
     );
   }
 };
@@ -82,10 +82,10 @@ const AdminEditPod = ({
   const { uploadFile, deleteFile, sanitizeFileName } = useUpload();
 
   // Memoize sanitized file name to prevent recalculation
-  const sanitizedFileName = useMemo(() => sanitizeFileName(podData.podName), [
-    podData.podName,
-    sanitizeFileName,
-  ]);
+  const sanitizedFileName = useMemo(
+    () => sanitizeFileName(podData.podName),
+    [podData.podName, sanitizeFileName],
+  );
 
   const handleFormSubmit = useCallback(
     async (e) => {
@@ -109,7 +109,7 @@ const AdminEditPod = ({
             addToast({
               title: "Failed to delete cover photo",
               description: "Please delete manually or contact support.",
-              color: "warning",
+              color: "danger",
             });
           }
 
@@ -181,7 +181,7 @@ const AdminEditPod = ({
             },
             body: JSON.stringify(podPayload),
             credentials: "include",
-          }
+          },
         );
 
         // Parse the response
@@ -201,7 +201,7 @@ const AdminEditPod = ({
       } catch (error) {
         addToast({
           title: error.message || "Failed to update pod",
-          color: "warning",
+          color: "danger",
         });
       } finally {
         setIsSubmitting(false);
@@ -216,7 +216,7 @@ const AdminEditPod = ({
       setIsSubmitting,
       uploadFile,
       deleteFile,
-    ]
+    ],
   );
 
   // Memoize form props to prevent unnecessary re-renders
@@ -239,7 +239,7 @@ const AdminEditPod = ({
       handlePodDataChange: (admins) =>
         handlePodDataChange("assignedAdmins", admins),
     }),
-    [isNew, podData, isSubmitting, handleFormSubmit, handlePodDataChange]
+    [isNew, podData, isSubmitting, handleFormSubmit, handlePodDataChange],
   );
 
   return (

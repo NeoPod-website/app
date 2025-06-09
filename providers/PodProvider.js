@@ -17,7 +17,7 @@ const PodProvider = ({ children }) => {
       addToast({
         title: "No Pod Selected",
         description: "Please select a pod to manage categories.",
-        variant: "warning",
+        color: "warning",
       });
     }
   }, [currentPod, router]);

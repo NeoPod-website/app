@@ -1,4 +1,5 @@
 import React from "react";
+import { getCachedSession } from "@/lib/userSession";
 
 import QuestDetailsTask from "./QuestDetailTask";
 import QuestDetailReward from "./QuestDetailReward";
@@ -11,7 +12,9 @@ import ShareQuestBtn from "@/components/ui/buttons/quest/ShareQuestBtn";
 import SubmitQuestBtn from "@/components/ui/buttons/quest/SubmitQuestBtn";
 import HighlightsQuestBtn from "@/components/ui/buttons/quest/HighlightsQuestBtn";
 
-const QuestDetails = ({ quest }) => {
+const QuestDetails = async ({ quest }) => {
+  const { user } = await getCachedSession();
+
   return (
     <WrapperContainer scrollable className="max-w-4.5xl flex-[2] p-10">
       <div className="hide-scroll flex-1 space-y-9 overflow-y-auto">
@@ -24,39 +27,8 @@ const QuestDetails = ({ quest }) => {
         />
 
         <QuestDetailReward rewards={quest.rewards} />
-
         <QuestDetailDescription description={quest.description} />
-
-        {/* <QuestMainTask
-          name="url"
-          heading="Website Link"
-          description="Enter the URL of your website."
-        />
-        <QuestMainTask
-          name="text"
-          heading="Your Feedback"
-          description="Please provide your valuable feedback."
-        />
-        <QuestMainTask
-          name="number"
-          heading="Your ID"
-          description="Enter your unique identification number."
-        />
-        <QuestFileUploadTask
-          name="file"
-          heading="Your File"
-          description="Please upload your file."
-        />
-        <QuestVisitLink />
-        <QuestSocialTask name="x" type="follow" />
-        <QuestSocialTask name="x" type="tweet" />
-        <QuestSocialTask name="x" type="react" />
-        <QuestSocialTask name="x" type="spaces" />
-        <QuestSocialTask name="telegram" type="join" />
-        <QuestSocialTask name="discord" type="join" />
-        <QuestNFTTask />
-        <QuestTokenTask /> */}
-        <QuestDetailsTask quest={quest} />
+        <QuestDetailsTask quest={quest} user={user} />
       </div>
 
       <div className="mt-3 flex justify-between">
@@ -64,7 +36,12 @@ const QuestDetails = ({ quest }) => {
 
         <div className="flex gap-4">
           <HighlightsQuestBtn />
-          <SubmitQuestBtn />
+          <SubmitQuestBtn
+            podId={quest.pod_id}
+            questId={quest.quest_id}
+            categoryId={quest.category_id}
+            ambassadorId={user.ambassador_id}
+          />
         </div>
       </div>
     </WrapperContainer>

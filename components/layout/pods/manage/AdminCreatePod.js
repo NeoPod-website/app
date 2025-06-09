@@ -25,15 +25,15 @@ const VALIDATION_RULES = {
 // Helper functions extracted for reusability
 const validateRequiredFields = (podData) => {
   const missingFields = REQUIRED_FIELDS.filter(
-    ({ field }) => !podData[field] || podData[field].trim() === ""
+    ({ field }) => !podData[field] || podData[field].trim() === "",
   );
 
   if (missingFields.length > 0) {
     const missingFieldLabels = missingFields.map(({ label }) => label);
     throw new Error(
       `Please fill in the following required fields: ${missingFieldLabels.join(
-        ", "
-      )}`
+        ", ",
+      )}`,
     );
   }
 };
@@ -43,25 +43,25 @@ const validateFieldLengths = (podData) => {
 
   if (podName.length < VALIDATION_RULES.podName.min) {
     throw new Error(
-      `Pod name must be at least ${VALIDATION_RULES.podName.min} characters long`
+      `Pod name must be at least ${VALIDATION_RULES.podName.min} characters long`,
     );
   }
 
   if (podName.length > VALIDATION_RULES.podName.max) {
     throw new Error(
-      `Pod name cannot exceed ${VALIDATION_RULES.podName.max} characters`
+      `Pod name cannot exceed ${VALIDATION_RULES.podName.max} characters`,
     );
   }
 
   if (description && description.length > VALIDATION_RULES.description.max) {
     throw new Error(
-      `Description cannot exceed ${VALIDATION_RULES.description.max} characters`
+      `Description cannot exceed ${VALIDATION_RULES.description.max} characters`,
     );
   }
 
   if (assignedAdmins.length < VALIDATION_RULES.assignedAdmins.min) {
     throw new Error(
-      `Please assign at least ${VALIDATION_RULES.assignedAdmins.min} Community Admin or Moderator`
+      `Please assign at least ${VALIDATION_RULES.assignedAdmins.min} Community Admin or Moderator`,
     );
   }
 
@@ -83,10 +83,10 @@ const AdminCreatePod = ({
   const { uploadFile, sanitizeFileName } = useUpload();
 
   // Memoize sanitized file name to prevent recalculation
-  const sanitizedFileName = useMemo(() => sanitizeFileName(podData.podName), [
-    podData.podName,
-    sanitizeFileName,
-  ]);
+  const sanitizedFileName = useMemo(
+    () => sanitizeFileName(podData.podName),
+    [podData.podName, sanitizeFileName],
+  );
 
   const handleFormSubmit = useCallback(
     async (e) => {
@@ -137,7 +137,7 @@ const AdminCreatePod = ({
             },
             body: JSON.stringify(podPayload),
             credentials: "include",
-          }
+          },
         );
 
         // Parse the response
@@ -157,13 +157,13 @@ const AdminCreatePod = ({
       } catch (error) {
         addToast({
           title: error.message || "Failed to create pod",
-          color: "warning",
+          color: "danger",
         });
       } finally {
         setIsSubmitting(false);
       }
     },
-    [podData, router, sanitizedFileName, setIsSubmitting, uploadFile]
+    [podData, router, sanitizedFileName, setIsSubmitting, uploadFile],
   );
 
   // Memoize form props to prevent unnecessary re-renders
@@ -186,7 +186,7 @@ const AdminCreatePod = ({
       handlePodDataChange: (admins) =>
         handlePodDataChange("assignedAdmins", admins),
     }),
-    [isNew, podData, isSubmitting, handleFormSubmit, handlePodDataChange]
+    [isNew, podData, isSubmitting, handleFormSubmit, handlePodDataChange],
   );
 
   return (
