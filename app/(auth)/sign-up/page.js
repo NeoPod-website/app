@@ -66,10 +66,12 @@ export const metadata = {
   },
 };
 
-const SignUpPage = async () => {
+const SignUpPage = async ({ searchParams }) => {
+  const { inviteCode } = await searchParams;
+
   const session = await auth0.getSession();
 
-  return <SignUpMain session={session} />;
+  return <SignUpMain session={session} inviteCode={inviteCode} />;
 };
 
 export default SignUpPage;

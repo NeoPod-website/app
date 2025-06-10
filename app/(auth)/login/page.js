@@ -66,11 +66,13 @@ export const metadata = {
   },
 };
 
-const LoginPage = () => {
+const LoginPage = async ({ searchParams }) => {
+  const { inviteCode } = await searchParams;
+
   return (
     <>
       <SocialModal />
-      <AuthMain />
+      <AuthMain inviteCode={inviteCode} />
     </>
   );
 };

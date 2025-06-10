@@ -7,6 +7,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { GripVertical, ChevronUp, ChevronDown } from "lucide-react";
 
 import AdminMainTask from "./AdminMainTask";
+import AdminInviteTask from "./AdminInviteTask";
 import AdminVisitLinkTask from "./AdminVisitLinkTask";
 import AdminFileUploadTask from "./AdminFileUploadTask";
 
@@ -133,6 +134,8 @@ const AdminTasksList = ({ tasks: initialTasks = [] }) => {
         return <AdminDiscordTask index={index} task={task} />;
       case "telegram":
         return <AdminTelegramTask index={index} task={task} />;
+      case "invite":
+        return <AdminInviteTask index={index} task={task} />;
       default:
         return <AdminMainTask index={index} task={task} />;
     }
@@ -160,6 +163,8 @@ const AdminTasksList = ({ tasks: initialTasks = [] }) => {
         return "Discord Task";
       case "telegram":
         return "Telegram Task";
+      case "invite":
+        return "Invite Task";
       default:
         return "Task";
     }

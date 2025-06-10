@@ -19,7 +19,7 @@ const PROTECTED_ROUTES = [
 
 const ADMIN_ROUTES = ["/admin"];
 
-const PUBLIC_AUTH_ROUTES = ["/login", "/sign-up", "/login/admin"];
+const PUBLIC_AUTH_ROUTES = ["/login", "/sign-up", "/login/admin", "/invite"];
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl;

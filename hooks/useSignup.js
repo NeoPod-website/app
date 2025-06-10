@@ -1,13 +1,15 @@
-// hooks/useSignup.js
-import { useEffect, useState, useCallback } from "react";
+"use client";
+
+import { addToast } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { addToast } from "@heroui/react";
+import { useEffect, useState, useCallback } from "react";
 
 import { languages } from "@/data/langData";
+
 import { setUserState } from "@/redux/slice/userSlice";
 
-export const useSignup = (session) => {
+export const useSignup = (session, inviteCode) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -24,16 +26,33 @@ export const useSignup = (session) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingPods, setIsLoadingPods] = useState(true);
 
+  // Invite code state
+  const [hasInviteCode, setHasInviteCode] = useState(!!inviteCode);
+  const [enteredInviteCode, setEnteredInviteCode] = useState(inviteCode || "");
+
+  // Inviter info state
+  const [inviterInfo, setInviterInfo] = useState(null);
+  const [inviterError, setInviterError] = useState(null);
+  const [isLoadingInviter, setIsLoadingInviter] = useState(false);
+
   // Check if user has valid access to signup page
   const hasValidAccess = session?.user?.email || email || address;
 
   // Protect signup page - redirect if no valid access
   useEffect(() => {
     if (!hasValidAccess) {
-      router.replace("/login");
+      router.replace(`/login${inviteCode ? `?inviteCode=${inviteCode}` : ""}`);
       return;
     }
   }, [session, email, address, router, hasValidAccess]);
+
+  // Initialize invite code if provided via URL
+  useEffect(() => {
+    if (inviteCode) {
+      setHasInviteCode(true);
+      setEnteredInviteCode(inviteCode);
+    }
+  }, [inviteCode]);
 
   // Get language name helper
   const getLanguageName = useCallback((code) => {
@@ -44,6 +63,73 @@ export const useSignup = (session) => {
   const handlePodSelectionChange = useCallback((keys) => {
     setSelectedPod(keys);
   }, []);
+
+  // Handle invite code toggle
+  const handleInviteCodeToggle = useCallback((isSelected) => {
+    setHasInviteCode(isSelected);
+
+    if (!isSelected) {
+      setEnteredInviteCode("");
+      setInviterInfo(null);
+      setInviterError(null);
+    }
+  }, []);
+
+  // Fetch inviter information
+  const fetchInviterInfo = useCallback(async (code) => {
+    if (!code || code.length !== 8) return;
+
+    setIsLoadingInviter(true);
+    setInviterError(null);
+
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+      const response = await fetch(`${API_URL}/ambassadors/inviter/${code}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Invalid invite code");
+      }
+
+      setInviterInfo(data.data);
+    } catch (error) {
+      setInviterError(error.message);
+      setInviterInfo(null);
+    } finally {
+      setIsLoadingInviter(false);
+    }
+  }, []);
+
+  // Handle invite code change
+  const handleInviteCodeChange = useCallback(
+    (value) => {
+      // Filter only alphanumeric characters and convert to uppercase
+      const filteredValue = value.toUpperCase().replace(/[^A-Za-z0-9]/g, "");
+      setEnteredInviteCode(filteredValue);
+
+      // Reset inviter info when code changes
+      setInviterInfo(null);
+      setInviterError(null);
+
+      // Fetch inviter info only when code is 8 characters
+      if (filteredValue.length === 8) {
+        fetchInviterInfo(filteredValue);
+      }
+    },
+    [fetchInviterInfo],
+  );
+
+  // Fetch inviter info on component mount if invite code is provided
+  useEffect(() => {
+    if (inviteCode && inviteCode.length === 8) {
+      fetchInviterInfo(inviteCode);
+    }
+  }, [inviteCode, fetchInviterInfo]);
 
   // Fetch available pods
   useEffect(() => {
@@ -129,6 +215,17 @@ export const useSignup = (session) => {
         }
       }
 
+      // Validate invite code if entered
+      if (hasInviteCode && enteredInviteCode.length === 8 && inviterError) {
+        addToast({
+          title: "Invalid invite code",
+          description: "Please enter a valid invite code",
+          color: "warning",
+        });
+
+        return;
+      }
+
       setIsSubmitting(true);
 
       try {
@@ -139,9 +236,14 @@ export const useSignup = (session) => {
 
         const loginPayload = {
           login_method,
-          username: username.trim(),
           pod_id: selectedPodId,
+          invite_code: inviteCode,
+          username: username.trim(),
           language: selectedPodData?.language,
+          invite_code_used:
+            hasInviteCode && enteredInviteCode.length === 8
+              ? enteredInviteCode.trim().toUpperCase()
+              : null,
         };
 
         if (email) {
@@ -179,32 +281,51 @@ export const useSignup = (session) => {
             }),
           );
 
-          localStorage.setItem("neo-token", token);
+          localStorage.setItem("neo-jwt", token);
+
+          // Show success message if invite code was used
+          if (hasInviteCode && enteredInviteCode.length === 8) {
+            addToast({
+              title: "Welcome!",
+              description: `Account created successfully! Thanks to ${inviterInfo?.username || "your friend"} for the invite.`,
+              color: "success",
+            });
+          }
 
           router.push("/");
         } else {
           const errorData = await res.json();
-          router.push(
-            `/error?reason=${errorData.error?.msg || "Backend-signup-failed"}`,
-          );
+
+          addToast({
+            title: "Error",
+            description: errorData.error?.msg || "Something went wrong",
+            color: "danger",
+          });
         }
       } catch (err) {
-        console.error("Client signup failed:", err);
-        router.push("/error?reason=Something-went-wrong");
+        addToast({
+          title: "Error",
+          description: "Something went wrong",
+          color: "danger",
+        });
       } finally {
         setIsSubmitting(false);
       }
     },
     [
-      username,
-      selectedPod,
-      allPods,
-      login_method,
       email,
+      router,
+      allPods,
       address,
       session,
       dispatch,
-      router,
+      username,
+      selectedPod,
+      inviterInfo,
+      login_method,
+      inviterError,
+      hasInviteCode,
+      enteredInviteCode,
     ],
   );
 
@@ -213,16 +334,27 @@ export const useSignup = (session) => {
     hasValidAccess,
 
     // Form state
+    allPods,
     username,
     setUsername,
     selectedPod,
-    allPods,
     isLoadingPods,
     isSubmitting,
 
+    // Invite code state
+    hasInviteCode,
+    enteredInviteCode,
+
+    // Inviter info state
+    inviterInfo,
+    inviterError,
+    isLoadingInviter,
+
     // Handlers
-    handlePodSelectionChange,
     handleSignUp,
     getLanguageName,
+    handleInviteCodeToggle,
+    handleInviteCodeChange,
+    handlePodSelectionChange,
   };
 };
