@@ -2,6 +2,7 @@
 
 import {
   LinkIcon,
+  UsersIcon,
   ImageIcon,
   FileUpIcon,
   ArrowUp01Icon,
@@ -115,6 +116,14 @@ const actionTasks = [
     color: "#0369a1",
     icon: <SquareArrowOutUpRightIcon size={20} />,
     description: "Visit required link to complete this task.",
+  },
+  {
+    id: 2,
+    name: "Invite Friends",
+    type: "invite",
+    color: "#10b981",
+    icon: <UsersIcon size={20} />,
+    description: "Invite friends to complete this task.",
   },
 ];
 

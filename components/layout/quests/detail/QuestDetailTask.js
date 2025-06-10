@@ -11,6 +11,7 @@ import QuestTokenTask from "../tasks/onchain/QuestTokenTask";
 import QuestFileUploadTask from "../tasks/QuestFileUploadTask";
 
 import { initializeQuestSubmission } from "@/redux/slice/submissionSlice";
+import QuestInviteTask from "../tasks/QuestInviteTask";
 
 const QuestDetailsTask = ({ quest, user }) => {
   const dispatch = useDispatch();
@@ -85,6 +86,16 @@ const QuestDetailsTask = ({ quest, user }) => {
 
       case "link":
         return <QuestVisitLink key={id} task={task} questId={quest.quest_id} />;
+
+      case "invite":
+        return (
+          <QuestInviteTask
+            key={id}
+            task={task}
+            user={user}
+            questId={quest.quest_id}
+          />
+        );
 
       case "x":
         const getXTaskType = () => {

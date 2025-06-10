@@ -15,13 +15,12 @@ import {
   setEmail as setReduxEmail,
 } from "@/redux/slice/userSlice";
 
-const AuthMain = () => {
+const AuthMain = ({ inviteCode }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
 
   const [timeLeft, setTimeLeft] = useState(0);
 
@@ -52,7 +51,6 @@ const AuthMain = () => {
     }
 
     setIsLoading(true);
-    setError("");
 
     try {
       const response = await fetch("/api/auth/passwordless/start", {
@@ -76,8 +74,6 @@ const AuthMain = () => {
         title: err.message || "Failed to send verification code",
         color: "danger",
       });
-
-      setError(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -97,7 +93,6 @@ const AuthMain = () => {
     }
 
     setIsLoading(true);
-    setError("");
 
     try {
       const response = await fetch("/api/auth/passwordless/verify", {
@@ -156,13 +151,16 @@ const AuthMain = () => {
             }),
           );
 
-          localStorage.setItem("neo-token", token);
-          // localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("neo-jwt", token);
 
           setOtp("");
           setEmail("");
         } else {
-          router.push("/sign-up");
+          if (inviteCode) {
+            router.push(`/sign-up?inviteCode=${inviteCode}`);
+          } else {
+            router.push("/sign-up");
+          }
 
           dispatch(setReduxEmail(email));
           dispatch(setLoginMethod("email"));
@@ -177,8 +175,6 @@ const AuthMain = () => {
         });
       }
     } catch (err) {
-      setError(err.message);
-
       addToast({
         title: err.message || "Failed to send verification code",
         color: "danger",

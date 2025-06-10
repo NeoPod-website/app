@@ -3,7 +3,6 @@ import { getCachedSession } from "@/lib/userSession";
 
 const MainPage = async () => {
   const { user, error, isAuthenticated, message } = await getCachedSession();
-  console.log(user, error, isAuthenticated, message);
 
   // Handle authentication errors
   if (error) {
