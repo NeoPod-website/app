@@ -86,6 +86,7 @@ async function fetchCategories(podId) {
       if (response.status === 404) {
         notFound();
       }
+
       throw new Error(
         data.message || `Failed to fetch categories: ${response.statusText}`,
       );

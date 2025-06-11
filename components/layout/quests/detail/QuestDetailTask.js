@@ -6,16 +6,15 @@ import { useDispatch } from "react-redux";
 import QuestMainTask from "../tasks/QuestMainTask";
 import QuestVisitLink from "../tasks/QuestVisitLink";
 import QuestSocialTask from "../tasks/QuestSocialTask";
+import QuestInviteTask from "../tasks/QuestInviteTask";
 import QuestNFTTask from "../tasks/onchain/QuestNFTTask";
 import QuestTokenTask from "../tasks/onchain/QuestTokenTask";
 import QuestFileUploadTask from "../tasks/QuestFileUploadTask";
 
 import { initializeQuestSubmission } from "@/redux/slice/submissionSlice";
-import QuestInviteTask from "../tasks/QuestInviteTask";
 
 const QuestDetailsTask = ({ quest, user }) => {
   const dispatch = useDispatch();
-  console.log(quest.tasks);
 
   // Initialize quest submission when component mounts
   useEffect(() => {

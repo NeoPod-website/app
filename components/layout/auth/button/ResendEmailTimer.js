@@ -40,7 +40,7 @@ const ResendEmailTimer = ({ email, onResend, timeLeft, setTimeLeft }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to resend code");
+        throw new Error(response.statusText || "Failed to resend code");
       }
 
       setTimeLeft(INITIAL_TIME);

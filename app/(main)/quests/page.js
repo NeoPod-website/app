@@ -13,7 +13,6 @@ export const metadata = {
     "Discover and participate in quests designed to boost your engagement and growth within the Neo Pod community. Earn rewards and unlock achievements.",
 };
 
-// Empty state components
 const EmptyStateMessage = ({ title, description }) => (
   <div className="space-y-2 text-center">
     <p className="text-xl font-bold text-white">{title}</p>
@@ -76,6 +75,7 @@ const fetchActiveCategories = async (podId) => {
       if (response.status === 404) {
         notFound();
       }
+
       throw new Error(
         data.message ||
           `Failed to fetch active categories: ${response.statusText}`,
@@ -84,7 +84,6 @@ const fetchActiveCategories = async (podId) => {
 
     return data.data;
   } catch (error) {
-    console.error("Error fetching active categories:", error);
     throw error;
   }
 };
@@ -161,44 +160,36 @@ const QuestsPage = async () => {
     );
   }
 
-  try {
-    const categoriesData = await fetchActiveCategories(podId);
+  const categoriesData = await fetchActiveCategories(podId);
 
-    // Validate categories data
-    const validation = validateCategories(categoriesData);
+  // Validate categories data
+  const validation = validateCategories(categoriesData);
 
-    if (!validation.isValid) {
-      return (
-        <QuestPageLayout>
-          <ErrorState error={validation.error} showContactSupport={true} />
-        </QuestPageLayout>
-      );
-    }
-
-    // Filter and validate individual categories
-    const validCategories = validateCategoriesList(categoriesData.categories);
-
-    // Handle empty categories
-    if (validCategories.length === 0) {
-      return (
-        <QuestPageLayout>
-          <NoCategoriesState />
-        </QuestPageLayout>
-      );
-    }
-
-    return (
-      <Suspense>
-        <CategoriesList categories={validCategories} />
-      </Suspense>
-    );
-  } catch (error) {
+  if (!validation.isValid) {
     return (
       <QuestPageLayout>
-        <ErrorState error={error.message} showContactSupport={true} />
+        <ErrorState error={validation.error} showContactSupport={true} />
       </QuestPageLayout>
     );
   }
+
+  // Filter and validate individual categories
+  const validCategories = validateCategoriesList(categoriesData.categories);
+
+  // Handle empty categories
+  if (validCategories.length === 0) {
+    return (
+      <QuestPageLayout>
+        <NoCategoriesState />
+      </QuestPageLayout>
+    );
+  }
+
+  return (
+    <Suspense>
+      <CategoriesList categories={validCategories} />
+    </Suspense>
+  );
 };
 
 export default QuestsPage;

@@ -122,11 +122,11 @@ const AdminEditCategory = ({
           }
 
           const coverPhotoKey = await uploadFile(categoryData.cover_photo, {
-            entityType: "QUEST_CATEGORIES",
-            entityId: sanitizedFileName,
-            fileName: sanitizedFileName,
-            fileType: "cover_photo",
             size: "BANNER",
+            entityId: podId,
+            fileName: "cover_photo",
+            entityType: "QUEST_CATEGORIES",
+            subEntityId: sanitizedFileName,
             multiSize: false,
             noSubfolder: false,
           });
@@ -153,11 +153,11 @@ const AdminEditCategory = ({
           }
 
           const iconKey = await uploadFile(categoryData.icon, {
-            entityType: "QUEST_CATEGORIES",
-            entityId: sanitizedFileName,
-            fileName: sanitizedFileName,
-            fileType: "icon",
+            entityId: podId,
+            fileName: "icon",
             size: "THUMBNAIL",
+            entityType: "QUEST_CATEGORIES",
+            subEntityId: sanitizedFileName,
             multiSize: false,
             noSubfolder: false,
           });

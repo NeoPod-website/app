@@ -74,6 +74,7 @@ const fetchActiveCategories = async (podId) => {
       if (response.status === 404) {
         notFound();
       }
+
       throw new Error(
         data.message ||
           `Failed to fetch active categories: ${response.statusText}`,
@@ -138,44 +139,36 @@ const QuestsPage = async ({ params }) => {
     );
   }
 
-  try {
-    const categoriesData = await fetchActiveCategories(podId);
+  const categoriesData = await fetchActiveCategories(podId);
 
-    // Validate categories data
-    const validation = validateCategories(categoriesData);
+  // Validate categories data
+  const validation = validateCategories(categoriesData);
 
-    if (!validation.isValid) {
-      return (
-        <QuestPageLayout>
-          <ErrorState error={validation.error} showContactSupport={true} />
-        </QuestPageLayout>
-      );
-    }
-
-    // Filter and validate individual categories
-    const validCategories = validateCategoriesList(categoriesData.categories);
-
-    // Handle empty categories
-    if (validCategories.length === 0) {
-      return (
-        <QuestPageLayout>
-          <NoCategoriesState />
-        </QuestPageLayout>
-      );
-    }
-
-    return (
-      <Suspense>
-        <CategoriesList categories={validCategories} isQuestPage={false} />
-      </Suspense>
-    );
-  } catch (error) {
+  if (!validation.isValid) {
     return (
       <QuestPageLayout>
-        <ErrorState error={error.message} showContactSupport={true} />
+        <ErrorState error={validation.error} showContactSupport={true} />
       </QuestPageLayout>
     );
   }
+
+  // Filter and validate individual categories
+  const validCategories = validateCategoriesList(categoriesData.categories);
+
+  // Handle empty categories
+  if (validCategories.length === 0) {
+    return (
+      <QuestPageLayout>
+        <NoCategoriesState />
+      </QuestPageLayout>
+    );
+  }
+
+  return (
+    <Suspense>
+      <CategoriesList categories={validCategories} isQuestPage={false} />
+    </Suspense>
+  );
 };
 
 export default QuestsPage;

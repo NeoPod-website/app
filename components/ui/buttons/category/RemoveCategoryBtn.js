@@ -9,33 +9,60 @@ import React, { useState, useCallback } from "react";
 import useUpload from "@/hooks/useUpload";
 
 import {
-  toggleDeleteConfirmationModal,
   setDeleteModalData,
+  toggleDeleteConfirmationModal,
 } from "@/redux/slice/modalsSlice";
 
 const RemoveCategoryBtn = ({ category }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { deleteEntityFiles, sanitizeFileName } = useUpload();
+  const { sanitizeFileName } = useUpload();
 
   const [isLoading, setIsLoading] = useState(false);
+
+  // Create a new delete function for category subfolders
+  const deleteCategoryFiles = useCallback(async (podId, categoryName) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/uploads/path/quest-categories/${podId}/${categoryName}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage =
+          errorData.message || "Failed to delete category files";
+        throw new Error(errorMessage);
+      }
+
+      const result = await response.json();
+      return result.status === "success";
+    } catch (error) {
+      console.error("Error deleting category files:", error);
+      return false;
+    }
+  }, []);
 
   const handleDeleteCategory = useCallback(async () => {
     setIsLoading(true);
 
-    const fileName = sanitizeFileName(category.pod_id);
+    const sanitizedCategoryName = sanitizeFileName(category.name);
 
     try {
-      const success = await deleteEntityFiles(fileName, {
-        entityType: "QUEST_CATEGORIES",
-      });
+      const success = await deleteCategoryFiles(
+        category.pod_id,
+        sanitizedCategoryName,
+      );
 
       if (!success) {
         addToast({
+          color: "warning",
           title: "Failed to delete category files",
           description: "Please delete the files manually or contact support.",
-          color: "danger",
         });
       }
 
@@ -61,7 +88,8 @@ const RemoveCategoryBtn = ({ category }) => {
         description: `Category "${category.name}" deleted successfully`,
         color: "success",
       });
-    } catch {
+    } catch (error) {
+      console.error("Category deletion error:", error);
       addToast({
         title: "Error Deleting Category",
         description: "Failed to delete category. Please try again.",
@@ -70,7 +98,7 @@ const RemoveCategoryBtn = ({ category }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [category, router, deleteEntityFiles, sanitizeFileName]);
+  }, [category, router, deleteCategoryFiles, sanitizeFileName]);
 
   const handleOpenDeleteModal = useCallback(() => {
     dispatch(

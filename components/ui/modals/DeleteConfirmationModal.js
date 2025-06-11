@@ -20,6 +20,7 @@ const DeleteConfirmationModal = () => {
   );
 
   const [confirmText, setConfirmText] = useState("");
+  const [localIsDeleting, setLocalIsDeleting] = useState(false);
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
   const {
@@ -49,13 +50,21 @@ const DeleteConfirmationModal = () => {
       setHasAttemptedSubmit(true);
 
       if (isConfirmTextValid && onConfirmDelete) {
-        await onConfirmDelete();
+        setLocalIsDeleting(true);
 
-        dispatch(toggleDeleteConfirmationModal());
-        dispatch(clearDeleteModalData());
+        try {
+          await onConfirmDelete();
 
-        setConfirmText("");
-        setHasAttemptedSubmit(false);
+          dispatch(toggleDeleteConfirmationModal());
+          dispatch(clearDeleteModalData());
+
+          setConfirmText("");
+          setHasAttemptedSubmit(false);
+        } catch (error) {
+          console.error("Delete operation failed");
+        } finally {
+          setLocalIsDeleting(false);
+        }
       }
     },
     [isConfirmTextValid, onConfirmDelete, dispatch],
@@ -138,13 +147,16 @@ const DeleteConfirmationModal = () => {
 
   const content = getWarningContent();
 
+  // Use either Redux isDeleting or local state as fallback
+  const isCurrentlyDeleting = isDeleting || localIsDeleting;
+
   return (
     <MainModal
       size="2xl"
       description=""
       title={content.title}
-      hideCloseButton={isDeleting}
       handleOnClose={handleOnClose}
+      hideCloseButton={isCurrentlyDeleting}
       isOpen={isDeleteConfirmationModalOpen}
     >
       <form onSubmit={handleConfirmDelete} className="space-y-6">
@@ -188,7 +200,7 @@ const DeleteConfirmationModal = () => {
               variant="bordered"
               value={confirmText}
               className="bg-dark"
-              disabled={isDeleting}
+              disabled={isCurrentlyDeleting}
               onChange={handleInputChange}
               placeholder="Type 'confirm' to proceed"
               classNames={{
@@ -214,9 +226,9 @@ const DeleteConfirmationModal = () => {
             size="lg"
             type="button"
             variant="bordered"
-            disabled={isDeleting}
+            disabled={isCurrentlyDeleting}
             onPress={handleOnClose}
-            className="flex-1 border-gray-300 bg-transparent text-gray-300 hover:bg-gray-700"
+            className="flex-1 border-gray-300 bg-transparent text-white hover:bg-gray-700"
           >
             Cancel
           </Button>
@@ -225,12 +237,12 @@ const DeleteConfirmationModal = () => {
             size="lg"
             type="submit"
             color="danger"
-            isLoading={isDeleting}
-            disabled={!isConfirmTextValid || isDeleting}
-            startContent={!isDeleting ? <TrashIcon size={16} /> : null}
+            isLoading={isCurrentlyDeleting}
+            disabled={!isConfirmTextValid || isCurrentlyDeleting}
+            startContent={!isCurrentlyDeleting ? <TrashIcon size={16} /> : null}
             className="flex-1 bg-red-600 text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {isDeleting
+            {isCurrentlyDeleting
               ? "Deleting..."
               : `Delete ${itemType.charAt(0).toUpperCase() + itemType.slice(1)}`}
           </Button>

@@ -118,7 +118,7 @@ const WalletSignMain = ({ isLoading, setIsLoading, setShowWalletForm }) => {
             }),
           );
 
-          localStorage.setItem("neo-token", token);
+          localStorage.setItem("neo-jwt", token);
           // localStorage.setItem("user", JSON.stringify(data.user));
         } else if (existRes.status === 404) {
           router.push("/sign-up");

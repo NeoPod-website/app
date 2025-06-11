@@ -31,7 +31,7 @@ const QuestInviteTask = ({ task, questId, user }) => {
 
   // Generate user's unique invite link
   const generateInviteLink = () => {
-    return `${process.env.NEXT_PUBLIC_BASE_URL}/invite/${user?.invite_code || "loading"}`;
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/invite?inviteCode=${user?.invite_code || "loading"}`;
   };
 
   // Fetch invite statistics
