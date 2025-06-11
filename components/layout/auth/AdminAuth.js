@@ -71,7 +71,9 @@ const AdminAuth = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to send verification code");
+        throw new Error(
+          response.statusText || "Failed to send verification code",
+        );
       }
 
       setTimeLeft(60);
@@ -157,7 +159,7 @@ const AdminAuth = () => {
           }),
         );
 
-        // localStorage.setItem("neo-token", token);
+        localStorage.setItem("neo-jwt", data.token);
         // localStorage.setItem("user", JSON.stringify(data.user));
 
         setOtp("");

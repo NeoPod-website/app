@@ -113,14 +113,23 @@ const AdminEditPod = ({
             });
           }
 
-          // Upload new cover photo first
+          // // Upload new cover photo first
+          // const coverPhotoKey = await uploadFile(podData.coverPhoto, {
+          //   entityType: "PODS",
+          //   fileName: sanitizedFileName,
+          //   fileType: sanitizedFileName, // Using sanitized name as fileType for the query param
+          //   size: "BANNER",
+          //   multiSize: false,
+          //   noSubfolder: true, // Matches your original logic
+          // });
+
           const coverPhotoKey = await uploadFile(podData.coverPhoto, {
-            entityType: "PODS",
-            fileName: sanitizedFileName,
-            fileType: sanitizedFileName, // Using sanitized name as fileType for the query param
+            entityId: "",
             size: "BANNER",
             multiSize: false,
-            noSubfolder: true, // Matches your original logic
+            noSubfolder: true,
+            entityType: "PODS",
+            fileName: sanitizedFileName,
           });
 
           // Add to payload only after successful upload

@@ -86,14 +86,15 @@ const AdminCreateCategory = ({
         let coverPhotoKey = categoryData.cover_photo;
         let iconKey = categoryData.icon;
 
+        // Cover photo upload
         if (categoryData.cover_photo instanceof File) {
           uploadPromises.push(
             uploadFile(categoryData.cover_photo, {
-              entityType: "QUEST_CATEGORIES",
-              entityId: podId + "-" + sanitizedFileName,
-              fileName: sanitizedFileName,
-              fileType: "cover_photo",
               size: "BANNER",
+              entityId: podId,
+              fileName: "cover_photo",
+              entityType: "QUEST_CATEGORIES",
+              subEntityId: sanitizedFileName,
               multiSize: false,
               noSubfolder: false,
             }).then((cover_photo) => {
@@ -102,14 +103,15 @@ const AdminCreateCategory = ({
           );
         }
 
+        // Icon upload
         if (categoryData.icon instanceof File) {
           uploadPromises.push(
             uploadFile(categoryData.icon, {
-              entityType: "QUEST_CATEGORIES",
-              entityId: podId + "-" + sanitizedFileName,
-              fileName: sanitizedFileName,
-              fileType: "icon",
+              entityId: podId,
+              fileName: "icon",
               size: "THUMBNAIL",
+              entityType: "QUEST_CATEGORIES",
+              subEntityId: sanitizedFileName,
               multiSize: false,
               noSubfolder: false,
             }).then((icon) => {

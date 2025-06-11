@@ -58,9 +58,9 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
 
         const uploadResult = await uploadFile(file, {
           size: "MEDIUM",
+          fileName: "file",
           entityId: ambassadorId,
           entityType: "SUBMISSIONS",
-          fileName: "submission-file",
           customFolder: `submissions/${ambassadorId}/${questId}`,
           multiSize: false,
           noSubfolder: false,

@@ -181,27 +181,19 @@ const AdminQuestContainer = async ({ category, isQuestPage = false }) => {
     );
   }
 
-  try {
-    const questsData = await fetchQuests(category.category_id);
+  const questsData = await fetchQuests(category.category_id);
 
-    // Validate quests data
-    const validQuests = validateQuests(questsData);
+  // Validate quests data
+  const validQuests = validateQuests(questsData);
 
-    // Always show the filtering interface (even when no quests exist)
-    return (
-      <QuestContainerLayout category={category}>
-        <Suspense fallback={<QuestListLoader />}>
-          <QuestsWithFilter category={category} initialQuests={validQuests} />
-        </Suspense>
-      </QuestContainerLayout>
-    );
-  } catch (error) {
-    return (
-      <QuestContainerLayout category={category} scrollable={false}>
-        <QuestLoadError category={category} error={error.message} />
-      </QuestContainerLayout>
-    );
-  }
+  // Always show the filtering interface (even when no quests exist)
+  return (
+    <QuestContainerLayout category={category}>
+      <Suspense fallback={<QuestListLoader />}>
+        <QuestsWithFilter category={category} initialQuests={validQuests} />
+      </Suspense>
+    </QuestContainerLayout>
+  );
 };
 
 export default AdminQuestContainer;

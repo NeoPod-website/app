@@ -36,7 +36,7 @@ const useUpload = () => {
       if (trackingKey) {
         updateUploadState(trackingKey, {
           status: "uploading",
-          fileName: fileName || file.name,
+          fileName: fileName,
           fileType,
         });
       }
@@ -57,7 +57,7 @@ const useUpload = () => {
         // Build query parameters
         const queryParams = new URLSearchParams({
           size,
-          fileName: fileType,
+          fileName: fileName,
           multiSize: multiSize.toString(),
           noSubfolder: noSubfolder.toString(),
         });

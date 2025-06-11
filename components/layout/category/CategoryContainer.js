@@ -176,31 +176,23 @@ const CategoryContainer = async ({
     );
   }
 
-  try {
-    const questsData = await fetchQuests(category.category_id);
+  const questsData = await fetchQuests(category.category_id);
 
-    // Validate quests data and filter for active quests only
-    const validQuests = validateQuests(questsData);
+  // Validate quests data and filter for active quests only
+  const validQuests = validateQuests(questsData);
 
-    return (
-      <QuestContainerLayout category={category} isQuestPage={isQuestPage}>
-        <Suspense>
-          <QuestList
-            compact={compact}
-            quests={validQuests}
-            scrollable={scrollable}
-            categoryId={category.category_id}
-          />
-        </Suspense>
-      </QuestContainerLayout>
-    );
-  } catch (error) {
-    return (
-      <QuestContainerLayout category={category} scrollable={false}>
-        <QuestLoadError category={category} error={error.message} />
-      </QuestContainerLayout>
-    );
-  }
+  return (
+    <QuestContainerLayout category={category} isQuestPage={isQuestPage}>
+      <Suspense>
+        <QuestList
+          compact={compact}
+          quests={validQuests}
+          scrollable={scrollable}
+          categoryId={category.category_id}
+        />
+      </Suspense>
+    </QuestContainerLayout>
+  );
 };
 
 export default CategoryContainer;

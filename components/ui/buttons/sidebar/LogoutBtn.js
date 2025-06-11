@@ -29,7 +29,7 @@ const LogoutBtn = () => {
 
       if (data.status === "success") {
         // Step 2: Clear client-side storage
-        localStorage.removeItem("neo-token");
+        localStorage.removeItem("neo-jwt");
         sessionStorage.clear();
 
         // Step 3: Redirect to Auth0 logout (this will handle Auth0 session cleanup)

@@ -17,7 +17,7 @@ export default function PodGrid({
 }) {
   if (pods.length === 0) {
     return (
-      <div className="flex h-64 flex-col items-center justify-center gap-4 rounded-lg border border-gray-700 bg-black/30 p-6 text-center">
+      <div className="flex h-64 flex-1 flex-col items-center justify-center gap-4 rounded-lg border border-gray-700 bg-black/30 p-6 text-center">
         {isLoading ? (
           <Loader2Icon className="h-8 w-8 animate-spin text-blue-500" />
         ) : hasActiveFilters ? (

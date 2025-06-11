@@ -106,12 +106,12 @@ const AdminCreatePod = ({
 
         if (podData.coverPhoto instanceof File) {
           const coverPhoto = await uploadFile(podData.coverPhoto, {
-            entityType: "PODS",
-            fileName: sanitizedFileName,
-            fileType: sanitizedFileName, // Using sanitized name as fileType for the query param
+            entityId: "",
             size: "BANNER",
             multiSize: false,
-            noSubfolder: true, // Matches your original logic
+            noSubfolder: true,
+            entityType: "PODS",
+            fileName: sanitizedFileName,
           });
 
           coverPhotoKey = coverPhoto.key;

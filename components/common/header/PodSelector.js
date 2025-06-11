@@ -7,7 +7,8 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { languages } from "@/data/langData";
 
-import { setCurrentPod } from "@/redux/slice/podsSlice";
+import { useSelector } from "react-redux";
+import { setCurrentPod, setPods } from "@/redux/slice/podsSlice";
 
 const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
   const router = useRouter();
@@ -16,9 +17,10 @@ const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
 
   const urlPodId = useParams();
 
-  const [allPods, setAllPods] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState(new Set());
+
+  const allPods = useSelector((state) => state.pods.pods);
 
   // Handle selection change
   const handleSelectionChange = useCallback(
@@ -72,7 +74,7 @@ const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
             body: JSON.stringify({ podIds: assignedPods }),
           });
         } else {
-          setAllPods([]);
+          dispatch(setPods(pods));
           setIsLoading(false);
           return;
         }
@@ -85,7 +87,7 @@ const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
 
         const pods = data.data.pods || [];
 
-        setAllPods(pods);
+        dispatch(setPods(pods));
 
         // Set first pod as default immediately after setting allPods
         if (pods.length > 0) {

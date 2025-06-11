@@ -20,6 +20,10 @@ const podsSlice = createSlice({
       state.hasMore = action.payload.hasMore;
     },
 
+    setPods: (state, action) => {
+      state.pods = action.payload;
+    },
+
     appendPods: (state, action) => {
       state.pods = [...state.pods, ...action.payload.pods];
       state.lastKey = action.payload.lastKey;
@@ -54,6 +58,7 @@ const podsSlice = createSlice({
 });
 
 export const {
+  setPods,
   removePod,
   updatePod,
   appendPods,
