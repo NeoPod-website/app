@@ -166,7 +166,7 @@ const AdminSelectRewards = () => {
             </Chip>
 
             <div className="flex flex-1 flex-wrap items-center gap-3">
-              {(reward.type === "pod" || reward.type === "token") && (
+              {reward.type === "pod" && (
                 <Input
                   min={1}
                   size="sm"
@@ -185,7 +185,7 @@ const AdminSelectRewards = () => {
                 />
               )}
 
-              {reward.type === "nft" && (
+              {(reward.type === "nft" || reward.type === "token") && (
                 <div className="flex-1 space-y-1.5">
                   <Input
                     size="sm"
