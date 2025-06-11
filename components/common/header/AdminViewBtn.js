@@ -23,6 +23,7 @@ const AdminViewBtn = () => {
   // On initial load, try to restore last admin path
   useEffect(() => {
     const savedPath = localStorage.getItem("lastAdminPath");
+
     if (savedPath) {
       setLastAdminPath(savedPath);
     }
@@ -30,19 +31,14 @@ const AdminViewBtn = () => {
 
   // Determine target path based on current view
   const getTargetPath = () => {
-    if (isAdminView) {
-      // From admin to user: always go to /quests
-      return "/quests";
-    } else {
-      // From user to admin: go to last admin path
-      return lastAdminPath || "/admin/dashboard";
-    }
+    // From user to admin: go to last admin path
+    return lastAdminPath || "/admin/dashboard";
   };
 
   return isAdminView ? (
     <Button
       as={Link}
-      href={getTargetPath()}
+      href="/view/quests"
       className="h-11 w-fit min-w-0 rounded-full border-t border-gray-400 bg-gradient-dark px-4 py-2.5 text-white"
     >
       Preview User View

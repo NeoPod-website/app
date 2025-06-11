@@ -14,10 +14,11 @@ const PROTECTED_ROUTES = [
   "/submissions",
   "/leaderboard",
   "/notifications",
+  "/view",
   "/admin",
 ];
 
-const ADMIN_ROUTES = ["/admin"];
+const ADMIN_ROUTES = ["/admin", "/view"];
 
 const PUBLIC_AUTH_ROUTES = ["/login", "/sign-up", "/login/admin", "/invite"];
 
