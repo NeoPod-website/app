@@ -32,6 +32,8 @@ const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
         router.push(`/admin/manage/categories/${selectedPodId}`);
       } else if (pathname.includes("/admin/manage/quests")) {
         router.push(`/admin/manage/quests/${selectedPodId}`);
+      } else if (pathname.includes("/admin/quests")) {
+        router.push(`/admin/quests/${selectedPodId}`);
       }
     },
     [pathname],

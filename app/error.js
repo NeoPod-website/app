@@ -16,7 +16,6 @@ export default function Error({ error, reset }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 p-4">
       <div className="w-full max-w-md">
-        {/* Error Icon */}
         <div className="mb-8 text-center">
           <div className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full border border-red-500/30 bg-red-500/20">
             <AlertTriangle className="h-10 w-10 text-red-400" />
@@ -32,7 +31,6 @@ export default function Error({ error, reset }) {
           </p>
         </div>
 
-        {/* Error Details (Development Only) */}
         {process.env.NODE_ENV === "development" && error?.message && (
           <div className="mb-6 rounded-lg border border-red-500/20 bg-red-950/30 p-4">
             <h3 className="mb-2 font-medium text-red-300">Error Details:</h3>
@@ -42,7 +40,6 @@ export default function Error({ error, reset }) {
           </div>
         )}
 
-        {/* Action Buttons */}
         <div className="space-y-3">
           <button
             onClick={reset}
@@ -61,7 +58,6 @@ export default function Error({ error, reset }) {
           </button>
         </div>
 
-        {/* Additional Info */}
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-500">
             If this problem persists, please contact our support team.

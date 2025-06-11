@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { SearchXIcon } from "lucide-react";
-
 import MainPageScroll from "@/components/common/MainPageScroll";
 
 const NotFound = () => {
