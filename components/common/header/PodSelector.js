@@ -55,10 +55,20 @@ const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
         let res;
         const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+        const headers = {
+          "Content-Type": "application/json",
+        };
+
+        if (localStorage.getItem("neo-jwt")) {
+          headers.Authorization = `Bearer ${localStorage.getItem("neo-jwt")}`;
+        }
+
+        console.log(headers);
+
         if (adminRoleType === "super") {
           res = await fetch(`${API_URL}/pods?limit=100`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers,
             credentials: "include",
           });
         } else if (assignedPods.length > 0) {
@@ -69,7 +79,7 @@ const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
 
           res = await fetch(url, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers,
             credentials: "include",
             body: JSON.stringify({ podIds: assignedPods }),
           });

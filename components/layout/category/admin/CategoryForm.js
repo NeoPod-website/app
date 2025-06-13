@@ -31,7 +31,7 @@ const ALLOWED_IMAGE_TYPES = [
 ];
 
 const MAX_DESCRIPTION_LENGTH = 100;
-const MAX_IMAGE_SIZE_MB = 5;
+const MAX_IMAGE_SIZE_MB = 10;
 
 const CategoryForm = ({
   podId,

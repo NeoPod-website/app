@@ -65,6 +65,7 @@ const OTPMain = ({
 
         <ResendEmailTimer
           email={email}
+          setOtp={setOtp}
           timeLeft={timeLeft}
           setTimeLeft={setTimeLeft}
           onResend={onResendSuccess}

@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState, useRef, memo } from "react";
 
 // Constants to prevent recreation on every render
 const INPUT_NAME = "category-icon";
-const ACCEPTED_FILE_TYPES = "image/*";
+const ACCEPTED_FILE_TYPES = ".png,.jpg,.jpeg,.webp";
 
 // Memoized Image component to prevent unnecessary re-renders
 const IconPreview = memo(({ previewUrl }) => (

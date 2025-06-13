@@ -3,7 +3,13 @@
 import { addToast } from "@heroui/react";
 import React, { useEffect, useState, useCallback } from "react";
 
-const ResendEmailTimer = ({ email, onResend, timeLeft, setTimeLeft }) => {
+const ResendEmailTimer = ({
+  email,
+  setOtp,
+  onResend,
+  timeLeft,
+  setTimeLeft,
+}) => {
   const INITIAL_TIME = 60;
 
   const [loading, setLoading] = useState(false);
@@ -27,6 +33,7 @@ const ResendEmailTimer = ({ email, onResend, timeLeft, setTimeLeft }) => {
 
   const handleResend = useCallback(async () => {
     try {
+      setOtp("");
       setLoading(true);
 
       const response = await fetch("/api/auth/passwordless/start", {
@@ -37,7 +44,7 @@ const ResendEmailTimer = ({ email, onResend, timeLeft, setTimeLeft }) => {
         body: JSON.stringify({ email }),
       });
 
-      const data = await response.json();
+      await response.json();
 
       if (!response.ok) {
         throw new Error(response.statusText || "Failed to resend code");

@@ -78,10 +78,10 @@ const AdminQuestsWithFilter = ({ category, initialQuests }) => {
         <div className="hide-scroll flex flex-1 flex-col overflow-y-auto">
           <AdminQuestList
             category={category}
-            resetFilters={resetFilters}
             quests={filteredQuests}
-            hasActiveFilters={hasActiveFilters}
+            resetFilters={resetFilters}
             totalQuests={allQuests.length}
+            hasActiveFilters={hasActiveFilters}
           />
         </div>
       </Suspense>

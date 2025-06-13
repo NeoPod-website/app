@@ -68,7 +68,7 @@ const AdminAuth = () => {
         body: JSON.stringify({ email }),
       });
 
-      const data = await response.json();
+      await response.json();
 
       if (!response.ok) {
         throw new Error(
@@ -146,7 +146,7 @@ const AdminAuth = () => {
 
         router.push("/admin/dashboard");
 
-        const { data: loginData } = await loginRes.json();
+        const { data: loginData, token } = await loginRes.json();
 
         dispatch(
           setUserState({
@@ -159,8 +159,7 @@ const AdminAuth = () => {
           }),
         );
 
-        localStorage.setItem("neo-jwt", data.token);
-        // localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("neo-jwt", token);
 
         setOtp("");
         setEmail("");
