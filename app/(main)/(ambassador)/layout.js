@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { getCachedSession } from "@/lib/userSession";
 
+import InboxModal from "@/components/ui/modals/InboxModal";
 import MainPageScroll from "@/components/common/MainPageScroll";
 
 const AmbassadorsLayout = async ({ children }) => {
@@ -40,7 +41,12 @@ const AmbassadorsLayout = async ({ children }) => {
   }
 
   // Render the layout for regular users
-  return <MainPageScroll>{children}</MainPageScroll>;
+  return (
+    <>
+      <InboxModal />
+      <MainPageScroll scrollable={false}>{children}</MainPageScroll>
+    </>
+  );
 };
 
 export default AmbassadorsLayout;

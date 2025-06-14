@@ -3,6 +3,12 @@ import { SearchXIcon } from "lucide-react";
 
 import MainPageScroll from "@/components/common/MainPageScroll";
 
+export const metadata = {
+  title: "Quests | Not Found",
+  description:
+    "The quests you're looking for could not be found. It may have been moved or doesn't exist.",
+};
+
 const NotFound = () => {
   return (
     <MainPageScroll scrollable={false}>
@@ -17,7 +23,7 @@ const NotFound = () => {
           </h1>
 
           <p className="max-w-md text-base text-gray-200">
-            The POD you're looking for could not be found. It may have been
+            The quests you're looking for could not be found. It may have been
             moved or doesn't exist.
           </p>
         </div>

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  isInboxOpen: false,
   selectedQuest: null,
   deleteModalData: null,
   isSocialModalOpen: false,
@@ -32,6 +33,10 @@ const modalsSlice = createSlice({
       state.isShareQuestModalOpen = !state.isShareQuestModalOpen;
     },
 
+    toggleInboxModal: (state) => {
+      state.isInboxOpen = !state.isInboxOpen;
+    },
+
     setSelectedQuest: (state, action) => {
       state.selectedQuest = action.payload;
     },
@@ -47,6 +52,7 @@ const modalsSlice = createSlice({
 });
 
 export const {
+  toggleInboxModal,
   setSelectedQuest,
   toggleSocialModal,
   setDeleteModalData,

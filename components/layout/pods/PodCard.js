@@ -11,7 +11,7 @@ const statusColors = {
   archived: "bg-gray-500 text-white",
 };
 
-export default function PodCard({ pod, isPreview = false }) {
+const PodCard = ({ pod, isPreview = false }) => {
   const [formattedDate, setFormattedDate] = useState("");
   const [coverPhotoUrl, setCoverPhotoUrl] = useState("");
 
@@ -122,4 +122,6 @@ export default function PodCard({ pod, isPreview = false }) {
       </div>
     </div>
   );
-}
+};
+
+export default PodCard;

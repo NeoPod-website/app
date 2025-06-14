@@ -7,14 +7,14 @@ import { Loader2Icon } from "lucide-react";
 
 import PodCard from "@/components/layout/pods/PodCard";
 
-export default function PodGrid({
+const PodGrid = ({
   pods,
   hasMore,
   isLoading,
   loadMorePods,
   resetFilters,
   hasActiveFilters,
-}) {
+}) => {
   if (pods.length === 0) {
     return (
       <div className="flex h-64 flex-1 flex-col items-center justify-center gap-4 rounded-lg border border-gray-700 bg-black/30 p-6 text-center">
@@ -82,4 +82,6 @@ export default function PodGrid({
       </div>
     </>
   );
-}
+};
+
+export default PodGrid;

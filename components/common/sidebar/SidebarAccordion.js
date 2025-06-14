@@ -23,7 +23,7 @@ const SidebarAccordion = ({ index, item, isActive }) => {
           <Link
             href={child.href}
             key={`child-${index}-${childIndex}`}
-            className="sidebar-menu-item ml-8 text-gray-200"
+            className="sidebar-menu-item ml-8 scale-100 text-gray-200 transition-all active:scale-95"
           >
             <span className="mr-4">{child.icon}</span>
 

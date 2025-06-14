@@ -8,6 +8,7 @@ import questsReducer from "./slice/questSlice";
 import modalsReducer from "./slice/modalsSlice";
 import categoryReducer from "./slice/categorySlice";
 import submissionReducer from "./slice/submissionSlice";
+import submissionsReducer from "./slice/submissionsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     modals: modalsReducer,
     category: categoryReducer,
     submission: submissionReducer,
+    submissions: submissionsReducer,
   },
 
   middleware: (getDefaultMiddleware) =>
