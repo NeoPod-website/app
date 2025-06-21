@@ -1,8 +1,5 @@
-// app/submissions/[submissionId]/edit/page.js
 import React from "react";
 import { notFound } from "next/navigation";
-
-import MainPageScroll from "@/components/common/MainPageScroll";
 
 import SubmissionEditMain from "@/components/layout/ambassadors/submissions/details/edit/SubmissionEditMain";
 import SubmissionEditSidebar from "@/components/layout/ambassadors/submissions/details/edit/SubmissionEditSidebar";

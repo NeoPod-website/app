@@ -1,9 +1,9 @@
 import React from "react";
 
 export const metadata = {
-  title: "All-Time Leaderboard | Admin Panel | NEO POD",
+  title: "All-Time Leaderboard | Admin Panel | NeoPod",
   description:
-    "Explore the all-time top-performing ambassadors across all roles — Initiate, Operator, Sentinel, and Architect. Track long-term contributions and engagement in the Neo Pod community.",
+    "Explore the all-time top-performing ambassadors across all roles — Initiate, Operator, Sentinel, and Architect. Track long-term contributions and engagement in the NeoPod community.",
 };
 
 const AdminLeaderboardPage = () => {

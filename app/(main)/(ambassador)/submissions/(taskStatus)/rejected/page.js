@@ -5,7 +5,7 @@ import RejectedSubmissionsContainer from "@/components/layout/ambassadors/histor
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Rejected Submissions | NEO POD",
+  title: "Rejected Submissions | NeoPod",
   description: "Learn from rejected submissions and improve your future work.",
 };
 
@@ -18,10 +18,10 @@ const DEMO_REJECTED_SUBMISSIONS = [
     review_status: "rejected",
     reviewed_by: "admin_001",
     review_comment:
-      "Content does not meet quality standards. Please ensure your tweet includes proper hashtags and mentions the NEO POD program clearly. The engagement metrics are below the minimum threshold required.",
+      "Content does not meet quality standards. Please ensure your tweet includes proper hashtags and mentions the NeoPod program clearly. The engagement metrics are below the minimum threshold required.",
     is_flagged: "false",
     resubmission_count: 1,
-    quest_name: "Share a Tweet on NEO POD Ambassador Program",
+    quest_name: "Share a Tweet on NeoPod Ambassador Program",
   },
   {
     submission_id: "sub_002",

@@ -1,9 +1,9 @@
 import React from "react";
 
 export const metadata = {
-  title: "Admin Panel | NEO POD",
+  title: "Admin Panel | NeoPod",
   description:
-    "Internal admin dashboard for managing Neo Pod ambassadors and communities.",
+    "Internal admin dashboard for managing NeoPod ambassadors and communities.",
 
   robots: {
     index: false,

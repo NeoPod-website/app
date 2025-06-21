@@ -13,8 +13,6 @@ import {
 } from "@/redux/slice/submissionSlice";
 
 const QuestInviteTask = ({ task, questId, user }) => {
-  task.requiredInvites = 1;
-
   const dispatch = useDispatch();
 
   const [copied, setCopied] = useState(false);

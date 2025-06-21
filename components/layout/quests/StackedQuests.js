@@ -2,6 +2,7 @@ import {
   LinkIcon,
   EarthIcon,
   ImageIcon,
+  UsersIcon,
   FileUpIcon,
   ArrowUp01Icon,
   LetterTextIcon,
@@ -10,7 +11,6 @@ import {
 import React from "react";
 import Image from "next/image";
 
-// Simple Avatar component
 const SimpleAvatar = ({ children, className = "" }) => (
   <div
     className={`flex h-6 w-6 items-center justify-center rounded-full bg-red-700 ${className}`}
@@ -37,20 +37,24 @@ const SimpleAvatarGroup = ({ children, max = 3 }) => {
 };
 
 const taskIconMap = {
-  number: <ArrowUp01Icon size={12} className="text-white" />,
-  text: <LetterTextIcon size={12} className="text-white" />,
-  link: <SquareArrowOutUpRightIcon size={12} className="text-white" />,
   url: <LinkIcon size={12} className="text-white" />,
-  nft: <ImageIcon size={12} className="text-white" />,
+  text: <LetterTextIcon size={12} className="text-white" />,
+  number: <ArrowUp01Icon size={12} className="text-white" />,
+
   file: <FileUpIcon size={12} className="text-white" />,
+  invite: <UsersIcon size={12} className="text-white" />,
+  link: <SquareArrowOutUpRightIcon size={12} className="text-white" />,
+
+  x: <EarthIcon size={12} className="text-white" />,
+  discord: <EarthIcon size={12} className="text-white" />,
+  telegram: <EarthIcon size={12} className="text-white" />,
+
+  nft: <ImageIcon size={12} className="text-white" />,
   token: (
     <div className="flex h-[12px] w-[12px] items-center justify-center overflow-hidden rounded">
       <Image src="/neo-logo.svg" width={12} height={12} alt="token" />
     </div>
   ),
-  twitter: <EarthIcon size={12} className="text-white" />,
-  telegram: <EarthIcon size={12} className="text-white" />,
-  discord: <EarthIcon size={12} className="text-white" />,
 };
 
 const StackedQuests = ({ tasks = [] }) => {

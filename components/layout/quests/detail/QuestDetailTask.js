@@ -15,6 +15,7 @@ import { initializeQuestSubmission } from "@/redux/slice/submissionSlice";
 
 const QuestDetailsTask = ({ quest, user }) => {
   const dispatch = useDispatch();
+  console.log(quest);
 
   // Initialize quest submission when component mounts
   useEffect(() => {
@@ -140,10 +141,24 @@ const QuestDetailsTask = ({ quest, user }) => {
         );
 
       case "nft":
-        return <QuestNFTTask key={id} task={task} questId={quest.quest_id} />;
+        return (
+          <QuestNFTTask
+            key={id}
+            task={task}
+            questId={quest.quest_id}
+            wallet={user.wallet_address}
+          />
+        );
 
       case "token":
-        return <QuestTokenTask key={id} task={task} questId={quest.quest_id} />;
+        return (
+          <QuestTokenTask
+            key={id}
+            task={task}
+            questId={quest.quest_id}
+            wallet={user.wallet_address}
+          />
+        );
 
       default:
         return null;

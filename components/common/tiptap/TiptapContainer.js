@@ -48,7 +48,7 @@ import { MentionConfig } from "@/utils/MentionConfig";
 import { setCurrentQuest } from "@/redux/slice/questSlice";
 
 const Tiptap = ({
-  initialContent = "<p>NEO POD! 🌎️</p>",
+  initialContent = "<p>NeoPod! 🌎️</p>",
   onUpdate = null,
 }) => {
   const dispatch = useDispatch();

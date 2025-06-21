@@ -3,6 +3,11 @@ import { SendHorizontalIcon } from "lucide-react";
 import ManageNotFound from "@/components/common/manage/ManageNotFound";
 import ManagePageWrapper from "@/components/layout/pods/ManagePageWrapper";
 
+export const metadata = {
+  title: "PODS Not Found | Admin Panel | NeoPod",
+  description: "The PODs you're looking for could not be found.",
+};
+
 const breadcrumbsList = [
   {
     title: "Manage",

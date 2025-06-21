@@ -3,9 +3,9 @@ import Link from "next/link";
 import { auth0 } from "@/lib/auth0";
 
 export const metadata = {
-  title: "Dashboard | Admin Panel | NEO POD",
+  title: "Dashboard | Admin Panel | NeoPod",
   description:
-    "Overview of Neo Pod’s ambassador program, recent submissions, and key stats. Quickly access tools to manage quests, roles, and community engagement.",
+    "Overview of NeoPod ambassador program, recent submissions, and key stats. Quickly access tools to manage quests, roles, and community engagement.",
 };
 
 const AdminDashboardPage = async () => {

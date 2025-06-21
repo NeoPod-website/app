@@ -218,20 +218,20 @@ const AdminTasksList = ({ tasks: initialTasks = [] }) => {
                     <div className={styles.chevronControls}>
                       <button
                         type="button"
-                        onClick={() => handleMoveUp(index)}
-                        disabled={isFirstTask}
-                        className={`text-gray-100 hover:text-white ${isFirstTask ? "cursor-not-allowed text-gray-400" : ""}`}
                         title="Move task up"
+                        disabled={isFirstTask}
+                        onClick={() => handleMoveUp(index)}
+                        className={`text-gray-100 hover:text-white ${isFirstTask ? "cursor-not-allowed text-gray-400" : ""}`}
                       >
                         <ChevronUp size={20} />
                       </button>
 
                       <button
                         type="button"
-                        onClick={() => handleMoveDown(index)}
                         disabled={isLastTask}
-                        className={`text-gray-100 hover:text-white ${isLastTask && "cursor-not-allowed text-gray-400"}`}
                         title="Move task down"
+                        onClick={() => handleMoveDown(index)}
+                        className={`text-gray-100 hover:text-white ${isLastTask && "cursor-not-allowed text-gray-400"}`}
                       >
                         <ChevronDown size={20} />
                       </button>

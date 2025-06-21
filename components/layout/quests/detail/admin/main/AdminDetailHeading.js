@@ -154,10 +154,10 @@ const AdminDetailHeading = memo(({ name, isNew = false, className = "" }) => {
         <h1
           className={headingClassName}
           onClick={handleNameClick}
-          title={isNew ? "Click to edit name" : ""}
-          role={isNew ? "button" : "heading"}
-          aria-label={isNew ? "Click to edit quest name" : "Quest name"}
           tabIndex={isNew ? 0 : -1}
+          role={isNew ? "button" : "heading"}
+          title={isNew ? "Click to edit name" : ""}
+          aria-label={isNew ? "Click to edit quest name" : "Quest name"}
         >
           {displayName}
         </h1>

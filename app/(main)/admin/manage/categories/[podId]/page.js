@@ -10,7 +10,7 @@ import DeleteConfirmationModal from "@/components/ui/modals/DeleteConfirmationMo
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Manage POD Categories | Admin Panel | NEO POD",
+  title: "Manage POD Categories | Admin Panel | NeoPod",
   description:
     "Create and organize quest categories for better structure and discoverability. Categorize quests to align with different ambassador goals.",
 };

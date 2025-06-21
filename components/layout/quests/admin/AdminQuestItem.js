@@ -153,12 +153,12 @@ const AdminQuestItem = ({
           />
 
           <div className="flex flex-1 items-center gap-2 overflow-hidden">
-            <div
+            <button
               className="min-w-0 cursor-pointer rounded-lg border border-gray-400 bg-gray-700 px-4 py-2.5 text-white"
               onClick={(e) => handleQuestItemClick(e, quest.quest_id)}
             >
               <p className="line-clamp-1 text-sm">{quest.name}</p>
-            </div>
+            </button>
 
             <StackedQuests tasks={quest.tasks} />
           </div>

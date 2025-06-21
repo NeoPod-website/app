@@ -6,9 +6,9 @@ import NeoBreadcrumbs from "@/components/ui/NeoBreadcrumbs";
 import CategoryContainer from "@/components/layout/category/CategoryContainer";
 
 export const metadata = {
-  title: "Quest Details | NEO POD",
+  title: "Quest Details | NeoPod",
   description:
-    "Dive deep into this quest's challenges, complete tasks, and submit your progress to earn rewards and achievements in the Neo Pod community.",
+    "Dive deep into this quest's challenges, complete tasks, and submit your progress to earn rewards and achievements in the NeoPod community.",
 };
 
 // Function to fetch category data
@@ -34,12 +34,12 @@ const fetchCategory = async (categoryId) => {
         Authorization: `Bearer ${token.value}`,
       },
       credentials: "include",
-      next: { revalidate: 300 },
+      // next: { revalidate: 300 },
     });
 
     if (!res.ok) {
       if (res.status === 404) {
-        return notFound();
+        notFound();
       }
 
       throw new Error(`Failed to fetch category: ${res.status}`);

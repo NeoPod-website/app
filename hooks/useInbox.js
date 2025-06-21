@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
 // Constants
 const REVIEW_STATUS = {
@@ -30,13 +30,13 @@ const api = {
         rewards: [{ type: "points", amount: 100 }],
         submission_data: {
           type: "twitter",
-          content: "Great tweet about NEO POD",
+          content: "Great tweet about NeoPod",
         },
         is_read_by_ambassador: false,
         is_read_by_admin: true,
         notification_created_at: "2025-06-12T12:15:00Z",
         quest_name:
-          "Share a Twitter / X thread explaining NEO POD Ambassador Program. (Min 8 Tweets)",
+          "Share a Twitter / X thread explaining NeoPod Ambassador Program. (Min 8 Tweets)",
         ambassador_name: "NooberBoy",
         reviewed_by: "admin_001",
       },
@@ -56,12 +56,12 @@ const api = {
         rewards: [{ type: "points", amount: 75 }],
         submission_data: {
           type: "twitter",
-          content: "NEO POD Ambassador tweet",
+          content: "NeoPod Ambassador tweet",
         },
         is_read_by_ambassador: true,
         is_read_by_admin: true,
         notification_created_at: "2025-06-12T11:30:00Z",
-        quest_name: "Share a Tweet on NEO POD Ambassador Program.",
+        quest_name: "Share a Tweet on NeoPod Ambassador Program.",
         ambassador_name: "NooberBoy",
         reviewed_by: "admin_002",
       },
@@ -86,7 +86,7 @@ const api = {
         is_read_by_ambassador: false,
         is_read_by_admin: true,
         notification_created_at: "2025-06-12T10:45:00Z",
-        quest_name: "Share a Tweet on NEO POD Ambassador Program.",
+        quest_name: "Share a Tweet on NeoPod Ambassador Program.",
         ambassador_name: "NooberBoy",
         reviewed_by: "admin_001",
       },
@@ -112,7 +112,7 @@ const api = {
         is_read_by_admin: true,
         notification_created_at: "2025-06-12T09:30:00Z",
         quest_name:
-          "Share a Twitter / X thread explaining NEO POD Ambassador Program. (Min 8 Tweets)",
+          "Share a Twitter / X thread explaining NeoPod Ambassador Program. (Min 8 Tweets)",
         ambassador_name: "NooberBoy",
         reviewed_by: "admin_003",
       },
@@ -134,7 +134,7 @@ const api = {
         is_read_by_ambassador: true,
         is_read_by_admin: true,
         notification_created_at: "2025-06-12T07:45:00Z",
-        quest_name: "Share a Tweet on NEO POD Ambassador Program.",
+        quest_name: "Share a Tweet on NeoPod Ambassador Program.",
         ambassador_name: "NooberBoy",
         reviewed_by: "admin_001",
       },

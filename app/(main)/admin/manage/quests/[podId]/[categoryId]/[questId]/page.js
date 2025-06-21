@@ -8,6 +8,12 @@ import MainPageScroll from "@/components/common/MainPageScroll";
 import AdminDetailMain from "@/components/layout/quests/detail/admin/AdminDetailMain";
 import AdminDetailOption from "@/components/layout/quests/detail/admin/AdminDetailOption";
 
+export const metadata = {
+  title: "Quest Detail | Admin Panel | NeoPod",
+  description:
+    "View and manage quest details for ambassadors. Understand the quest's structure and configuration.",
+};
+
 async function fetchQuest(questId) {
   try {
     const cookieStore = await cookies();

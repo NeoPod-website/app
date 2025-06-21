@@ -197,9 +197,8 @@ const ImageUpload = ({
               className="h-full w-full object-contain"
             />
 
-            <Button
+            <button
               type="button"
-              variant="destructive"
               onClick={(e) => {
                 e.stopPropagation();
                 handleRemove();
@@ -207,7 +206,7 @@ const ImageUpload = ({
               className="absolute right-2 top-2 h-10 w-10 min-w-0 bg-red-500/30 p-1.5"
             >
               <Trash2 className="h-5 w-5" />
-            </Button>
+            </button>
           </div>
         ) : (
           <div className="space-y-2 text-center">

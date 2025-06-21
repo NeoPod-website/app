@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Input, Switch, Checkbox } from "@heroui/react";
+import { Input, Switch, Checkbox, addToast } from "@heroui/react";
 
 import AdminTaskItem from "../AdminTaskItem";
 
@@ -198,9 +198,7 @@ const ReactConfig = ({ taskId }) => {
 
   const [tweetUrl, setTweetUrl] = useState(currentTask.tweetUrl || "");
 
-  const [requireLike, setRequireLike] = useState(
-    currentTask.requireLike || true,
-  );
+  const [requireLike, setRequireLike] = useState(true);
 
   const [requireRetweet, setRequireRetweet] = useState(
     currentTask.requireRetweet || false,
@@ -273,11 +271,12 @@ const ReactConfig = ({ taskId }) => {
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <Checkbox
-              isSelected={requireLike}
+              isSelected={true}
               onChange={() => {
-                const newValue = !requireLike;
-                setRequireLike(newValue);
-                handleInteractionChange("requireLike", newValue);
+                addToast({
+                  title: "It is required to like the tweet.",
+                  type: "success",
+                });
               }}
             />
 

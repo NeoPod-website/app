@@ -137,7 +137,13 @@ const AddTaskModal = () => {
   };
 
   const handleQuestTaskAdd = (task) => {
-    dispatch(addCurrentQuestTask({ name: task.type }));
+    if (task.type === "x") {
+      dispatch(
+        addCurrentQuestTask({ name: task.type, twitterTaskType: "tweet" }),
+      );
+    } else {
+      dispatch(addCurrentQuestTask({ name: task.type }));
+    }
     dispatch(toggleAddTasksModal());
   };
 

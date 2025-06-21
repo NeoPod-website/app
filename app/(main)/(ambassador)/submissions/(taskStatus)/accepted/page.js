@@ -5,7 +5,7 @@ import AcceptedSubmissionsContainer from "@/components/layout/ambassadors/histor
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Accepted Submissions | NEO POD",
+  title: "Accepted Submissions | NeoPod",
   description: "View all your approved and successful submissions.",
 };
 
@@ -18,10 +18,10 @@ const DEMO_ACCEPTED_SUBMISSIONS = [
     review_status: "approved",
     reviewed_by: "admin_001",
     review_comment:
-      "Excellent work! Your tweet generated great engagement and perfectly represents the NEO POD values. The content quality is outstanding and shows deep understanding of our mission.",
+      "Excellent work! Your tweet generated great engagement and perfectly represents the NeoPod values. The content quality is outstanding and shows deep understanding of our mission.",
     is_flagged: "false",
     resubmission_count: 0,
-    quest_name: "Share a Tweet on NEO POD Ambassador Program",
+    quest_name: "Share a Tweet on NeoPod Ambassador Program",
   },
   {
     submission_id: "sub_006",

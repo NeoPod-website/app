@@ -21,7 +21,7 @@ const breadcrumbsList = [
 ];
 
 export const metadata = {
-  title: "Create POD | Admin Panel | NEO POD",
+  title: "Create POD | Admin Panel | NeoPod",
   description:
     "Create a new POD for ambassadors and admins to manage and engage with them.",
 };

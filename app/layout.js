@@ -18,15 +18,15 @@ const workSans = Work_Sans({
 });
 
 export const metadata = {
-  title: "NEO POD - Quests & Rewards for Ambassadors",
+  title: "NeoPod - Quests & Rewards for Ambassadors",
   description:
-    "Join the NEO POD DApp to complete quests, earn rewards, and grow your influence in the NEO Blockchain ecosystem. Track your progress, level up, and unlock exclusive perks as an official NEO Ambassador.",
+    "Join the NeoPod DApp to complete quests, earn rewards, and grow your influence in the NEO Blockchain ecosystem. Track your progress, level up, and unlock exclusive perks as an official NEO Ambassador.",
 
-  applicationName: "NEO POD DAPP",
+  applicationName: "NeoPod DAPP",
   referrer: "origin-when-cross-origin",
 
   keywords: [
-    "NEO POD",
+    "NeoPod",
     "NEO Ambassador Quests",
     "NEO DApp",
     "GAS Token Rewards",
@@ -57,34 +57,34 @@ export const metadata = {
   creator: "Gautam Raj",
   publisher: "Gautam Raj",
 
-  publisher: "NEO POD - Ambassador Program",
+  publisher: "NeoPod - Ambassador Program",
   metadataBase: new URL("https://app.neopod.org"),
   alternates: {
     canonical: "/",
   },
 
   openGraph: {
-    title: "NEO POD - Quests & Rewards for Ambassadors",
+    title: "NeoPod - Quests & Rewards for Ambassadors",
     description:
-      "Join the NEO POD DApp to complete quests, earn rewards, and grow your influence in the NEO Blockchain ecosystem. Track your progress, level up, and unlock exclusive perks as an official NEO Ambassador.",
+      "Join the NeoPod DApp to complete quests, earn rewards, and grow your influence in the NEO Blockchain ecosystem. Track your progress, level up, and unlock exclusive perks as an official NEO Ambassador.",
     url: "https://app.neopod.org",
-    siteName: "NEO POD - Ambassador Program",
+    siteName: "NeoPod - Ambassador Program",
     type: "website",
     images: [
       {
         url: "/og/social-banner.png",
         width: 1200,
         height: 630,
-        alt: "NEO POD Dapp Social Banner",
+        alt: "NeoPod Dapp Social Banner",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "NEO POD - Quests & Rewards for Ambassadors",
+    title: "NeoPod - Quests & Rewards for Ambassadors",
     description:
-      "Join the NEO POD DApp to complete quests, earn rewards, and grow your influence in the NEO Blockchain ecosystem. Track your progress, level up, and unlock exclusive perks as an official NEO Ambassador.",
+      "Join the NeoPod DApp to complete quests, earn rewards, and grow your influence in the NEO Blockchain ecosystem. Track your progress, level up, and unlock exclusive perks as an official NEO Ambassador.",
     images: ["/og/social-banner.png"],
     creator: "@neo_blockchain",
   },
@@ -97,7 +97,7 @@ export const metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "NEO POD - Quests & Rewards for Ambassadors",
+    title: "NeoPod - Quests & Rewards for Ambassadors",
   },
 
   other: {
@@ -105,9 +105,9 @@ export const metadata = {
       {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "NEO POD",
+        "name": "NeoPod",
         "url": "https://app.neopod.org",
-        "description": "Join the NEO POD DApp to complete quests, earn rewards, and grow your influence in the NEO Blockchain ecosystem. Track your progress, level up, and unlock exclusive perks as an official NEO Ambassador.",
+        "description": "Join the NeoPod DApp to complete quests, earn rewards, and grow your influence in the NEO Blockchain ecosystem. Track your progress, level up, and unlock exclusive perks as an official NEO Ambassador.",
         "logo": "https://neo-web.azureedge.net/images/logo%20files-dark.svg",
         "sameAs": [
           "https://www.facebook.com/NeoBlockchainOfficial"

@@ -3,6 +3,11 @@ import { UndoIcon } from "lucide-react";
 import ManageNotFound from "@/components/common/manage/ManageNotFound";
 import ManagePageWrapper from "@/components/layout/pods/ManagePageWrapper";
 
+export const metadata = {
+  title: "Quest Not Found | Admin Panel | NeoPod",
+  description: "The Quest you're looking for could not be found.",
+};
+
 const breadcrumbsList = [
   {
     title: "Manage",

@@ -8,7 +8,7 @@ export async function generateMetadata({ params }) {
 
   if (!VALID_ROLES.includes(role)) {
     return {
-      title: "Not Found | Admin Panel | NEO POD",
+      title: "Not Found | Admin Panel | NeoPod",
       description: "The leaderboard you're looking for does not exist.",
     };
   }
@@ -16,8 +16,8 @@ export async function generateMetadata({ params }) {
   const capitalizedRole = role.charAt(0).toUpperCase() + role.slice(1);
 
   return {
-    title: `${capitalizedRole} Leaderboard | Admin Panel | NEO POD`,
-    description: `View top-performing ambassadors in the ${capitalizedRole} role. Track progress, contributions, and rankings for this ambassador role within the Neo Pod community.`,
+    title: `${capitalizedRole} Leaderboard | Admin Panel | NeoPod`,
+    description: `View top-performing ambassadors in the ${capitalizedRole} role. Track progress, contributions, and rankings for this ambassador role within the NeoPod community.`,
   };
 }
 

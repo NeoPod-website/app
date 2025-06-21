@@ -9,7 +9,7 @@ import DeleteConfirmationModal from "@/components/ui/modals/DeleteConfirmationMo
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Manage PODS | Admin Panel | NEO POD",
+  title: "Manage PODS | Admin Panel | NeoPod",
   description:
     "Create, edit, and organize PODS for ambassadors. Shape the journey and engagement through meaningful tasks and challenges.",
 };

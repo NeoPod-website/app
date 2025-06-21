@@ -8,9 +8,9 @@ import MainPageScroll from "@/components/common/MainPageScroll";
 import CategoriesList from "@/components/layout/category/CategoriesList";
 
 export const metadata = {
-  title: "Quests | NEO POD",
+  title: "Quests | NeoPod",
   description:
-    "Discover and participate in quests designed to boost your engagement and growth within the Neo Pod community. Earn rewards and unlock achievements.",
+    "Discover and participate in quests designed to boost your engagement and growth within the NeoPod community. Earn rewards and unlock achievements.",
 };
 
 const EmptyStateMessage = ({ title, description }) => (

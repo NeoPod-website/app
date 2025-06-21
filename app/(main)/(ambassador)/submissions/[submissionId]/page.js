@@ -1,8 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
 
-import MainPageScroll from "@/components/common/MainPageScroll";
-
 import SubmissionDetailMain from "@/components/layout/ambassadors/submissions/details/SubmissionDetailMain";
 import SubmissionDetailSidebar from "@/components/layout/ambassadors/submissions/details/SubmissionDetailSidebar";
 

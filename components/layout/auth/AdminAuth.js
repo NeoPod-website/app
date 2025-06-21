@@ -146,7 +146,7 @@ const AdminAuth = () => {
 
         router.push("/admin/dashboard");
 
-        const { data: loginData } = await loginRes.json();
+        const { data: loginData, token } = await loginRes.json();
 
         dispatch(
           setUserState({
@@ -159,7 +159,7 @@ const AdminAuth = () => {
           }),
         );
 
-        localStorage.setItem("neo-jwt", data.token);
+        localStorage.setItem("neo-jwt", token);
         // localStorage.setItem("user", JSON.stringify(data.user));
 
         setOtp("");

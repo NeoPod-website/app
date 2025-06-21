@@ -70,11 +70,11 @@ const ShareQuestModal = () => {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const url = `${baseUrl}/quests/${questId}`;
 
-    // Enhanced share text for NEO POD Ambassador Program
+    // Enhanced share text for NeoPod Ambassador Program
     const text =
-      `🚀 Join the NEO POD Ambassador Program!\n\n` +
+      `🚀 Join the NeoPod Ambassador Program!\n\n` +
       `Quest: "${quest?.name || "Amazing Quest"}"\n` +
-      `💎 Rewards: ${quest?.points || 0} NEO POD points\n` +
+      `💎 Rewards: ${quest?.points || 0} NeoPod points\n` +
       `Complete quests, earn rewards, and become part of the NEO blockchain ecosystem! 🌐\n\n` +
       `#NEO #NEOPOD #Blockchain #Ambassador #Web3\n\n`;
 
@@ -99,16 +99,16 @@ const ShareQuestModal = () => {
   const handleDiscordShare = useCallback(async () => {
     // Enhanced Discord message with better formatting
     const discordText =
-      `🚀 **NEO POD Ambassador Program** 🚀\n\n` +
+      `🚀 **NeoPod Ambassador Program** 🚀\n\n` +
       `**Quest:** ${quest?.name || "Amazing Quest"}\n` +
-      `💎 **Rewards:** ${quest?.points || 0} NEO POD points\n` +
+      `💎 **Rewards:** ${quest?.points || 0} NeoPod points\n` +
       `Complete quests, earn rewards, and become part of the NEO blockchain ecosystem! 🌐\n\n` +
       `Join here: ${questUrl}\n\n` +
       `#NEO #NEOPOD #Blockchain #Ambassador #Web3`;
 
     try {
       await navigator.clipboard.writeText(discordText);
-      alert("NEO POD quest details copied! You can now paste it in Discord.");
+      alert("NeoPod quest details copied! You can now paste it in Discord.");
     } catch {
       alert("Failed to copy. Please copy the link manually.");
     }
@@ -199,7 +199,7 @@ const ShareQuestModal = () => {
           </div>
 
           <p className="mx-auto max-w-sm text-xs text-gray-200">
-            Complete quests, earn NEO POD points, and become part of the NEO
+            Complete quests, earn NeoPod points, and become part of the NEO
             blockchain ecosystem
           </p>
         </div>

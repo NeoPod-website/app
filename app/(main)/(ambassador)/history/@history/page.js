@@ -10,10 +10,10 @@ const submissionsData = [
     review_status: "rejected",
     reviewed_by: "admin_001",
     review_comment:
-      "Content does not meet quality standards. Please ensure your tweet includes proper hashtags and mentions the NEO POD program clearly. Content does not meet quality standards. Please ensure your tweet includes proper hashtags and mentions the NEO POD program clearly. Content does not meet quality standards. Please ensure your tweet includes proper hashtags and mentions the NEO POD program clearly.",
+      "Content does not meet quality standards. Please ensure your tweet includes proper hashtags and mentions the NeoPod program clearly. Content does not meet quality standards. Please ensure your tweet includes proper hashtags and mentions the NeoPod program clearly. Content does not meet quality standards. Please ensure your tweet includes proper hashtags and mentions the NeoPod program clearly.",
     is_flagged: "false",
     resubmission_count: 1,
-    quest_name: "Share a Tweet on NEO POD Ambassador Program",
+    quest_name: "Share a Tweet on NeoPod Ambassador Program",
   },
   {
     submission_id: "sub_002",
@@ -34,10 +34,10 @@ const submissionsData = [
     review_status: "approved",
     reviewed_by: "admin_001",
     review_comment:
-      "Excellent work! Your tweet generated great engagement and perfectly represents the NEO POD values. Keep up the outstanding work.",
+      "Excellent work! Your tweet generated great engagement and perfectly represents the NeoPod values. Keep up the outstanding work.",
     is_flagged: "false",
     resubmission_count: 0,
-    quest_name: "Share a Tweet on NEO POD Ambassador Program",
+    quest_name: "Share a Tweet on NeoPod Ambassador Program",
   },
   {
     submission_id: "sub_004",

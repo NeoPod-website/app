@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { CoinsIcon, Wallet, ImageIcon } from "lucide-react";
 import { Input, Switch, Select, SelectItem } from "@heroui/react";
 
+import { getNetworkConfig, getSupportedNetworks } from "@/config/networks";
+
 import AdminTaskItem from "../AdminTaskItem";
 import QuestTaskContainer from "../../../../tasks/QuestTaskContainer";
 
@@ -20,14 +22,19 @@ const BLOCKCHAIN_TASK_TYPES = {
 };
 
 // Network Options
-const NETWORK_OPTIONS = [
-  { value: "ethereum", label: "Ethereum" },
-  { value: "neo", label: "NEO" },
-  { value: "bsc", label: "Binance Smart Chain" },
-  { value: "polygon", label: "Polygon" },
-  { value: "arbitrum", label: "Arbitrum" },
-  { value: "optimism", label: "Optimism" },
-];
+const getNetworkOptions = () => {
+  const supportedNetworks = getSupportedNetworks();
+
+  return supportedNetworks.map((networkKey) => {
+    const config = getNetworkConfig(networkKey);
+    return {
+      value: networkKey,
+      label: config.displayName,
+    };
+  });
+};
+
+const NETWORK_OPTIONS = getNetworkOptions();
 
 // Configuration for each task type
 const taskTypeConfig = {
@@ -239,6 +246,7 @@ const NFTConfig = ({ taskId }) => {
             <label className="mb-2 block text-sm text-gray-300">Token ID</label>
 
             <Input
+              required
               size="lg"
               variant="bordered"
               value={tokenId}
@@ -351,7 +359,6 @@ const TokenConfig = ({ taskId }) => {
         </label>
 
         <Input
-          required
           size="lg"
           type="text"
           variant="bordered"
@@ -422,8 +429,7 @@ const AdminNFTTokenTask = ({ index, task }) => {
     }
   }, [task.id, currentTasks]);
 
-  const currentType =
-    currentTask.blockchainTaskType || BLOCKCHAIN_TASK_TYPES.NFT;
+  const currentType = currentTask.name || BLOCKCHAIN_TASK_TYPES.NFT;
   const config = taskTypeConfig[currentType];
 
   const handleTypeChange = (newType) => {
@@ -432,7 +438,7 @@ const AdminNFTTokenTask = ({ index, task }) => {
     dispatch(
       updateCurrentQuestTask({
         id: currentTask.id,
-        changes: { blockchainTaskType: newType },
+        changes: { name: newType },
       }),
     );
   };

@@ -11,10 +11,10 @@ const highlightedSubmissionsData = [
     review_status: "highlighted",
     reviewed_by: "admin_001",
     review_comment:
-      "Excellent work! Your tweet generated great engagement and perfectly represents the NEO POD values. Keep up the outstanding work.",
+      "Excellent work! Your tweet generated great engagement and perfectly represents the NeoPod values. Keep up the outstanding work.",
     is_flagged: "false",
     resubmission_count: 0,
-    quest_name: "Share a Tweet on NEO POD Ambassador Program",
+    quest_name: "Share a Tweet on NeoPod Ambassador Program",
   },
 ];
 

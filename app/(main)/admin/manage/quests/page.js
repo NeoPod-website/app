@@ -12,7 +12,7 @@ import CategoryItemLoader from "@/components/ui/loader/category/CategoryItemLoad
 import AdminQuestListLoader from "@/components/ui/loader/quest/admin/AdminQuestListLoader";
 
 export const metadata = {
-  title: "Manage Quests | Admin Panel | NEO POD",
+  title: "Manage Quests | Admin Panel | NeoPod",
   description:
     "Create, edit, and organize quests for ambassadors. Shape the journey and engagement through meaningful tasks and challenges.",
 };

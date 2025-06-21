@@ -7,7 +7,7 @@ import LoadMoreSubmissions from "@/components/layout/ambassadors/submissions/Loa
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "My Submissions | NEO POD",
+  title: "My Submissions | NeoPod",
   description:
     "View and manage your pending quest submissions awaiting review.",
 };

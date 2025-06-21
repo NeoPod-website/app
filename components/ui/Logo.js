@@ -8,7 +8,7 @@ const Logo = ({ width = 40, height = 41, className }) => {
       height={height}
       priority
       src="/neo-pod-logo.svg"
-      alt="NEO POD Logo"
+      alt="NeoPod Logo"
       className={className}
     />
   );
@@ -22,7 +22,7 @@ export const LogoWithText = ({ width = 56, height = 56, className }) => {
         height={height}
         priority
         src="/neo-pod-logo.svg"
-        alt="NEO POD Logo"
+        alt="NeoPod Logo"
         className={className}
       />
 

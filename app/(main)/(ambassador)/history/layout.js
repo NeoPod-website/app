@@ -3,7 +3,7 @@ import React from "react";
 import WrapperContainer from "@/components/common/WrapperContainer";
 
 export const metadata = {
-  title: "History | NEO POD",
+  title: "History | NeoPod",
   description:
     "View your quest history, including highlighted, accepted, and rejected quests. Track your overall performance with insights into total submissions, accepted tasks, and rejected quests.",
 };

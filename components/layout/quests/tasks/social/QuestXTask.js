@@ -12,7 +12,7 @@ const X_TASK_TYPES = {
   SPACES: "spaces",
 };
 
-const QuestXTask = ({ task, taskType }) => {
+const QuestXTask = ({ task, questId, xUser, taskType }) => {
   const validTaskTypes = Object.values(X_TASK_TYPES);
 
   if (!validTaskTypes.includes(taskType)) {
@@ -27,16 +27,24 @@ const QuestXTask = ({ task, taskType }) => {
   // Route to appropriate component based on task type
   switch (taskType) {
     case X_TASK_TYPES.TWEET:
-      return <XTweetTask task={task} />;
+      return (
+        <XTweetTask task={task} questId={questId} userTwitterHandle={xUser} />
+      );
 
     case X_TASK_TYPES.FOLLOW:
-      return <XFollowTask task={task} />;
+      return (
+        <XFollowTask task={task} questId={questId} userTwitterHandle={xUser} />
+      );
 
     case X_TASK_TYPES.REACT:
-      return <XReactTask task={task} />;
+      return (
+        <XReactTask task={task} questId={questId} userTwitterHandle={xUser} />
+      );
 
     case X_TASK_TYPES.SPACES:
-      return <XSpacesTask task={task} />;
+      return (
+        <XSpacesTask task={task} questId={questId} userTwitterHandle={xUser} />
+      );
 
     default:
       return (

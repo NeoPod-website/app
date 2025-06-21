@@ -4,7 +4,7 @@ import React, { Suspense } from "react";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Highlighted Submissions | NEO POD",
+  title: "Highlighted Submissions | NeoPod",
   description:
     "Your outstanding work that has been recognized for exceptional quality.",
 };

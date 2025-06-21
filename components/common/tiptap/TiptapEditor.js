@@ -74,7 +74,7 @@ const TiptapEditor = () => {
         },
       }),
     ],
-    content: "<p>NEO POD! 🌎️</p>",
+    content: "<p>NeoPod! 🌎️</p>",
   });
 
   if (!editor) {

@@ -3,7 +3,7 @@ import { auth0 } from "@/lib/auth0";
 import SocialLoginRedirect from "./SocialLoginRedirect";
 
 export const metadata = {
-  title: "NEO POD | Login Redirect",
+  title: "NeoPod | Login Redirect",
   description: "Redirecting to login page...",
 
   robots: {

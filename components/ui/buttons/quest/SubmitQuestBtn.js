@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { addToast, Button } from "@heroui/react";
+import { addToast } from "@heroui/react";
 import { SendHorizonalIcon } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -271,9 +271,7 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
 
   return (
     <div className="submit-section">
-      <Button
-        size="lg"
-        radius="full"
+      <button
         onClick={(e) => {
           e.preventDefault();
           const form = e.target.closest("form");
@@ -286,15 +284,15 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
           }
         }}
         disabled={!isQuestComplete || isSubmitting}
-        className={`neo-button border border-white ${
+        className={`neo-button flex h-12 items-center gap-2 rounded-full border border-white ${
           isQuestComplete && !isSubmitting
             ? "cursor-pointer bg-gradient-primary"
             : "cursor-not-allowed bg-gray-400 opacity-50"
         }`}
-        endContent={<SendHorizonalIcon size={16} />}
       >
-        {isSubmitting ? "Submitting..." : "Submit"}
-      </Button>
+        {isSubmitting ? "Submitting..." : "Submit"}{" "}
+        <SendHorizonalIcon size={16} />
+      </button>
 
       {submissionError && (
         <div className="mt-2 text-sm text-red-600">{submissionError}</div>

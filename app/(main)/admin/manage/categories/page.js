@@ -8,7 +8,7 @@ import FilterPanelLoader from "@/components/ui/loader/filter/FilterPanelLoader";
 import CategoryListLoader from "@/components/ui/loader/category/CategoryListLoader";
 
 export const metadata = {
-  title: "Manage Categories | Admin Panel | NEO POD",
+  title: "Manage Categories | Admin Panel | NeoPod",
   description:
     "Create and organize quest categories for better structure and discoverability. Categorize quests to align with different ambassador goals.",
 };

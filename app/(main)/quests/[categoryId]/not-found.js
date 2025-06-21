@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { SearchXIcon } from "lucide-react";
+
 import MainPageScroll from "@/components/common/MainPageScroll";
+
+export const metadata = {
+  title: "Category | Not Found",
+  description:
+    "The category page you're looking for could not be found. It may have been moved or doesn't exist.",
+};
 
 const NotFound = () => {
   const NotFoundContent = () => (

@@ -1,9 +1,9 @@
 import React from "react";
 
 export const metadata = {
-  title: "Analytics | Admin Panel | NEO POD",
+  title: "Analytics | Admin Panel | NeoPod",
   description:
-    "View and analyze key metrics for Neo Pod ambassador activity, quest performance, and community engagement through the admin analytics dashboard.",
+    "View and analyze key metrics for NeoPod ambassador activity, quest performance, and community engagement through the admin analytics dashboard.",
 };
 
 const AnalyticsPage = () => {

@@ -1,7 +1,7 @@
 import React from "react";
 
 export const metadata = {
-  title: "Monthly Leaderboard | NEO POD",
+  title: "Monthly Leaderboard | NeoPod",
   description:
     "Check the top performers for the current month. See how your achievements compare to other ambassadors and climb the leaderboard.",
 };

@@ -1,7 +1,7 @@
 import React from "react";
 
 export const metadata = {
-  title: "Submissions | Admin Panel | NEO POD",
+  title: "Submissions | Admin Panel | NeoPod",
   description:
     "Review, manage, and approve ambassador submissions. Track user-generated content and ensure tasks are being completed accurately and timely.",
 };
