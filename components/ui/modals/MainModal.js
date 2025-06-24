@@ -1,7 +1,13 @@
 "use client";
 
+import {
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  ModalContent,
+} from "@heroui/react";
 import React from "react";
-import { Modal, ModalBody, ModalHeader, ModalContent } from "@heroui/react";
 
 const MainModal = ({
   title,
@@ -11,7 +17,6 @@ const MainModal = ({
   description,
   size = "2xl",
   handleOnClose,
-  maxW = "max-w-md",
   showFooter = false,
 }) => {
   return (

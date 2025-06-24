@@ -6,8 +6,10 @@ const initialState = {
   deleteModalData: null,
   isSocialModalOpen: false,
   isAddTasksModalOpen: false,
-  isShareQuestModalOpen: true,
+  isShareQuestModalOpen: false,
+  isSupportedWalletModalOpen: false,
   isDeleteConfirmationModalOpen: false,
+  isRemoveAmbassadorWalletModalOpen: false,
 };
 
 const modalsSlice = createSlice({
@@ -48,6 +50,15 @@ const modalsSlice = createSlice({
     clearDeleteModalData: (state) => {
       state.deleteModalData = null;
     },
+
+    toggleSupportedWalletModal: (state) => {
+      state.isSupportedWalletModalOpen = !state.isSupportedWalletModalOpen;
+    },
+
+    toggleRemoveAmbassadorWalletModal: (state) => {
+      state.isRemoveAmbassadorWalletModalOpen =
+        !state.isRemoveAmbassadorWalletModalOpen;
+    },
   },
 });
 
@@ -59,7 +70,9 @@ export const {
   toggleAddTasksModal,
   clearDeleteModalData,
   toggleShareQuestModal,
+  toggleSupportedWalletModal,
   toggleDeleteConfirmationModal,
+  toggleRemoveAmbassadorWalletModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

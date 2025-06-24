@@ -1,19 +1,14 @@
-"use client";
-
 import React from "react";
-import { Button } from "@heroui/react";
+import Link from "next/link";
 
 const SidebarConnectWalletBtn = () => {
   return (
-    <Button
-      size="sm"
+    <Link
+      href="/settings?tab=wallet"
       className="bg-blue-600 hover:bg-blue-700 h-auto rounded !px-0 !py-0 text-xs text-white underline"
-      onPress={() => {
-        console.log("Connect wallet clicked");
-      }}
     >
       Connect Wallet
-    </Button>
+    </Link>
   );
 };
 

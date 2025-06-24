@@ -163,11 +163,11 @@ const ShareQuestModal = () => {
 
   return (
     <MainModal
+      size="md"
+      isOpen={isOpen}
       title="Share Quest"
       description="Share this quest with your friends and community across different platforms."
-      isOpen={isOpen}
       handleOnClose={handleClose}
-      size="md"
     >
       <div className="space-y-6">
         <div className="space-y-2 text-center">
@@ -194,7 +194,10 @@ const ShareQuestModal = () => {
             </span>
 
             <span className="flex items-center gap-1">
-              ⏰ Due {new Date(quest.due_date).toLocaleDateString()}
+              ⏰ Due:{" "}
+              {quest.due_date
+                ? new Date(quest.due_date).toLocaleDateString()
+                : "N/A"}
             </span>
           </div>
 

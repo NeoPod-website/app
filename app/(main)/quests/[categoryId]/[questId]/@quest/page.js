@@ -4,6 +4,12 @@ import { notFound } from "next/navigation";
 
 import QuestDetails from "@/components/layout/quests/detail/QuestDetails";
 
+export const metadata = {
+  title: "Quest Details | NeoPod",
+  description:
+    "Dive deep into this quest's challenges, complete tasks, and submit your progress to earn rewards and achievements in the NeoPod community.",
+};
+
 const fetchQuestDetails = async (questId) => {
   if (!questId) {
     throw new Error("Quest ID is required");
