@@ -31,17 +31,17 @@ const settingsTabs = [
     icon: ExternalLinkIcon,
   },
 
-  {
-    key: "security",
-    title: "Security",
-    icon: ShieldIcon,
-  },
+  // {
+  //   key: "security",
+  //   title: "Security",
+  //   icon: ShieldIcon,
+  // },
 
-  {
-    key: "notifications",
-    title: "Notifications",
-    icon: BellIcon,
-  },
+  // {
+  //   key: "notifications",
+  //   title: "Notifications",
+  //   icon: BellIcon,
+  // },
 
   {
     key: "appearance",

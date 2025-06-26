@@ -22,15 +22,15 @@ const MainModal = ({
   return (
     <>
       <Modal
+        size={size}
+        isOpen={isOpen}
         backdrop="blur"
+        onClose={handleOnClose}
         classNames={{
           body: "p-6",
-          base: "border border-gray-400 bg-black text-white",
+          base: "border border-gray-400 bg-black/80 text-white",
           closeButton: "hover:bg-white/20 p-2 mt-3 mr-3 rounded text-xl",
         }}
-        isOpen={isOpen}
-        size={size}
-        onClose={handleOnClose}
       >
         <ModalContent>
           {(onClose) => (

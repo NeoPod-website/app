@@ -29,10 +29,10 @@ const SettingsContent = async ({ activeTab }) => {
             telegramUsername={user.telegram_username || null}
           />
         );
-      case "security":
-        return <SecurityTab />;
-      case "notifications":
-        return <NotificationsTab />;
+      // case "security":
+      //   return <SecurityTab />;
+      // case "notifications":
+      //   return <NotificationsTab />;
       case "appearance":
         return <AppearanceTab />;
       default:

@@ -9,6 +9,7 @@ const initialState = {
   isShareQuestModalOpen: false,
   isSupportedWalletModalOpen: false,
   isDeleteConfirmationModalOpen: false,
+  isDisconnectedSocialModalOpen: false,
   isRemoveAmbassadorWalletModalOpen: false,
 };
 
@@ -59,6 +60,11 @@ const modalsSlice = createSlice({
       state.isRemoveAmbassadorWalletModalOpen =
         !state.isRemoveAmbassadorWalletModalOpen;
     },
+
+    toggleDisconnectedSocialModal: (state) => {
+      state.isDisconnectedSocialModalOpen =
+        !state.isDisconnectedSocialModalOpen;
+    },
   },
 });
 
@@ -72,6 +78,7 @@ export const {
   toggleShareQuestModal,
   toggleSupportedWalletModal,
   toggleDeleteConfirmationModal,
+  toggleDisconnectedSocialModal,
   toggleRemoveAmbassadorWalletModal,
 } = modalsSlice.actions;
 
