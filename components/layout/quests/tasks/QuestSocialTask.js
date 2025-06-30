@@ -72,6 +72,8 @@ const QuestSocialTask = ({
   questId,
   discordUser,
   telegramUser,
+  editMode = false,
+  existingAnswer = null,
 }) => {
   // Find the social platform configuration
   const selectedSocial =
@@ -84,10 +86,6 @@ const QuestSocialTask = ({
 
   // Get dynamic heading based on platform, task type and task data
   const heading = getTaskHeading(name, taskType, task);
-
-  // console.log("QuestSocialTask - selectedSocial:", selectedSocial);
-  // console.log("QuestSocialTask - taskType:", taskType);
-  // console.log("QuestSocialTask - task:", task);
 
   return (
     <QuestTask
@@ -104,6 +102,8 @@ const QuestSocialTask = ({
           xUser={xUser}
           questId={questId}
           taskType={taskType}
+          editMode={editMode}
+          existingAnswer={existingAnswer}
         />
       )}
 
@@ -112,6 +112,8 @@ const QuestSocialTask = ({
           task={task}
           questId={questId}
           telegramUser={telegramUser}
+          editMode={editMode}
+          existingAnswer={existingAnswer}
         />
       )}
 
@@ -120,6 +122,8 @@ const QuestSocialTask = ({
           task={task}
           questId={questId}
           discordUser={discordUser}
+          editMode={editMode}
+          existingAnswer={existingAnswer}
         />
       )}
     </QuestTask>

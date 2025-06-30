@@ -2,6 +2,7 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 const initialState = {
   error: null,
+  editMode: {},
   submitting: false,
   questMetadata: {},
   submittedQuests: [],
@@ -194,6 +195,64 @@ const submissionSlice = createSlice({
       state.lastUpdated = Date.now();
       state.recentlySubmittedQuests = [];
     },
+
+    initializeQuestSubmissionForEdit: (state, action) => {
+      const { questId, totalTasks, taskIds, existingAnswers, submissionId } =
+        action.payload;
+
+      // Set up active submission with existing answers
+      state.activeSubmissions[questId] = {
+        answers: existingAnswers || {},
+        taskStatus: {},
+        isComplete: false,
+      };
+
+      // Store quest metadata
+      state.questMetadata[questId] = {
+        totalTasks,
+        taskIds,
+      };
+
+      // Initialize task statuses based on existing answers
+      taskIds.forEach((taskId) => {
+        const hasAnswer = existingAnswers && existingAnswers[taskId];
+        state.activeSubmissions[questId].taskStatus[taskId] = {
+          completed: hasAnswer
+            ? isAnswerComplete(existingAnswers[taskId])
+            : false,
+          required: true,
+        };
+      });
+
+      // Check completion status
+      state.activeSubmissions[questId].isComplete = taskIds.every(
+        (id) =>
+          state.activeSubmissions[questId].taskStatus[id]?.completed === true,
+      );
+
+      // Mark as edit mode
+      state.editMode[questId] = {
+        submissionId,
+        originalAnswers: { ...existingAnswers },
+        isEditing: true,
+      };
+
+      state.lastUpdated = Date.now();
+    },
+
+    clearEditMode: (state, action) => {
+      const { questId } = action.payload;
+      delete state.editMode[questId];
+      state.lastUpdated = Date.now();
+    },
+
+    setEditModeStatus: (state, action) => {
+      const { questId, isEditing } = action.payload;
+      if (state.editMode[questId]) {
+        state.editMode[questId].isEditing = isEditing;
+      }
+      state.lastUpdated = Date.now();
+    },
   },
 });
 
@@ -288,9 +347,49 @@ export const selectWasQuestEverSubmitted = createSelector(
   (submittedQuests, questId) => submittedQuests.includes(questId),
 );
 
+export const selectEditModeState = (state) => state.submission.editMode || {};
+
+export const selectIsEditMode = createSelector(
+  [selectEditModeState, (state, questId) => questId],
+  (editMode, questId) => {
+    if (!editMode || !questId) return false;
+    return editMode[questId]?.isEditing || false;
+  },
+);
+
+export const selectEditModeData = createSelector(
+  [selectEditModeState, (state, questId) => questId],
+  (editMode, questId) => {
+    if (!editMode || !questId) return null;
+    return editMode[questId] || null;
+  },
+);
+
+export const selectOriginalAnswers = createSelector(
+  [selectEditModeState, (state, questId) => questId],
+  (editMode, questId) => {
+    if (!editMode || !questId) return {};
+    return editMode[questId]?.originalAnswers || {};
+  },
+);
+
+// FIXED helper selector for change detection
+export const selectHasChanges = createSelector(
+  [
+    (state, questId) => selectSubmissionAnswers(state, questId),
+    (state, questId) => selectOriginalAnswers(state, questId),
+  ],
+  (currentAnswers, originalAnswers) => {
+    if (!currentAnswers || !originalAnswers) return true;
+    return JSON.stringify(currentAnswers) !== JSON.stringify(originalAnswers);
+  },
+);
+
 export const {
   setSubmitting,
+  clearEditMode,
   updateTaskAnswer,
+  setEditModeStatus,
   addSubmittedQuest,
   markTaskCompleted,
   setSubmissionError,
@@ -300,6 +399,7 @@ export const {
   resetQuestSubmission,
   markQuestAsSubmitted,
   initializeQuestSubmission,
+  initializeQuestSubmissionForEdit,
 } = submissionSlice.actions;
 
 export default submissionSlice.reducer;

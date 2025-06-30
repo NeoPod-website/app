@@ -20,20 +20,6 @@ import {
   selectIsQuestSubmitted,
 } from "@/redux/slice/submissionSlice";
 
-const formatDate = (dateString) => {
-  try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  } catch {
-    return "Unknown date";
-  }
-};
-
 const XSpacesTask = ({ task, questId, userTwitterHandle }) => {
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
@@ -342,7 +328,7 @@ const XSpacesTask = ({ task, questId, userTwitterHandle }) => {
         </Card>
       )}
 
-      {isQuestSubmitted && (
+      {!isQuestSubmitted && (
         <Card className="bg-blue-900/10 border border-blue-500/40">
           <CardBody className="p-4">
             <div className="flex items-start gap-3">
@@ -354,7 +340,6 @@ const XSpacesTask = ({ task, questId, userTwitterHandle }) => {
                 </p>
 
                 <ol className="list-inside list-decimal space-y-1 text-sm text-blue-100">
-                  <li>Click the Space URL above to join, or copy the link</li>
                   <li>Take a screenshot showing you joined the space</li>
                   <li>Upload the screenshot below to verify attendance</li>
                 </ol>

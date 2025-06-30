@@ -12,38 +12,60 @@ const X_TASK_TYPES = {
   SPACES: "spaces",
 };
 
-const QuestXTask = ({ task, questId, xUser, taskType }) => {
+const QuestXTask = ({
+  task,
+  questId,
+  xUser,
+  taskType,
+  editMode = false,
+  existingAnswer = null,
+}) => {
   const validTaskTypes = Object.values(X_TASK_TYPES);
-
-  if (!validTaskTypes.includes(taskType)) {
-    console.warn(
-      `Invalid task type: ${taskType}. Valid types are: ${validTaskTypes.join(", ")}`,
-    );
-  }
-
-  // console.log("QuestXTask - taskType:", taskType);
-  // console.log("QuestXTask - task:", task);
 
   // Route to appropriate component based on task type
   switch (taskType) {
     case X_TASK_TYPES.TWEET:
       return (
-        <XTweetTask task={task} questId={questId} userTwitterHandle={xUser} />
+        <XTweetTask
+          task={task}
+          questId={questId}
+          userTwitterHandle={xUser}
+          editMode={editMode}
+          existingAnswer={existingAnswer}
+        />
       );
 
     case X_TASK_TYPES.FOLLOW:
       return (
-        <XFollowTask task={task} questId={questId} userTwitterHandle={xUser} />
+        <XFollowTask
+          task={task}
+          questId={questId}
+          userTwitterHandle={xUser}
+          editMode={editMode}
+          existingAnswer={existingAnswer}
+        />
       );
 
     case X_TASK_TYPES.REACT:
       return (
-        <XReactTask task={task} questId={questId} userTwitterHandle={xUser} />
+        <XReactTask
+          task={task}
+          questId={questId}
+          userTwitterHandle={xUser}
+          editMode={editMode}
+          existingAnswer={existingAnswer}
+        />
       );
 
     case X_TASK_TYPES.SPACES:
       return (
-        <XSpacesTask task={task} questId={questId} userTwitterHandle={xUser} />
+        <XSpacesTask
+          task={task}
+          questId={questId}
+          userTwitterHandle={xUser}
+          editMode={editMode}
+          existingAnswer={existingAnswer}
+        />
       );
 
     default:
