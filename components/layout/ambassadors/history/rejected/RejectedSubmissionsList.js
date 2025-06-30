@@ -34,7 +34,7 @@ const ImprovementTips = () => (
 
       <div className="flex items-start gap-2">
         <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-400"></div>
-        <p>Look at accepted submissions for inspiration and best practices</p>
+        <p>Look at approved submissions for inspiration and best practices</p>
       </div>
 
       <div className="flex items-start gap-2">
@@ -47,10 +47,10 @@ const ImprovementTips = () => (
 
     <div className="mt-4 flex gap-3">
       <Link
-        href="/submissions/accepted"
+        href="/submissions/approved"
         className="rounded-lg bg-yellow-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-yellow-700"
       >
-        View Accepted Examples
+        View Approved Examples
       </Link>
 
       <Link
@@ -64,25 +64,25 @@ const ImprovementTips = () => (
 );
 
 const EmptyState = () => (
-  <div className="flex min-h-64 flex-col items-center justify-center gap-4 rounded-2xl border border-gray-400/50 bg-gray-800/20 p-8 text-center">
-    <div className="rounded-full bg-green-500/20 p-8">
-      <XCircleIcon className="h-16 w-16 text-green-400" />
+  <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-gray-400/50 bg-gray-800/20 p-8 text-center">
+    <div className="rounded-full bg-red-500/20 p-8">
+      <XCircleIcon className="h-16 w-16 text-red-400" />
     </div>
 
     <div className="space-y-2">
       <h3 className="text-xl font-bold text-white">No Rejected Submissions</h3>
 
-      <p className="text-gray-300">
+      <p className="text-gray-200">
         Great job! You don't have any rejected submissions. Keep up the
         excellent work!
       </p>
     </div>
 
     <Link
-      href="/submissions/accepted"
-      className="rounded-xl bg-green-600 px-6 py-3 font-medium text-white transition-colors hover:bg-green-700"
+      href="/submissions/approved"
+      className="rounded-xl bg-red-600 px-6 py-3 font-medium text-white transition-colors hover:bg-red-700"
     >
-      View Accepted Work
+      View Approved Work
     </Link>
   </div>
 );
@@ -102,7 +102,7 @@ const RejectedSubmissionsList = ({
           All Rejected Submissions ({submissions.length})
         </h2>
 
-        <div className="flex items-center gap-2 text-sm text-gray-400">
+        <div className="flex items-center gap-2 text-sm text-gray-200">
           <FilterIcon size={14} />
           <span>Showing rejected submissions</span>
         </div>

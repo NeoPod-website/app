@@ -2,6 +2,7 @@
 
 import React from "react";
 import { addToast } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import { SendHorizonalIcon } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -13,7 +14,6 @@ import {
   selectIsSubmitting,
   clearAllSubmissions,
   clearSubmissionError,
-  markQuestAsSubmitted,
   selectIsQuestComplete,
   selectSubmissionError,
   selectSubmissionAnswers,
@@ -22,7 +22,9 @@ import {
 import useUpload from "@/hooks/useUpload";
 
 const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
+
   const { uploadFile, uploadMultipleFiles } = useUpload();
 
   const isSubmitting = useSelector(selectIsSubmitting);
@@ -247,6 +249,8 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
             color: "success",
           });
         }
+
+        router.refresh();
       } catch (autoReviewError) {
         addToast({
           title: "Quest Submitted",

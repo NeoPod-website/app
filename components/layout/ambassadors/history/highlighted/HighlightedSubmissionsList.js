@@ -29,6 +29,7 @@ const ExcellenceBanner = () => (
           <h3 className="text-xl font-bold text-yellow-300">
             Excellence Recognized
           </h3>
+
           <p className="text-yellow-200">
             Your outstanding contributions to the NEO community
           </p>
@@ -41,6 +42,7 @@ const ExcellenceBanner = () => (
             size={16}
             className="mt-0.5 flex-shrink-0 text-yellow-400"
           />
+
           <p>
             These submissions represent the highest quality work in our
             community
@@ -52,6 +54,7 @@ const ExcellenceBanner = () => (
             size={16}
             className="mt-0.5 flex-shrink-0 text-yellow-400"
           />
+
           <p>
             Highlighted work may be featured in official NEO communications and
             showcases
@@ -63,6 +66,7 @@ const ExcellenceBanner = () => (
             size={16}
             className="mt-0.5 flex-shrink-0 text-yellow-400"
           />
+
           <p>
             Your exceptional contributions help elevate the entire NEO ecosystem
           </p>
@@ -73,6 +77,7 @@ const ExcellenceBanner = () => (
             size={16}
             className="mt-0.5 flex-shrink-0 text-yellow-400"
           />
+
           <p>
             You're among the top contributors setting the standard for
             excellence
@@ -89,7 +94,7 @@ const ExcellenceBanner = () => (
         </Link>
 
         <Link
-          href="/submissions/accepted"
+          href="/history"
           className="rounded-lg border border-yellow-500 px-4 py-2 text-sm font-medium text-yellow-300 transition-colors hover:bg-yellow-500/10"
         >
           View All Work
@@ -100,7 +105,7 @@ const ExcellenceBanner = () => (
 );
 
 const EmptyState = () => (
-  <div className="flex min-h-64 flex-col items-center justify-center gap-4 rounded-2xl border border-gray-400/50 bg-gray-800/20 p-8 text-center">
+  <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-gray-400/50 bg-gray-800/20 p-8 text-center">
     <div className="rounded-full bg-yellow-500/20 p-8">
       <StarIcon className="h-16 w-16 text-yellow-400" />
     </div>
@@ -109,7 +114,8 @@ const EmptyState = () => (
       <h3 className="text-xl font-bold text-white">
         No Highlighted Submissions Yet
       </h3>
-      <p className="text-gray-300">
+
+      <p className="text-gray-200">
         Keep creating exceptional work to earn highlights and recognition!
       </p>
     </div>

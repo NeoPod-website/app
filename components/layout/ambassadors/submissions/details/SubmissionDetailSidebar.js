@@ -1,27 +1,10 @@
-import {
-  ClockIcon,
-  CalendarIcon,
-  FileTextIcon,
-  ExternalLinkIcon,
-} from "lucide-react";
 import React from "react";
 import Link from "next/link";
+import { ExternalLinkIcon } from "lucide-react";
 
 import SubmissionDetailSidebarCard from "./SubmissionDetailSidebarCard";
 
 import WrapperContainer from "@/components/common/WrapperContainer";
-
-const formatSubmissionTime = (timestamp) => {
-  const date = new Date(timestamp);
-
-  return date.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
 
 const SubmissionDetailSidebarHeader = ({ submission }) => {
   return (
@@ -29,26 +12,13 @@ const SubmissionDetailSidebarHeader = ({ submission }) => {
       <h2 className="text-md text-white">Submission Info</h2>
 
       <Link
-        href={`/quests/${submission.pod_id}/${submission.category_id}/${submission.quest_id}`}
+        href={`/quests/${submission.category_id}/${submission.quest_id}`}
         className="flex w-fit items-center gap-2 rounded border border-gray-400 bg-gradient-dark px-3 py-1 text-gray-50 hover:border-gray-300 hover:text-white"
       >
         <ExternalLinkIcon size={16} />
         View Quest
       </Link>
     </section>
-  );
-};
-
-const InfoItem = ({ label, children, icon: Icon }) => {
-  return (
-    <div className="space-y-2">
-      <p className="text-sm font-medium text-gray-200">{label}</p>
-
-      <div className="flex items-center gap-2">
-        {Icon && <Icon size={16} className="text-gray-300" />}
-        <div className="text-gray-100">{children}</div>
-      </div>
-    </div>
   );
 };
 

@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
 
+import { getCachedSession } from "@/lib/userSession";
+
 import NeoBreadcrumbs from "@/components/ui/NeoBreadcrumbs";
 import CategoryContainer from "@/components/layout/category/CategoryContainer";
 
@@ -53,6 +55,8 @@ const fetchCategory = async (categoryId) => {
 };
 
 const CategoryPage = async ({ params }) => {
+  const { user } = await getCachedSession();
+
   const { categoryId } = await params;
 
   const category = await fetchCategory(categoryId);
@@ -75,7 +79,7 @@ const CategoryPage = async ({ params }) => {
   return (
     <Suspense>
       <NeoBreadcrumbs list={breadcrumbsList} />
-      <CategoryContainer scrollable={true} category={category} />
+      <CategoryContainer scrollable={true} category={category} user={user} />
     </Suspense>
   );
 };

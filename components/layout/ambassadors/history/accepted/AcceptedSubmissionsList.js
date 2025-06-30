@@ -18,6 +18,7 @@ const SuccessBanner = () => (
     <div className="space-y-3 text-sm text-green-200">
       <div className="flex items-start gap-2">
         <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-400"></div>
+
         <p>
           Your accepted submissions demonstrate excellent quality and
           understanding
@@ -26,11 +27,13 @@ const SuccessBanner = () => (
 
       <div className="flex items-start gap-2">
         <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-400"></div>
+
         <p>Keep up the outstanding work to maintain your high success rate</p>
       </div>
 
       <div className="flex items-start gap-2">
         <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-400"></div>
+
         <p>
           Consider helping other ambassadors by sharing your successful
           approaches
@@ -39,6 +42,7 @@ const SuccessBanner = () => (
 
       <div className="flex items-start gap-2">
         <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-400"></div>
+
         <p>
           Your quality submissions contribute to the growth of the NEO ecosystem
         </p>
@@ -64,7 +68,7 @@ const SuccessBanner = () => (
 );
 
 const EmptyState = () => (
-  <div className="flex min-h-64 flex-col items-center justify-center gap-4 rounded-2xl border border-gray-400/50 bg-gray-800/20 p-8 text-center">
+  <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-gray-400/50 bg-gray-800/20 p-8 text-center">
     <div className="rounded-full bg-green-500/20 p-8">
       <CheckCircleIcon className="h-16 w-16 text-green-400" />
     </div>
@@ -73,7 +77,8 @@ const EmptyState = () => (
       <h3 className="text-xl font-bold text-white">
         No Accepted Submissions Yet
       </h3>
-      <p className="text-gray-300">
+
+      <p className="text-gray-200">
         Complete some quests and get them approved to see them here!
       </p>
     </div>

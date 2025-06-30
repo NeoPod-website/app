@@ -1,72 +1,84 @@
-// import HighlightedSubmissionsContainer from "@/components/layout/ambassadors/history/highlighted/HighlightedSubmissionsContainer";
 // import React, { Suspense } from "react";
+
+// import AcceptedSubmissionsContainer from "@/components/layout/ambassadors/history/accepted/AcceptedSubmissionsContainer";
 
 // export const dynamic = "force-dynamic";
 
 // export const metadata = {
-//   title: "Highlighted Submissions | NeoPod",
-//   description:
-//     "Your outstanding work that has been recognized for exceptional quality.",
+//   title: "Accepted Submissions | NeoPod",
+//   description: "View all your approved and successful submissions.",
 // };
 
-// // Demo data for highlighted submissions
-// const DEMO_HIGHLIGHTED_SUBMISSIONS = [
+// // Demo data for accepted submissions
+// const DEMO_ACCEPTED_SUBMISSIONS = [
 //   {
-//     submission_id: "sub_009",
+//     submission_id: "sub_003",
 //     ambassador_id: "amb_789",
-//     submitted_at: "2025-01-18T16:20:00Z",
-//     review_status: "highlighted",
+//     submitted_at: "2025-01-17T14:15:00Z",
+//     review_status: "approved",
 //     reviewed_by: "admin_001",
 //     review_comment:
-//       "Outstanding work! This submission goes above and beyond expectations. The creativity, technical accuracy, and presentation quality are exceptional. This will be featured in our community showcase as an example of excellence.",
+//       "Excellent work! Your tweet generated great engagement and perfectly represents the NeoPod values. The content quality is outstanding and shows deep understanding of our mission.",
 //     is_flagged: "false",
 //     resubmission_count: 0,
-//     quest_name: "Create Interactive NEO Blockchain Demo",
+//     quest_name: "Share a Tweet on NeoPod Ambassador Program",
 //   },
 //   {
-//     submission_id: "sub_013",
-//     ambassador_id: "amb_445",
-//     submitted_at: "2025-01-17T09:15:00Z",
-//     review_status: "highlighted",
+//     submission_id: "sub_006",
+//     ambassador_id: "amb_987",
+//     submitted_at: "2025-01-15T13:45:00Z",
+//     review_status: "approved",
 //     reviewed_by: "admin_002",
 //     review_comment:
-//       "Incredible content! This video tutorial is comprehensive, well-structured, and professionally produced. The explanations are clear and the examples are perfect. This will definitely help many developers in our community.",
+//       "Fantastic community engagement! Your post sparked meaningful discussions and provided valuable insights to the community. The technical accuracy is impressive.",
 //     is_flagged: "false",
 //     resubmission_count: 0,
-//     quest_name: "Advanced Smart Contract Tutorial Series",
+//     quest_name: "Host Community Discussion on NEO Features",
 //   },
 //   {
-//     submission_id: "sub_016",
-//     ambassador_id: "amb_667",
-//     submitted_at: "2025-01-16T14:30:00Z",
-//     review_status: "highlighted",
+//     submission_id: "sub_008",
+//     ambassador_id: "amb_222",
+//     submitted_at: "2025-01-14T19:30:00Z",
+//     review_status: "approved",
 //     reviewed_by: "admin_003",
 //     review_comment:
-//       "Phenomenal research and analysis! The depth of insight and the quality of data presentation is remarkable. This research paper will be valuable for the entire NEO ecosystem. Truly exceptional work!",
+//       "Perfect execution! The infographic is visually appealing and contains accurate, up-to-date information about NEO's roadmap. Professional quality work.",
 //     is_flagged: "false",
 //     resubmission_count: 0,
-//     quest_name: "NEO Ecosystem Market Analysis Report",
+//     quest_name: "Design Infographic for NEO Roadmap",
 //   },
 //   {
-//     submission_id: "sub_019",
-//     ambassador_id: "amb_889",
-//     submitted_at: "2025-01-15T11:45:00Z",
-//     review_status: "highlighted",
+//     submission_id: "sub_012",
+//     ambassador_id: "amb_445",
+//     submitted_at: "2025-01-13T11:20:00Z",
+//     review_status: "approved",
 //     reviewed_by: "admin_001",
 //     review_comment:
-//       "Amazing community engagement! Your discussion post generated over 200 meaningful comments and helped several developers solve complex problems. The way you facilitated the conversation was masterful.",
+//       "Great tutorial! Clear explanations, good examples, and excellent production quality. This will be very helpful for new developers.",
+//     is_flagged: "false",
+//     resubmission_count: 1,
+//     quest_name: "Create Video Tutorial on Smart Contracts",
+//   },
+//   {
+//     submission_id: "sub_015",
+//     ambassador_id: "amb_556",
+//     submitted_at: "2025-01-12T16:45:00Z",
+//     review_status: "approved",
+//     reviewed_by: "admin_002",
+//     review_comment:
+//       "Well-researched article with comprehensive coverage of the topic. Good use of examples and clear writing style.",
 //     is_flagged: "false",
 //     resubmission_count: 0,
-//     quest_name: "Lead Technical Discussion on Gas Optimization",
+//     quest_name: "Write Blog Post about NEO Ecosystem",
 //   },
 // ];
 
-// async function fetchHighlightedSubmissions() {
+// async function fetchAcceptedSubmissions() {
 //   // Simulate API delay
 //   await new Promise((resolve) => setTimeout(resolve, 600));
 
 //   // Calculate stats from actual data
-//   const thisMonth = DEMO_HIGHLIGHTED_SUBMISSIONS.filter((s) => {
+//   const thisMonth = DEMO_ACCEPTED_SUBMISSIONS.filter((s) => {
 //     const submittedDate = new Date(s.submitted_at);
 //     const now = new Date();
 //     return (
@@ -76,25 +88,25 @@
 //   }).length;
 
 //   return {
-//     submissions: DEMO_HIGHLIGHTED_SUBMISSIONS,
+//     submissions: DEMO_ACCEPTED_SUBMISSIONS,
 //     pagination: {
 //       hasMore: true,
-//       lastEvaluatedKey: { submission_id: "sub_019" },
+//       lastEvaluatedKey: { submission_id: "sub_015" },
 //     },
 //     stats: {
-//       currentCount: DEMO_HIGHLIGHTED_SUBMISSIONS.length,
+//       currentCount: DEMO_ACCEPTED_SUBMISSIONS.length,
 //       thisMonth: thisMonth,
 //       hasMore: true,
 //     },
 //   };
 // }
 
-// const HighlightedSubmissionsPage = async () => {
-//   const initialData = await fetchHighlightedSubmissions();
+// const AcceptedSubmissionsPage = async () => {
+//   const initialData = await fetchAcceptedSubmissions();
 
 //   return (
 //     <Suspense>
-//       <HighlightedSubmissionsContainer
+//       <AcceptedSubmissionsContainer
 //         initialStats={initialData.stats}
 //         initialSubmissions={initialData.submissions}
 //         initialHasMore={initialData.pagination.hasMore}
@@ -104,22 +116,21 @@
 //   );
 // };
 
-// export default HighlightedSubmissionsPage;
+// export default AcceptedSubmissionsPage;
 
 import { cookies } from "next/headers";
 import React, { Suspense } from "react";
 
-import HighlightedSubmissionsContainer from "@/components/layout/ambassadors/history/highlighted/HighlightedSubmissionsContainer";
+import AcceptedSubmissionsContainer from "@/components/layout/ambassadors/history/accepted/AcceptedSubmissionsContainer";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Highlighted Submissions | NeoPod",
-  description:
-    "Your outstanding work that has been recognized for exceptional quality.",
+  title: "Accepted Submissions | NeoPod",
+  description: "View all your approved and successful submissions.",
 };
 
-const fetchHighlightedSubmissions = async (limit = 10, lastKey = null) => {
+const fetchAcceptedSubmissions = async (limit = 10, lastKey = null) => {
   const cookieStore = await cookies();
   const token = cookieStore.get("neo-jwt");
 
@@ -128,6 +139,7 @@ const fetchHighlightedSubmissions = async (limit = 10, lastKey = null) => {
   }
 
   const params = new URLSearchParams({
+    status: "approved",
     limit: limit.toString(),
   });
 
@@ -136,7 +148,7 @@ const fetchHighlightedSubmissions = async (limit = 10, lastKey = null) => {
   }
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/submissions/highlighted?${params.toString()}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/submissions/approved?${params.toString()}`,
     {
       method: "GET",
       headers: {
@@ -150,16 +162,16 @@ const fetchHighlightedSubmissions = async (limit = 10, lastKey = null) => {
 
   if (!response.ok) {
     if (response.status === 404) {
-      return { highlighted: [], pagination: { hasMore: false, lastKey: null } };
+      return { accepted: [], pagination: { hasMore: false, lastKey: null } };
     }
 
-    throw new Error(`Failed to fetch highlighted: ${response.status}`);
+    throw new Error(`Failed to fetch accepted submissions: ${response.status}`);
   }
 
   const data = await response.json();
 
   return {
-    highlighted: data.data?.submissions || [],
+    accepted: data.data?.submissions || [],
     pagination: {
       hasMore: !!data.data?.next_key,
       lastKey: data.data?.next_key || null,
@@ -241,17 +253,15 @@ const enrichWithQuestData = async (submissions) => {
   }
 };
 
-const HighlightedSubmissionsPage = async () => {
-  // Fetch initial highlighted data
-  const highlightedData = await fetchHighlightedSubmissions(10);
+const AcceptedSubmissionsPage = async () => {
+  // Fetch initial accepted submissions
+  const acceptedData = await fetchAcceptedSubmissions(10);
 
   // Enrich with quest data
-  const enrichedHighlighted = await enrichWithQuestData(
-    highlightedData.highlighted,
-  );
+  const enrichedAccepted = await enrichWithQuestData(acceptedData.accepted);
 
   // Calculate stats from actual data
-  const thisMonth = enrichedHighlighted.filter((s) => {
+  const thisMonth = enrichedAccepted.filter((s) => {
     const submittedDate = new Date(s.submitted_at);
     const now = new Date();
     return (
@@ -261,18 +271,18 @@ const HighlightedSubmissionsPage = async () => {
   }).length;
 
   const initialData = {
-    submissions: enrichedHighlighted,
-    pagination: highlightedData.pagination,
+    submissions: enrichedAccepted,
+    pagination: acceptedData.pagination,
     stats: {
-      currentCount: enrichedHighlighted.length,
+      currentCount: enrichedAccepted.length,
       thisMonth: thisMonth,
-      hasMore: highlightedData.pagination.hasMore,
+      hasMore: acceptedData.pagination.hasMore,
     },
   };
 
   return (
     <Suspense>
-      <HighlightedSubmissionsContainer
+      <AcceptedSubmissionsContainer
         initialStats={initialData.stats}
         initialSubmissions={initialData.submissions}
         initialHasMore={initialData.pagination.hasMore}
@@ -282,4 +292,4 @@ const HighlightedSubmissionsPage = async () => {
   );
 };
 
-export default HighlightedSubmissionsPage;
+export default AcceptedSubmissionsPage;

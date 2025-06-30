@@ -1,49 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
 import { addToast } from "@heroui/react";
+import React, { useState, useCallback } from "react";
 
 import AcceptedSubmissionsList from "./AcceptedSubmissionsList";
 import AcceptedSubmissionsHeader from "./AcceptedSubmissionsHeader";
-
-const DEMO_MORE_ACCEPTED_SUBMISSIONS = [
-  {
-    submission_id: "sub_018",
-    ambassador_id: "amb_667",
-    submitted_at: "2025-01-11T10:30:00Z",
-    review_status: "approved",
-    reviewed_by: "admin_003",
-    review_comment:
-      "Outstanding research and analysis! The market insights are valuable and well-presented. This will help many community members understand the current trends.",
-    is_flagged: "false",
-    resubmission_count: 0,
-    quest_name: "Market Analysis Report",
-  },
-  {
-    submission_id: "sub_021",
-    ambassador_id: "amb_778",
-    submitted_at: "2025-01-10T15:15:00Z",
-    review_status: "approved",
-    reviewed_by: "admin_001",
-    review_comment:
-      "Excellent code quality and documentation. The smart contract examples are well-structured and the explanations are clear for developers.",
-    is_flagged: "false",
-    resubmission_count: 0,
-    quest_name: "Smart Contract Development Guide",
-  },
-  {
-    submission_id: "sub_024",
-    ambassador_id: "amb_889",
-    submitted_at: "2025-01-09T12:45:00Z",
-    review_status: "approved",
-    reviewed_by: "admin_002",
-    review_comment:
-      "Creative and engaging content! The social media campaign successfully reached the target audience and generated positive community response.",
-    is_flagged: "false",
-    resubmission_count: 0,
-    quest_name: "Social Media Campaign Launch",
-  },
-];
 
 const AcceptedSubmissionsContainer = ({
   initialStats,
@@ -57,20 +18,98 @@ const AcceptedSubmissionsContainer = ({
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [submissions, setSubmissions] = useState(initialSubmissions);
 
-  const loadMoreSubmissions = async () => {
-    if (isLoading || !hasMore) return;
+  const enrichWithQuestData = useCallback(async (submissions) => {
+    if (!submissions || submissions.length === 0) {
+      return [];
+    }
+
+    try {
+      const questIds = [...new Set(submissions.map((sub) => sub.quest_id))];
+
+      const questPromises = questIds.map(async (questId) => {
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/quests/${questId}`,
+            {
+              method: "GET",
+              credentials: "include",
+            },
+          );
+
+          if (response.ok) {
+            const questData = await response.json();
+            return {
+              quest_id: questId,
+              quest_data: questData.data?.quest || null,
+            };
+          }
+          return { quest_id: questId, quest_data: null };
+        } catch (error) {
+          return { quest_id: questId, quest_data: null };
+        }
+      });
+
+      const questResults = await Promise.all(questPromises);
+      const questMap = questResults.reduce((acc, result) => {
+        if (result.quest_data) {
+          acc[result.quest_id] = result.quest_data;
+        }
+        return acc;
+      }, {});
+
+      const enrichedSubmissions = submissions.map((submission) => {
+        const questData = questMap[submission.quest_id];
+
+        return {
+          ...submission,
+          quest_name: questData?.name || "Unknown Quest",
+          quest_description: questData?.description || "",
+          quest_tasks: questData?.tasks || [],
+          quest_rewards: questData?.rewards || [],
+          category_name: questData?.category_name || "Unknown Category",
+          pod_name: questData?.pod_name || "Unknown Pod",
+          original_quest_data: questData,
+        };
+      });
+
+      return enrichedSubmissions;
+    } catch (error) {
+      return submissions;
+    }
+  }, []);
+
+  const loadMoreSubmissions = useCallback(async () => {
+    if (isLoading || !hasMore || !lastKey) return;
 
     setIsLoading(true);
 
     try {
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const params = new URLSearchParams({
+        status: "approved",
+        limit: "10",
+        last_key: lastKey,
+      });
 
-      // Simulate API call with pagination
-      const newSubmissions = DEMO_MORE_ACCEPTED_SUBMISSIONS;
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/submissions/approved?${params.toString()}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch more accepted submissions: ${response.status}`,
+        );
+      }
+
+      const data = await response.json();
+      const newSubmissions = data.data?.submissions || [];
 
       if (newSubmissions.length === 0) {
         setHasMore(false);
+        setLastKey(null);
         addToast({
           color: "default",
           title: "No more submissions",
@@ -79,8 +118,11 @@ const AcceptedSubmissionsContainer = ({
         return;
       }
 
+      // Enrich new submissions with quest data
+      const enrichedNewSubmissions = await enrichWithQuestData(newSubmissions);
+
       // Update state
-      const updatedSubmissions = [...submissions, ...newSubmissions];
+      const updatedSubmissions = [...submissions, ...enrichedNewSubmissions];
       setSubmissions(updatedSubmissions);
 
       // Update stats
@@ -96,11 +138,17 @@ const AcceptedSubmissionsContainer = ({
       setStats({
         currentCount: updatedSubmissions.length,
         thisMonth: newThisMonth,
-        hasMore: false,
+        hasMore: !!data.data?.next_key,
       });
 
-      setHasMore(false);
-      setLastKey(null);
+      setHasMore(!!data.data?.next_key);
+      setLastKey(data.data?.next_key || null);
+
+      addToast({
+        color: "success",
+        title: "More submissions loaded",
+        description: `Loaded ${enrichedNewSubmissions.length} more accepted submissions`,
+      });
     } catch (error) {
       addToast({
         color: "danger",
@@ -110,16 +158,16 @@ const AcceptedSubmissionsContainer = ({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isLoading, hasMore, lastKey, submissions, enrichWithQuestData]);
 
   return (
     <div className="flex flex-1 flex-col gap-4 overflow-hidden">
-      <AcceptedSubmissionsHeader stats={stats} />
+      <AcceptedSubmissionsHeader stats={stats} hasMore={hasMore} />
 
       <AcceptedSubmissionsList
-        submissions={submissions}
         hasMore={hasMore}
         isLoading={isLoading}
+        submissions={submissions}
         onLoadMore={loadMoreSubmissions}
       />
     </div>

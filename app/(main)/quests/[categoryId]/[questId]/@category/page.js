@@ -2,6 +2,8 @@ import React from "react";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
+import { getCachedSession } from "@/lib/userSession";
+
 import CategoryContainer from "@/components/layout/category/CategoryContainer";
 
 const fetchQuestCategory = async (categoryId) => {
@@ -44,6 +46,8 @@ const fetchQuestCategory = async (categoryId) => {
 };
 
 const CategorySlot = async ({ params }) => {
+  const { user } = await getCachedSession();
+
   const { categoryId } = await params;
 
   const categoryData = await fetchQuestCategory(categoryId);
@@ -54,6 +58,7 @@ const CategorySlot = async ({ params }) => {
 
   return (
     <CategoryContainer
+      user={user}
       compact={true}
       scrollable={true}
       category={categoryData}

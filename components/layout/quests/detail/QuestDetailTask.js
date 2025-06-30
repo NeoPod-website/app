@@ -15,7 +15,6 @@ import { initializeQuestSubmission } from "@/redux/slice/submissionSlice";
 
 const QuestDetailsTask = ({ quest, user }) => {
   const dispatch = useDispatch();
-  console.log(quest);
 
   // Initialize quest submission when component mounts
   useEffect(() => {

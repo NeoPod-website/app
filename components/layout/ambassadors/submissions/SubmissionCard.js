@@ -219,31 +219,14 @@ const SubmissionCard = ({ submission }) => {
         </Link>
       </div>
 
-      <div className="mb-4 space-y-3">
-        <Link
-          href={`/quests/${pod_id}/${category_id}/${quest_id}`}
-          className="group/link block"
-        >
-          <h3 className="text-lg font-bold text-white transition-colors group-hover/link:text-gray-100">
-            {quest_name}
-          </h3>
-        </Link>
-
-        <div className="flex items-center gap-2 text-sm text-gray-200">
-          <span className="rounded-md bg-gray-600 px-2 py-1">
-            {category_name}
-          </span>
-
-          {pod_name && (
-            <>
-              <span>•</span>
-              <span className="rounded-md bg-gray-600 px-2 py-1">
-                {pod_name}
-              </span>
-            </>
-          )}
-        </div>
-      </div>
+      <Link
+        href={`/quests/${category_id}/${quest_id}`}
+        className="group/link mb-4 block w-fit"
+      >
+        <h3 className="text-lg font-bold text-white transition-colors group-hover/link:text-gray-100">
+          {quest_name}
+        </h3>
+      </Link>
 
       <div className="mb-4 flex flex-1 flex-col space-y-3">
         <p className="text-sm font-medium text-gray-200">Submission Preview:</p>

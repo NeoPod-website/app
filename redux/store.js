@@ -6,6 +6,7 @@ import userSlice from "./slice/userSlice";
 import podsReducer from "./slice/podsSlice";
 import questsReducer from "./slice/questSlice";
 import modalsReducer from "./slice/modalsSlice";
+import historyReducer from "./slice/historySlice";
 import categoryReducer from "./slice/categorySlice";
 import submissionReducer from "./slice/submissionSlice";
 import submissionsReducer from "./slice/submissionsSlice";
@@ -16,6 +17,7 @@ export const store = configureStore({
     pods: podsReducer,
     quest: questsReducer,
     modals: modalsReducer,
+    history: historyReducer,
     category: categoryReducer,
     submission: submissionReducer,
     submissions: submissionsReducer,

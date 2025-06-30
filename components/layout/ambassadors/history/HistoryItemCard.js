@@ -128,8 +128,6 @@
 
 // export default HistoryItemCard;
 
-"use client";
-
 import {
   StarIcon,
   ClockIcon,
@@ -137,11 +135,11 @@ import {
   CalendarIcon,
   ArrowRightIcon,
   CheckCircleIcon,
-  MessageSquareIcon,
 } from "lucide-react";
+import React from "react";
 import Link from "next/link";
-import { Button } from "@heroui/react";
-import React, { useState } from "react";
+
+import HistoryItemCardReview from "./HistoryItemCardReview";
 
 const getTimeAgo = (timestamp) => {
   const now = new Date();
@@ -222,14 +220,7 @@ const StatusChip = ({ status }) => {
 };
 
 const HistoryItemCard = ({ submission, maxCommentLength = 200 }) => {
-  const [showMore, setShowMore] = useState(false);
   const statusConfig = getStatusConfig(submission.review_status);
-
-  const truncatedComment =
-    submission.review_comment &&
-    submission.review_comment.length > maxCommentLength
-      ? submission.review_comment.substring(0, maxCommentLength) + "..."
-      : submission.review_comment;
 
   return (
     <div
@@ -250,41 +241,13 @@ const HistoryItemCard = ({ submission, maxCommentLength = 200 }) => {
         <StatusChip status={submission.review_status} />
       </div>
 
-      {submission.review_comment ? (
-        <div
-          className={`mb-4 rounded-xl border-l-4 ${statusConfig.borderClass} ${statusConfig.bgClass} p-4`}
-        >
-          <div className="mb-2 flex items-center gap-2">
-            <MessageSquareIcon size={14} className="text-gray-300" />
-            <span className="text-sm font-medium text-gray-200">
-              Review Comment
-            </span>
-          </div>
+      <HistoryItemCardReview
+        submission={submission}
+        statusConfig={statusConfig}
+        maxCommentLength={maxCommentLength}
+      />
 
-          <p className="leading-relaxed text-gray-100">
-            {showMore ? submission.review_comment : truncatedComment}
-          </p>
-
-          {submission.review_comment.length > maxCommentLength && (
-            <Button
-              variant="link"
-              onPress={() => setShowMore(!showMore)}
-              className="mt-2 h-auto p-0 text-sm text-gray-300 hover:text-white"
-            >
-              {showMore ? "Show Less" : "Show More"}
-            </Button>
-          )}
-        </div>
-      ) : (
-        <div className="mb-4 rounded-xl border border-gray-400/30 bg-gray-800/20 p-4">
-          <div className="flex items-center gap-2 text-gray-500">
-            <MessageSquareIcon size={14} />
-            <span className="text-sm italic">No review comment available</span>
-          </div>
-        </div>
-      )}
-
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-4 text-sm text-gray-300">
           {submission.resubmission_count > 0 && (
             <div className="flex items-center gap-1">
@@ -304,7 +267,7 @@ const HistoryItemCard = ({ submission, maxCommentLength = 200 }) => {
 
         <Link
           href={`/submissions/${submission.submission_id}`}
-          className="inline-flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-700 group-hover:bg-gray-700"
+          className="inline-flex items-center gap-2 text-nowrap rounded-lg bg-gray-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-700 group-hover:bg-gray-700"
         >
           <span>View Details</span>
           <ArrowRightIcon size={14} />

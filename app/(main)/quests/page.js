@@ -187,7 +187,7 @@ const QuestsPage = async () => {
 
   return (
     <Suspense>
-      <CategoriesList categories={validCategories} />
+      <CategoriesList categories={validCategories} user={user} />
     </Suspense>
   );
 };

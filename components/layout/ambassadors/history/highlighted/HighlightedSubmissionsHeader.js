@@ -31,7 +31,7 @@ const StatsCard = ({
   </div>
 );
 
-const HighlightedSubmissionsHeader = ({ stats }) => {
+const HighlightedSubmissionsHeader = ({ stats, hasMore }) => {
   return (
     <div className="space-y-6 p-8 pb-4">
       <div className="flex items-center gap-4">
@@ -81,7 +81,7 @@ const HighlightedSubmissionsHeader = ({ stats }) => {
           color="text-white"
           label="Load Status"
           description="Pagination status"
-          value={stats.hasMore ? "More Available" : "All Loaded"}
+          value={hasMore ? "More Available" : "All Loaded"}
         />
       </div>
     </div>

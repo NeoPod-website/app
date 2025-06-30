@@ -45,6 +45,7 @@ const SubmissionEditSidebar = ({ submission }) => {
                 size={16}
                 className="mt-0.5 flex-shrink-0 text-yellow-400"
               />
+
               <p>
                 Updating your submission will reset the review process. Your
                 submission will remain in pending status.
