@@ -5,7 +5,7 @@ import AdminViewBtn from "./AdminViewBtn";
 import { getCachedSession } from "@/lib/userSession";
 
 const AdminHeader = async () => {
-  const { user, error, isAuthenticated, message } = await getCachedSession();
+  const { user, isAuthenticated } = await getCachedSession();
 
   if (!isAuthenticated || !user) {
     return null;

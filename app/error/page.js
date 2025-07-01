@@ -19,7 +19,6 @@ const ErrorPage = ({ errorCode, message, canRetry = true }) => {
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md rounded-lg bg-white p-8 text-center shadow-lg">
         <div className="mb-4 text-red-600">
-          {/* You could use an icon here */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="mx-auto h-16 w-16"

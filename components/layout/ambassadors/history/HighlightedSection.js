@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@heroui/react";
 import { addToast } from "@heroui/react";
+import React, { useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
-  initializeHighlighted,
-  appendHighlighted,
-  setHighlightedLoading,
   setError,
+  appendHighlighted,
+  initializeHighlighted,
+  setHighlightedLoading,
 } from "@/redux/slice/historySlice";
 
 import HistoryItemCard from "@/components/layout/ambassadors/history/HistoryItemCard";
@@ -39,9 +39,6 @@ const HighlightedSection = ({
     );
   }, [dispatch, initialHighlighted, initialLastKey, initialHasMore]);
 
-  /**
-   * Enrich submissions with quest data
-   */
   const enrichWithQuestData = useCallback(async (submissions) => {
     if (!submissions || submissions.length === 0) {
       return [];
@@ -104,9 +101,6 @@ const HighlightedSection = ({
     }
   }, []);
 
-  /**
-   * Load more highlighted
-   */
   const loadMoreHighlighted = useCallback(async () => {
     if (highlightedLoading || !highlightedHasMore || !highlightedLastKey)
       return;
