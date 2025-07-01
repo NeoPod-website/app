@@ -1,19 +1,19 @@
 "use client";
 
 import {
+  X,
   User,
   Mail,
+  Save,
+  Edit3,
   MapPin,
   Camera,
-  Save,
+  Upload,
   RefreshCw,
   AlertCircle,
   CheckCircle,
-  Edit3,
-  Upload,
-  X,
 } from "lucide-react";
-import { Spinner, addToast } from "@heroui/react";
+import { addToast } from "@heroui/react";
 import React, { useState, useEffect, useRef } from "react";
 import { Card, CardBody, Button, Input, Avatar } from "@heroui/react";
 

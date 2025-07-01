@@ -1,3 +1,456 @@
+// import {
+//   EditIcon,
+//   LinkIcon,
+//   ClockIcon,
+//   UsersIcon,
+//   ImageIcon,
+//   FileUpIcon,
+//   FileTextIcon,
+//   ArrowLeftIcon,
+//   ArrowUp01Icon,
+//   LetterTextIcon,
+//   SquareArrowOutUpRightIcon,
+// } from "lucide-react";
+// import React from "react";
+// import Link from "next/link";
+
+// import FormattedSubmissionAnswer from "./FormatSubmissionAnswer";
+
+// import WrapperContainer from "@/components/common/WrapperContainer";
+
+// import XIcon from "@/components/ui/socialIcons/XIcon";
+// import DiscordIcon from "@/components/ui/socialIcons/DiscordIcon";
+// import TelegramIcon from "@/components/ui/socialIcons/TelegramIcon";
+
+// const getTaskTypeIcon = (taskType) => {
+//   const icons = {
+//     x: XIcon,
+//     url: LinkIcon,
+//     nft: ImageIcon,
+//     invite: UsersIcon,
+//     token: FileTextIcon,
+//     discord: DiscordIcon,
+//     text: LetterTextIcon,
+//     number: ArrowUp01Icon,
+//     telegram: TelegramIcon,
+//     "file-upload": FileUpIcon,
+//     link: SquareArrowOutUpRightIcon,
+//   };
+//   return icons[taskType] || FileTextIcon;
+// };
+
+// const getTaskTypeLabel = (taskType) => {
+//   const labels = {
+//     x: "X (Twitter)",
+//     url: "URL",
+//     nft: "NFT",
+//     invite: "Invite Friends",
+//     token: "Token",
+//     discord: "Discord",
+//     text: "Text",
+//     number: "Number",
+//     telegram: "Telegram",
+//     "file-upload": "File Upload",
+//     link: "Visit Link",
+//   };
+//   return labels[taskType] || "Task";
+// };
+
+// const StatusChip = ({ children, variant = "yellow" }) => {
+//   const variants = {
+//     yellow: "bg-yellow-500/20 text-yellow-300 ring-yellow-500/30",
+//     gray: "bg-gray-600 text-gray-200 ring-gray-400",
+//   };
+
+//   return (
+//     <div
+//       className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 ${variants[variant]}`}
+//     >
+//       {children}
+//     </div>
+//   );
+// };
+
+// const TaskCard = ({ task, answer }) => {
+//   const taskLabel = getTaskTypeLabel(task.name);
+//   const IconComponent = getTaskTypeIcon(task.name);
+
+//   return (
+//     <div className="rounded-2xl border border-gray-400 bg-gradient-dark p-6">
+//       <div className="mb-4 flex items-center gap-3">
+//         <div className="flex items-center justify-center rounded-full bg-gray-600 p-2.5">
+//           <IconComponent size={16} className="h-5 w-5 text-white" />
+//         </div>
+
+//         <div>
+//           <h3 className="font-semibold text-white">{task.instruction}</h3>
+//           <p className="text-sm text-gray-300">{taskLabel}</p>
+//         </div>
+//       </div>
+
+//       {task.description && (
+//         <p className="mb-4 text-sm text-gray-200">{task.description}</p>
+//       )}
+
+//       <div className="space-y-2">
+//         <p className="text-sm font-medium text-gray-200">Your Answer:</p>
+//         <div className="rounded-xl border-l-4 border-yellow-500/60 bg-white/10 p-4">
+//           <FormattedSubmissionAnswer answer={answer} />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// const SubmissionDetailMainHeader = ({ submission }) => {
+//   const completedTasks = Object.keys(submission.submission_data).length;
+//   const totalTasks = submission.quest_tasks?.length || completedTasks;
+
+//   return (
+//     <section className="flex justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-8 py-2.5 backdrop-blur-xs">
+//       <Link
+//         href="/submissions"
+//         className="inline-flex items-center gap-2 text-sm text-gray-200 transition-colors hover:text-white"
+//       >
+//         <ArrowLeftIcon size={16} />
+//         Back to Submissions
+//       </Link>
+
+//       <div className="flex flex-wrap items-center gap-3">
+//         <StatusChip variant="yellow">
+//           <ClockIcon size={12} />
+//           <span>Pending Review</span>
+//         </StatusChip>
+
+//         <StatusChip variant="gray">
+//           <FileTextIcon size={12} />
+//           <span>
+//             {completedTasks} of {totalTasks} tasks
+//           </span>
+//         </StatusChip>
+
+//         <Link
+//           href={`/submissions/${submission.submission_id}/edit`}
+//           className="flex w-fit items-center gap-2 rounded border border-gray-400 bg-gradient-dark px-3 py-1 text-gray-50 hover:border-gray-300 hover:text-white"
+//         >
+//           <EditIcon size={16} />
+//           Edit
+//         </Link>
+//       </div>
+//     </section>
+//   );
+// };
+
+// const SubmissionDetailMainHeading = ({ submission }) => {
+//   return (
+//     <div className="space-y-6 pb-6">
+//       <SubmissionDetailMainHeader submission={submission} />
+
+//       <div className="space-y-4">
+//         <h1 className="text-3xl font-bold text-white">
+//           {submission.quest_name}
+//         </h1>
+
+//         <div className="mt-2 flex items-center gap-2 text-gray-200">
+//           <span className="rounded-md bg-gray-600 px-2 py-1 text-sm">
+//             {submission.category_name}
+//           </span>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// const SubmissionDetailMain = ({ submission }) => {
+//   return (
+//     <div className="flex max-w-7xl flex-1 flex-col gap-2 overflow-hidden">
+//       <SubmissionDetailMainHeading submission={submission} />
+
+//       <WrapperContainer scrollable className="space-y-6 p-10">
+//         <div className="space-y-6 overflow-y-auto scrollbar-hide">
+//           <h2 className="text-xl font-bold text-white">Your Submissions</h2>
+
+//           <div className="space-y-4">
+//             {submission.quest_tasks?.map((task) => {
+//               const answer = submission.submission_data[task.id];
+//               return <TaskCard key={task.id} task={task} answer={answer} />;
+//             })}
+//           </div>
+//         </div>
+//       </WrapperContainer>
+//     </div>
+//   );
+// };
+
+// export default SubmissionDetailMain;
+
+// import {
+//   EditIcon,
+//   LinkIcon,
+//   ClockIcon,
+//   UsersIcon,
+//   ImageIcon,
+//   FileUpIcon,
+//   XCircleIcon,
+//   FileTextIcon,
+//   ArrowLeftIcon,
+//   ArrowUp01Icon,
+//   LetterTextIcon,
+//   CheckCircleIcon,
+//   SquareArrowOutUpRightIcon,
+//   StarIcon,
+//   AlertCircleIcon,
+// } from "lucide-react";
+// import React from "react";
+// import Link from "next/link";
+
+// import FormattedSubmissionAnswer from "./FormatSubmissionAnswer";
+
+// import WrapperContainer from "@/components/common/WrapperContainer";
+
+// import XIcon from "@/components/ui/socialIcons/XIcon";
+// import DiscordIcon from "@/components/ui/socialIcons/DiscordIcon";
+// import TelegramIcon from "@/components/ui/socialIcons/TelegramIcon";
+
+// const getTaskTypeIcon = (taskType) => {
+//   const icons = {
+//     x: XIcon,
+//     url: LinkIcon,
+//     nft: ImageIcon,
+//     invite: UsersIcon,
+//     token: FileTextIcon,
+//     discord: DiscordIcon,
+//     text: LetterTextIcon,
+//     number: ArrowUp01Icon,
+//     telegram: TelegramIcon,
+//     "file-upload": FileUpIcon,
+//     link: SquareArrowOutUpRightIcon,
+//   };
+//   return icons[taskType] || FileTextIcon;
+// };
+
+// const getTaskTypeLabel = (taskType) => {
+//   const labels = {
+//     x: "X (Twitter)",
+//     url: "URL",
+//     nft: "NFT",
+//     invite: "Invite Friends",
+//     token: "Token",
+//     discord: "Discord",
+//     text: "Text",
+//     number: "Number",
+//     telegram: "Telegram",
+//     "file-upload": "File Upload",
+//     link: "Visit Link",
+//   };
+//   return labels[taskType] || "Task";
+// };
+
+// // Enhanced status configuration
+// const getStatusConfig = (status) => {
+//   const configs = {
+//     pending: {
+//       icon: ClockIcon,
+//       label: "Pending Review",
+//       variant: "yellow",
+//       canEdit: true,
+//       description: "Your submission is currently being reviewed by our team.",
+//     },
+//     approved: {
+//       icon: CheckCircleIcon,
+//       label: "Approved",
+//       variant: "green",
+//       canEdit: false,
+//       description:
+//         "Your submission has been approved! Rewards will be distributed shortly.",
+//     },
+//     rejected: {
+//       icon: XCircleIcon,
+//       label: "Rejected",
+//       variant: "red",
+//       canEdit: false,
+//       description:
+//         "Your submission was rejected. Please check the feedback and consider resubmitting.",
+//     },
+//     highlighted: {
+//       icon: StarIcon,
+//       label: "Highlighted",
+//       variant: "purple",
+//       canEdit: false,
+//       description: "Your submission has been highlighted as exceptional work!",
+//     },
+//   };
+
+//   return configs[status?.toLowerCase()] || configs.pending;
+// };
+
+// const StatusChip = ({ children, variant = "yellow" }) => {
+//   const variants = {
+//     yellow: "bg-yellow-500/20 text-yellow-300 ring-yellow-500/30",
+//     green: "bg-green-500/20 text-green-300 ring-green-500/30",
+//     red: "bg-red-500/20 text-red-300 ring-red-500/30",
+//     purple: "bg-purple-500/20 text-purple-300 ring-purple-500/30",
+//     gray: "bg-gray-600 text-gray-200 ring-gray-400",
+//   };
+
+//   return (
+//     <div
+//       className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 ${variants[variant]}`}
+//     >
+//       {children}
+//     </div>
+//   );
+// };
+
+// const TaskCard = ({ task, answer }) => {
+//   const taskLabel = getTaskTypeLabel(task.name);
+//   const IconComponent = getTaskTypeIcon(task.name);
+
+//   return (
+//     <div className="rounded-2xl border border-gray-400 bg-gradient-dark p-6">
+//       <div className="mb-4 flex items-center gap-3">
+//         <div className="flex items-center justify-center rounded-full bg-gray-600 p-2.5">
+//           <IconComponent size={16} className="h-5 w-5 text-white" />
+//         </div>
+
+//         <div>
+//           <h3 className="font-semibold text-white">{task.instruction}</h3>
+//           <p className="text-sm text-gray-300">{taskLabel}</p>
+//         </div>
+//       </div>
+
+//       {task.description && (
+//         <p className="mb-4 text-sm text-gray-200">{task.description}</p>
+//       )}
+
+//       <div className="space-y-2">
+//         <p className="text-sm font-medium text-gray-200">Your Answer:</p>
+//         <div className="rounded-xl border-l-4 border-yellow-500/60 bg-white/10 p-4">
+//           <FormattedSubmissionAnswer answer={answer} />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// const SubmissionDetailMainHeader = ({ submission }) => {
+//   const completedTasks = Object.keys(submission.submission_data || {}).length;
+//   const totalTasks = submission.quest_tasks?.length || completedTasks;
+//   const statusConfig = getStatusConfig(submission.review_status);
+//   const StatusIcon = statusConfig.icon;
+
+//   return (
+//     <section className="flex justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-8 py-2.5 backdrop-blur-xs">
+//       <Link
+//         href="/submissions"
+//         className="inline-flex items-center gap-2 text-sm text-gray-200 transition-colors hover:text-white"
+//       >
+//         <ArrowLeftIcon size={16} />
+//         Back to Submissions
+//       </Link>
+
+//       <div className="flex flex-wrap items-center gap-3">
+//         <StatusChip variant={statusConfig.variant}>
+//           <StatusIcon size={12} />
+//           <span>{statusConfig.label}</span>
+//         </StatusChip>
+
+//         <StatusChip variant="gray">
+//           <FileTextIcon size={12} />
+//           <span>
+//             {completedTasks} of {totalTasks} tasks
+//           </span>
+//         </StatusChip>
+
+//         {statusConfig.canEdit ? (
+//           <Link
+//             href={`/submissions/${submission.submission_id}/edit`}
+//             className="flex w-fit items-center gap-2 rounded border border-gray-400 bg-gradient-dark px-3 py-1 text-gray-50 transition-colors hover:border-gray-300 hover:text-white"
+//           >
+//             <EditIcon size={16} />
+//             Edit
+//           </Link>
+//         ) : (
+//           <div className="flex w-fit cursor-not-allowed items-center gap-2 rounded border border-gray-500 bg-gray-700/50 px-3 py-1 text-gray-400">
+//             <EditIcon size={16} />
+//             Edit
+//           </div>
+//         )}
+//       </div>
+//     </section>
+//   );
+// };
+
+// const SubmissionDetailMainHeading = ({ submission }) => {
+//   return (
+//     <div className="space-y-6 pb-6">
+//       <SubmissionDetailMainHeader submission={submission} />
+
+//       <div className="space-y-4">
+//         <h1 className="text-3xl font-bold text-white">
+//           {submission.quest_name}
+//         </h1>
+
+//         <div className="mt-2 flex items-center gap-2 text-gray-200">
+//           <span className="rounded-md bg-gray-600 px-2 py-1 text-sm">
+//             {submission.category_name}
+//           </span>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// const SubmissionDetailMain = ({ submission }) => {
+//   // Enhanced validation
+//   if (!submission || !submission.submission_data) {
+//     return (
+//       <div className="flex max-w-7xl flex-1 flex-col items-center justify-center">
+//         <div className="space-y-4 text-center">
+//           <AlertCircleIcon size={48} className="mx-auto text-gray-400" />
+//           <h2 className="text-xl font-semibold text-white">
+//             No submission data found
+//           </h2>
+//           <p className="text-gray-300">
+//             There seems to be an issue loading this submission.
+//           </p>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="flex max-w-7xl flex-1 flex-col gap-2 overflow-hidden">
+//       <SubmissionDetailMainHeading submission={submission} />
+
+//       <WrapperContainer scrollable className="space-y-6 p-10">
+//         <div className="space-y-6 overflow-y-auto scrollbar-hide">
+//           <h2 className="text-xl font-bold text-white">Your Submissions</h2>
+
+//           <div className="space-y-4">
+//             {submission.quest_tasks?.length > 0 ? (
+//               submission.quest_tasks.map((task) => {
+//                 const answer = submission.submission_data[task.id];
+//                 return <TaskCard key={task.id} task={task} answer={answer} />;
+//               })
+//             ) : (
+//               <div className="py-8 text-center">
+//                 <FileTextIcon
+//                   size={48}
+//                   className="mx-auto mb-4 text-gray-400"
+//                 />
+//                 <p className="text-gray-300">No tasks found for this quest.</p>
+//               </div>
+//             )}
+//           </div>
+//         </div>
+//       </WrapperContainer>
+//     </div>
+//   );
+// };
+
+// export default SubmissionDetailMain;
+
 import {
   EditIcon,
   LinkIcon,
@@ -12,6 +465,8 @@ import {
   LetterTextIcon,
   CheckCircleIcon,
   SquareArrowOutUpRightIcon,
+  StarIcon,
+  AlertCircleIcon,
 } from "lucide-react";
 import React from "react";
 import Link from "next/link";
@@ -46,122 +501,84 @@ const getTaskTypeLabel = (taskType) => {
     x: "X (Twitter)",
     url: "URL",
     nft: "NFT",
-    invite: "Invite Friends",
-    token: "Token",
-    discord: "Discord",
     text: "Text",
+    token: "Token",
     number: "Number",
-    telegram: "Telegram",
-    "file-upload": "File Upload",
+    discord: "Discord",
     link: "Visit Link",
+    telegram: "Telegram",
+    invite: "Invite Friends",
+    "file-upload": "File Upload",
   };
   return labels[taskType] || "Task";
 };
 
-// const formatSubmissionAnswer = (answer, taskType) => {
-//   if (answer === null || answer === undefined) {
-//     return "No answer provided";
-//   }
+// Enhanced status configuration
+const getStatusConfig = (reviewStatus, reviewedBy) => {
+  const configs = {
+    pending: {
+      icon: ClockIcon,
+      label: "Pending Review",
+      variant: "yellow",
+      canEdit: true,
+      description: "Your submission is currently being reviewed by our team.",
+    },
 
-//   if (typeof answer === "string") {
-//     if (answer.startsWith("http")) {
-//       return (
-//         <Link
-//           href={answer}
-//           target="_blank"
-//           rel="noopener noreferrer"
-//           className="break-all text-white underline hover:text-gray-100"
-//         >
-//           {answer}
-//         </Link>
-//       );
-//     }
-//     return answer;
-//   }
+    approved: {
+      icon: CheckCircleIcon,
+      label: "Approved",
+      variant: "green",
+      canEdit: false,
+      description:
+        "Your submission has been approved! Rewards will be distributed shortly.",
+    },
 
-//   if (typeof answer === "number") {
-//     return answer.toString();
-//   }
+    rejected: {
+      icon: XCircleIcon,
+      label: "Rejected",
+      variant: "red",
+      canEdit: false,
+      description:
+        "Your submission was rejected. Please check the feedback and consider resubmitting.",
+    },
 
-//   if (typeof answer === "boolean") {
-//     return (
-//       <div className="flex items-center gap-2">
-//         {answer ? (
-//           <>
-//             <CheckCircleIcon size={16} className="text-green-400" />
-//             <span className="text-green-400">Completed</span>
-//           </>
-//         ) : (
-//           <>
-//             <XCircleIcon size={16} className="text-red-400" />
-//             <span className="text-red-400">Not completed</span>
-//           </>
-//         )}
-//       </div>
-//     );
-//   }
+    highlighted: {
+      icon: StarIcon,
+      label: "Highlighted",
+      variant: "purple",
+      canEdit: false,
+      description: "Your submission has been highlighted as exceptional work!",
+    },
+  };
 
-//   if (typeof answer === "object" && answer !== null) {
-//     // Handle file uploads
-//     if (answer.fileName && answer.fileUrl) {
-//       const sizeInMB = answer.fileSize
-//         ? (answer.fileSize / (1024 * 1024)).toFixed(2)
-//         : "Unknown";
-//       return (
-//         <div className="space-y-2">
-//           <div className="flex items-center gap-2">
-//             <FileUpIcon size={16} className="text-gray-200" />
+  // Handle different auto-review cases
+  if (reviewedBy === "auto-system") {
+    if (reviewStatus === "rejected") {
+      return {
+        ...configs.rejected,
+        label: "Auto-Review Failed",
+        description:
+          "Automated review detected issues. Check feedback and resubmit.",
+      };
+    } else if (reviewStatus === "approved") {
+      return {
+        ...configs.approved,
+        label: "Auto-Approved",
+        description:
+          "Automated review completed successfully. Rewards will be distributed shortly.",
+      };
+    }
+  }
 
-//             <span className="font-medium">{answer.fileName}</span>
-//             <span className="text-sm text-gray-300">({sizeInMB}MB)</span>
-//           </div>
-
-//           {answer.fileUrl && (
-//             <Link
-//               href={answer.fileUrl}
-//               target="_blank"
-//               rel="noopener noreferrer"
-//               className="inline-flex items-center gap-1 text-white underline hover:text-gray-100"
-//             >
-//               View File →
-//             </Link>
-//           )}
-//         </div>
-//       );
-//     }
-
-//     if (answer.joined !== undefined || answer.verified !== undefined) {
-//       return (
-//         <div className="flex items-center gap-2">
-//           {answer.verified ? (
-//             <>
-//               <CheckCircleIcon size={16} className="text-green-400" />
-//               <span className="text-green-400">Verified</span>
-//             </>
-//           ) : answer.joined ? (
-//             <>
-//               <CheckCircleIcon size={16} className="text-yellow-400" />
-//               <span className="text-yellow-400">Joined</span>
-//             </>
-//           ) : (
-//             <>
-//               <ClockIcon size={16} className="text-gray-400" />
-//               <span className="text-gray-400">Pending</span>
-//             </>
-//           )}
-//         </div>
-//       );
-//     }
-
-//     return "Data submitted";
-//   }
-
-//   return "Submitted";
-// };
+  return configs[reviewStatus?.toLowerCase()] || configs.pending;
+};
 
 const StatusChip = ({ children, variant = "yellow" }) => {
   const variants = {
     yellow: "bg-yellow-500/20 text-yellow-300 ring-yellow-500/30",
+    green: "bg-green-500/20 text-green-300 ring-green-500/30",
+    red: "bg-red-500/20 text-red-300 ring-red-500/30",
+    purple: "bg-purple-500/20 text-purple-300 ring-purple-500/30",
     gray: "bg-gray-600 text-gray-200 ring-gray-400",
   };
 
@@ -177,7 +594,6 @@ const StatusChip = ({ children, variant = "yellow" }) => {
 const TaskCard = ({ task, answer }) => {
   const taskLabel = getTaskTypeLabel(task.name);
   const IconComponent = getTaskTypeIcon(task.name);
-  // const formattedAnswer = formatSubmissionAnswer(answer, task.name);
 
   return (
     <div className="rounded-2xl border border-gray-400 bg-gradient-dark p-6">
@@ -207,8 +623,13 @@ const TaskCard = ({ task, answer }) => {
 };
 
 const SubmissionDetailMainHeader = ({ submission }) => {
-  const completedTasks = Object.keys(submission.submission_data).length;
+  const completedTasks = Object.keys(submission.submission_data || {}).length;
   const totalTasks = submission.quest_tasks?.length || completedTasks;
+  const statusConfig = getStatusConfig(
+    submission.review_status,
+    submission.reviewed_by,
+  );
+  const StatusIcon = statusConfig.icon;
 
   return (
     <section className="flex justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-8 py-2.5 backdrop-blur-xs">
@@ -221,9 +642,9 @@ const SubmissionDetailMainHeader = ({ submission }) => {
       </Link>
 
       <div className="flex flex-wrap items-center gap-3">
-        <StatusChip variant="yellow">
-          <ClockIcon size={12} />
-          <span>Pending Review</span>
+        <StatusChip variant={statusConfig.variant}>
+          <StatusIcon size={12} />
+          <span>{statusConfig.label}</span>
         </StatusChip>
 
         <StatusChip variant="gray">
@@ -233,13 +654,27 @@ const SubmissionDetailMainHeader = ({ submission }) => {
           </span>
         </StatusChip>
 
-        <Link
-          href={`/submissions/${submission.submission_id}/edit`}
-          className="flex w-fit items-center gap-2 rounded border border-gray-400 bg-gradient-dark px-3 py-1 text-gray-50 hover:border-gray-300 hover:text-white"
-        >
-          <EditIcon size={16} />
-          Edit
-        </Link>
+        {submission.resubmission_count > 0 && (
+          <StatusChip variant="gray">
+            <AlertCircleIcon size={12} />
+            <span>Resubmission #{submission.resubmission_count}</span>
+          </StatusChip>
+        )}
+
+        {statusConfig.canEdit ? (
+          <Link
+            href={`/submissions/${submission.submission_id}/edit`}
+            className="flex w-fit items-center gap-2 rounded border border-gray-400 bg-gradient-dark px-3 py-1 text-gray-50 transition-colors hover:border-gray-300 hover:text-white"
+          >
+            <EditIcon size={16} />
+            Edit
+          </Link>
+        ) : (
+          <div className="flex w-fit cursor-not-allowed items-center gap-2 rounded border border-gray-500 bg-gray-700/50 px-3 py-1 text-gray-400">
+            <EditIcon size={16} />
+            Edit
+          </div>
+        )}
       </div>
     </section>
   );
@@ -266,6 +701,24 @@ const SubmissionDetailMainHeading = ({ submission }) => {
 };
 
 const SubmissionDetailMain = ({ submission }) => {
+  if (!submission || !submission.submission_data) {
+    return (
+      <div className="flex max-w-7xl flex-1 flex-col items-center justify-center">
+        <div className="space-y-4 text-center">
+          <AlertCircleIcon size={48} className="mx-auto text-gray-400" />
+
+          <h2 className="text-xl font-semibold text-white">
+            No submission data found
+          </h2>
+
+          <p className="text-gray-300">
+            There seems to be an issue loading this submission.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex max-w-7xl flex-1 flex-col gap-2 overflow-hidden">
       <SubmissionDetailMainHeading submission={submission} />
@@ -275,10 +728,21 @@ const SubmissionDetailMain = ({ submission }) => {
           <h2 className="text-xl font-bold text-white">Your Submissions</h2>
 
           <div className="space-y-4">
-            {submission.quest_tasks?.map((task) => {
-              const answer = submission.submission_data[task.id];
-              return <TaskCard key={task.id} task={task} answer={answer} />;
-            })}
+            {submission.quest_tasks?.length > 0 ? (
+              submission.quest_tasks.map((task) => {
+                const answer = submission.submission_data[task.id];
+                return <TaskCard key={task.id} task={task} answer={answer} />;
+              })
+            ) : (
+              <div className="py-8 text-center">
+                <FileTextIcon
+                  size={48}
+                  className="mx-auto mb-4 text-gray-400"
+                />
+
+                <p className="text-gray-300">No tasks found for this quest.</p>
+              </div>
+            )}
           </div>
         </div>
       </WrapperContainer>

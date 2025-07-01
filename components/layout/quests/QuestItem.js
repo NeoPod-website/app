@@ -746,7 +746,7 @@ const QuestItem = ({
   categoryId,
   rewards = [],
   cooldown = "None",
-  recurrence = "Monthly",
+  recurrence = "None",
   // Quest limit information (using total_submissions)
   claimLimit = null,
   currentClaims = 0,

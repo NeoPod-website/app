@@ -1,27 +1,3 @@
-// import React from "react";
-
-// import CategoryContainer from "./CategoryContainer";
-// import MainPageScroll from "@/components/common/MainPageScroll";
-
-// const CategoriesList = ({ categories, isQuestPage = true, user }) => {
-//   return (
-//     <MainPageScroll scrollable>
-//       {categories.map((category) => {
-//         return (
-//           <CategoryContainer
-//             user={user}
-//             category={category}
-//             isQuestPage={isQuestPage}
-//             key={category.category_id}
-//           />
-//         );
-//       })}
-//     </MainPageScroll>
-//   );
-// };
-
-// export default CategoriesList;
-
 import React from "react";
 
 import CategoryContainer from "./CategoryContainer";

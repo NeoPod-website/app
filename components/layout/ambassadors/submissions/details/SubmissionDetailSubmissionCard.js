@@ -24,7 +24,29 @@ const SubmissionDetailSubmissionCard = ({
         </InfoItem>
 
         <InfoItem label="Status" icon={ClockIcon}>
-          <span className="text-yellow-300">Pending Review</span>
+          <span
+            className={
+              submission.review_status === "approved"
+                ? "text-green-300"
+                : submission.review_status === "rejected"
+                  ? "text-red-300"
+                  : submission.review_status === "highlighted"
+                    ? "text-purple-300"
+                    : "text-yellow-300"
+            }
+          >
+            {submission.review_status === "approved"
+              ? submission.reviewed_by === "auto-system"
+                ? "Auto-Approved"
+                : "Approved"
+              : submission.review_status === "rejected"
+                ? submission.reviewed_by === "auto-system"
+                  ? "Auto-Review Failed"
+                  : "Rejected"
+                : submission.review_status === "highlighted"
+                  ? "Highlighted"
+                  : "Pending Review"}
+          </span>
         </InfoItem>
 
         <InfoItem label="Progress" icon={FileTextIcon}>

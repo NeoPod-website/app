@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import MainPageScroll from "@/components/common/MainPageScroll";
 import CategoriesList from "@/components/layout/category/CategoriesList";
+import { getCachedSession } from "@/lib/userSession";
 
 export const metadata = {
   title: "Quests | NeoPod",
@@ -121,6 +122,8 @@ const QuestPageLayout = ({ children, scrollable = false }) => {
 };
 
 const QuestsPage = async ({ params }) => {
+  const { user } = await getCachedSession();
+
   const { podId } = await params;
 
   if (!podId) {
@@ -166,7 +169,11 @@ const QuestsPage = async ({ params }) => {
 
   return (
     <Suspense>
-      <CategoriesList categories={validCategories} isQuestPage={false} />
+      <CategoriesList
+        categories={validCategories}
+        isQuestPage={false}
+        user={user}
+      />
     </Suspense>
   );
 };
