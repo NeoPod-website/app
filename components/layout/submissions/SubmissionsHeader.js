@@ -1,4 +1,3 @@
-// components/layout/submissions/SubmissionsHeader.js
 import React from "react";
 import { ClockIcon, FileTextIcon } from "lucide-react";
 

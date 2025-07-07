@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 
 import { getCachedSession } from "@/lib/userSession";
 
-import SubmissionEditMain from "@/components/layout/ambassadors/submissions/details/edit/SubmissionEditMain";
-import SubmissionEditSidebar from "@/components/layout/ambassadors/submissions/details/edit/SubmissionEditSidebar";
+import SubmissionEditMain from "@/components/layout/submissions/details/edit/SubmissionEditMain";
+import SubmissionEditSidebar from "@/components/layout/submissions/details/edit/SubmissionEditSidebar";
 
 async function fetchSubmissionForEdit(submissionId) {
   const cookieStore = await cookies();

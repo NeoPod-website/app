@@ -14,11 +14,7 @@ import PodGrid from "@/components/layout/pods/filter/PodGrid";
 import PodFilterPanel from "@/components/layout/pods/filter/PodFilterPanel";
 import PodFilterHeader from "@/components/layout/pods/filter/PodFilterHeader";
 
-export default function LoadMorePods({
-  initialPods,
-  initialLastKey,
-  initialHasMore,
-}) {
+const LoadMorePods = ({ initialPods, initialLastKey, initialHasMore }) => {
   const dispatch = useDispatch();
 
   const { pods, lastKey, hasMore, isLoading } = useSelector(
@@ -371,4 +367,6 @@ export default function LoadMorePods({
       </Suspense>
     </div>
   );
-}
+};
+
+export default LoadMorePods;

@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 
 import { getCachedSession } from "@/lib/userSession";
 
-import SubmissionDetailMain from "@/components/layout/ambassadors/submissions/details/SubmissionDetailMain";
-import SubmissionDetailSidebar from "@/components/layout/ambassadors/submissions/details/SubmissionDetailSidebar";
+import SubmissionDetailMain from "@/components/layout/submissions/details/SubmissionDetailMain";
+import SubmissionDetailSidebar from "@/components/layout/submissions/details/SubmissionDetailSidebar";
 
 async function fetchSubmission(submissionId) {
   const cookieStore = await cookies();
