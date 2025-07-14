@@ -53,6 +53,63 @@ async function fetchSubmissionForEdit(submissionId) {
 }
 
 // Function 2: Fetch quest and category details in parallel
+// async function fetchQuestAndCategoryDetails(submission) {
+//   const cookieStore = await cookies();
+//   const token = cookieStore.get("neo-jwt");
+
+//   if (!token?.value) {
+//     throw new Error("Authentication token not found");
+//   }
+
+//   const headers = {
+//     "Content-Type": "application/json",
+//     Authorization: `Bearer ${token.value}`,
+//   };
+
+//   // Fetch quest and category in parallel
+//   const [questResponse, categoryResponse] = await Promise.all([
+//     fetch(`${process.env.NEXT_PUBLIC_API_URL}/quests/${submission.quest_id}`, {
+//       method: "GET",
+//       headers,
+//       credentials: "include",
+//     }),
+//     fetch(
+//       `${process.env.NEXT_PUBLIC_API_URL}/categories/${submission.category_id}`,
+//       {
+//         method: "GET",
+//         headers,
+//         credentials: "include",
+//       },
+//     ),
+//   ]);
+
+//   // Handle quest response
+//   if (!questResponse.ok) {
+//     return null;
+//   }
+
+//   // Handle category response
+//   if (!categoryResponse.ok) {
+//     return null;
+//   }
+
+//   // Parse responses in parallel
+//   const [questData, categoryData] = await Promise.all([
+//     questResponse.json(),
+//     categoryResponse.json(),
+//   ]);
+
+//   const quest = questData.data?.quest;
+//   const category = categoryData.data?.category;
+
+//   return {
+//     ...submission,
+//     quest,
+//     quest_name: quest?.name || "Unknown Quest",
+//     category_name: category?.name || "Unknown Category",
+//   };
+// }
+
 async function fetchQuestAndCategoryDetails(submission) {
   const cookieStore = await cookies();
   const token = cookieStore.get("neo-jwt");
@@ -102,12 +159,33 @@ async function fetchQuestAndCategoryDetails(submission) {
   const quest = questData.data?.quest;
   const category = categoryData.data?.category;
 
-  return {
+  // Use the SAME structure as the detail view
+  const enrichedSubmission = {
     ...submission,
-    quest,
+
+    // Quest information (flattened with quest_ prefix)
     quest_name: quest?.name || "Unknown Quest",
-    category_name: category?.name || "Unknown Category",
+    quest_description: quest?.description || "",
+    quest_tasks: quest?.tasks || [],
+    quest_rewards: quest?.rewards || [],
+    quest_points: quest?.points || 0,
+    quest_cooldown: quest?.cooldown || "None",
+    quest_recurrence: quest?.recurrence || "one-time",
+    quest_due_date: quest?.due_date || null,
+    quest_limit: quest?.limit || null,
+
+    // Category information
+    category_name: category?.name || quest?.category_name || "Unknown Category",
+    category_description: category?.description || "",
+    category_icon: category?.icon || null,
+    category_background: category?.background || null,
+
+    // Keep original data for reference (useful for edit main)
+    original_quest_data: quest,
+    original_category_data: category,
   };
+
+  return enrichedSubmission;
 }
 
 const SubmissionEditPage = async ({ params }) => {

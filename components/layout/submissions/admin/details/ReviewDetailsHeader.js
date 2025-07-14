@@ -8,10 +8,10 @@ import {
   CheckCircleIcon,
 } from "lucide-react";
 import React from "react";
-import { Button } from "@heroui/react";
 
 import WrapperContainer from "@/components/common/WrapperContainer";
 import UndoSubmissionBtn from "@/components/ui/buttons/submissions/admin/UndoSubmissionBtn";
+import FlagSubmissionBtn from "@/components/ui/buttons/submissions/admin/FlagSubmissionBtn";
 
 const getStatusBadge = (status) => {
   const configs = {
@@ -78,20 +78,18 @@ const ReviewDetailsHeader = ({ submission, onSubmissionUpdate }) => {
 
       <div className="flex items-center gap-2">
         <>
-          <Button
-            size="sm"
-            className="flex items-center gap-1 rounded-lg border border-red-500/50 bg-gradient-dark !px-3 !py-1 text-sm text-white transition-colors hover:bg-gray-600"
-          >
-            <BanIcon className="h-4 w-4" />
-            Ban
-          </Button>
+          <FlagSubmissionBtn
+            submission={submission}
+            onSubmissionUpdate={onSubmissionUpdate}
+          />
 
-          {submission.review_status !== "pending" && (
-            <UndoSubmissionBtn
-              submission={submission}
-              onSubmissionUpdate={onSubmissionUpdate}
-            />
-          )}
+          {submission.review_status !== "pending" &&
+            submission.is_flagged === "false" && (
+              <UndoSubmissionBtn
+                submission={submission}
+                onSubmissionUpdate={onSubmissionUpdate}
+              />
+            )}
         </>
       </div>
     </WrapperContainer>

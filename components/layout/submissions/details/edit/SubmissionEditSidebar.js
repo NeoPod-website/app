@@ -22,7 +22,7 @@ const SubmissionEditSidebarHeader = ({ submission }) => {
 };
 
 const SubmissionEditSidebar = ({ submission }) => {
-  const totalTasks = submission.quest?.tasks?.length || 0;
+  const totalTasks = submission.quest_tasks?.length || 0;
   const completedTasks = Object.keys(submission.submission_data).length;
 
   return (

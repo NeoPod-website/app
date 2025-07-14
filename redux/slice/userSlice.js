@@ -6,8 +6,8 @@ const initialState = {
   email: null,
   address: null,
   username: null,
-  login_method: null,
   adminView: false,
+  login_method: null,
 };
 
 const userSlice = createSlice({

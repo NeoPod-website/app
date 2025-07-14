@@ -2,11 +2,12 @@
 
 import React from "react";
 import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
 import { Input } from "@heroui/react";
+import { useSelector, useDispatch } from "react-redux";
 import { SquareArrowOutUpRightIcon } from "lucide-react";
 
 import QuestTask from "./QuestTask";
+
 import {
   updateTaskAnswer,
   selectTaskAnswer,

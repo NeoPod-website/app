@@ -51,7 +51,7 @@ const ErrorPage = ({ errorCode, message, canRetry = true }) => {
             </Link>
 
             <Link
-              href="/"
+              href="/login"
               className="block w-full rounded-md bg-gray-200 px-6 py-3 font-medium text-gray-800 transition duration-200 hover:bg-gray-300"
             >
               Go to Homepage

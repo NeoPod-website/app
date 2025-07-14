@@ -70,25 +70,29 @@ const ReviewDetailsBtn = ({
   };
 
   return (
-    submission.review_status === "pending" && (
-      <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between">
+      <HighlightSubmissionBtn
+        submission={submission}
+        reviewComment={reviewComment}
+        onReviewSubmission={handleReviewSubmission}
+      />
+      {/* {submission.review_status === "pending" &&
+        submission.is_flagged === "false" && ( */}
+      <div className="flex items-center gap-2">
         <RejectSubmissionBtn
           submission={submission}
           reviewComment={reviewComment}
           onReviewSubmission={handleReviewSubmission}
         />
 
-        <div className="flex items-center gap-2">
-          <HighlightSubmissionBtn submission={submission} />
-
-          <ApproveSubmissionBtn
-            submission={submission}
-            reviewComment={reviewComment}
-            onReviewSubmission={handleReviewSubmission}
-          />
-        </div>
+        <ApproveSubmissionBtn
+          submission={submission}
+          reviewComment={reviewComment}
+          onReviewSubmission={handleReviewSubmission}
+        />
       </div>
-    )
+      {/* )} */}
+    </div>
   );
 };
 

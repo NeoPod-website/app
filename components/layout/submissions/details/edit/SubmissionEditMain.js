@@ -23,7 +23,7 @@ const StatusChip = ({ children, variant = "yellow" }) => {
 
 const SubmissionEditMainHeader = ({ submission }) => {
   const completedTasks = Object.keys(submission.submission_data).length;
-  const totalTasks = submission.quest?.tasks?.length || completedTasks;
+  const totalTasks = submission.quest_tasks?.length || completedTasks;
 
   return (
     <section className="flex justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-8 py-2.5 backdrop-blur-xs">
@@ -99,12 +99,11 @@ const SubmissionEditHeader = ({ submission }) => {
 };
 
 const SubmissionEditMain = ({ submission, user }) => {
-  // Prepare quest object in the format expected by QuestDetailsTask
   const questForEdit = {
     quest_id: submission.quest_id,
     name: submission.quest_name,
-    description: submission.quest?.description,
-    tasks: submission.quest?.tasks || [],
+    description: submission.quest_description,
+    tasks: submission.quest_tasks || [],
   };
 
   return (

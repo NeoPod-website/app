@@ -1,24 +1,3 @@
-// "use client";
-
-// import React from "react";
-// import { Button } from "@heroui/react";
-// import { XCircleIcon } from "lucide-react";
-
-// const RejectSubmissionBtn = () => {
-//   return (
-//     <Button
-//       size="lg"
-//       radius="full"
-//       className="neo-button border border-red-400 bg-red-500/20 text-white"
-//       endContent={<XCircleIcon size={16} color="red" />}
-//     >
-//       Reject
-//     </Button>
-//   );
-// };
-
-// export default RejectSubmissionBtn;
-
 "use client";
 
 import React, { useState } from "react";
