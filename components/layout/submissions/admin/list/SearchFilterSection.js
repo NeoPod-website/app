@@ -1,50 +1,49 @@
-// components/admin/list/SearchFilterSection.js
 "use client";
 
 import {
+  XIcon,
   SearchIcon,
   FilterIcon,
-  XIcon,
-  ChevronDownIcon,
   ChevronUpIcon,
+  ChevronDownIcon,
 } from "lucide-react";
 import {
+  Card,
+  Chip,
   Input,
   Select,
-  SelectItem,
-  Card,
-  CardBody,
-  Chip,
   Button,
+  CardBody,
+  SelectItem,
 } from "@heroui/react";
 
 const getFilterChipColor = (filterKey) => {
   const colorMap = {
     all: "default",
-    pending: "default",
-    approved: "success",
-    rejected: "danger",
-    highlighted: "warning",
     flagged: "danger",
+    pending: "default",
+    rejected: "danger",
+    approved: "success",
+    highlighted: "warning",
   };
   return colorMap[filterKey] || "default";
 };
 
 const SearchFilterSection = ({
+  filters,
+  categories,
   searchUser,
   setSearchUser,
   searchQuest,
   setSearchQuest,
-  filters,
-  categories,
-  onCategoryChange,
   onStatusFilter,
-  onClearAllFilters,
   isFiltersVisible,
+  onCategoryChange,
+  onClearAllFilters,
   setIsFiltersVisible,
 }) => {
   const hasActiveFilters =
-    filters.status !== "pending" || // Default is pending, so only show if different
+    filters.status !== "pending" ||
     searchUser ||
     searchQuest ||
     filters.category !== "all";
@@ -58,7 +57,6 @@ const SearchFilterSection = ({
 
   return (
     <div className="space-y-4">
-      {/* Quick Search Bar */}
       <div className="flex gap-3">
         <Input
           type="text"
@@ -95,7 +93,6 @@ const SearchFilterSection = ({
         </Button>
       </div>
 
-      {/* Advanced Filters - Custom Collapsible */}
       <div
         className={`overflow-hidden transition-all duration-300 ${
           isFiltersVisible ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
@@ -103,13 +100,12 @@ const SearchFilterSection = ({
       >
         <Card className="border border-divider bg-content2">
           <CardBody className="space-y-4 p-4">
-            {/* Filter Grid */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {/* Quest Search */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground-600">
                   Quest Name
                 </label>
+
                 <Input
                   type="text"
                   placeholder="Search quests..."
@@ -126,11 +122,11 @@ const SearchFilterSection = ({
                 />
               </div>
 
-              {/* Category Filter */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground-600">
                   Category
                 </label>
+
                 <Select
                   placeholder="Select category"
                   selectedKeys={
@@ -150,6 +146,7 @@ const SearchFilterSection = ({
                   <SelectItem key="all" value="all">
                     All Categories
                   </SelectItem>
+
                   {categories.map((category) => (
                     <SelectItem key={category} value={category}>
                       {category}
@@ -158,15 +155,15 @@ const SearchFilterSection = ({
                 </Select>
               </div>
 
-              {/* Clear All Button */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground-600">
                   Actions
                 </label>
+
                 <Button
+                  size="sm"
                   variant="flat"
                   color="danger"
-                  size="sm"
                   onPress={onClearAllFilters}
                   startContent={<XIcon className="h-4 w-4" />}
                   isDisabled={!hasActiveFilters}
@@ -177,7 +174,6 @@ const SearchFilterSection = ({
               </div>
             </div>
 
-            {/* Active Filters Display */}
             {hasActiveFilters && (
               <div className="border-t border-divider pt-3">
                 <div className="flex flex-wrap items-center gap-2">

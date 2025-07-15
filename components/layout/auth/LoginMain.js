@@ -3,7 +3,7 @@ import React from "react";
 import EmailSignUp from "./EmailSignUp";
 import AuthMainContainer from "./AuthMainContainer";
 
-import ContinueWithSocial from "./button/ContinueWithSocial";
+// import ContinueWithSocial from "./button/ContinueWithSocial";
 import ContinueWithWallet from "./button/ContinueWithWallet";
 
 const LoginMain = ({
@@ -20,7 +20,7 @@ const LoginMain = ({
       description="Access your account and start completing quests to earn rewards!"
     >
       <div className="space-y-2">
-        <ContinueWithSocial />
+        {/* <ContinueWithSocial /> */}
         <ContinueWithWallet setShowWalletForm={setShowWalletForm} />
       </div>
 

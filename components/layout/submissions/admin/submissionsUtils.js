@@ -1,5 +1,3 @@
-// components/layout/submissions/admin/submissionsUtils.js
-
 /**
  * Calculate filter counts for different submission statuses
  * @param {Array} submissions - Array of submission objects
