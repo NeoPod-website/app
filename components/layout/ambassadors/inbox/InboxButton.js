@@ -21,11 +21,11 @@ const InboxButton = ({ item }) => {
     <Button
       disableRipple
       onPress={() => dispatch(toggleInboxModal())}
-      className="sidebar-menu-item h-[46px] w-full justify-between gap-4 text-gray-100"
+      className="sidebar-menu-item h-[41px] w-full min-w-0 justify-center gap-4 text-sm text-gray-100 xl:justify-between 3xl:h-[46px] 3xl:text-base"
     >
-      <div className="flex items-center gap-4 text-base">
+      <div className="flex items-center gap-3 2xl:gap-4">
         <p>{item.icon}</p>
-        <p>Inbox</p>
+        <p className="md:hidden xl:inline">Inbox</p>
       </div>
 
       {unreadCount > 0 && (

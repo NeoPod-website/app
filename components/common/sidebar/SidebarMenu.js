@@ -4,7 +4,7 @@ import SidebarMenuItem from "./SidebarMenuItem";
 
 const SidebarMenu = ({ menuItems }) => {
   return (
-    <nav className="flex-1 space-y-1 overflow-auto">
+    <nav className="thin-scrollbar flex-1 space-y-1 overflow-y-auto pr-1">
       {menuItems.map((item, index) => (
         <SidebarMenuItem key={`menu-item-${index}`} index={index} item={item} />
       ))}

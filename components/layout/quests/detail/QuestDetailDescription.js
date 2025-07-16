@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from "react";
 
 const QuestDetailDescription = ({ description }) => {
-  const [sanitizedDescription, setSanitizedDescription] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
+  const [sanitizedDescription, setSanitizedDescription] = useState("");
 
   useEffect(() => {
     // Dynamically import DOMPurify only on the client side
@@ -62,7 +62,8 @@ const QuestDetailDescription = ({ description }) => {
   if (!isLoaded) {
     return (
       <div className="space-y-5">
-        <h3 className="text-2xl font-bold">Description</h3>
+        <h3 className="text-xl font-bold 3xl:text-2xl">Description</h3>
+
         <div className="prose prose-invert max-w-none">
           <div className="animate-pulse">
             <div className="mb-2 h-4 w-full rounded bg-gray-200"></div>
@@ -75,9 +76,14 @@ const QuestDetailDescription = ({ description }) => {
     );
   }
 
+  if (sanitizedDescription === "<p></p>" || sanitizedDescription === "") {
+    return null;
+  }
+
   return (
-    <div className="space-y-5">
-      <h3 className="text-2xl font-bold">Description</h3>
+    <div className="space-y-2 3xl:space-y-5">
+      <h3 className="text-xl font-bold 3xl:text-2xl">Description</h3>
+
       <div
         className="prose prose-invert max-w-none"
         dangerouslySetInnerHTML={{ __html: sanitizedDescription }}

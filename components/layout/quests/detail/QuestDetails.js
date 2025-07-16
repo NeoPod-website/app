@@ -167,8 +167,8 @@ const QuestDetails = async ({ quest }) => {
       availabilityResult.reason.includes("Already submitted this"));
 
   return (
-    <WrapperContainer scrollable className="max-w-4.5xl flex-[2] p-10">
-      <div className="hide-scroll flex-1 space-y-9 overflow-y-auto">
+    <WrapperContainer scrollable className="max-w-4.5xl flex-[2] p-6 3xl:p-10">
+      <div className="hide-scroll flex-1 space-y-6 overflow-y-auto 3xl:space-y-9">
         <QuestDetailHeading
           title={quest.name}
           cooldown={quest.cooldown}
@@ -181,8 +181,8 @@ const QuestDetails = async ({ quest }) => {
 
         {!availabilityResult.available && !shouldShowSubmissionStatus && (
           <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4">
-            <div className="flex items-center gap-2">
-              <div className="text-yellow-400">
+            <div className="flex items-start gap-2">
+              <div className="mt-px text-yellow-400">
                 <svg
                   className="h-5 w-5"
                   fill="currentColor"
@@ -195,13 +195,16 @@ const QuestDetails = async ({ quest }) => {
                   />
                 </svg>
               </div>
+
               <div>
-                <p className="text-sm font-medium text-yellow-400">
+                <p className="mb-1 text-sm font-bold text-yellow-400">
                   Quest Not Available
                 </p>
+
                 <p className="text-xs text-yellow-300">
                   {availabilityResult.reason}
                 </p>
+
                 {availabilityResult.nextAvailableDate && (
                   <p className="text-xs text-yellow-300">
                     Available again:{" "}
@@ -215,8 +218,8 @@ const QuestDetails = async ({ quest }) => {
 
         {shouldShowSubmissionStatus ? (
           <QuestSubmittedStatus
-            submission={mostRecentSubmission}
             quest={quest}
+            submission={mostRecentSubmission}
           />
         ) : (
           <>
@@ -229,7 +232,7 @@ const QuestDetails = async ({ quest }) => {
       <div className="mt-3 flex justify-between">
         <ShareQuestBtn quest={quest} />
 
-        <div className="flex gap-4">
+        <div className="relative flex gap-4">
           <HighlightsQuestBtn />
 
           {shouldShowSubmissionForm && (

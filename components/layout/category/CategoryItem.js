@@ -46,7 +46,7 @@ const CategoryItem = ({
 
   return (
     <div
-      className={`relative h-40 min-h-40 w-full overflow-hidden rounded-2.5xl border p-5 ${
+      className={`relative h-40 min-h-40 w-full overflow-hidden rounded-2.5xl border ${
         borderColor || "border-transparent"
       }`}
       style={{
@@ -60,21 +60,23 @@ const CategoryItem = ({
         }}
       ></div>
 
-      <div className="absolute bottom-5 left-5 z-20">
-        <div className="flex items-center gap-2.5">
+      <div className="absolute bottom-5 left-5 z-20 space-y-1">
+        <div className="flex items-center gap-1.5 3xl:gap-2.5">
           <Image
-            src={iconURL}
-            alt={title + " icon"}
             width={38}
             height={38}
-            className="overflow-hidden rounded-lg"
+            src={iconURL}
+            alt={title + " icon"}
+            className="overflow-hidden rounded-lg lg:h-8 lg:w-8 3xl:h-9 3xl:w-9"
           />
 
-          <h3 className="font-work-sans text-2xl font-bold">{title}</h3>
+          <h3 className="font-work-sans text-xl font-bold 3xl:text-2xl">
+            {title}
+          </h3>
         </div>
 
         {showDescription && (
-          <p className="line-clamp-2 whitespace-nowrap text-wrap break-all text-gray-100">
+          <p className="line-clamp-2 whitespace-nowrap text-wrap break-all text-sm text-gray-100 3xl:text-base">
             {description}
           </p>
         )}

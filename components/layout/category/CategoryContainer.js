@@ -176,7 +176,7 @@ const QuestContainerLayout = ({
   showCategoryItem = true,
 }) => {
   return (
-    <WrapperContainer scrollable={scrollable}>
+    <WrapperContainer scrollable={scrollable} className="xl:min-w-96">
       {showCategoryItem && category && (
         <CategoryItem
           isAdmin={false}

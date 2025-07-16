@@ -27,12 +27,15 @@ const CopyToClipboard = ({
   return (
     <div>
       {copied ? (
-        <Check size={iconSize} className="text-green-500" />
+        <Check
+          size={iconSize}
+          className="3xl:h-4 3xl:w-4 h-3 w-3 text-green-500"
+        />
       ) : (
         <Copy
           onClick={handleCopy}
           size={iconSize}
-          className={`cursor-pointer ${className}`}
+          className={`3xl:h-4 3xl:w-4 h-3 w-3 cursor-pointer ${className}`}
         />
       )}
     </div>

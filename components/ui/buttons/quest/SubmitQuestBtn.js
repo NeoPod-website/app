@@ -299,11 +299,13 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
       </button>
 
       {submissionError && (
-        <div className="mt-2 text-sm text-red-600">{submissionError}</div>
+        <div className="absolute -bottom-[22px] right-0 mt-2 text-sm text-red-600">
+          {submissionError}
+        </div>
       )}
 
       {!isQuestComplete && !isSubmitting && (
-        <div className="mt-2 text-sm text-gray-400">
+        <div className="absolute -bottom-[22px] right-0 mt-2 text-sm text-gray-400">
           Complete all tasks to submit
         </div>
       )}

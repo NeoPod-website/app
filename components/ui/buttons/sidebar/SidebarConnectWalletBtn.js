@@ -1,7 +1,25 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { useAccount } from "wagmi";
+
+import shortAddress from "@/utils/shortAddress";
+
+import CopyToClipboard from "../../CopyToClipboard";
 
 const SidebarConnectWalletBtn = () => {
+  const { isConnected, address } = useAccount();
+
+  if (isConnected) {
+    return (
+      <div className="flex items-center gap-1">
+        <p>{shortAddress(address)}</p>
+        <CopyToClipboard text={address} />
+      </div>
+    );
+  }
+
   return (
     <Link
       href="/settings?tab=wallet"

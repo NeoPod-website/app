@@ -82,9 +82,9 @@ body {
 }
 
 .sidebar-menu-item {
-  @apply flex items-center rounded-md bg-transparent px-3 py-2.5 transition-colors hover:bg-gray-500 hover:text-white;
+  @apply flex items-center justify-center rounded-md bg-transparent px-3 py-2.5 transition-colors hover:bg-gray-500 hover:text-white xl:justify-start;
 }
 
 .neo-button {
-  @apply gap-2 px-10 py-3.5;
+  @apply h-10 gap-2 !px-6 !py-2 text-sm 3xl:h-auto 3xl:px-10 3xl:py-3.5 3xl:text-base;
 }

@@ -14,20 +14,19 @@ const SidebarAccordion = ({ index, item, isActive }) => {
         key={`accordion-${index}`}
         classNames={{
           trigger:
-            "py-2.5 gap-4 bg-transparent hover:bg-gray-500 px-3 rounded-md transition-colors hover:bg-gray-500 text-gray-100 hover:text-white",
+            "py-2.5 gap-3 2xl:gap-4 bg-transparent hover:bg-gray-500 px-3 rounded-md transition-colors hover:bg-gray-500 text-gray-100 hover:text-white justify-center xl:justify-between",
           indicator: `text-gray-100 hover:text-white ${isActive ? "!bg-gray-500 text-white hover:!border-white hover:!bg-transparent" : ""}`,
-          title: `text-gray-100 hover:text-white ${isActive ? "!bg-gray-500 text-white hover:!border-white hover:!bg-transparent" : ""}`,
+          title: `text-gray-100 hover:text-white md:hidden xl:inline text-sm 3xl:text-base ${isActive ? "!bg-gray-500 text-white hover:!border-white hover:!bg-transparent" : ""}`,
         }}
       >
         {item.children.map((child, childIndex) => (
           <Link
             href={child.href}
             key={`child-${index}-${childIndex}`}
-            className="sidebar-menu-item ml-8 scale-100 text-gray-200 transition-all active:scale-95"
+            className="sidebar-menu-item ml-8 scale-100 text-sm text-gray-200 transition-all active:scale-95 md:ml-0 xl:ml-6 2xl:ml-8 3xl:text-base"
           >
-            <span className="mr-4">{child.icon}</span>
-
-            {child.name}
+            <span className="mr-3 2xl:mr-4">{child.icon}</span>
+            <span className="md:hidden xl:inline">{child.name}</span>
           </Link>
         ))}
       </AccordionItem>

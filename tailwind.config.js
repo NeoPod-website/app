@@ -13,6 +13,10 @@ module.exports = {
 
   theme: {
     extend: {
+      screens: {
+        "3xl": "1800px",
+      },
+
       fontFamily: {
         "nunito-sans": ["var(--font-nunito-sans)"],
         "work-sans": ["var(--font-work-sans)"],

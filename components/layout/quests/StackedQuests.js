@@ -13,7 +13,7 @@ import Image from "next/image";
 
 const SimpleAvatar = ({ children, className = "" }) => (
   <div
-    className={`flex h-6 w-6 items-center justify-center rounded-full bg-red-700 ${className}`}
+    className={`flex h-5 w-5 items-center justify-center rounded-full bg-red-700 3xl:h-6 3xl:w-6 ${className}`}
   >
     {children}
   </div>
@@ -21,6 +21,7 @@ const SimpleAvatar = ({ children, className = "" }) => (
 
 const SimpleAvatarGroup = ({ children, max = 3 }) => {
   const childArray = React.Children.toArray(children);
+
   const visibleChildren = childArray.slice(0, max);
   const remainingCount = childArray.length - max;
 
@@ -37,21 +38,53 @@ const SimpleAvatarGroup = ({ children, max = 3 }) => {
 };
 
 const taskIconMap = {
-  url: <LinkIcon size={12} className="text-white" />,
-  text: <LetterTextIcon size={12} className="text-white" />,
-  number: <ArrowUp01Icon size={12} className="text-white" />,
+  url: (
+    <LinkIcon size={12} className="h-2.5 w-2.5 text-white 3xl:h-3 3xl:w-3" />
+  ),
 
-  file: <FileUpIcon size={12} className="text-white" />,
-  invite: <UsersIcon size={12} className="text-white" />,
-  link: <SquareArrowOutUpRightIcon size={12} className="text-white" />,
+  text: (
+    <LetterTextIcon
+      size={12}
+      className="h-2.5 w-2.5 text-white 3xl:h-3 3xl:w-3"
+    />
+  ),
 
-  x: <EarthIcon size={12} className="text-white" />,
-  discord: <EarthIcon size={12} className="text-white" />,
-  telegram: <EarthIcon size={12} className="text-white" />,
+  number: (
+    <ArrowUp01Icon
+      size={12}
+      className="h-2.5 w-2.5 text-white 3xl:h-3 3xl:w-3"
+    />
+  ),
+
+  file: (
+    <FileUpIcon size={12} className="h-2.5 w-2.5 text-white 3xl:h-3 3xl:w-3" />
+  ),
+
+  invite: (
+    <UsersIcon size={12} className="h-2.5 w-2.5 text-white 3xl:h-3 3xl:w-3" />
+  ),
+
+  link: (
+    <SquareArrowOutUpRightIcon
+      size={12}
+      className="h-2.5 w-2.5 text-white 3xl:h-3 3xl:w-3"
+    />
+  ),
+
+  x: <EarthIcon size={12} className="h-2.5 w-2.5 text-white 3xl:h-3 3xl:w-3" />,
+
+  discord: (
+    <EarthIcon size={12} className="h-2.5 w-2.5 text-white 3xl:h-3 3xl:w-3" />
+  ),
+
+  telegram: (
+    <EarthIcon size={12} className="h-2.5 w-2.5 text-white 3xl:h-3 3xl:w-3" />
+  ),
 
   nft: <ImageIcon size={12} className="text-white" />,
+
   token: (
-    <div className="flex h-[12px] w-[12px] items-center justify-center overflow-hidden rounded">
+    <div className="flex h-2.5 w-2.5 items-center justify-center overflow-hidden rounded 3xl:h-3 3xl:w-3">
       <Image src="/neo-logo.svg" width={12} height={12} alt="token" />
     </div>
   ),
@@ -80,7 +113,7 @@ const StackedQuests = ({ tasks = [] }) => {
   }
 
   return (
-    <div className="min-h-[24px] min-w-[48px]">
+    <div className="min-h-6 min-w-12">
       <SimpleAvatarGroup max={3}>{taskIcons}</SimpleAvatarGroup>
     </div>
   );

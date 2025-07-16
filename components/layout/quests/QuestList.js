@@ -6,9 +6,9 @@ import QuestItem from "./QuestItem";
 import { processQuestsAvailability } from "@/utils/questAvailabilityFilter";
 
 const NoQuestsAvailable = ({ showAll, onToggleShowAll }) => (
-  <div className="flex min-h-40 flex-1 flex-col items-center justify-center gap-4 rounded-lg p-8 text-center">
-    <div className="space-y-2">
-      <p className="text-xl font-bold text-white">
+  <div className="flex min-h-48 flex-1 flex-col items-center justify-center gap-4 rounded-lg p-8 text-center">
+    <div className="space-y-1 3xl:space-y-2">
+      <p className="text-lg font-bold text-white 3xl:text-xl">
         {showAll ? "No quests in this category" : "No available quests"}
       </p>
 
@@ -23,7 +23,7 @@ const NoQuestsAvailable = ({ showAll, onToggleShowAll }) => (
       <button
         type="button"
         onClick={onToggleShowAll}
-        className="rounded-lg border border-gray-400 bg-gray-800/50 px-4 py-2 text-sm text-gray-200 transition-colors hover:border-gray-300 hover:bg-gray-700/50"
+        className="rounded-lg border border-gray-400 bg-gray-800/50 px-3 py-1.5 text-sm text-gray-200 transition-colors hover:border-gray-300 hover:bg-gray-700/50 3xl:px-4 3xl:py-2"
       >
         Show all quests
       </button>
@@ -80,9 +80,9 @@ const QuestList = ({
   return (
     <>
       {availableQuests.length > 0 && unavailableQuests.length > 0 && (
-        <div className="flex items-center justify-between px-8 pt-4">
+        <div className="flex items-center justify-between px-5 pt-4 lg:px-6 3xl:px-8">
           <div className="flex items-center gap-4">
-            <p className="text-sm text-gray-300">
+            <p className="text-xs text-gray-200 3xl:text-sm">
               {availableQuests.length} available, {unavailableQuests.length}{" "}
               unavailable
             </p>
@@ -99,8 +99,10 @@ const QuestList = ({
       )}
 
       <ul
-        className={`grid min-w-80 grid-cols-1 gap-8 p-8 ${
-          compact ? "" : "md:grid-cols-2 lg:grid-cols-3"
+        className={`grid min-w-80 grid-cols-1 gap-4 p-5 ${
+          compact
+            ? ""
+            : "md:grid-cols-2 lg:grid-cols-3 lg:gap-6 lg:p-6 3xl:gap-8 3xl:p-8"
         } ${scrollable ? "hide-scroll overflow-auto" : ""}`}
       >
         {displayQuests.map((quest) => {
@@ -108,9 +110,9 @@ const QuestList = ({
 
           return (
             <QuestItem
-              key={quest.quest_id}
-              id={quest.quest_id}
               title={quest.name}
+              id={quest.quest_id}
+              key={quest.quest_id}
               categoryId={categoryId}
               due_date={quest.due_date}
               tasks={quest.tasks || []}

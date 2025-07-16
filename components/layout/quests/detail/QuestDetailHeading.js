@@ -16,7 +16,9 @@ const QuestDetailHeading = ({
 
   return (
     <div className="space-y-2.5">
-      <h2 className="font-work-sans text-4xl font-bold">{title}</h2>
+      <h2 className="font-work-sans text-3xl font-bold 3xl:text-4xl">
+        {title}
+      </h2>
 
       <div className="flex gap-2">
         {due_date && (

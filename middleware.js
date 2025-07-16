@@ -23,7 +23,6 @@ const PUBLIC_AUTH_ROUTES = ["/login", "/sign-up", "/login/admin", "/invite"];
 
 // Main middleware handler
 export async function middleware(request) {
-  console.log("Middleware called");
   const url = new URL(request.url);
   const pathname = url.pathname;
 

@@ -73,7 +73,10 @@ const LogoutBtn = () => {
       isLoading={isLoggingOut}
       className="h-5 w-5 min-w-0 bg-transparent p-0"
     >
-      <LogOutIcon size={16} className="text-white hover:text-red-300" />
+      <LogOutIcon
+        size={16}
+        className="3xl:h-4 3xl:w-4 h-3 w-3 text-white hover:text-red-300"
+      />
     </Button>
   );
 };
