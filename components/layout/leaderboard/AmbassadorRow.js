@@ -9,15 +9,12 @@ import {
   AvatarWithRole,
   RankChangeIndicator,
 } from "./AmbassadorUI";
-import { getContactInfo } from "./leaderboardUtils";
 
 const AmbassadorRow = ({
   ambassador,
   leaderboardType,
   isCurrentUser = false,
 }) => {
-  const contactInfo = getContactInfo(ambassador);
-
   return (
     <div
       className={`flex items-center justify-between rounded-2xl p-3 transition-all duration-200 hover:bg-gray-700/50 md:p-4 ${
@@ -34,11 +31,7 @@ const AmbassadorRow = ({
         <div className="flex w-40 min-w-0 flex-shrink-0 items-center gap-2 sm:w-60 md:w-80 md:gap-4">
           <AvatarWithRole ambassador={ambassador} />
 
-          <UserInfo
-            ambassador={ambassador}
-            isCurrentUser={isCurrentUser}
-            contactInfo={contactInfo}
-          />
+          <UserInfo ambassador={ambassador} isCurrentUser={isCurrentUser} />
         </div>
 
         <RoleSection

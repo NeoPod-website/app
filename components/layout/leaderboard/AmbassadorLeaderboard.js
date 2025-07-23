@@ -2,8 +2,8 @@
 
 import React from "react";
 
-import TableHeader from "@/components/layout/leaderboard/TableHeader";
-import AmbassadorRow from "@/components/layout/leaderboard/AmbassadorRow";
+import TableHeader from "./TableHeader";
+import AmbassadorRow from "./AmbassadorRow";
 
 const CurrentUserSection = ({ currentUser, leaderboardType }) => {
   if (!currentUser) return null;

@@ -1,10 +1,42 @@
-import shortAddress from "@/utils/shortAddress";
+import Image from "next/image";
 
 export const roleIcons = {
-  architect: "🏗️",
-  sentinel: "🛡️",
-  operator: "⚡",
-  initiate: "🌟",
+  architect: (
+    <Image
+      src="/ambassadors/architect.png"
+      alt="Architect"
+      width={24}
+      height={24}
+      className="rounded-full"
+    />
+  ),
+  sentinel: (
+    <Image
+      src="/ambassadors/sentinel.png"
+      alt="Sentinel"
+      width={24}
+      height={24}
+      className="rounded-full"
+    />
+  ),
+  operator: (
+    <Image
+      src="/ambassadors/operator.png"
+      alt="Operator"
+      width={24}
+      height={24}
+      className="rounded-full"
+    />
+  ),
+  initiate: (
+    <Image
+      src="/ambassadors/initiate.png"
+      alt="Initiate"
+      width={24}
+      height={24}
+      className="rounded-full"
+    />
+  ),
 };
 
 export const getRoleGradient = (role) => {
@@ -36,27 +68,4 @@ export const formatTimeAgo = (timestamp) => {
   if (diffInDays < 7) return `${diffInDays}d ago`;
 
   return `${Math.floor(diffInDays / 7)}w ago`;
-};
-
-export const getContactInfo = (ambassador) => {
-  if (ambassador.email && ambassador.wallet_address) {
-    return {
-      primary: ambassador.email,
-      secondary: shortAddress(ambassador.wallet_address),
-      hasMultiple: true,
-    };
-  } else if (ambassador.email) {
-    return {
-      primary: ambassador.email,
-      secondary: null,
-      hasMultiple: false,
-    };
-  } else if (ambassador.wallet_address) {
-    return {
-      primary: shortAddress(ambassador.wallet_address),
-      secondary: null,
-      hasMultiple: false,
-    };
-  }
-  return { primary: "No contact info", secondary: null, hasMultiple: false };
 };

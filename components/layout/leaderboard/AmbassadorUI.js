@@ -1,8 +1,8 @@
 import React from "react";
+import Image from "next/image";
 import { Trophy, TrendingUp, TrendingDown, Minus } from "lucide-react";
 
-import { formatTimeAgo, roleIcons } from "./leaderboardUtils";
-import Image from "next/image";
+import { getRoleGradient, roleIcons } from "./leaderboardUtils";
 
 export const RankBadge = ({ rank }) => {
   if (rank <= 3) {
@@ -27,7 +27,7 @@ export const AvatarWithRole = ({ ambassador }) => (
       width={48}
       height={48}
       alt={ambassador.username}
-      src={"/neo-pod-logo.png"}
+      src={ambassador.profile_photo || "/dashboard/profile/default-profile.png"}
       className="h-10 w-10 rounded-full object-cover md:h-12 md:w-12"
     />
 
@@ -37,7 +37,7 @@ export const AvatarWithRole = ({ ambassador }) => (
   </div>
 );
 
-export const UserInfo = ({ ambassador, isCurrentUser, contactInfo }) => (
+export const UserInfo = ({ ambassador, isCurrentUser }) => (
   <div className="min-w-0 flex-1">
     <div className="flex items-center gap-1 md:gap-2">
       <h3 className="truncate text-sm font-semibold text-gray-100 md:text-base">
@@ -48,18 +48,6 @@ export const UserInfo = ({ ambassador, isCurrentUser, contactInfo }) => (
         <span className="text-blue border-blue/30 rounded-full border bg-blue/20 px-1.5 py-0.5 text-xs font-medium md:px-2 md:py-1">
           You
         </span>
-      )}
-    </div>
-
-    <div className="flex flex-col">
-      <p className="truncate text-xs text-gray-300 md:text-sm">
-        {contactInfo.primary}
-      </p>
-
-      {contactInfo.hasMultiple && (
-        <p className="truncate text-xs text-gray-400">
-          {contactInfo.secondary}
-        </p>
       )}
     </div>
   </div>
@@ -75,7 +63,7 @@ export const RoleSection = ({ ambassador, leaderboardType }) => {
           {ambassador.role_type}
         </span>
 
-        <div className="mt-1 text-xs text-gray-400">
+        <div className="mt-1 text-xs text-gray-200">
           {ambassador.quest_count} quests
         </div>
       </div>
@@ -88,22 +76,65 @@ export const RoleSection = ({ ambassador, leaderboardType }) => {
         {ambassador.quest_count}
       </div>
 
-      <div className="text-xs text-gray-400">quests</div>
+      <div className="text-xs text-gray-200">quests</div>
     </div>
   );
 };
 
-export const PointsSection = ({ ambassador }) => (
-  <div className="w-20 flex-shrink-0 text-right sm:w-24 md:w-28 lg:w-32">
-    <div className="text-sm font-bold text-gray-100 md:text-lg">
-      {ambassador.points.toLocaleString()}
-    </div>
+export const PointsSection = ({ ambassador }) => {
+  const formatLastActivity = (lastActivity) => {
+    if (!lastActivity || lastActivity === "1970-01-01T00:00:00.000Z") {
+      return "No activity";
+    }
 
-    <div className="text-xs text-gray-400">
-      {formatTimeAgo(ambassador.last_activity)}
+    try {
+      const activityDate = new Date(lastActivity);
+      const now = new Date();
+
+      if (isNaN(activityDate.getTime())) {
+        return "No activity";
+      }
+
+      if (activityDate.getTime() === 0) {
+        return "No activity";
+      }
+
+      const diffInMs = now - activityDate;
+      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+      const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+      const diffInWeeks = Math.floor(diffInDays / 7);
+
+      if (diffInDays === 0) {
+        if (diffInHours === 0) {
+          return "Active now";
+        }
+        return `${diffInHours}h ago`;
+      } else if (diffInDays === 1) {
+        return "1 day ago";
+      } else if (diffInDays < 7) {
+        return `${diffInDays} days ago`;
+      } else if (diffInWeeks === 1) {
+        return "1 week ago";
+      } else {
+        return `${diffInWeeks} weeks ago`;
+      }
+    } catch (error) {
+      return "No activity";
+    }
+  };
+
+  return (
+    <div className="w-20 flex-shrink-0 text-right sm:w-24 md:w-28 lg:w-32">
+      <div className="text-sm font-bold text-gray-100 md:text-lg">
+        {ambassador.points.toLocaleString()}
+      </div>
+
+      <div className="text-xs text-gray-200">
+        {formatLastActivity(ambassador.last_activity)}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export const RankChangeIndicator = ({ change }) => {
   if (change > 0) {
@@ -122,7 +153,7 @@ export const RankChangeIndicator = ({ change }) => {
     );
   } else {
     return (
-      <div className="flex items-center gap-1 text-gray-400">
+      <div className="flex items-center gap-1 text-gray-200">
         <Minus size={12} />
         <span className="text-xs font-medium">0</span>
       </div>
