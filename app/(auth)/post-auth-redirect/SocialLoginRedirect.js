@@ -41,7 +41,7 @@ const SocialLoginRedirect = ({ session }) => {
           }),
         );
 
-        localStorage.setItem("neo-token", token);
+        localStorage.setItem("neo-jwt", token);
         // localStorage.setItem("user", JSON.stringify(data.user));
 
         if (res.ok) {

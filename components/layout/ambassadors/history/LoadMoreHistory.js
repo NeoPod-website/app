@@ -1,15 +1,14 @@
 "use client";
 
+import { Button, addToast } from "@heroui/react";
 import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "@heroui/react";
-import { addToast } from "@heroui/react";
 
 import {
-  initializeHistory,
-  appendHistory,
-  setHistoryLoading,
   setError,
+  appendHistory,
+  initializeHistory,
+  setHistoryLoading,
 } from "@/redux/slice/historySlice";
 
 import HistoryItemCard from "@/components/layout/ambassadors/history/HistoryItemCard";
@@ -54,11 +53,13 @@ const HistorySection = ({ initialHistory, initialLastKey, initialHasMore }) => {
 
           if (response.ok) {
             const questData = await response.json();
+
             return {
               quest_id: questId,
               quest_data: questData.data?.quest || null,
             };
           }
+
           return { quest_id: questId, quest_data: null };
         } catch (error) {
           console.error(`Error fetching quest ${questId}:`, error);
