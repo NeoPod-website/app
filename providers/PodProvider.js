@@ -16,7 +16,7 @@ const PodProvider = ({ children }) => {
       if (currentPod) {
         if (pathname.includes("/view/quests")) {
           router.push(`/view/quests/${currentPod}`);
-        } else {
+        } else if (pathname.includes("/admin/manage/categories")) {
           router.push(`/admin/manage/categories/${currentPod}`);
         }
       } else {

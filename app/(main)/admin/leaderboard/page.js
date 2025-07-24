@@ -1,4 +1,4 @@
-import React from "react";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "All-Time Leaderboard | Admin Panel | NeoPod",
@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 const AdminLeaderboardPage = () => {
-  return <div>AdminLeaderboardPage</div>;
+  redirect("/admin/leaderboard/all-time");
 };
 
 export default AdminLeaderboardPage;

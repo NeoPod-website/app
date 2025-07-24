@@ -1,13 +1,12 @@
 "use client";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToast, Select, SelectItem } from "@heroui/react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { languages } from "@/data/langData";
 
-import { useSelector } from "react-redux";
 import { setCurrentPod, setPods } from "@/redux/slice/podsSlice";
 
 const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
@@ -36,6 +35,8 @@ const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
         router.push(`/admin/manage/quests/${selectedPodId}`);
       } else if (pathname.includes("/view/quests")) {
         router.push(`/view/quests/${selectedPodId}`);
+      } else if (pathname.includes("/admin/leaderboard")) {
+        router.push(`/admin/leaderboard/initiate/${selectedPodId}`);
       }
     },
     [pathname],

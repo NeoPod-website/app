@@ -1,34 +1,35 @@
 import React from "react";
 import { notFound } from "next/navigation";
 
-const VALID_ROLES = ["operator", "sentinel", "architect"];
+import PodProvider from "@/providers/PodProvider";
+import LeaderboardContainerLoader from "@/components/ui/loader/leaderboard/LeaderboardContainerLoader";
 
-export async function generateMetadata({ params }) {
+export const metadata = {
+  title: "Admin Leaderboard | NeoPod",
+  description:
+    "View and manage leaderboards across all pods. Monitor ambassador performance and rankings.",
+};
+
+const AdminLeaderboardPage = async ({ params }) => {
   const { role } = await params;
 
-  if (!VALID_ROLES.includes(role)) {
-    return {
-      title: "Not Found | Admin Panel | NeoPod",
-      description: "The leaderboard you're looking for does not exist.",
-    };
-  }
+  const validRoles = [
+    "initiate",
+    "operator",
+    "sentinel",
+    "architect",
+    "all-time",
+  ];
 
-  const capitalizedRole = role.charAt(0).toUpperCase() + role.slice(1);
-
-  return {
-    title: `${capitalizedRole} Leaderboard | Admin Panel | NeoPod`,
-    description: `View top-performing ambassadors in the ${capitalizedRole} role. Track progress, contributions, and rankings for this ambassador role within the NeoPod community.`,
-  };
-}
-
-const LeaderboardPageByRole = async ({ params }) => {
-  const { role } = await params;
-
-  if (!VALID_ROLES.includes(role)) {
+  if (!validRoles.includes(role)) {
     notFound();
   }
 
-  return <div>LeaderboardPage for {role}</div>;
+  return (
+    <PodProvider role={role}>
+      <LeaderboardContainerLoader role={role} />
+    </PodProvider>
+  );
 };
 
-export default LeaderboardPageByRole;
+export default AdminLeaderboardPage;
