@@ -10,19 +10,19 @@ import DiscordIcon from "@/components/ui/socialIcons/DiscordIcon";
 const socialLogos = [
   {
     name: "X Logo",
-    href: "https://www.x.com/",
+    href: "https://x.com/Neo_Blockchain",
     Icon: XIcon,
   },
 
   {
     name: "Discord Logo",
-    href: "https://www.discord.com/",
+    href: "https://discord.com/invite/neosmarteconomy",
     Icon: DiscordIcon,
   },
 
   {
     name: "Medium Logo",
-    href: "https://www.medium.com/",
+    href: "https://neo-blockchain.medium.com",
     Icon: MediumIcon,
   },
 
