@@ -158,7 +158,7 @@ const HighlightedSubmissionsContainer = ({
   }, [isLoading, hasMore, lastKey, submissions, enrichWithQuestData]);
 
   return (
-    <div className="flex flex-1 flex-col gap-4 overflow-hidden">
+    <div className="flex flex-1 flex-col gap-4 overflow-y-scroll scrollbar-hide md:overflow-hidden">
       <HighlightedSubmissionsHeader stats={stats} hasMore={hasMore} />
 
       <HighlightedSubmissionsList

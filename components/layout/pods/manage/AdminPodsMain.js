@@ -23,9 +23,9 @@ const AdminPodMain = ({ isNew = false, initialPod = {}, id = "" }) => {
   const initialData = useMemo(() => {
     const {
       name = DEFAULT_POD_DATA.name,
-      cover_photo = DEFAULT_POD_DATA.cover_photo,
-      language = DEFAULT_POD_DATA.language,
       status = DEFAULT_POD_DATA.status,
+      language = DEFAULT_POD_DATA.language,
+      cover_photo = DEFAULT_POD_DATA.cover_photo,
       description = DEFAULT_POD_DATA.description,
       admin_usernames = DEFAULT_POD_DATA.admin_usernames,
     } = initialPod;

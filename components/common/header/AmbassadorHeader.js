@@ -41,7 +41,7 @@ const AmbassadorHeader = async () => {
 
   return (
     <>
-      <div className="flex h-fit w-fit items-center gap-3 text-nowrap rounded-full border-t border-gray-400 bg-gradient-dark px-3 py-2 3xl:px-4 3xl:py-2.5">
+      <div className="hidden h-fit w-fit items-center gap-3 text-nowrap rounded-full border-t border-gray-400 bg-gradient-dark px-3 py-2 md:flex 3xl:px-4 3xl:py-2.5">
         <TrophyIcon
           size={20}
           className="h-4 w-4 text-sm text-yellow-500 3xl:h-5 3xl:w-5"
@@ -53,7 +53,7 @@ const AmbassadorHeader = async () => {
         </div>
       </div>
 
-      <div className="flex h-fit w-fit items-center gap-3 text-nowrap rounded-full border-t border-gray-400 bg-gradient-dark px-3 py-2 3xl:px-4 3xl:py-2.5">
+      <div className="hidden h-fit w-fit items-center gap-3 text-nowrap rounded-full border-t border-gray-400 bg-gradient-dark px-3 py-2 sm:flex 3xl:px-4 3xl:py-2.5">
         <StarIcon
           size={20}
           className="h-4 w-4 text-yellow-500 3xl:h-5 3xl:w-5"

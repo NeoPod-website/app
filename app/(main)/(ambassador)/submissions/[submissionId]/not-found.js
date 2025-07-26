@@ -24,7 +24,7 @@ const SubmissionNotFound = () => {
 
         <WrapperContainer
           scrollable
-          className="items-center justify-center space-y-6 p-10"
+          className="items-center justify-center space-y-6 p-6 3xl:p-10"
         >
           <div className="space-y-4 text-center">
             <h1 className="text-3xl font-bold text-white">

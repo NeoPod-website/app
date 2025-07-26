@@ -75,7 +75,7 @@ const AdminCategoryMain = ({
 
   return (
     <section className="flex flex-1 gap-4 overflow-hidden">
-      <WrapperContainer scrollable className="space-y-10 p-10">
+      <WrapperContainer scrollable className="space-y-10 p-6 3xl:p-10">
         {FormComponent}
       </WrapperContainer>
 

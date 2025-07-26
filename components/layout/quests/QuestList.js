@@ -6,8 +6,8 @@ import QuestItem from "./QuestItem";
 import { processQuestsAvailability } from "@/utils/questAvailabilityFilter";
 
 const NoQuestsAvailable = ({ showAll, onToggleShowAll }) => (
-  <div className="flex min-h-48 flex-1 flex-col items-center justify-center gap-4 rounded-lg p-8 text-center">
-    <div className="space-y-1 3xl:space-y-2">
+  <div className="flex min-h-48 flex-1 flex-col items-center justify-center gap-6 rounded-lg p-8 text-center lg:gap-4">
+    <div className="space-y-2 lg:space-y-1 3xl:space-y-2">
       <p className="text-lg font-bold text-white 3xl:text-xl">
         {showAll ? "No quests in this category" : "No available quests"}
       </p>

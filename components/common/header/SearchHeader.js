@@ -10,7 +10,7 @@ const SearchHeader = () => {
       size="lg"
       type="search"
       placeholder="Search tasks here..."
-      className="min-w-80 max-w-lg bg-gradient-dark"
+      className="hidden min-w-80 max-w-lg bg-gradient-dark sm:block"
       classNames={{
         base: "max-w-lg rounded-full",
         inputWrapper:

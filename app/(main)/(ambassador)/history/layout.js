@@ -11,8 +11,13 @@ export const metadata = {
 const HistoryLayout = async ({ highlighted, history, taskAmount }) => {
   return (
     <div className="flex h-full flex-1 gap-4 overflow-hidden">
-      <WrapperContainer scrollable className="flex-[2] space-y-6 p-10">
-        <h2 className="font-work-sans text-4xl font-bold">History</h2>
+      <WrapperContainer
+        scrollable
+        className="flex-[2] space-y-6 p-3 md:p-4 lg:p-6 3xl:p-10"
+      >
+        <h2 className="font-work-sans text-2xl font-bold xl:text-3xl 3xl:text-4xl">
+          History
+        </h2>
 
         <section className="flex flex-1 flex-col space-y-4 overflow-hidden">
           {taskAmount}

@@ -13,7 +13,11 @@ import {
 
 import HistoryItemCard from "@/components/layout/ambassadors/history/HistoryItemCard";
 
-const HistorySection = ({ initialHistory, initialLastKey, initialHasMore }) => {
+const LoadMoreHistory = ({
+  initialHistory,
+  initialLastKey,
+  initialHasMore,
+}) => {
   const dispatch = useDispatch();
 
   const { history, historyLastKey, historyHasMore, historyLoading } =
@@ -171,7 +175,7 @@ const HistorySection = ({ initialHistory, initialLastKey, initialHasMore }) => {
   ]);
 
   return (
-    <div className="flex flex-1 flex-col space-y-4 overflow-y-auto scrollbar-hide">
+    <div className="flex flex-1 flex-col justify-between space-y-3 overflow-y-auto scrollbar-hide 3xl:space-y-4">
       {history.map((submission) => (
         <HistoryItemCard
           key={submission.submission_id}
@@ -179,26 +183,30 @@ const HistorySection = ({ initialHistory, initialLastKey, initialHasMore }) => {
         />
       ))}
 
-      {historyHasMore && (
-        <div className="flex justify-center py-4">
-          <Button
-            onPress={loadMoreHistory}
-            disabled={historyLoading}
-            variant="ghost"
-            className="px-8 py-3 text-white hover:bg-gray-700"
-          >
-            {historyLoading ? "Loading..." : "Load More"}
-          </Button>
-        </div>
-      )}
+      <div>
+        {historyHasMore && (
+          <div className="flex justify-center py-4">
+            <Button
+              onPress={loadMoreHistory}
+              disabled={historyLoading}
+              variant="ghost"
+              className="px-8 py-3 text-white hover:bg-gray-700"
+            >
+              {historyLoading ? "Loading..." : "Load More"}
+            </Button>
+          </div>
+        )}
 
-      {!historyHasMore && history.length > 0 && (
-        <div className="py-4 text-center">
-          <p className="text-gray-400">You've reached the end</p>
-        </div>
-      )}
+        {!historyHasMore && history.length > 0 && (
+          <div className="py-4 text-center">
+            <p className="text-sm text-gray-300 3xl:text-base">
+              You've reached the end
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default HistorySection;
+export default LoadMoreHistory;

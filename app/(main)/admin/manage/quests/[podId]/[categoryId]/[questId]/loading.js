@@ -13,7 +13,7 @@ const QuestDetailsLoading = () => {
       <div className="flex max-w-7xl flex-1 flex-col gap-2 overflow-hidden">
         <AdminDetailMainHeaderLoader />
 
-        <WrapperContainer scrollable className="space-y-2 p-10">
+        <WrapperContainer scrollable className="space-y-2 p-6 3xl:p-10">
           <AdminDetailDescriptionContainerLoader />
         </WrapperContainer>
       </div>

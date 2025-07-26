@@ -252,7 +252,7 @@ const AdminEditPod = ({
   );
 
   return (
-    <WrapperContainer scrollable className="space-y-10 p-10">
+    <WrapperContainer scrollable className="space-y-10 p-6 3xl:p-10">
       <PodForm {...formProps} />
     </WrapperContainer>
   );

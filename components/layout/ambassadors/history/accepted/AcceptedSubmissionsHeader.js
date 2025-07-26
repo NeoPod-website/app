@@ -9,27 +9,23 @@ import React from "react";
 import Link from "next/link";
 
 const StatsCard = ({
-  icon: Icon,
   label,
   value,
+  icon: Icon,
   description,
   color = "text-white",
 }) => (
-  <div className="rounded-xl border border-gray-400 bg-gradient-dark p-4">
-    <div className="flex items-start gap-3">
-      <div className="rounded-full bg-green-500/20 p-2">
-        <Icon size={16} className="text-green-400" />
-      </div>
+  <div className="flex items-start gap-3 rounded-xl border border-gray-400 bg-gradient-dark p-4">
+    <div className="rounded-full bg-green-500/20 p-2">
+      <Icon size={16} className="text-green-400" />
+    </div>
+
+    <div>
+      <p className="text-sm text-gray-300">{label}</p>
 
       <div>
-        <p className="text-sm text-gray-300">{label}</p>
-
-        <div>
-          <p className={`text-lg font-bold ${color}`}>{value}</p>
-          {description && (
-            <p className="text-xs text-gray-200">{description}</p>
-          )}
-        </div>
+        <p className={`text-lg font-bold ${color}`}>{value}</p>
+        {description && <p className="text-xs text-gray-200">{description}</p>}
       </div>
     </div>
   </div>
@@ -37,20 +33,21 @@ const StatsCard = ({
 
 const AcceptedSubmissionsHeader = ({ stats, hasMore }) => {
   return (
-    <div className="space-y-6 p-8 pb-4">
+    <div className="space-y-4 pb-4 2xl:space-y-6">
       <div className="flex items-center gap-4">
         <Link
           href="/history"
-          className="inline-flex items-center gap-2 text-gray-200 transition-colors hover:text-white"
+          className="hidden items-center gap-2 text-sm text-gray-200 transition-colors hover:text-white md:inline-flex 3xl:text-base"
         >
           <ArrowLeftIcon size={16} />
           Back to History
         </Link>
 
-        <div className="h-6 w-px bg-gray-400"></div>
+        <div className="hidden h-6 w-px bg-gray-400 md:inline-flex" />
 
         <div className="flex items-center gap-2">
           <CheckCircleIcon size={20} className="text-green-400" />
+
           <h1 className="text-2xl font-bold text-white">
             Accepted Submissions
           </h1>

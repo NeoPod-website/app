@@ -4,7 +4,7 @@ import WrapperContainer from "@/components/common/WrapperContainer";
 
 const QuestDetailLoader = () => {
   return (
-    <WrapperContainer scrollable className="max-w-4.5xl flex-[2] p-10">
+    <WrapperContainer scrollable className="max-w-4.5xl flex-[2] p-6 3xl:p-10">
       <div className="hide-scroll flex-1 space-y-9 overflow-y-auto">
         <div className="space-y-2.5">
           <div className="h-10 w-3/4 animate-pulse rounded-lg bg-gray-600" />

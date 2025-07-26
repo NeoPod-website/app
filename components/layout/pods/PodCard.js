@@ -106,6 +106,7 @@ const PodCard = ({ pod, isPreview = false }) => {
           <p>
             👤 Created by: {pod.created_by || pod.admin_username || "Admin"}
           </p>
+
           <p>📅 {formattedDate || "Not created yet"}</p>
         </div>
 
@@ -116,6 +117,7 @@ const PodCard = ({ pod, isPreview = false }) => {
               podId={pod.pod_id}
               cover_photo={pod.original_cover_photo}
             />
+
             <EditPodButton podId={pod.pod_id} />
           </div>
         )}

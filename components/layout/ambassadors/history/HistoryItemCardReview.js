@@ -45,7 +45,7 @@ const HistoryItemCardReview = ({
     </div>
   ) : (
     <div className="mb-4 rounded-xl border border-gray-400/30 bg-gray-800/20 p-4">
-      <div className="flex items-center gap-2 text-gray-500">
+      <div className="flex items-center gap-2 text-gray-300">
         <MessageSquareIcon size={14} />
 
         <span className="text-sm italic">No review comment available</span>

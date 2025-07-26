@@ -33,17 +33,17 @@ const StatsCard = ({
 
 const HighlightedSubmissionsHeader = ({ stats, hasMore }) => {
   return (
-    <div className="space-y-6 p-8 pb-4">
+    <div className="space-y-4 pb-4 2xl:space-y-6">
       <div className="flex items-center gap-4">
         <Link
           href="/history"
-          className="inline-flex items-center gap-2 text-gray-200 transition-colors hover:text-white"
+          className="hidden items-center gap-2 text-sm text-gray-200 transition-colors hover:text-white md:inline-flex 3xl:text-base"
         >
           <ArrowLeftIcon size={16} />
           Back to History
         </Link>
 
-        <div className="h-6 w-px bg-gray-400"></div>
+        <div className="hidden h-6 w-px bg-gray-400 md:inline-flex" />
 
         <div className="flex items-center gap-2">
           <StarIcon size={20} className="text-yellow-400" />

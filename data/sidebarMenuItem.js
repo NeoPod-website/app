@@ -1,27 +1,30 @@
 import {
   BellIcon,
-  BookCheck,
   UsersIcon,
   InboxIcon,
   MedalIcon,
   TrophyIcon,
   ShapesIcon,
+  CircleXIcon,
   PackageIcon,
   HistoryIcon,
   SettingsIcon,
+  SparklesIcon,
   ChartAreaIcon,
+  BookCheckIcon,
   ShieldUserIcon,
   LockKeyholeIcon,
   LayoutDashboard,
   FolderKanbanIcon,
   ClipboardListIcon,
+  CircleCheckBigIcon,
   ChartNoAxesCombined,
 } from "lucide-react";
 
 const ambassadorMenuItems = [
   {
     name: "Quest Center",
-    icon: <BookCheck size={20} className="h-4 w-4 3xl:h-5 3xl:w-5" />,
+    icon: <BookCheckIcon size={20} className="h-4 w-4 3xl:h-5 3xl:w-5" />,
     href: "/quests",
   },
 
@@ -51,14 +54,40 @@ const ambassadorMenuItems = [
 
   {
     name: "Submissions",
-    icon: <BookCheck size={20} className="h-4 w-4 3xl:h-5 3xl:w-5" />,
+    icon: <BookCheckIcon size={20} className="h-4 w-4 3xl:h-5 3xl:w-5" />,
     href: "/submissions",
   },
 
   {
     name: "History",
     icon: <HistoryIcon size={20} className="h-4 w-4 3xl:h-5 3xl:w-5" />,
-    href: "/history",
+    children: [
+      {
+        name: "History",
+        icon: <HistoryIcon size={20} className="h-4 w-4 3xl:h-5 3xl:w-5" />,
+        href: "/history",
+      },
+
+      {
+        name: "Approved",
+        icon: (
+          <CircleCheckBigIcon size={20} className="h-4 w-4 3xl:h-5 3xl:w-5" />
+        ),
+        href: "/submissions/approved",
+      },
+
+      {
+        name: "Rejected",
+        icon: <CircleXIcon size={20} className="h-4 w-4 3xl:h-5 3xl:w-5" />,
+        href: "/submissions/rejected",
+      },
+
+      {
+        name: "Highlighted",
+        icon: <SparklesIcon size={20} className="h-4 w-4 3xl:h-5 3xl:w-5" />,
+        href: "/submissions/highlighted",
+      },
+    ],
   },
 
   {

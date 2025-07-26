@@ -54,59 +54,61 @@ const HistoryNumberCard = ({
 
   return (
     <div
-      className={`group relative flex-1 overflow-hidden rounded-2xl border bg-gradient-dark p-6 shadow-lg shadow-black/20 transition-all duration-200 hover:shadow-xl hover:shadow-black/30 ${colorClasses.border}`}
+      className={`group relative flex-1 overflow-hidden rounded-2xl border bg-gradient-dark p-4 shadow-lg shadow-black/20 transition-all duration-200 hover:shadow-xl hover:shadow-black/30 3xl:p-6 ${colorClasses.border}`}
     >
       <div
         className={`absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100 ${colorClasses.bg}`}
       ></div>
 
-      <div className="relative flex items-start justify-between">
-        <div className="space-y-3">
-          <div className="space-y-1">
-            <div className="flex items-baseline gap-1">
-              {isLoading ? (
-                <div className="h-10 w-16 animate-pulse rounded bg-gray-600/50"></div>
-              ) : (
-                <>
-                  <p
-                    className={`text-4xl font-bold transition-colors ${colorClasses.text}`}
-                  >
-                    {count}
-                  </p>
+      <div className="relative space-y-3">
+        <div className="mb-2 flex items-start justify-between">
+          <div className="flex items-baseline gap-1">
+            {isLoading ? (
+              <div className="h-10 w-16 animate-pulse rounded bg-gray-600/50"></div>
+            ) : (
+              <>
+                <p
+                  className={`text-4xl font-bold transition-colors ${colorClasses.text}`}
+                >
+                  {count}
+                </p>
 
-                  {hasMore && (
-                    <span
-                      className={`text-2xl font-bold transition-colors ${colorClasses.text} opacity-70`}
-                      title="There may be more items"
-                    >
-                      +
-                    </span>
-                  )}
-                </>
-              )}
-            </div>
-            {subtitle && <p className="text-sm text-gray-400">{subtitle}</p>}
-            {hasMore && !isLoading && (
-              <p className="text-xs text-gray-500">
-                Showing first {count}, more available
-              </p>
+                {hasMore && (
+                  <span
+                    className={`text-2xl font-bold transition-colors ${colorClasses.text} opacity-70`}
+                    title="There may be more items"
+                  >
+                    +
+                  </span>
+                )}
+              </>
             )}
           </div>
 
-          <h3 className="text-lg font-semibold text-white transition-colors group-hover:text-gray-100">
-            {title}
-          </h3>
+          <Link
+            href={href}
+            className={`rounded-full border p-2.5 transition-all duration-200 3xl:p-3 ${colorClasses.border} ${colorClasses.hover} hover:ring-2 ${colorClasses.ring}`}
+          >
+            <ArrowUpRightIcon
+              size={20}
+              className={`h-4 w-4 transition-colors 3xl:h-5 3xl:w-5 ${colorClasses.text} group-hover:text-white`}
+            />
+          </Link>
         </div>
 
-        <Link
-          href={href}
-          className={`rounded-full border p-3 transition-all duration-200 ${colorClasses.border} ${colorClasses.hover} hover:ring-2 ${colorClasses.ring}`}
-        >
-          <ArrowUpRightIcon
-            size={20}
-            className={`transition-colors ${colorClasses.text} group-hover:text-white`}
-          />
-        </Link>
+        <div className="space-y-1">
+          {subtitle && <p className="text-sm text-gray-400">{subtitle}</p>}
+
+          {hasMore && !isLoading && (
+            <p className="text-xs text-gray-300">
+              Showing first {count}, more available
+            </p>
+          )}
+        </div>
+
+        <h3 className="text-base font-semibold text-white transition-colors group-hover:text-gray-100 lg:text-lg">
+          {title}
+        </h3>
       </div>
 
       <div

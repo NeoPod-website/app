@@ -82,7 +82,7 @@ body {
 }
 
 .sidebar-menu-item {
-  @apply flex items-center justify-center rounded-md bg-transparent px-3 py-2.5 transition-colors hover:bg-gray-500 hover:text-white xl:justify-start;
+  @apply flex items-center justify-start rounded-md bg-transparent px-3 py-2.5 transition-colors hover:bg-gray-500 hover:text-white md:justify-center xl:justify-start;
 }
 
 .neo-button {

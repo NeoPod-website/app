@@ -137,9 +137,11 @@ const HighlightedPage = async () => {
   return (
     <WrapperContainer
       scrollable
-      className="max-w-md flex-1 space-y-6 px-4 py-10"
+      className="hidden min-w-80 max-w-md flex-1 space-y-6 p-3 px-4 md:block md:p-4 lg:p-6 3xl:p-10"
     >
-      <h2 className="font-work-sans text-4xl font-bold">Highlighted</h2>
+      <h2 className="font-work-sans text-3xl font-bold 3xl:text-4xl">
+        Highlighted
+      </h2>
 
       <Suspense>
         <HighlightedSection

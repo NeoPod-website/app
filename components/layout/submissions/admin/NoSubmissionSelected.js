@@ -19,7 +19,7 @@ const NoSubmissionSelected = ({ currentStatus, submissionCount }) => {
   return (
     <WrapperContainer
       scrollable={false}
-      className="flex h-full flex-[2] items-center justify-center overflow-y-auto p-8 scrollbar-hide"
+      className="flex h-full flex-[2] items-center justify-center overflow-y-auto p-5 scrollbar-hide 3xl:p-8"
     >
       <div className="max-w-md text-center text-gray-400">
         <div className="mx-auto mb-6 w-fit rounded-full border border-gray-400 bg-gradient-dark p-6">

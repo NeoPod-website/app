@@ -9,7 +9,7 @@ import HistoryItemCard from "@/components/layout/ambassadors/history/HistoryItem
 import SubmissionsLoadMoreBtn from "@/components/ui/buttons/submissions/SubmissionsLoadMoreBtn";
 
 const ImprovementTips = () => (
-  <div className="rounded-2xl border border-yellow-500/30 bg-yellow-500/5 p-6">
+  <div className="hidden rounded-2xl border border-yellow-500/30 bg-yellow-500/5 p-6 sm:block">
     <div className="mb-4 flex items-center gap-2">
       <BookOpenIcon size={20} className="text-yellow-400" />
       <h3 className="text-lg font-bold text-yellow-300">Improvement Tips</h3>
@@ -94,15 +94,15 @@ const RejectedSubmissionsList = ({
   submissions,
 }) => {
   return (
-    <WrapperContainer className="flex flex-1 flex-col space-y-6 overflow-y-auto p-8 scrollbar-hide">
+    <WrapperContainer className="flex flex-1 flex-col px-2 py-4 scrollbar-hide sm:space-y-6 md:overflow-y-auto md:p-5 3xl:p-8">
       <ImprovementTips />
 
-      <div className="flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-center sm:justify-between">
         <h2 className="text-lg font-bold text-white">
           All Rejected Submissions ({submissions.length})
         </h2>
 
-        <div className="flex items-center gap-2 text-sm text-gray-200">
+        <div className="hidden items-center gap-2 text-sm text-gray-400 sm:flex">
           <FilterIcon size={14} />
           <span>Showing rejected submissions</span>
         </div>

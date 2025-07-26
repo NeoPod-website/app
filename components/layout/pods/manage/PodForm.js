@@ -132,9 +132,9 @@ const PodForm = ({
             as={Link}
             size="lg"
             radius="full"
+            disabled={isSubmitting}
             href="/admin/manage/pods"
             className="neo-button border border-red-500 bg-red-500/20"
-            disabled={isSubmitting}
           >
             Cancel
           </Button>
@@ -143,10 +143,10 @@ const PodForm = ({
             size="lg"
             type="submit"
             radius="full"
-            className="neo-button border border-white bg-gradient-primary"
-            endContent={<SendHorizontalIcon size={16} />}
             disabled={isSubmitting}
             isLoading={isSubmitting}
+            endContent={<SendHorizontalIcon size={16} />}
+            className="neo-button border border-white bg-gradient-primary"
           >
             {submitButtonText}
           </Button>

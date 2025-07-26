@@ -13,8 +13,11 @@ import HistoryItemCardReview from "./HistoryItemCardReview";
 
 const getTimeAgo = (timestamp) => {
   const now = new Date();
+
   const submittedDate = new Date(timestamp);
+
   const diffInMs = now.getTime() - submittedDate.getTime();
+
   const diffInSeconds = Math.floor(diffInMs / 1000);
   const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
   const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
@@ -48,6 +51,7 @@ const getStatusConfig = (status) => {
         borderClass: "border-green-500/30",
         bgClass: "bg-green-500/5",
       };
+
     case "rejected":
       return {
         icon: XCircleIcon,
@@ -56,6 +60,7 @@ const getStatusConfig = (status) => {
         borderClass: "border-red-500/30",
         bgClass: "bg-red-500/5",
       };
+
     case "highlighted":
       return {
         icon: StarIcon,
@@ -64,6 +69,7 @@ const getStatusConfig = (status) => {
         borderClass: "border-yellow-500/30",
         bgClass: "bg-yellow-500/5",
       };
+
     default:
       return {
         icon: ClockIcon,
@@ -94,7 +100,7 @@ const HistoryItemCard = ({ submission, maxCommentLength = 200 }) => {
 
   return (
     <div
-      className={`group relative rounded-2xl border bg-gradient-dark p-6 shadow-lg shadow-black/20 transition-all duration-200 ${statusConfig.borderClass}`}
+      className={`group relative rounded-2xl border bg-gradient-dark p-4 shadow-lg shadow-black/20 transition-all duration-200 3xl:p-6 ${statusConfig.borderClass}`}
     >
       <div className="mb-4 flex items-start justify-between">
         <div className="space-y-2">
@@ -103,7 +109,7 @@ const HistoryItemCard = ({ submission, maxCommentLength = 200 }) => {
             <span>{getTimeAgo(submission.submitted_at)}</span>
           </div>
 
-          <h3 className="text-lg font-bold text-white transition-colors group-hover:text-gray-100">
+          <h3 className="text-base font-bold text-white transition-colors group-hover:text-gray-100 lg:text-lg">
             {submission.quest_name}
           </h3>
         </div>
@@ -130,14 +136,14 @@ const HistoryItemCard = ({ submission, maxCommentLength = 200 }) => {
             </div>
           )}
 
-          <span className="font-mono text-xs">
+          <span className="hidden font-mono text-xs xl:block">
             ID: {submission.submission_id}
           </span>
         </div>
 
         <Link
           href={`/submissions/${submission.submission_id}`}
-          className="inline-flex items-center gap-2 text-nowrap rounded-lg bg-gray-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-700 group-hover:bg-gray-700"
+          className="inline-flex items-center gap-2 text-nowrap rounded-lg bg-gray-600 px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-gray-700 group-hover:bg-gray-700 2xl:text-sm"
         >
           <span>View Details</span>
           <ArrowRightIcon size={14} />

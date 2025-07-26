@@ -17,26 +17,26 @@ const TaskAmount = () => {
   const highlightedCount = highlighted.length;
 
   return (
-    <div className="flex gap-4">
+    <div className="hidden gap-4 lg:flex">
       <HistoryNumberCard
-        title="Total Approved Task"
         count={approvedCount}
-        href="/submissions/approved"
         color="text-green-500"
+        title="Approved Task"
+        href="/submissions/approved"
       />
 
       <HistoryNumberCard
-        title="Total Rejected Task"
-        count={rejectedCount}
-        href="/submissions/rejected"
         color="text-red-500"
+        count={rejectedCount}
+        title="Rejected Task"
+        href="/submissions/rejected"
       />
 
       <HistoryNumberCard
-        title="Total Highlighted Task"
-        count={highlightedCount}
-        href="/submissions/highlighted"
         color="text-yellow-500"
+        count={highlightedCount}
+        title="Highlighted Task"
+        href="/submissions/highlighted"
       />
     </div>
   );

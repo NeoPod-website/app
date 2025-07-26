@@ -9,7 +9,7 @@ import HistoryItemCard from "@/components/layout/ambassadors/history/HistoryItem
 import SubmissionsLoadMoreBtn from "@/components/ui/buttons/submissions/SubmissionsLoadMoreBtn";
 
 const SuccessBanner = () => (
-  <div className="rounded-2xl border border-green-500/30 bg-green-500/5 p-6">
+  <div className="hidden rounded-2xl border border-green-500/30 bg-gradient-to-r from-green-500/10 via-emerald-500/10 p-6 sm:block">
     <div className="mb-4 flex items-center gap-2">
       <TrophyIcon size={20} className="text-green-400" />
       <h3 className="text-lg font-bold text-green-300">Great Work!</h3>
@@ -99,15 +99,15 @@ const AcceptedSubmissionsList = ({
   submissions,
 }) => {
   return (
-    <WrapperContainer className="flex flex-1 flex-col space-y-6 overflow-y-auto p-8 scrollbar-hide">
+    <WrapperContainer className="flex flex-1 flex-col px-2 py-4 scrollbar-hide sm:space-y-6 md:overflow-y-auto md:p-5 3xl:p-8">
       <SuccessBanner />
 
-      <div className="flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-center sm:justify-between">
         <h2 className="text-lg font-bold text-white">
           All Accepted Submissions ({submissions.length})
         </h2>
 
-        <div className="flex items-center gap-2 text-sm text-gray-400">
+        <div className="hidden items-center gap-2 text-sm text-gray-400 sm:flex">
           <FilterIcon size={14} />
           <span>Showing approved submissions</span>
         </div>
@@ -131,7 +131,7 @@ const AcceptedSubmissionsList = ({
           />
 
           {!hasMore && (
-            <div className="flex justify-center text-sm text-gray-400">
+            <div className="mt-4 flex justify-center text-sm text-gray-400 sm:mt-0">
               No more submissions to load.
             </div>
           )}

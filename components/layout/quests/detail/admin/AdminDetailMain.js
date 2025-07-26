@@ -15,7 +15,7 @@ const AdminDetailMain = ({ isNew, podId, categoryId, quest }) => {
         categoryId={categoryId}
       />
 
-      <WrapperContainer scrollable className="space-y-2 p-10">
+      <WrapperContainer scrollable className="space-y-2 p-6 3xl:p-10">
         <AdminDetailDescriptionContainer
           isNew={isNew}
           name={quest?.name}

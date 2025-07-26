@@ -19,4 +19,5 @@ export const languages = [
   { code: "fa", name: "Persian" },
   { code: "uk", name: "Ukrainian" },
   { code: "pl", name: "Polish" },
+  { code: "test", name: "Test POD" },
 ];

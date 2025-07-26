@@ -14,7 +14,7 @@ import HistoryItemCard from "@/components/layout/ambassadors/history/HistoryItem
 import SubmissionsLoadMoreBtn from "@/components/ui/buttons/submissions/SubmissionsLoadMoreBtn";
 
 const ExcellenceBanner = () => (
-  <div className="relative rounded-2xl border border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 via-orange-500/10 to-yellow-500/10 p-6">
+  <div className="relative hidden rounded-2xl border border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 via-orange-500/10 to-yellow-500/10 p-6 sm:block">
     <div className="pointer-events-none absolute inset-0 flex items-start justify-end p-4 opacity-10">
       <SparklesIcon size={60} className="text-yellow-400" />
     </div>
@@ -136,15 +136,15 @@ const HighlightedSubmissionsList = ({
   submissions,
 }) => {
   return (
-    <WrapperContainer className="flex flex-1 flex-col space-y-6 overflow-y-auto p-8 scrollbar-hide">
+    <WrapperContainer className="flex flex-1 flex-col px-2 py-4 scrollbar-hide sm:space-y-6 md:overflow-y-auto md:p-5 3xl:p-8">
       <ExcellenceBanner />
 
-      <div className="flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-center sm:justify-between">
         <h2 className="text-lg font-bold text-white">
           All Highlighted Submissions ({submissions.length})
         </h2>
 
-        <div className="flex items-center gap-2 text-sm text-gray-400">
+        <div className="hidden items-center gap-2 text-sm text-gray-400 sm:flex">
           <FilterIcon size={14} />
           <span>Showing highlighted submissions</span>
         </div>
@@ -168,7 +168,7 @@ const HighlightedSubmissionsList = ({
           />
 
           {!hasMore && (
-            <div className="flex justify-center text-sm text-gray-400">
+            <div className="mt-4 flex justify-center text-sm text-gray-400 sm:mt-0">
               No more submissions to load.
             </div>
           )}

@@ -110,7 +110,7 @@ const SubmissionEditMain = ({ submission, user }) => {
     <div className="flex max-w-7xl flex-1 flex-col gap-2 overflow-hidden">
       <SubmissionEditHeader submission={submission} />
 
-      <WrapperContainer scrollable className="space-y-6 p-10">
+      <WrapperContainer scrollable className="space-y-6 p-6 3xl:p-10">
         <div className="space-y-6 overflow-y-auto scrollbar-hide">
           <h2 className="text-xl font-bold text-white">Quest Tasks</h2>
 

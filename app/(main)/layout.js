@@ -54,7 +54,7 @@ const MainLayout = async ({ children }) => {
       <DashboardSidebar menuItems={menuItems} />
 
       <main className="relative flex flex-1 flex-col overflow-hidden">
-        <DashboardHeader session={user} />
+        <DashboardHeader session={user} menuItems={menuItems} />
 
         {children}
       </main>

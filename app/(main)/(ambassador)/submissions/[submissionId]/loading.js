@@ -38,7 +38,7 @@ const SubmissionDetailLoading = () => {
 
         <WrapperContainer
           scrollable
-          className="space-y-6 overflow-y-auto p-10 scrollbar-hide"
+          className="space-y-6 overflow-y-auto p-6 scrollbar-hide 3xl:p-10"
         >
           <div className="w-40 animate-pulse rounded bg-gray-700 py-4" />
 

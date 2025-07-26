@@ -1,24 +1,12 @@
 import React, { Suspense } from "react";
+
 import SubmissionList from "./SubmissionList";
-import WrapperContainer from "@/components/common/WrapperContainer";
-// import SubmissionListLoader from "@/components/ui/loader/submission/SubmissionListLoader";
 
 // Empty state components
 const EmptyStateMessage = ({ title, description }) => (
   <div className="space-y-2 text-center">
     <p className="text-xl font-bold text-white">{title}</p>
     <p className="text-base text-gray-200">{description}</p>
-  </div>
-);
-
-const SubmissionLoadError = ({ error }) => (
-  <div className="flex min-h-40 flex-1 flex-col items-center justify-center gap-4 rounded-lg border border-red-500/30 bg-red-500/10 p-6">
-    <EmptyStateMessage
-      title="Failed to load submissions"
-      description={
-        error || "An error occurred while loading your pending submissions"
-      }
-    />
   </div>
 );
 

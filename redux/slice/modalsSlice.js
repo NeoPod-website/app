@@ -4,6 +4,7 @@ const initialState = {
   isInboxOpen: false,
   selectedQuest: null,
   deleteModalData: null,
+  isMobileMenuOpen: false,
   isSocialModalOpen: false,
   isAddTasksModalOpen: false,
   isShareQuestModalOpen: false,
@@ -65,12 +66,17 @@ const modalsSlice = createSlice({
       state.isDisconnectedSocialModalOpen =
         !state.isDisconnectedSocialModalOpen;
     },
+
+    toggleMobileMenu: (state) => {
+      state.isMobileMenuOpen = !state.isMobileMenuOpen;
+    },
   },
 });
 
 export const {
   toggleInboxModal,
   setSelectedQuest,
+  toggleMobileMenu,
   toggleSocialModal,
   setDeleteModalData,
   toggleAddTasksModal,

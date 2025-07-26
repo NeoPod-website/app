@@ -42,9 +42,10 @@ const AmbassadorsLayout = async ({ children }) => {
 
   // Render the layout for regular users
   return (
-    <MainPageScroll scrollable={false}>
-      <InboxModal /> {children}
-    </MainPageScroll>
+    <div className="flex flex-1 overflow-hidden">
+      <InboxModal />
+      <MainPageScroll scrollable={false}>{children}</MainPageScroll>
+    </div>
   );
 };
 

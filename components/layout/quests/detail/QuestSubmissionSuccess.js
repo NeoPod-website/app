@@ -19,7 +19,7 @@ const QuestSubmissionSuccess = ({ quest }) => {
   };
 
   return (
-    <WrapperContainer scrollable className="max-w-4.5xl flex-[2] p-10">
+    <WrapperContainer scrollable className="max-w-4.5xl flex-[2] p-6 3xl:p-10">
       <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
         <div className="flex h-20 w-20 items-center justify-center rounded-full border border-green-500/30 bg-green-500/20">
           <CheckCircleIcon size={40} className="text-green-400" />

@@ -153,11 +153,15 @@ export const useSignup = (session, inviteCode) => {
         }
 
         const pods = data.data.pods || [];
-        setAllPods(pods);
+
+        // Filter out test pods for production
+        const filteredPods = pods.filter((pod) => pod.language !== "test");
+
+        setAllPods(filteredPods);
 
         // Set first pod as default if available
-        if (pods.length > 0) {
-          setSelectedPod(new Set([pods[0].pod_id]));
+        if (filteredPods.length > 0) {
+          setSelectedPod(new Set([filteredPods[0].pod_id]));
         }
       } catch (err) {
         addToast({

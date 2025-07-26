@@ -1,6 +1,6 @@
 import React from "react";
 
-const HistoryCardLoader = () => {
+const HistoryItemCardLoader = () => {
   return (
     <div className="group relative rounded-2xl border border-gray-600/30 bg-gradient-dark p-6 shadow-lg shadow-black/20">
       <div className="mb-4 flex items-start justify-between">
@@ -51,4 +51,4 @@ const HistoryCardLoader = () => {
   );
 };
 
-export default HistoryCardLoader;
+export default HistoryItemCardLoader;
