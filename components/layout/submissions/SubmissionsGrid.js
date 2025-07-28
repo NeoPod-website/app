@@ -49,24 +49,26 @@ const SubmissionsGrid = ({
   }
 
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="grid grid-cols-1 gap-6 px-8 pb-4 md:grid-cols-2 lg:grid-cols-3">
-        {submissions.map((submission) => (
-          <SubmissionCard
-            key={submission.submission_id}
-            submission={submission}
-          />
-        ))}
+    <div className="flex flex-1 flex-col justify-between">
+      <div>
+        <div className="grid grid-cols-1 gap-6 pb-4 md:grid-cols-2 lg:grid-cols-3">
+          {submissions.map((submission) => (
+            <SubmissionCard
+              key={submission.submission_id}
+              submission={submission}
+            />
+          ))}
+        </div>
+
+        <LoadMoreSubmissionButton
+          hasMore={hasMore}
+          isLoading={isLoading}
+          onLoadMore={loadMoreSubmissions}
+        />
       </div>
 
-      <LoadMoreSubmissionButton
-        hasMore={hasMore}
-        isLoading={isLoading}
-        onLoadMore={loadMoreSubmissions}
-      />
-
       {!hasMore && (
-        <div className="flex items-center justify-center gap-2 p-4 text-sm text-gray-400">
+        <div className="flex items-center justify-center gap-2 pt-4 text-sm text-gray-400">
           No more submissions to load.
         </div>
       )}

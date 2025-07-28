@@ -162,7 +162,8 @@ const getTimeAgo = (timestamp) => {
 
 const StatusChip = ({ children, variant = "yellow" }) => {
   const variants = {
-    yellow: "bg-yellow-500/20 text-yellow-300 ring-yellow-500/30",
+    yellow:
+      "bg-yellow-500/20 text-yellow-300 ring-yellow-500/30 hidden sm:flex",
     gray: "bg-gray-600 text-gray-200 ring-gray-400",
   };
 
@@ -178,14 +179,11 @@ const StatusChip = ({ children, variant = "yellow" }) => {
 const SubmissionCard = ({ submission }) => {
   const {
     submission_id,
-    pod_id,
     quest_id,
-    pod_name,
     quest_name,
     category_id,
     quest_tasks,
     submitted_at,
-    category_name,
     submission_data,
   } = submission;
 
@@ -193,8 +191,8 @@ const SubmissionCard = ({ submission }) => {
   const timeAgo = getTimeAgo(submitted_at);
 
   return (
-    <div className="group relative flex flex-col rounded-2xl border border-gray-400 bg-gradient-dark p-6 shadow-lg shadow-black/20 transition-all duration-200 hover:border-gray-300 hover:shadow-xl hover:shadow-black/30">
-      <div className="mb-4 flex items-start justify-between">
+    <div className="group relative flex flex-col rounded-2xl border border-gray-400 bg-gradient-dark p-4 shadow-lg shadow-black/20 transition-all duration-200 hover:border-gray-300 hover:shadow-xl hover:shadow-black/30 3xl:p-6">
+      <div className="mb-2 flex items-start justify-between 3xl:mb-4">
         <div className="flex flex-wrap items-center gap-2">
           <StatusChip variant="yellow">
             <ClockIcon size={12} />
@@ -221,14 +219,14 @@ const SubmissionCard = ({ submission }) => {
 
       <Link
         href={`/quests/${category_id}/${quest_id}`}
-        className="group/link mb-4 block w-fit"
+        className="group/link mb-2 block w-fit 3xl:mb-4"
       >
         <h3 className="text-lg font-bold text-white transition-colors group-hover/link:text-gray-100">
           {quest_name}
         </h3>
       </Link>
 
-      <div className="mb-4 flex flex-1 flex-col space-y-3">
+      <div className="mb-2 flex flex-1 flex-col space-y-2 3xl:mb-4 3xl:space-y-3">
         <p className="text-sm font-medium text-gray-200">Submission Preview:</p>
 
         <div className="flex-1 rounded-xl border-l-4 border-yellow-500/60 bg-white/10 p-4">

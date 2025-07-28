@@ -259,7 +259,10 @@ export default function LoadMoreSubmissions({
   }, [dispatch, enrichSubmissionsWithQuestData]);
 
   return (
-    <WrapperContainer scrollable={true}>
+    <WrapperContainer
+      scrollable={false}
+      className="hide-scroll flex flex-col overflow-y-auto p-3 md:overflow-hidden md:p-4 lg:p-6 3xl:p-8"
+    >
       <SubmissionsHeader
         hasMore={hasMore}
         isLoading={isLoading}
@@ -268,7 +271,7 @@ export default function LoadMoreSubmissions({
       />
 
       <Suspense>
-        <div className="hide-scroll flex flex-1 flex-col overflow-y-auto">
+        <div className="flex flex-1 flex-col md:overflow-y-auto">
           {isInitialized ? (
             <SubmissionsGrid
               hasMore={hasMore}

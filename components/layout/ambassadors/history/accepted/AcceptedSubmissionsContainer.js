@@ -3,8 +3,8 @@
 import { addToast } from "@heroui/react";
 import React, { useState, useCallback } from "react";
 
-import AcceptedSubmissionsList from "./AcceptedSubmissionsList";
-import AcceptedSubmissionsHeader from "./AcceptedSubmissionsHeader";
+import SubmissionsTypesList from "../submissionsTypes/SubmissionsTypesList";
+import SubmissionsTypesHeader from "../submissionsTypes/SubmissionsTypesHeader";
 
 const AcceptedSubmissionsContainer = ({
   initialStats,
@@ -162,9 +162,10 @@ const AcceptedSubmissionsContainer = ({
 
   return (
     <div className="flex flex-1 flex-col gap-4 overflow-y-scroll scrollbar-hide md:overflow-hidden">
-      <AcceptedSubmissionsHeader stats={stats} hasMore={hasMore} />
+      <SubmissionsTypesHeader stats={stats} type="accepted" hasMore={hasMore} />
 
-      <AcceptedSubmissionsList
+      <SubmissionsTypesList
+        type="accepted"
         hasMore={hasMore}
         isLoading={isLoading}
         submissions={submissions}

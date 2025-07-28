@@ -46,16 +46,21 @@ const InboxButton = ({ item }) => {
     <Button
       disableRipple
       onPress={() => dispatch(toggleInboxModal())}
-      className="sidebar-menu-item h-[41px] w-full min-w-0 justify-center gap-4 text-sm text-gray-100 xl:justify-between 3xl:h-[46px] 3xl:text-base"
+      className="sidebar-menu-item h-[41px] w-full min-w-0 justify-center text-sm text-gray-100 lg:gap-4 xl:justify-between 3xl:h-[46px] 3xl:text-base"
     >
-      <div className="flex items-center gap-3 2xl:gap-4">
+      <div className="relative flex items-center gap-3 2xl:gap-4">
         <p>{item.icon}</p>
-        <p className="md:hidden xl:inline">Inbox</p>
+        <p className="inline md:hidden xl:inline">Inbox</p>
+
+        {displayCount > 0 && (
+          <p className="absolute -right-1 -top-1 hidden h-1.5 w-1.5 animate-pulse rounded-full bg-red-500 md:inline xl:hidden"></p>
+        )}
       </div>
 
       {displayCount > 0 && (
-        <span className="relative flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+        <span className="relative flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white md:hidden xl:flex">
           {displayCount > 9 ? "9+" : displayCount}
+
           {pollingUnreadCount > unreadCount && (
             <span className="absolute inset-0 h-5 w-5 animate-ping rounded-full bg-red-500 opacity-20" />
           )}

@@ -36,7 +36,7 @@ const fetchMySubmissions = async (limit = 9, lastKey = null) => {
         Authorization: `Bearer ${token.value}`,
       },
       credentials: "include",
-      cache: "no-store", // Always fetch fresh data for submissions
+      cache: "no-store",
     },
   );
 
@@ -139,7 +139,7 @@ const enrichSubmissionsWithQuestData = async (submissions) => {
 
     return enrichedSubmissions;
   } catch (error) {
-    return submissions; // Return original submissions if enrichment fails
+    return submissions;
   }
 };
 

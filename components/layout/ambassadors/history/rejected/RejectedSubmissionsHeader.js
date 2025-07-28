@@ -43,7 +43,7 @@ const RejectedSubmissionsHeader = ({ stats, hasMore }) => {
           Back to History
         </Link>
 
-        <div className="h-6 w-px bg-gray-400"></div>
+        <div className="hidden h-6 w-px bg-gray-400 md:inline-flex"></div>
 
         <div className="flex items-center gap-2">
           <XCircleIcon size={20} className="text-red-400" />

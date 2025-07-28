@@ -126,7 +126,7 @@ const RejectedSubmissionsList = ({
           />
 
           {!hasMore && (
-            <div className="flex justify-center text-sm text-gray-400">
+            <div className="mt-4 flex justify-center text-sm text-gray-400 sm:mt-0">
               No more submissions
             </div>
           )}

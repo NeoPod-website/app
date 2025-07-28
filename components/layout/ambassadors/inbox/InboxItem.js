@@ -176,9 +176,13 @@ const ReviewHistoryTimeline = ({ reviewHistory, isExpanded }) => {
                   </div>
 
                   <div className="mt-1 rounded-lg bg-gray-700/50 px-2 py-1">
-                    {entry.comment && (
+                    {entry.comment ? (
                       <p className="text-sm leading-relaxed text-gray-200">
                         {entry.comment}
+                      </p>
+                    ) : (
+                      <p className="text-sm leading-relaxed text-gray-200">
+                        No review comment available
                       </p>
                     )}
                   </div>
@@ -392,8 +396,8 @@ const InboxItem = React.memo(
             </div>
 
             <ReviewHistoryTimeline
-              reviewHistory={submission.review_history}
               isExpanded={showHistory}
+              reviewHistory={submission.review_history}
             />
           </div>
         </div>

@@ -3,8 +3,8 @@
 import { addToast } from "@heroui/react";
 import React, { useState, useCallback } from "react";
 
-import HighlightedSubmissionsList from "./HighlightedSubmissionsList";
-import HighlightedSubmissionsHeader from "./HighlightedSubmissionsHeader";
+import SubmissionsTypesList from "../submissionsTypes/SubmissionsTypesList";
+import SubmissionsTypesHeader from "../submissionsTypes/SubmissionsTypesHeader";
 
 const HighlightedSubmissionsContainer = ({
   initialStats,
@@ -159,10 +159,15 @@ const HighlightedSubmissionsContainer = ({
 
   return (
     <div className="flex flex-1 flex-col gap-4 overflow-y-scroll scrollbar-hide md:overflow-hidden">
-      <HighlightedSubmissionsHeader stats={stats} hasMore={hasMore} />
-
-      <HighlightedSubmissionsList
+      <SubmissionsTypesHeader
+        stats={stats}
+        type="highlighted"
         hasMore={hasMore}
+      />
+
+      <SubmissionsTypesList
+        hasMore={hasMore}
+        type="highlighted"
         isLoading={isLoading}
         submissions={submissions}
         onLoadMore={loadMoreSubmissions}
