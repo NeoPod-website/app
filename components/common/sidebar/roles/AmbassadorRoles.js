@@ -12,30 +12,6 @@ import ArchitectRole from "./ArchitectRole";
 
 import MainModal from "@/components/ui/modals/MainModal";
 
-// Helper for data validation
-const validateNumber = (value, defaultValue = 0, min = 0, max = Infinity) => {
-  if (typeof value !== "number" || isNaN(value)) {
-    return defaultValue;
-  }
-  return Math.max(min, Math.min(max, value));
-};
-
-// Helper for calculating percentages safely
-const calculatePercentage = (value, total) => {
-  if (!total) return 0;
-  return Math.min((value / total) * 100, 100);
-};
-
-// Helper to safely access nested properties
-const safeGet = (obj, path, defaultValue) => {
-  try {
-    const result = path.split(".").reduce((o, key) => (o || {})[key], obj);
-    return result === undefined ? defaultValue : result;
-  } catch (err) {
-    return defaultValue;
-  }
-};
-
 // Reusable badge component
 const ProfileBadge = ({
   width = 28,
@@ -112,12 +88,12 @@ const TierProgressBase = ({
             {...safeProgressProps}
           />
 
-          <Button
+          {/* <Button
             onPress={() => setExpanded(true)}
             className="h-5 w-5 min-w-0 bg-transparent p-0 hover:bg-gray-700"
           >
             <EllipsisVerticalIcon size={16} />
-          </Button>
+          </Button> */}
         </div>
       </div>
 

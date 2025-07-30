@@ -172,28 +172,30 @@ const WalletSigningFlow = ({
   );
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 md:space-y-6 3xl:space-y-8">
       <div className="flex items-center gap-4">
         <Button isIconOnly variant="flat" size="sm" onClick={onBack}>
           <ArrowLeft size={16} />
         </Button>
 
         <div>
-          <h2 className="text-2xl font-bold text-white">
+          <h2 className="text-xl font-bold text-white 3xl:text-2xl">
             Verify Wallet Ownership
           </h2>
-          <p className="text-gray-200">
+
+          <p className="text-sm text-gray-200 3xl:text-base">
             Complete the verification process to secure your account
           </p>
         </div>
       </div>
 
       <Card className="border border-blue-500/20 bg-gradient-to-r from-blue-900/20 to-purple-900/20 backdrop-blur-xl">
-        <CardBody className="p-6">
+        <CardBody className="p-2 md:p-4 3xl:p-6">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-semibold text-white">
               Verification Steps
             </h3>
+
             <Chip color="danger" variant="flat">
               Step 2 of 2
             </Chip>
@@ -201,10 +203,11 @@ const WalletSigningFlow = ({
 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-600">
-                <ShieldCheckIcon size={16} className="text-white" />
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-green-600 3xl:h-8 3xl:w-8">
+                <ShieldCheckIcon size={16} />
               </div>
-              <span className="font-medium text-green-400">
+
+              <span className="text-sm font-medium text-green-400 3xl:text-base">
                 Wallet Connected
               </span>
             </div>
@@ -212,27 +215,30 @@ const WalletSigningFlow = ({
             <div className="h-px flex-1 bg-gradient-to-r from-green-500 to-pink-400"></div>
 
             <div className="flex items-center gap-2">
-              <div className="bg-blue-600 flex h-8 w-8 animate-pulse items-center justify-center rounded-full">
-                <PenToolIcon size={16} className="text-white" />
+              <div className="bg-blue-600 flex h-7 w-7 animate-pulse items-center justify-center rounded-full 3xl:h-8 3xl:w-8">
+                <PenToolIcon size={16} />
               </div>
-              <span className="font-medium text-pink-400">Sign Message</span>
+
+              <span className="text-sm font-medium text-pink-400 3xl:text-base">
+                Sign Message
+              </span>
             </div>
           </div>
         </CardBody>
       </Card>
 
       <Card className="border border-gray-700/50 bg-gradient-to-br from-gray-900/90 to-gray-800/50 backdrop-blur-xl">
-        <CardBody className="p-8">
+        <CardBody className="p-2 md:p-4 xl:p-6 3xl:p-8">
           <div className="mb-8 text-center">
             <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-purple-600/20">
               <PenToolIcon size={40} className="text-purple-400" />
             </div>
 
-            <h3 className="mb-3 text-2xl font-bold text-white">
+            <h3 className="mb-3 text-xl font-bold text-white 3xl:text-2xl">
               Sign Message to Verify Ownership
             </h3>
 
-            <p className="mx-auto max-w-2xl text-gray-200">
+            <p className="mx-auto max-w-2xl text-sm text-gray-200 3xl:text-base">
               This proves you control the wallet without sharing your private
               key. It's a one-time, gasless signature that helps us authenticate
               you safely.
@@ -241,7 +247,7 @@ const WalletSigningFlow = ({
 
           <form
             onSubmit={handleSignMessage}
-            className="mx-auto max-w-xl space-y-6"
+            className="mx-auto max-w-xl space-y-4 3xl:space-y-6"
           >
             <div className="flex gap-3">
               <div className="h-fit w-fit rounded-full border border-gray-600 bg-gray-800/50 p-2.5">
@@ -284,12 +290,12 @@ const WalletSigningFlow = ({
             </div>
 
             <Button
-              type="submit"
               size="lg"
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 font-semibold text-white"
-              isLoading={verificationState.isSigningMessage}
-              endContent={buttonEndContent}
+              type="submit"
               isDisabled={!address}
+              endContent={buttonEndContent}
+              isLoading={verificationState.isSigningMessage}
+              className="h-10 w-full border-t border-white bg-gradient-primary text-sm font-semibold text-white 3xl:h-auto 3xl:text-base"
             >
               {buttonContent}
             </Button>

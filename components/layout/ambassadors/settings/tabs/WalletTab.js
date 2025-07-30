@@ -2,17 +2,19 @@
 
 import { Spinner } from "@heroui/react";
 import { WalletIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
 import { useAccount, useDisconnect } from "wagmi";
 import React, { useState, useEffect } from "react";
 
-// Import wallet sub-components
 import WalletSigningFlow from "./wallet/WalletSigningFlow";
 import WalletConnectedState from "./wallet/WalletConnectedState";
 import WalletDisconnectedState from "./wallet/WalletDisconnectedState";
 
 const WalletTab = ({ ambassadorAddress }) => {
+  const router = useRouter();
   const { ready } = usePrivy();
+
   const { disconnect } = useDisconnect();
   const { status, address } = useAccount();
 
@@ -178,7 +180,7 @@ const WalletTab = ({ ambassadorAddress }) => {
       localStorage.setItem("neo-jwt", data.token);
 
       // Reload to refresh ambassadorAddress from server
-      window.location.reload();
+      router.refresh();
     } catch (error) {
       console.error("Error disconnecting wallet:", error);
 
@@ -210,10 +212,10 @@ const WalletTab = ({ ambassadorAddress }) => {
     return (
       <WalletConnectedState
         address={ambassadorAddress}
+        isUsingAmbassadorAddress={true}
         verificationState={verificationState}
         onDisconnect={handleDisconnectWallet}
         updateVerificationState={updateVerificationState}
-        isUsingAmbassadorAddress={true}
       />
     );
   }
@@ -225,9 +227,11 @@ const WalletTab = ({ ambassadorAddress }) => {
     return (
       <div className="mx-auto mt-10 text-center">
         <Spinner size="lg" className="mb-4" color="white" />
+
         <h3 className="mb-2 text-lg font-medium text-white">
           Initializing Wallet
         </h3>
+
         <p className="text-sm text-gray-200">Preparing wallet connection...</p>
       </div>
     );
@@ -240,8 +244,11 @@ const WalletTab = ({ ambassadorAddress }) => {
         <div className="bg-blue-600/20 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
           <WalletIcon size={32} className="text-gray-100" />
         </div>
+
         <Spinner size="lg" className="mb-4" color="white" />
+
         <h3 className="mb-2 text-xl font-bold text-white">Connecting Wallet</h3>
+
         <p className="text-gray-200">
           Please approve the connection in your wallet...
         </p>
@@ -256,8 +263,11 @@ const WalletTab = ({ ambassadorAddress }) => {
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-600/20">
           <WalletIcon size={32} className="text-purple-400" />
         </div>
+
         <Spinner size="lg" className="mb-4" color="white" />
+
         <h3 className="mb-2 text-xl font-bold text-white">Verifying Wallet</h3>
+
         <p className="text-gray-400">
           Checking your wallet verification status...
         </p>

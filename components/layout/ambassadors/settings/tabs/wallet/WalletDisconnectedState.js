@@ -17,7 +17,6 @@ import SettingsConnectWalletMain from "./SettingsConnectWallet";
 
 import SupportedWalletModal from "@/components/ui/modals/SupportedWalletModal";
 
-// Constants to prevent recreation
 const FEATURE_CARDS = [
   {
     id: "neo",
@@ -112,12 +111,15 @@ const WalletDisconnectedState = ({ verificationState }) => {
           alt={config.displayName}
           className="mb-2 h-10 w-10"
         />
+
         <h4 className="text-center text-sm font-medium text-white">
           {config.displayName}
         </h4>
+
         <p className="text-center text-xs text-gray-100">
           {config.nativeToken.symbol}
         </p>
+
         {key === "neo" && (
           <Chip size="sm" variant="flat" color="success" className="mt-1">
             Primary
@@ -131,9 +133,9 @@ const WalletDisconnectedState = ({ verificationState }) => {
     <>
       <SupportedWalletModal />
 
-      <div className="space-y-8">
+      <div className="space-y-4 md:space-y-6 3xl:space-y-8">
         <Card className="border border-gray-500/30 bg-gradient-to-br from-blue-900/20 to-purple-900/20 backdrop-blur-xl">
-          <CardBody className="flex flex-col items-center gap-8 p-8 lg:flex-row">
+          <CardBody className="flex flex-col items-center gap-8 p-2 md:p-4 lg:flex-row xl:p-6 3xl:p-8">
             <div className="flex-shrink-0 text-center lg:text-left">
               <div className="mx-auto mb-2 flex h-24 w-24 items-center justify-center rounded-2xl bg-gray-400/10">
                 <WalletIcon size={36} className="text-blue-400" />
@@ -154,11 +156,11 @@ const WalletDisconnectedState = ({ verificationState }) => {
             </div>
 
             <div className="flex-1 text-center lg:text-left">
-              <h3 className="mb-3 text-2xl font-bold text-white">
+              <h3 className="mb-2 text-xl font-bold text-white 3xl:mb-3 3xl:text-2xl">
                 Connect Your Wallet
               </h3>
 
-              <p className="mb-6 max-w-xl text-base text-gray-200">
+              <p className="mb-6 max-w-xl text-sm text-gray-200 3xl:text-base">
                 Securely connect your wallet to manage your crypto assets across
                 multiple blockchains. Your keys remain in your control at all
                 times.
@@ -177,7 +179,7 @@ const WalletDisconnectedState = ({ verificationState }) => {
               key={card.id}
               className={`border ${card.borderColor} bg-gradient-to-br ${card.bgGradient} backdrop-blur-xl`}
             >
-              <CardBody className="p-6">
+              <CardBody className="p-2 md:p-4 xl:p-6">
                 <div className="mb-4 flex items-center gap-3">
                   <div
                     className={`flex h-12 w-12 items-center justify-center rounded-xl ${card.iconBg}`}
@@ -198,6 +200,7 @@ const WalletDisconnectedState = ({ verificationState }) => {
                     <h4 className="text-lg font-bold text-white">
                       {card.title}
                     </h4>
+
                     {card.chip ? (
                       <Chip color={card.chip.color} variant="flat" size="sm">
                         {card.chip.text}
@@ -215,7 +218,7 @@ const WalletDisconnectedState = ({ verificationState }) => {
         </div>
 
         <Card className="border border-gray-700/50 bg-gradient-to-br from-blue-700/5 to-blue-700/10 backdrop-blur-xl">
-          <CardBody className="p-6">
+          <CardBody className="p-2 md:p-4 xl:p-6">
             <div className="mb-6 flex items-center gap-2">
               <LinkIcon size={20} className="text-blue-400" />
 

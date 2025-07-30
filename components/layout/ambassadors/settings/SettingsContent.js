@@ -15,7 +15,7 @@ const SettingsContent = async ({ activeTab }) => {
   const renderContent = () => {
     switch (activeTab) {
       case "profile":
-        return <ProfileTab />;
+        return <ProfileTab user={user} />;
       case "wallet":
         return <WalletTab ambassadorAddress={user?.wallet_address} />;
       case "socials":
@@ -33,15 +33,15 @@ const SettingsContent = async ({ activeTab }) => {
       //   return <SecurityTab />;
       // case "notifications":
       //   return <NotificationsTab />;
-      case "appearance":
-        return <AppearanceTab />;
+      // case "appearance":
+      //   return <AppearanceTab />;
       default:
-        return <ProfileTab />;
+        return <ProfileTab user={user} />;
     }
   };
 
   return (
-    <section className="flex-1 overflow-auto p-8 scrollbar-hide">
+    <section className="flex-1 overflow-auto p-2 scrollbar-hide md:p-6 3xl:p-8">
       {renderContent()}
     </section>
   );

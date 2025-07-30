@@ -43,11 +43,11 @@ const settingsTabs = [
   //   icon: BellIcon,
   // },
 
-  {
-    key: "appearance",
-    title: "Appearance",
-    icon: PaletteIcon,
-  },
+  // {
+  //   key: "appearance",
+  //   title: "Appearance",
+  //   icon: PaletteIcon,
+  // },
 ];
 
 const SettingsHeader = ({ activeTab }) => {
@@ -73,9 +73,9 @@ const SettingsHeader = ({ activeTab }) => {
       onSelectionChange={handleTabChange}
       classNames={{
         base: "w-full",
+        tab: "px-0 h-12",
         tabList: "w-full gap-8 rounded-none p-0 border-b border-gray-500",
         cursor: "w-full bg-gradient-to-r from-blue-500 to-purple-500",
-        tab: "px-0 h-12",
         tabContent:
           "group-data-[selected=true]:text-white text-gray-100 font-medium",
       }}

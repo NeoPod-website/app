@@ -197,7 +197,7 @@ const SocialPlatformsList = ({ platforms, onStartVerification }) => {
 
   return (
     <Card className="border border-gray-700/50 bg-gradient-to-br from-gray-900/90 to-gray-800/50 backdrop-blur-xl">
-      <CardBody className="p-6">
+      <CardBody className="p-2 md:p-4 3xl:p-6">
         <div className="mb-6 flex items-center gap-2">
           <LinkIcon size={20} className="text-blue-400" />
 
@@ -221,8 +221,8 @@ const SocialPlatformsList = ({ platforms, onStartVerification }) => {
                   isConnected ? "opacity-75" : "hover:border-opacity-100"
                 }`}
               >
-                <CardBody className="p-6">
-                  <div className="space-y-4">
+                <CardBody className="p-2 md:p-4 3xl:p-6">
+                  <div className="space-y-3 2xl:space-y-4">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <div
@@ -240,7 +240,7 @@ const SocialPlatformsList = ({ platforms, onStartVerification }) => {
                         <div className="text-white">
                           <h4 className="text-lg font-bold">{platform.name}</h4>
 
-                          <div className="flex items-center gap-2">
+                          <div className="hidden items-center gap-2 md:flex">
                             <Chip
                               size="sm"
                               variant="flat"

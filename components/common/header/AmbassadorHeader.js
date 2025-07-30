@@ -11,12 +11,8 @@ const fetchUserRank = async () => {
     return null;
   }
 
-  const query = new URLSearchParams({
-    period: "all_time",
-  });
-
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/leaderboards/rank?${query.toString()}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/leaderboards/rank`,
     {
       method: "GET",
       headers: {
