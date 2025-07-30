@@ -15,6 +15,7 @@ import { Card, CardBody, Chip } from "@heroui/react";
 
 const AppearanceTab = () => {
   const { theme, setTheme, resolvedTheme } = useTheme();
+
   const [mounted, setMounted] = useState(false);
 
   // Ensure component is mounted to avoid hydration issues
@@ -171,70 +172,6 @@ const AppearanceTab = () => {
                 </Card>
               );
             })}
-          </div>
-        </CardBody>
-      </Card>
-
-      <Card className="border border-gray-700/50 bg-gradient-to-br from-gray-900/90 to-gray-800/50 backdrop-blur-xl">
-        <CardBody className="p-6">
-          <div className="mb-6 flex items-center gap-2">
-            <Monitor size={20} className="text-blue-400" />
-
-            <h3 className="text-lg font-semibold text-white">
-              Theme Information
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            <div className="rounded-lg border border-gray-700/50 bg-gray-900/50 p-4">
-              <div className="mb-3 flex items-center gap-3">
-                <div className="bg-pink-600/20 flex h-10 w-10 items-center justify-center rounded-lg">
-                  <Palette size={20} className="text-pink-400" />
-                </div>
-
-                <div>
-                  <h4 className="font-medium text-white">Active Theme</h4>
-                  <p className="text-sm text-gray-400">
-                    Currently applied theme
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-400">Selected:</span>
-                  <span className="text-sm font-medium capitalize text-white">
-                    {theme}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-400">Resolved:</span>
-                  <span className="text-sm font-medium capitalize text-white">
-                    {resolvedTheme}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-lg border border-gray-700/50 bg-gray-900/50 p-4">
-              <h4 className="mb-3 font-medium text-white">Color Preview</h4>
-
-              <div className="grid grid-cols-4 gap-2">
-                <div className="h-8 rounded bg-gray-800"></div>
-                <div className="bg-pink-600/20 h-8 rounded"></div>
-                <div className="bg-blue-600/20 h-8 rounded"></div>
-                <div className="h-8 rounded bg-green-600/20"></div>
-                <div className="h-8 rounded bg-purple-600/20"></div>
-                <div className="h-8 rounded bg-yellow-600/20"></div>
-                <div className="h-8 rounded bg-red-600/20"></div>
-                <div className="h-8 rounded bg-cyan-600/20"></div>
-              </div>
-
-              <p className="mt-2 text-xs text-gray-500">
-                Theme color palette preview
-              </p>
-            </div>
           </div>
         </CardBody>
       </Card>

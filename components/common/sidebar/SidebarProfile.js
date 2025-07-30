@@ -1,8 +1,9 @@
 import React from "react";
-import Image from "next/image";
 import { GlobeIcon } from "lucide-react";
 
 import shortAddress from "@/utils/shortAddress";
+
+import SidebarProfilePhoto from "./SidebarProfilePhoto";
 
 import CopyToClipboard from "@/components/ui/CopyToClipboard";
 import LogoutBtn from "@/components/ui/buttons/sidebar/LogoutBtn";
@@ -13,14 +14,8 @@ const SidebarProfile = ({ children, user }) => {
 
   return (
     <div className="flex items-center justify-start gap-3 overflow-hidden px-3 py-2">
-      <div className="3xl:h-12 3xl:w-12 3xl:min-w-12 relative h-10 w-10">
-        <Image
-          width={48}
-          height={48}
-          alt="Profile Photo"
-          className="3xl:w-12 3xl:h-12 h-10 w-10 rounded-md"
-          src={user.profile_photo || "/dashboard/profile/default-profile.png"}
-        />
+      <div className="relative h-10 w-10 3xl:h-12 3xl:w-12 3xl:min-w-12">
+        <SidebarProfilePhoto user={user} />
 
         {children}
       </div>
@@ -28,7 +23,7 @@ const SidebarProfile = ({ children, user }) => {
       <div className="flex-1">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-1">
-            <h3 className="3xl:text-base text-sm font-medium capitalize text-white">
+            <h3 className="text-sm font-medium capitalize text-white 3xl:text-base">
               {user.username}
             </h3>
 
@@ -51,7 +46,7 @@ const SidebarProfile = ({ children, user }) => {
         </div>
 
         <div className="flex justify-between">
-          <div className="3xl:text-sm flex items-center gap-1 text-xs text-gray-100">
+          <div className="flex items-center gap-1 text-xs text-gray-100 3xl:text-sm">
             {isAdmin ? (
               <>
                 <p>{user.email}</p>
@@ -69,9 +64,9 @@ const SidebarProfile = ({ children, user }) => {
 
           {!isAdmin && user.location && (
             <div className="flex items-center gap-1">
-              <GlobeIcon size={16} className="3xl:h-4 3xl:w-4 h-3 w-3" />
+              <GlobeIcon size={16} className="h-3 w-3 3xl:h-4 3xl:w-4" />
 
-              <p className="3xl:text-sm text-xs text-gray-100">
+              <p className="text-xs text-gray-100 3xl:text-sm">
                 {user.location}
               </p>
             </div>

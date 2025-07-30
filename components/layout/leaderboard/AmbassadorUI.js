@@ -191,7 +191,7 @@ export const AvatarWithRole = ({ ambassador }) => (
       height={48}
       alt={ambassador.username}
       src={ambassador.profile_photo || "/dashboard/profile/default-profile.png"}
-      className="h-10 w-10 rounded-full object-cover md:h-12 md:w-12"
+      className="h-8 w-8 rounded-full object-cover sm:h-10 sm:w-10 xl:h-12 xl:w-12"
     />
 
     <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border border-gray-600 bg-gray-700 text-xs shadow-md md:h-6 md:w-6">
@@ -203,7 +203,7 @@ export const AvatarWithRole = ({ ambassador }) => (
 export const UserInfo = ({ ambassador, isCurrentUser }) => (
   <div className="min-w-0 flex-1">
     <div className="flex items-center gap-1 md:gap-2">
-      <h3 className="truncate text-sm font-semibold text-gray-100 md:text-base">
+      <h3 className="truncate text-sm font-semibold capitalize text-gray-100 md:text-base">
         {ambassador.username}
       </h3>
 
@@ -219,7 +219,7 @@ export const UserInfo = ({ ambassador, isCurrentUser }) => (
 export const RoleSection = ({ ambassador, leaderboardType }) => {
   if (leaderboardType === "all_time") {
     return (
-      <div className="flex w-20 flex-shrink-0 flex-col items-center text-center sm:w-24 md:w-28 lg:w-32">
+      <div className="hidden w-20 flex-shrink-0 flex-col items-center text-center sm:w-24 md:flex md:w-28 lg:w-32">
         <span
           className={`rounded-full px-2 py-1 text-xs font-medium text-white md:px-3 md:text-sm ${getRoleGradient(ambassador.role_type)} capitalize`}
         >
@@ -234,7 +234,7 @@ export const RoleSection = ({ ambassador, leaderboardType }) => {
   }
 
   return (
-    <div className="w-16 flex-shrink-0 text-center md:w-20 lg:w-24">
+    <div className="hidden w-16 flex-shrink-0 text-center sm:inline-block md:w-20 lg:w-24">
       <div className="text-base font-bold text-gray-100 md:text-lg">
         {ambassador.quest_count}
       </div>

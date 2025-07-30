@@ -531,7 +531,7 @@ const SocialsTab = ({
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 3xl:space-y-8">
       <SocialsOverview
         platforms={socialPlatforms}
         verificationCount={connectedCount}

@@ -10,12 +10,12 @@ const SettingsPage = async ({ searchParams }) => {
 
   return (
     <WrapperContainer scrollable={true}>
-      <div className="space-y-1 p-8">
-        <h1 className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-3xl font-bold text-transparent">
+      <div className="space-y-1 px-4 py-5 xl:px-6 xl:py-6 3xl:px-8 3xl:py-8">
+        <h1 className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-2xl font-bold text-transparent 3xl:text-3xl">
           Settings
         </h1>
 
-        <p className="text-base text-gray-200">
+        <p className="text-sm text-gray-200 3xl:text-base">
           Customize your experience and manage your account
         </p>
       </div>
