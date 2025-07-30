@@ -1,64 +1,94 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import React, { useState, useEffect, useCallback } from "react";
+
 import useUpload from "@/hooks/useUpload";
 
 const SidebarProfilePhoto = ({ user }) => {
   const { getFileViewUrl } = useUpload();
+
   const [signedUrl, setSignedUrl] = useState(
     "/dashboard/profile/default-profile.png",
   );
   const [isLoading, setIsLoading] = useState(false);
 
-  const extractS3Key = useCallback((url) => {
-    if (!url || url.includes("/dashboard/profile/default-profile.png"))
+  const extractS3Key = useCallback((urlOrKey) => {
+    if (
+      !urlOrKey ||
+      urlOrKey.includes("/dashboard/profile/default-profile.png")
+    )
       return null;
-    if (!url.includes("/")) return url;
 
+    // If it's already a key (doesn't start with http), return as-is
+    if (!urlOrKey.startsWith("http")) return urlOrKey;
+
+    // If it's a URL, extract the key
     try {
-      const urlObj = new URL(url);
+      const urlObj = new URL(urlOrKey);
       return urlObj.pathname.substring(1);
     } catch {
-      return url.split("/").pop();
+      return urlOrKey.split("/").pop();
     }
   }, []);
 
   const loadSignedUrl = useCallback(
-    async (photoUrl) => {
+    async (photoUrlOrKey) => {
       if (
-        !photoUrl ||
-        photoUrl === "" ||
-        photoUrl.includes("/dashboard/profile/default-profile.png")
+        !photoUrlOrKey ||
+        photoUrlOrKey === "" ||
+        photoUrlOrKey.includes("/dashboard/profile/default-profile.png")
       ) {
         setSignedUrl("/dashboard/profile/default-profile.png");
         return;
       }
 
+      // If it's already a data URL (preview) or signed URL, use it directly
       if (
-        photoUrl.startsWith("data:") ||
-        photoUrl.includes("X-Amz-Signature")
+        photoUrlOrKey.startsWith("data:") ||
+        photoUrlOrKey.includes("X-Amz-Signature")
       ) {
-        setSignedUrl(photoUrl);
+        setSignedUrl(photoUrlOrKey);
         return;
       }
 
       setIsLoading(true);
 
       try {
-        const s3Key = extractS3Key(photoUrl);
+        // Handle both S3 keys and URLs
+        const s3Key = photoUrlOrKey.startsWith("http")
+          ? extractS3Key(photoUrlOrKey)
+          : photoUrlOrKey;
+
         if (s3Key) {
           const signedUrlData = await getFileViewUrl(s3Key, 3600);
           const newSignedUrl =
             signedUrlData.signedUrl || signedUrlData.url || signedUrlData;
-          setSignedUrl(
-            newSignedUrl || "/dashboard/profile/default-profile.png",
-          );
+
+          if (newSignedUrl) {
+            setSignedUrl(newSignedUrl);
+          } else {
+            // If signed URL generation failed and we have a full URL, try original
+            setSignedUrl(
+              photoUrlOrKey.startsWith("http")
+                ? photoUrlOrKey
+                : "/dashboard/profile/default-profile.png",
+            );
+          }
         } else {
-          setSignedUrl(photoUrl);
+          setSignedUrl("/dashboard/profile/default-profile.png");
         }
       } catch (error) {
-        setSignedUrl("/dashboard/profile/default-profile.png");
+        console.warn(
+          "Failed to load signed URL for sidebar profile photo:",
+          error,
+        );
+        // Fallback to original URL if it's a full URL, otherwise use default
+        setSignedUrl(
+          photoUrlOrKey.startsWith("http")
+            ? photoUrlOrKey
+            : "/dashboard/profile/default-profile.png",
+        );
       } finally {
         setIsLoading(false);
       }
