@@ -275,45 +275,108 @@ const improvedTimeUtils = {
 /**
  * Enhanced quest availability checking with fixed logic
  */
+// export const checkQuestAvailabilityWithTiming = (
+//   quest,
+//   questSubmissions,
+//   user,
+//   completedQuests,
+// ) => {
+//   // Get availability info with proper priority order
+//   const availability = improvedTimeUtils.getQuestNextAvailability(
+//     quest,
+//     questSubmissions,
+//   );
+
+//   // Check requirements/conditions
+//   if (quest.conditions && quest.conditions.length > 0) {
+//     const meetsAllRequirements = quest.conditions.every((requirement) => {
+//       switch (requirement.type) {
+//         case "ambassador":
+//           return user.role_type === requirement.role;
+//         case "quest_completion":
+//           return completedQuests.includes(requirement.quest_id);
+//         case "pod_membership":
+//           return user.pod_id === requirement.pod_id;
+//         case "points_minimum":
+//           return (user.total_points || 0) >= requirement.minimum_points;
+//         default:
+//           return true;
+//       }
+//     });
+
+//     if (!meetsAllRequirements) {
+//       return {
+//         available: false,
+//         reason: "Requirements not met",
+//         nextAvailableDate: null,
+//       };
+//     }
+//   }
+
+//   // Return the availability result
+//   return {
+//     available: availability.type === "available",
+//     reason: availability.reason,
+//     nextAvailableDate: availability.availableAt,
+//   };
+// };
+
 export const checkQuestAvailabilityWithTiming = (
   quest,
   questSubmissions,
   user,
   completedQuests,
 ) => {
-  // Get availability info with proper priority order
+  // STEP 1: Check requirements FIRST (before any timing checks)
+  if (quest.conditions && quest.conditions.length > 0) {
+    for (const requirement of quest.conditions) {
+      switch (requirement.type) {
+        case "ambassador":
+          const roleHierarchy = {
+            initiate: 1,
+            operator: 2,
+            sentinel: 3,
+            architect: 4,
+          };
+
+          const userRoleLevel =
+            roleHierarchy[user.role_type?.toLowerCase()] || 0;
+          const requiredRoleLevel =
+            roleHierarchy[requirement.role?.toLowerCase()] || 0;
+
+          if (userRoleLevel < requiredRoleLevel) {
+            return {
+              available: false,
+              reason: `Requires ${requirement.role} ambassador role or higher`,
+              nextAvailableDate: null,
+            };
+          }
+          break;
+
+        case "quest":
+          if (!completedQuests.includes(requirement.questId)) {
+            return {
+              available: false,
+              reason: `Must complete quest: ${requirement.questId}`,
+              nextAvailableDate: null,
+            };
+          }
+          break;
+
+        // Add other requirement types with specific messages
+        default:
+          break;
+      }
+    }
+  }
+
+  // STEP 2: Only check timing availability if requirements are met
   const availability = improvedTimeUtils.getQuestNextAvailability(
     quest,
     questSubmissions,
   );
 
-  // Check requirements/conditions
-  if (quest.requirements && quest.requirements.length > 0) {
-    const meetsAllRequirements = quest.requirements.every((requirement) => {
-      switch (requirement.type) {
-        case "quest_completion":
-          return completedQuests.includes(requirement.quest_id);
-        case "role_level":
-          return (user.role_level || 0) >= requirement.minimum_level;
-        case "pod_membership":
-          return user.pod_id === requirement.pod_id;
-        case "points_minimum":
-          return (user.total_points || 0) >= requirement.minimum_points;
-        default:
-          return true;
-      }
-    });
-
-    if (!meetsAllRequirements) {
-      return {
-        available: false,
-        reason: "Requirements not met",
-        nextAvailableDate: null,
-      };
-    }
-  }
-
-  // Return the availability result
+  // Return the timing-based result
   return {
     available: availability.type === "available",
     reason: availability.reason,

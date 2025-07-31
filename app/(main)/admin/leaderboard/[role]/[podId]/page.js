@@ -180,24 +180,24 @@ const AdminPodLeaderboardPage = async ({ params }) => {
 
   return (
     <WrapperContainer scrollable={true} className="p-6 3xl:p-10">
-      <div className="mb-6 md:mb-8">
-        <h1 className="mb-2 text-2xl font-bold text-gray-100 md:text-3xl">
+      <div className="mb-4 lg:mb-6 3xl:mb-8">
+        <h1 className="mb-2 text-xl font-bold text-gray-100 md:text-3xl 3xl:text-2xl">
           {roleDisplay} Leaderboard
         </h1>
 
-        <p className="text-sm text-gray-300 md:text-base">
+        <p className="text-sm text-gray-300 3xl:text-base">
           {podName} ({podLanguage}) • {periodDisplay}
         </p>
       </div>
 
-      <div className="mb-6 rounded-2xl border border-gray-600/30 bg-gray-700/30 p-4 md:p-6">
+      <div className="mb-3 rounded-2xl border border-gray-600/30 bg-gray-700/30 p-4 lg:mb-4 3xl:mb-6 3xl:p-6">
         <div className="grid grid-cols-2 gap-4 text-center md:grid-cols-4">
           <div>
-            <div className="text-xl font-bold text-gray-100 md:text-2xl">
+            <div className="text-xl font-bold text-gray-100 3xl:text-2xl">
               {totalAmbassadors}
             </div>
 
-            <div className="text-xs text-gray-400 md:text-sm">
+            <div className="text-xs text-gray-400 3xl:text-sm">
               {role === "all-time"
                 ? "Total Ambassadors"
                 : `${roleDisplay} Ambassadors`}
@@ -205,24 +205,26 @@ const AdminPodLeaderboardPage = async ({ params }) => {
           </div>
 
           <div>
-            <div className="text-xl font-bold text-gray-100 md:text-2xl">
+            <div className="text-xl font-bold text-gray-100 3xl:text-2xl">
               {topScore.toLocaleString()}
             </div>
-            <div className="text-xs text-gray-400 md:text-sm">Top Score</div>
+            <div className="text-xs text-gray-400 3xl:text-sm">Top Score</div>
           </div>
 
           <div>
-            <div className="text-xl font-bold text-gray-100 md:text-2xl">
+            <div className="text-xl font-bold text-gray-100 3xl:text-2xl">
               {totalQuests}
             </div>
-            <div className="text-xs text-gray-400 md:text-sm">Total Quests</div>
+            <div className="text-xs text-gray-400 3xl:text-sm">
+              Total Quests
+            </div>
           </div>
 
           <div>
-            <div className="text-xl font-bold text-gray-100 md:text-2xl">
+            <div className="text-xl font-bold text-gray-100 3xl:text-2xl">
               {podIdDisplay}
             </div>
-            <div className="text-xs text-gray-400 md:text-sm">Pod ID</div>
+            <div className="text-xs text-gray-400 3xl:text-sm">Pod ID</div>
           </div>
         </div>
       </div>

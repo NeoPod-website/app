@@ -2,33 +2,21 @@ import React from "react";
 
 const AdminTableHeader = () => {
   return (
-    <div className="mb-4 flex items-center justify-between rounded-2xl bg-gray-700/30 p-3 text-xs font-medium text-gray-200 md:p-4 md:text-sm">
-      <div className="flex gap-2">
-        <div className="flex w-12 flex-shrink-0 items-center justify-start md:w-16">
-          Rank
-        </div>
+    <div className="mb-1 flex items-center justify-between rounded-2xl bg-gray-700/30 px-3 py-4 text-xs font-medium uppercase tracking-wider text-gray-300 md:text-sm lg:mb-4 2xl:px-4">
+      <div className="flex flex-1 gap-2">
+        <div className="hidden w-12 xs:inline-block lg:w-16">Rank</div>
 
-        <div className="flex w-40 min-w-0 flex-shrink-0 items-center gap-2 sm:w-60 md:w-80 md:gap-4">
-          Ambassador
-        </div>
+        <div className="flex-1 lg:w-80 lg:flex-initial">Ambassador</div>
 
-        <div className="flex w-20 flex-shrink-0 items-center justify-center md:w-24">
+        <div className="hidden w-20 text-center sm:inline-block sm:w-24 md:text-left lg:w-28 lg:text-center xl:w-32">
           Role
         </div>
       </div>
 
       <div className="flex gap-8">
-        <div className="flex w-16 flex-shrink-0 items-center justify-end md:w-20">
-          Points
-        </div>
-
-        <div className="flex w-20 flex-shrink-0 items-center justify-center">
-          Change
-        </div>
-
-        <div className="flex w-8 flex-shrink-0 items-center justify-center md:w-12">
-          Actions
-        </div>
+        <div className="w-20 text-right sm:w-24 lg:w-28 xl:w-32">Points</div>
+        <div className="hidden text-right lg:inline-block lg:w-20">Change</div>
+        <div className="hidden text-right lg:inline-block xl:w-12">Profile</div>
       </div>
     </div>
   );

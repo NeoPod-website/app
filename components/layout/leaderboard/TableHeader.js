@@ -1,9 +1,9 @@
 import React from "react";
 
 const TableHeader = ({ leaderboardType }) => (
-  <div className="mb-1 flex items-center justify-between px-3 py-4 text-xs font-medium uppercase tracking-wider text-gray-400 md:text-sm lg:mb-4 2xl:px-4">
+  <div className="bg-gray-700/30px-3 mb-1 flex items-center justify-between rounded-2xl py-4 text-xs font-medium uppercase tracking-wider text-gray-300 md:text-sm lg:mb-4 2xl:px-4">
     <div className="flex flex-1 gap-2">
-      <div className="xs:inline-block hidden w-12 lg:w-16">Rank</div>
+      <div className="hidden w-12 xs:inline-block lg:w-16">Rank</div>
 
       <div className="flex-1 lg:w-80 lg:flex-initial">Ambassador</div>
 
