@@ -20,6 +20,7 @@ const STATUS_OPTIONS = [
 const MAX_IMAGE_SIZE_MB = 5;
 
 const PodForm = ({
+  role,
   isNew,
   status,
   setStatus,
@@ -60,10 +61,12 @@ const PodForm = ({
           prompt="Upload pod cover image"
         />
 
-        <AdminSelector
-          assignedAdmins={assignedAdmins}
-          onChange={handlePodDataChange}
-        />
+        {role === "super" && (
+          <AdminSelector
+            assignedAdmins={assignedAdmins}
+            onChange={handlePodDataChange}
+          />
+        )}
 
         <Input
           required

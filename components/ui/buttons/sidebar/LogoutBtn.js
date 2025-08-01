@@ -2,9 +2,12 @@
 
 import React, { useState } from "react";
 import { LogOutIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { addToast, Button } from "@heroui/react";
 
 const LogoutBtn = () => {
+  const router = useRouter();
+
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
@@ -33,7 +36,9 @@ const LogoutBtn = () => {
         sessionStorage.clear();
 
         // Step 3: Redirect to Auth0 logout (this will handle Auth0 session cleanup)
-        window.location.href = "/auth/logout";
+        // window.location.href = "/auth/logout";
+
+        router.push("/login");
 
         addToast({
           color: "success",
@@ -51,7 +56,9 @@ const LogoutBtn = () => {
       sessionStorage.clear();
 
       // Still redirect to Auth0 logout
-      window.location.href = "/auth/logout";
+      // window.location.href = "/auth/logout";
+
+      router.push("/login");
 
       addToast({
         color: "warning",
@@ -75,7 +82,7 @@ const LogoutBtn = () => {
     >
       <LogOutIcon
         size={16}
-        className="3xl:h-4 3xl:w-4 h-3 w-3 text-white hover:text-red-300"
+        className="h-3 w-3 text-white hover:text-red-300 3xl:h-4 3xl:w-4"
       />
     </Button>
   );

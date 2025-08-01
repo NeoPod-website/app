@@ -18,7 +18,7 @@ const DEFAULT_POD_DATA = {
   cover_photo: undefined,
 };
 
-const AdminPodMain = ({ isNew = false, initialPod = {}, id = "" }) => {
+const AdminPodMain = ({ role, isNew = false, initialPod = {}, id = "" }) => {
   // Memoize initial pod data to prevent unnecessary state updates
   const initialData = useMemo(() => {
     const {
@@ -61,7 +61,12 @@ const AdminPodMain = ({ isNew = false, initialPod = {}, id = "" }) => {
     return isNew ? (
       <AdminCreatePod {...commonProps} />
     ) : (
-      <AdminEditPod {...commonProps} id={id} initialPod={initialPod} />
+      <AdminEditPod
+        {...commonProps}
+        id={id}
+        role={role}
+        initialPod={initialPod}
+      />
     );
   }, [isNew, podData, isSubmitting, handlePodDataChange, id, initialPod]);
 

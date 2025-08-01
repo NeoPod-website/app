@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { Undo2Icon } from "lucide-react";
 import { notFound } from "next/navigation";
 
+import { getCachedSession } from "@/lib/userSession";
+
 import AdminPodMain from "@/components/layout/pods/manage/AdminPodsMain";
 import ManagePageWrapper from "@/components/layout/pods/ManagePageWrapper";
 
@@ -66,6 +68,8 @@ async function fetchPods(podId) {
 const EditPodPage = async ({ params }) => {
   const { podId } = await params;
 
+  const { user } = await getCachedSession();
+
   const podData = await fetchPods(podId);
 
   return (
@@ -76,7 +80,12 @@ const EditPodPage = async ({ params }) => {
       href="/admin/manage/pods"
       icon={<Undo2Icon size={16} className="-mt-0.5" />}
     >
-      <AdminPodMain isNew={false} initialPod={podData.pod} id={podId} />
+      <AdminPodMain
+        id={podId}
+        isNew={false}
+        role={user.role_type}
+        initialPod={podData.pod}
+      />
     </ManagePageWrapper>
   );
 };

@@ -51,7 +51,7 @@ const MainLayout = async ({ children }) => {
   // Render the authenticated layout
   return (
     <div className="flex h-screen bg-[url('/hero-background.png')] bg-cover">
-      <DashboardSidebar menuItems={menuItems} />
+      <DashboardSidebar session={user} menuItems={menuItems} />
 
       <main className="relative flex flex-1 flex-col overflow-hidden">
         <DashboardHeader session={user} menuItems={menuItems} />

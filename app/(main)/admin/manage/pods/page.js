@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
 
+import { getCachedSession } from "@/lib/userSession";
+
 import PodsList from "@/components/layout/pods/PodList";
 import MainPageScroll from "@/components/common/MainPageScroll";
 import DeleteConfirmationModal from "@/components/ui/modals/DeleteConfirmationModal";
@@ -55,6 +57,7 @@ async function fetchPods(startKey = null, limit = 9) {
 
 const ManagePODSPage = async () => {
   const podsData = await fetchPods();
+  const { user } = await getCachedSession();
 
   const pods = podsData.data.pods || [];
   const hasMore = podsData.data.pagination.hasMore;
@@ -67,6 +70,7 @@ const ManagePODSPage = async () => {
       <MainPageScroll scrollable={false}>
         <Suspense>
           <PodsList
+            user={user}
             hasMore={hasMore}
             initialPods={pods}
             lastEvaluatedKey={lastEvaluatedKey}

@@ -19,6 +19,7 @@ const REQUIRED_FIELDS = [
 const VALIDATION_RULES = {
   podName: { min: 3, max: 50 },
   description: { max: 500 },
+  assignedAdmins: { min: 1 },
 };
 
 // Helper functions extracted for reusability
@@ -38,7 +39,7 @@ const validateRequiredFields = (podData) => {
 };
 
 const validateFieldLengths = (podData) => {
-  const { podName, description } = podData;
+  const { podName, description, assignedAdmins } = podData;
 
   if (podName.length < VALIDATION_RULES.podName.min) {
     throw new Error(
@@ -57,6 +58,12 @@ const validateFieldLengths = (podData) => {
       `Description cannot exceed ${VALIDATION_RULES.description.max} characters`,
     );
   }
+
+  if (assignedAdmins.length < VALIDATION_RULES.assignedAdmins.min) {
+    throw new Error(
+      `Please assign at least ${VALIDATION_RULES.assignedAdmins.min} Community Admin or Moderator`,
+    );
+  }
 };
 
 // Helper function to compare arrays (matches your original logic)
@@ -70,6 +77,7 @@ const arraysAreEqual = (arr1, arr2) => {
 
 const AdminEditPod = ({
   id,
+  role,
   podData,
   initialPod,
   isSubmitting,
@@ -112,16 +120,6 @@ const AdminEditPod = ({
               color: "danger",
             });
           }
-
-          // // Upload new cover photo first
-          // const coverPhotoKey = await uploadFile(podData.coverPhoto, {
-          //   entityType: "PODS",
-          //   fileName: sanitizedFileName,
-          //   fileType: sanitizedFileName, // Using sanitized name as fileType for the query param
-          //   size: "BANNER",
-          //   multiSize: false,
-          //   noSubfolder: true, // Matches your original logic
-          // });
 
           const coverPhotoKey = await uploadFile(podData.coverPhoto, {
             entityId: "",
@@ -231,6 +229,7 @@ const AdminEditPod = ({
   // Memoize form props to prevent unnecessary re-renders
   const formProps = useMemo(
     () => ({
+      role,
       isNew,
       status: podData.status,
       setStatus: (value) => handlePodDataChange("status", value),

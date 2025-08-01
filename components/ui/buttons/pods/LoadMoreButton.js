@@ -14,7 +14,12 @@ import PodGrid from "@/components/layout/pods/filter/PodGrid";
 import PodFilterPanel from "@/components/layout/pods/filter/PodFilterPanel";
 import PodFilterHeader from "@/components/layout/pods/filter/PodFilterHeader";
 
-const LoadMorePods = ({ initialPods, initialLastKey, initialHasMore }) => {
+const LoadMorePods = ({
+  user,
+  initialPods,
+  initialLastKey,
+  initialHasMore,
+}) => {
   const dispatch = useDispatch();
 
   const { pods, lastKey, hasMore, isLoading } = useSelector(
@@ -336,6 +341,7 @@ const LoadMorePods = ({ initialPods, initialLastKey, initialHasMore }) => {
   return (
     <div className="flex flex-1 flex-col space-y-3 overflow-hidden">
       <PodFilterHeader
+        user={user}
         nameFilter={nameFilter}
         setNameFilter={setNameFilter}
         hasActiveFilters={hasActiveFilters}
@@ -343,6 +349,7 @@ const LoadMorePods = ({ initialPods, initialLastKey, initialHasMore }) => {
       />
 
       <PodFilterPanel
+        role={user.role_type}
         nameFilter={nameFilter}
         setNameFilter={setNameFilter}
         statusFilter={statusFilter}

@@ -4,7 +4,13 @@ import React from "react";
 import Link from "next/link";
 import { Accordion, AccordionItem } from "@heroui/react";
 
-const SidebarAccordion = ({ index, item, isActive }) => {
+const SidebarAccordion = ({ index, item, isActive, role }) => {
+  if (role !== "super" && item.name === "Manage Roles") {
+    return null;
+  } else if (role === "reviewer" && item.name === "Manage Tasks") {
+    return null;
+  }
+
   return (
     <Accordion selectionMode="single" className="p-0">
       <AccordionItem

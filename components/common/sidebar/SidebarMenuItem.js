@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import SidebarAccordion from "./SidebarAccordion";
 import InboxButton from "@/components/layout/ambassadors/inbox/InboxButton";
 
-const SidebarMenuItem = ({ index, item }) => {
+const SidebarMenuItem = ({ index, item, role }) => {
   const pathname = usePathname();
 
   const isActive = item.href === pathname;
@@ -17,8 +17,17 @@ const SidebarMenuItem = ({ index, item }) => {
     return <InboxButton item={item} />;
   }
 
+  if (role === "reviewer" && item.name === "Notifications") {
+    return null;
+  }
+
   return item.children ? (
-    <SidebarAccordion index={index} item={item} isActive={isActive} />
+    <SidebarAccordion
+      role={role}
+      item={item}
+      index={index}
+      isActive={isActive}
+    />
   ) : (
     <Link
       href={item.href}

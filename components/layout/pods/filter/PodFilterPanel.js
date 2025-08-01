@@ -13,6 +13,7 @@ export const STATUS_OPTIONS = [
 ];
 
 const PodFilterPanel = ({
+  role,
   statusFilter,
   setStatusFilter,
   adminFilter,
@@ -56,8 +57,10 @@ const PodFilterPanel = ({
       }
     };
 
-    fetchAdmins();
-  }, []);
+    if (role === "super") {
+      fetchAdmins();
+    }
+  }, [role]);
 
   const handleAdminSelectionChange = (keys) => {
     // If there's only one admin selected, use that admin's username
@@ -89,65 +92,67 @@ const PodFilterPanel = ({
       </Tabs>
 
       <div className="flex flex-1 items-center justify-end gap-4">
-        <div className="w-full max-w-80">
-          {!adminError ? (
-            <Select
-              size="md"
-              variant="bordered"
-              className="w-full"
-              selectionMode="single"
-              isLoading={isLoadingAdmins}
-              aria-label="Filter by Admin"
-              placeholder="Filter by Admin"
-              onSelectionChange={handleAdminSelectionChange}
-              selectedKeys={adminFilter ? [adminFilter] : []}
-              classNames={{
-                base: "bg-transparent",
-                value: "text-base",
-                trigger:
-                  "border-2 border-white data-[hover=true]:!bg-black/60 data-[hover=true]:border-white rounded-full",
-              }}
-            >
-              <SelectItem key="" value="" textValue="All Admins">
-                All Admins
-              </SelectItem>
-
-              {allAdmins.map((admin) => (
-                <SelectItem
-                  key={admin.username}
-                  value={admin.username}
-                  textValue={`${admin.username} (${admin.role_type})`}
-                >
-                  <div className="flex items-center gap-2">
-                    {admin.profile_photo && (
-                      <Image
-                        width={24}
-                        height={24}
-                        alt={admin.username}
-                        src={admin.profile_photo}
-                        className="rounded-full object-cover"
-                      />
-                    )}
-
-                    <span>{admin.username}</span>
-
-                    <span className="text-xs text-gray-400">
-                      ({admin.role_type})
-                    </span>
-                  </div>
+        {role === "super" && (
+          <div className="w-full max-w-80">
+            {!adminError ? (
+              <Select
+                size="md"
+                variant="bordered"
+                className="w-full"
+                selectionMode="single"
+                isLoading={isLoadingAdmins}
+                aria-label="Filter by Admin"
+                placeholder="Filter by Admin"
+                onSelectionChange={handleAdminSelectionChange}
+                selectedKeys={adminFilter ? [adminFilter] : []}
+                classNames={{
+                  base: "bg-transparent",
+                  value: "text-base",
+                  trigger:
+                    "border-2 border-white data-[hover=true]:!bg-black/60 data-[hover=true]:border-white rounded-full",
+                }}
+              >
+                <SelectItem key="" value="" textValue="All Admins">
+                  All Admins
                 </SelectItem>
-              ))}
-            </Select>
-          ) : (
-            <p className="text-sm text-red-500">
-              Error loading admins: {adminError}
-            </p>
-          )}
 
-          {isLoadingAdmins && (
-            <p className="mt-1 text-xs text-gray-400">Loading admins...</p>
-          )}
-        </div>
+                {allAdmins.map((admin) => (
+                  <SelectItem
+                    key={admin.username}
+                    value={admin.username}
+                    textValue={`${admin.username} (${admin.role_type})`}
+                  >
+                    <div className="flex items-center gap-2">
+                      {admin.profile_photo && (
+                        <Image
+                          width={24}
+                          height={24}
+                          alt={admin.username}
+                          src={admin.profile_photo}
+                          className="rounded-full object-cover"
+                        />
+                      )}
+
+                      <span>{admin.username}</span>
+
+                      <span className="text-xs text-gray-400">
+                        ({admin.role_type})
+                      </span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </Select>
+            ) : (
+              <p className="text-sm text-red-500">
+                Error loading admins: {adminError}
+              </p>
+            )}
+
+            {isLoadingAdmins && (
+              <p className="mt-1 text-xs text-gray-400">Loading admins...</p>
+            )}
+          </div>
+        )}
 
         <Button
           onPress={resetFilters}

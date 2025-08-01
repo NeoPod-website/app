@@ -49,8 +49,10 @@ const RemovePodBtn = ({ podId, name, cover_photo }) => {
         },
       );
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
+        throw new Error(data.message || `Error ${response.status}`);
       }
 
       dispatch(removePod(podId));
@@ -61,10 +63,11 @@ const RemovePodBtn = ({ podId, name, cover_photo }) => {
         description: `Pod "${name}" deleted successfully`,
       });
     } catch (error) {
+      console.log("Pod deletion error:", error);
       addToast({
         color: "danger",
         title: "Error Deleting Pod",
-        description: "Failed to delete pod. Please try again.",
+        description: error.message || "Failed to delete pod. Please try again.",
       });
     } finally {
       setIsLoading(false);

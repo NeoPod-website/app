@@ -8,7 +8,12 @@ import PodListLoader from "@/components/ui/loader/pods/PodListLoader";
 import FilterPanelLoader from "@/components/ui/loader/filter/FilterPanelLoader";
 import FilterHeaderLoader from "@/components/ui/loader/filter/FilterHeaderLoader";
 
-export default function PodsList({ initialPods, lastEvaluatedKey, hasMore }) {
+export default function PodsList({
+  user,
+  initialPods,
+  lastEvaluatedKey,
+  hasMore,
+}) {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -19,9 +24,10 @@ export default function PodsList({ initialPods, lastEvaluatedKey, hasMore }) {
     <div className="flex flex-1 flex-col space-y-3 overflow-hidden">
       {isClient ? (
         <LoadMorePods
+          user={user}
+          initialHasMore={hasMore}
           initialPods={initialPods}
           initialLastKey={lastEvaluatedKey}
-          initialHasMore={hasMore}
         />
       ) : (
         <>
