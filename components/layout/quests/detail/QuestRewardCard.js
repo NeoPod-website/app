@@ -7,7 +7,7 @@ const QuestRewardCard = ({ reward, rewardType }) => {
         <p className="text-xl font-bold 3xl:text-2xl">{reward}</p>
 
         <span className="block text-xs uppercase 3xl:text-sm">
-          {rewardType === "PODS" ? "XPs" : rewardType}
+          {rewardType === "PODS" || rewardType === "pod" ? "XP" : rewardType}
         </span>
       </div>
     </div>

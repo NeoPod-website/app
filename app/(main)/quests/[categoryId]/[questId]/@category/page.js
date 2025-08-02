@@ -57,7 +57,7 @@ const CategorySlot = async ({ params }) => {
   }
 
   return (
-    <div className="hidden min-w-96 lg:block">
+    <div className="relative flex min-w-96 flex-1 flex-col overflow-hidden lg:flex">
       <CategoryContainer
         user={user}
         compact={true}
