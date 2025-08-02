@@ -180,7 +180,7 @@ const QuestDetails = async ({ quest }) => {
         <QuestDetailReward rewards={quest.rewards} />
 
         {!availabilityResult.available && !shouldShowSubmissionStatus && (
-          <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4">
+          <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-2 xl:p-4">
             <div className="flex items-start gap-2">
               <div className="mt-px text-yellow-400">
                 <svg
@@ -232,7 +232,7 @@ const QuestDetails = async ({ quest }) => {
       <div className="mt-3 flex justify-between">
         <ShareQuestBtn quest={quest} />
 
-        <div className="relative flex gap-4">
+        <div className="relative flex gap-2 xl:gap-4">
           <HighlightsQuestBtn />
 
           {shouldShowSubmissionForm && (

@@ -9,7 +9,7 @@ const HighlightsQuestBtn = () => {
     <Button
       size="lg"
       radius="full"
-      className="neo-button border border-gray-400 bg-gradient-dark"
+      className="neo-button hidden border border-gray-400 bg-gradient-dark"
       endContent={<HighlighterIcon size={16} />}
     >
       Highlights

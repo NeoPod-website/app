@@ -57,12 +57,14 @@ const CategorySlot = async ({ params }) => {
   }
 
   return (
-    <CategoryContainer
-      user={user}
-      compact={true}
-      scrollable={true}
-      category={categoryData}
-    />
+    <div className="hidden min-w-96 lg:block">
+      <CategoryContainer
+        user={user}
+        compact={true}
+        scrollable={true}
+        category={categoryData}
+      />
+    </div>
   );
 };
 

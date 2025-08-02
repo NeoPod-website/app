@@ -6,10 +6,12 @@ import CategoryItemLoader from "@/components/ui/loader/category/CategoryItemLoad
 
 const CategoryLoading = () => {
   return (
-    <WrapperContainer scrollable={true}>
-      <CategoryItemLoader />
-      <QuestListLoader compact={true} scrollable={true} />
-    </WrapperContainer>
+    <div className="hidden lg:block">
+      <WrapperContainer scrollable={true}>
+        <CategoryItemLoader />
+        <QuestListLoader compact={true} scrollable={true} />
+      </WrapperContainer>
+    </div>
   );
 };
 

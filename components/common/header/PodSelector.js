@@ -168,7 +168,7 @@ const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
     };
 
     fetchPods();
-  }, [urlPodId.podId, dispatch]);
+  }, [dispatch]);
 
   return (
     <Select

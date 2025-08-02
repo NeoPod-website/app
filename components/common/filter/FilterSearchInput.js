@@ -19,6 +19,7 @@ const FilterSearchInput = ({
         startContent={<SearchIcon size={20} />}
         onChange={(e) => setNameFilter(e.target.value)}
         classNames={{
+          input: "text-sm lg:text-base",
           base: "rounded-full border-2 border-white bg-transparent hover:bg-transparent p-0 placeholder-gray-200 focus:outline-none focus:ring-1 min-w-80",
           inputWrapper:
             "placeholder-gray-200 px-2 py-1.5 bg-transparent hover:bg-transparent focus:bg-transparent min-h-0 h-auto rounded-full",

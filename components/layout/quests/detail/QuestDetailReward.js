@@ -5,7 +5,9 @@ import QuestRewardCard from "./QuestRewardCard";
 const QuestDetailReward = ({ rewards }) => {
   return (
     <div className="space-y-2 3xl:space-y-5">
-      <h3 className="text-xl font-bold 3xl:text-2xl">Rewards</h3>
+      <h3 className="text-lg font-bold capitalize xl:text-xl 3xl:text-2xl">
+        Rewards
+      </h3>
 
       <div className="flex gap-4">
         {rewards.map((reward) => (

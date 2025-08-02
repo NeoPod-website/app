@@ -16,7 +16,7 @@ const QuestDetailHeading = ({
 
   return (
     <div className="space-y-2.5">
-      <h2 className="font-work-sans text-3xl font-bold 3xl:text-4xl">
+      <h2 className="font-work-sans text-2xl font-bold capitalize xl:text-3xl 3xl:text-4xl">
         {title}
       </h2>
 

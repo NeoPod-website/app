@@ -3,8 +3,8 @@ import { GripVertical } from "lucide-react";
 
 const QuestTaskContainer = ({
   icon,
-  color,
   text,
+  color,
   children,
   isAdmin = true,
 }) => {
@@ -20,7 +20,7 @@ const QuestTaskContainer = ({
         <section className="relative flex-1">
           <div
             style={{ backgroundColor: color }}
-            className="flex w-fit items-center gap-1 rounded-t-lg px-3 py-1 text-xs uppercase"
+            className="flex w-fit items-center gap-1 rounded-t-lg px-3 py-1 text-[10px] uppercase xl:text-xs"
           >
             {icon} {text}
           </div>

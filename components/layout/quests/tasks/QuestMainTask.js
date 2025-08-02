@@ -135,8 +135,9 @@ const QuestMainTask = ({ name, heading, description, task, questId }) => {
         onBlur={name === "url" ? handleUrlBlur : undefined}
         className="bg-dark"
         classNames={{
+          input: "text-sm lg:text-base",
           inputWrapper:
-            "border-gray-300 focus-within:!border-gray-300 rounded-xl focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black px-4 py-2.5",
+            "border-gray-300 focus-within:!border-gray-300 rounded-xl focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black px-2.5 py-1.5 xl:px-4 xl:py-2.5",
         }}
       />
     </QuestTask>

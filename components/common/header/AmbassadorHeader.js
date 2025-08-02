@@ -61,7 +61,7 @@ const AmbassadorHeader = async () => {
         </div>
       </div>
 
-      <Link href="/notifications">
+      <Link href="/notifications" className="hidden">
         <div className="h-9 w-fit rounded-full border-t border-gray-400 bg-gradient-dark px-3 py-2 3xl:h-11 3xl:px-4 3xl:py-2.5">
           <BellIcon size={20} className="h-4 w-4 text-sm 3xl:h-5 3xl:w-5" />
         </div>

@@ -274,7 +274,7 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
   };
 
   return (
-    <div className="submit-section">
+    <div className="submit-section flex min-w-48 flex-col items-end">
       <button
         onClick={(e) => {
           e.preventDefault();
@@ -299,13 +299,13 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
       </button>
 
       {submissionError && (
-        <div className="absolute -bottom-[22px] right-0 mt-2 text-sm text-red-600">
+        <div className="absolute -bottom-[22px] right-0 mt-2 hidden text-sm text-red-600 sm:block">
           {submissionError}
         </div>
       )}
 
       {!isQuestComplete && !isSubmitting && (
-        <div className="absolute -bottom-[22px] right-0 mt-2 text-sm text-gray-400">
+        <div className="absolute -bottom-[22px] right-0 mt-2 hidden text-sm text-gray-400 sm:block">
           Complete all tasks to submit
         </div>
       )}

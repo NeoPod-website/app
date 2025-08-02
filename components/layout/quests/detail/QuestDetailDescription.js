@@ -62,7 +62,9 @@ const QuestDetailDescription = ({ description }) => {
   if (!isLoaded) {
     return (
       <div className="space-y-5">
-        <h3 className="text-xl font-bold 3xl:text-2xl">Description</h3>
+        <h3 className="text-lg font-bold capitalize xl:text-xl 3xl:text-2xl">
+          Description
+        </h3>
 
         <div className="prose prose-invert max-w-none">
           <div className="animate-pulse">
@@ -82,10 +84,12 @@ const QuestDetailDescription = ({ description }) => {
 
   return (
     <div className="space-y-2 3xl:space-y-5">
-      <h3 className="text-xl font-bold 3xl:text-2xl">Description</h3>
+      <h3 className="text-lg font-bold capitalize xl:text-xl 3xl:text-2xl">
+        Description
+      </h3>
 
       <div
-        className="prose prose-invert max-w-none"
+        className="prose prose-invert max-w-none text-sm xl:text-base"
         dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
       />
     </div>
