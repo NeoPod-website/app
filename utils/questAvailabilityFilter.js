@@ -55,6 +55,7 @@ const improvedTimeUtils = {
         const firstOfMonth = new Date();
         firstOfMonth.setUTCDate(1);
         firstOfMonth.setUTCHours(0, 0, 0, 0);
+
         return firstOfMonth;
 
       default:
@@ -112,6 +113,7 @@ const improvedTimeUtils = {
   isInCurrentRecurrencePeriod: (submissionDate, recurrence) => {
     const periodStart = improvedTimeUtils.getRecurrencePeriodStart(recurrence);
     const submissionTime = new Date(submissionDate);
+
     return submissionTime >= periodStart;
   },
 
@@ -147,6 +149,7 @@ const improvedTimeUtils = {
 
     // Parse due date - assume it's in format "YYYY-MM-DD"
     let dueDate;
+
     if (quest.due_date.includes("T")) {
       // If it already has time, use as is
       dueDate = new Date(quest.due_date);
@@ -163,6 +166,119 @@ const improvedTimeUtils = {
   },
 
   // Get the exact time when quest becomes available again
+  // getQuestNextAvailability: (quest, questSubmissions) => {
+  //   const now = new Date();
+
+  //   // PRIORITY 1: Check due date FIRST (most important)
+  //   if (improvedTimeUtils.isPastDueDate(quest)) {
+  //     return {
+  //       type: "expired",
+  //       availableAt: null,
+  //       reason: "Quest expired (past due date)",
+  //     };
+  //   }
+
+  //   // PRIORITY 2: Check claim limit
+  //   if (quest.limit && quest.total_submissions >= quest.limit) {
+  //     return {
+  //       type: "full",
+  //       availableAt: null,
+  //       reason: "Maximum submissions reached",
+  //     };
+  //   }
+
+  //   // PRIORITY 3: Check cooldown
+  //   if (quest.cooldown && quest.cooldown !== "None") {
+  //     const rejectedSubmissions = questSubmissions.filter(
+  //       (sub) => sub.review_status === "rejected",
+  //     );
+
+  //     if (rejectedSubmissions.length > 0) {
+  //       const latestRejection = rejectedSubmissions.reduce((latest, current) =>
+  //         new Date(current.reviewed_at || current.submitted_at) >
+  //         new Date(latest.reviewed_at || latest.submitted_at)
+  //           ? current
+  //           : latest,
+  //       );
+
+  //       const rejectionTime = new Date(
+  //         latestRejection.reviewed_at || latestRejection.submitted_at,
+  //       );
+  //       const cooldownMs = improvedTimeUtils.getCooldownMs(quest.cooldown);
+  //       const cooldownEnd = new Date(rejectionTime.getTime() + cooldownMs);
+
+  //       if (now < cooldownEnd) {
+  //         return {
+  //           type: "cooldown",
+  //           availableAt: cooldownEnd,
+  //           reason: "Quest in cooldown period",
+  //         };
+  //       }
+  //     }
+  //   }
+
+  //   // PRIORITY 4: Check recurrence
+  //   if (quest.recurrence && quest.recurrence.toLowerCase() !== "one-time") {
+  //     const approvedSubmissions = questSubmissions.filter(
+  //       (sub) => sub.review_status === "approved",
+  //     );
+
+  //     const completedInCurrentPeriod = approvedSubmissions.some((submission) =>
+  //       improvedTimeUtils.isInCurrentRecurrencePeriod(
+  //         submission.submitted_at,
+  //         quest.recurrence,
+  //       ),
+  //     );
+
+  //     if (completedInCurrentPeriod) {
+  //       const nextPeriodStart = improvedTimeUtils.getNextRecurrencePeriodStart(
+  //         quest.recurrence,
+  //       );
+
+  //       return {
+  //         type: "recurrence",
+  //         availableAt: nextPeriodStart,
+  //         reason: `Already submitted this ${quest.recurrence.toLowerCase()} period`,
+  //       };
+  //     }
+  //   }
+
+  //   // PRIORITY 5: Check one-time completion
+  //   if (!quest.recurrence || quest.recurrence.toLowerCase() === "one-time") {
+  //     const hasEverCompleted = questSubmissions.some(
+  //       (sub) => sub.review_status === "approved",
+  //     );
+  //     if (hasEverCompleted) {
+  //       return {
+  //         type: "completed",
+  //         availableAt: null,
+  //         reason: "Quest already completed (one-time)",
+  //       };
+  //     }
+  //   }
+
+  //   // PRIORITY 6: Check pending submission
+  //   const hasPending = questSubmissions.some((sub) =>
+  //     ["pending", "in_progress"].includes(sub.review_status),
+  //   );
+
+  //   if (hasPending) {
+  //     return {
+  //       type: "pending",
+  //       availableAt: null,
+  //       reason: "Submission pending review",
+  //     };
+  //   }
+
+  //   // Quest is available now
+  //   return {
+  //     type: "available",
+  //     availableAt: now,
+  //     reason: "Available for submission",
+  //   };
+  // },
+
+  // Get the exact time when quest becomes available again - PERFECT VERSION WITH COOLDOWN
   getQuestNextAvailability: (quest, questSubmissions) => {
     const now = new Date();
 
@@ -184,61 +300,85 @@ const improvedTimeUtils = {
       };
     }
 
-    // PRIORITY 3: Check cooldown
-    if (quest.cooldown && quest.cooldown !== "None") {
-      const rejectedSubmissions = questSubmissions.filter(
-        (sub) => sub.review_status === "rejected",
-      );
-      if (rejectedSubmissions.length > 0) {
-        const latestRejection = rejectedSubmissions.reduce((latest, current) =>
-          new Date(current.reviewed_at || current.submitted_at) >
-          new Date(latest.reviewed_at || latest.submitted_at)
-            ? current
-            : latest,
-        );
-
-        const rejectionTime = new Date(
-          latestRejection.reviewed_at || latestRejection.submitted_at,
-        );
-        const cooldownMs = improvedTimeUtils.getCooldownMs(quest.cooldown);
-        const cooldownEnd = new Date(rejectionTime.getTime() + cooldownMs);
-
-        if (now < cooldownEnd) {
-          return {
-            type: "cooldown",
-            availableAt: cooldownEnd,
-            reason: "Quest in cooldown period",
-          };
-        }
-      }
-    }
-
-    // PRIORITY 4: Check recurrence
+    // For recurring quests, we need to check BOTH recurrence and cooldown
     if (quest.recurrence && quest.recurrence.toLowerCase() !== "one-time") {
-      const approvedSubmissions = questSubmissions.filter(
-        (sub) => sub.review_status === "approved",
-      );
-      const completedInCurrentPeriod = approvedSubmissions.some((submission) =>
+      // STEP 1: Check if already submitted in current recurrence period
+      const submissionsInCurrentPeriod = questSubmissions.filter((submission) =>
         improvedTimeUtils.isInCurrentRecurrencePeriod(
           submission.submitted_at,
           quest.recurrence,
         ),
       );
 
-      if (completedInCurrentPeriod) {
+      let earliestAvailableTime = now;
+
+      // If there's a submission in current period, must wait for next period
+      if (submissionsInCurrentPeriod.length > 0) {
         const nextPeriodStart = improvedTimeUtils.getNextRecurrencePeriodStart(
           quest.recurrence,
         );
+        earliestAvailableTime = nextPeriodStart;
+      }
+
+      // STEP 2: Check cooldown from rejected submissions (applies to all periods)
+      if (quest.cooldown && quest.cooldown !== "None") {
+        const rejectedSubmissions = questSubmissions.filter(
+          (sub) => sub.review_status === "rejected",
+        );
+
+        if (rejectedSubmissions.length > 0) {
+          const latestRejection = rejectedSubmissions.reduce(
+            (latest, current) =>
+              new Date(current.reviewed_at || current.submitted_at) >
+              new Date(latest.reviewed_at || latest.submitted_at)
+                ? current
+                : latest,
+          );
+
+          const rejectionTime = new Date(
+            latestRejection.reviewed_at || latestRejection.submitted_at,
+          );
+          const cooldownMs = improvedTimeUtils.getCooldownMs(quest.cooldown);
+          const cooldownEnd = new Date(rejectionTime.getTime() + cooldownMs);
+
+          // Take the LATER of the two times (recurrence vs cooldown)
+          if (cooldownEnd > earliestAvailableTime) {
+            earliestAvailableTime = cooldownEnd;
+          }
+        }
+      }
+
+      // Return result based on what's blocking availability
+      if (earliestAvailableTime > now) {
+        // Determine the primary reason for waiting
+        const nextPeriodStart = improvedTimeUtils.getNextRecurrencePeriodStart(
+          quest.recurrence,
+        );
+        const isBlockedByRecurrence =
+          submissionsInCurrentPeriod.length > 0 &&
+          (!nextPeriodStart ||
+            earliestAvailableTime.getTime() === nextPeriodStart.getTime());
+
         return {
-          type: "recurrence",
-          availableAt: nextPeriodStart,
-          reason: `Already submitted this ${quest.recurrence.toLowerCase()} period`,
+          type: isBlockedByRecurrence ? "recurrence" : "cooldown",
+          availableAt: earliestAvailableTime,
+          reason: isBlockedByRecurrence
+            ? `Already submitted this ${quest.recurrence.toLowerCase()} period`
+            : "Quest in cooldown period",
         };
       }
+
+      // Available now for recurring quest
+      return {
+        type: "available",
+        availableAt: now,
+        reason: "Available for submission",
+      };
     }
 
-    // PRIORITY 5: Check one-time completion
+    // PRIORITY 3: For ONE-TIME quests only
     if (!quest.recurrence || quest.recurrence.toLowerCase() === "one-time") {
+      // Check if already completed
       const hasEverCompleted = questSubmissions.some(
         (sub) => sub.review_status === "approved",
       );
@@ -249,19 +389,49 @@ const improvedTimeUtils = {
           reason: "Quest already completed (one-time)",
         };
       }
-    }
 
-    // PRIORITY 6: Check pending submission
-    const hasPending = questSubmissions.some((sub) =>
-      ["pending", "in_progress"].includes(sub.review_status),
-    );
+      // Check cooldown after rejection
+      if (quest.cooldown && quest.cooldown !== "None") {
+        const rejectedSubmissions = questSubmissions.filter(
+          (sub) => sub.review_status === "rejected",
+        );
+        if (rejectedSubmissions.length > 0) {
+          const latestRejection = rejectedSubmissions.reduce(
+            (latest, current) =>
+              new Date(current.reviewed_at || current.submitted_at) >
+              new Date(latest.reviewed_at || latest.submitted_at)
+                ? current
+                : latest,
+          );
 
-    if (hasPending) {
-      return {
-        type: "pending",
-        availableAt: null,
-        reason: "Submission pending review",
-      };
+          const rejectionTime = new Date(
+            latestRejection.reviewed_at || latestRejection.submitted_at,
+          );
+          const cooldownMs = improvedTimeUtils.getCooldownMs(quest.cooldown);
+          const cooldownEnd = new Date(rejectionTime.getTime() + cooldownMs);
+
+          if (now < cooldownEnd) {
+            return {
+              type: "cooldown",
+              availableAt: cooldownEnd,
+              reason: "Quest in cooldown period",
+            };
+          }
+        }
+      }
+
+      // Check pending submission
+      const hasPending = questSubmissions.some((sub) =>
+        ["pending", "in_progress"].includes(sub.review_status),
+      );
+
+      if (hasPending) {
+        return {
+          type: "pending",
+          availableAt: null,
+          reason: "Submission pending review",
+        };
+      }
     }
 
     // Quest is available now

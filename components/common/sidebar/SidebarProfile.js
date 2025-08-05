@@ -31,9 +31,9 @@ const SidebarProfile = ({ children, user }) => {
               <div className="flex items-center gap-1 text-xs capitalize text-gray-100">
                 (
                 {user.role_type === "super"
-                  ? "Super Admin"
+                  ? "Super"
                   : user.role_type === "community"
-                    ? "Community Admin"
+                    ? "Admin"
                     : user.role_type === "moderator"
                       ? "Moderator"
                       : "Reviewer"}

@@ -44,14 +44,15 @@ const FilterHeader = ({
           </>
         )}
 
-        {role === "super" && (
-          <Link
-            href={linkHref}
-            className="flex items-center gap-1 rounded-full border border-black bg-white px-3 py-1.5 text-sm font-medium text-black transition-colors hover:bg-gray-50"
-          >
-            {linkLabel} <SendHorizontalIcon size={16} className="-mt-0.5" />
-          </Link>
-        )}
+        {role === "super" ||
+          (headerLabel !== "pods" && (
+            <Link
+              href={linkHref}
+              className="flex items-center gap-1 rounded-full border border-black bg-white px-3 py-1.5 text-sm font-medium text-black transition-colors hover:bg-gray-50"
+            >
+              {linkLabel} <SendHorizontalIcon size={16} className="-mt-0.5" />
+            </Link>
+          ))}
       </div>
     </div>
   );
