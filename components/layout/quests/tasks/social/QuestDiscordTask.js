@@ -243,7 +243,7 @@ const QuestDiscordTask = ({ task, questId, discordUser }) => {
         <div className="flex w-full justify-end">
           <Button
             as={Link}
-            href="/settings"
+            href="/settings?tab=socials"
             className="border border-white bg-gradient-primary hover:opacity-90"
             endContent={<Settings className="h-4 w-4" />}
           >

@@ -184,19 +184,7 @@ const improvedTimeUtils = {
       };
     }
 
-    // PRIORITY 3: Check pending submission
-    const hasPending = questSubmissions.some((sub) =>
-      ["pending", "in_progress"].includes(sub.review_status),
-    );
-    if (hasPending) {
-      return {
-        type: "pending",
-        availableAt: null,
-        reason: "Submission pending review",
-      };
-    }
-
-    // PRIORITY 4: Check cooldown
+    // PRIORITY 3: Check cooldown
     if (quest.cooldown && quest.cooldown !== "None") {
       const rejectedSubmissions = questSubmissions.filter(
         (sub) => sub.review_status === "rejected",
@@ -225,7 +213,7 @@ const improvedTimeUtils = {
       }
     }
 
-    // PRIORITY 5: Check recurrence
+    // PRIORITY 4: Check recurrence
     if (quest.recurrence && quest.recurrence.toLowerCase() !== "one-time") {
       const approvedSubmissions = questSubmissions.filter(
         (sub) => sub.review_status === "approved",
@@ -249,7 +237,7 @@ const improvedTimeUtils = {
       }
     }
 
-    // PRIORITY 6: Check one-time completion
+    // PRIORITY 5: Check one-time completion
     if (!quest.recurrence || quest.recurrence.toLowerCase() === "one-time") {
       const hasEverCompleted = questSubmissions.some(
         (sub) => sub.review_status === "approved",
@@ -263,6 +251,19 @@ const improvedTimeUtils = {
       }
     }
 
+    // PRIORITY 6: Check pending submission
+    const hasPending = questSubmissions.some((sub) =>
+      ["pending", "in_progress"].includes(sub.review_status),
+    );
+
+    if (hasPending) {
+      return {
+        type: "pending",
+        availableAt: null,
+        reason: "Submission pending review",
+      };
+    }
+
     // Quest is available now
     return {
       type: "available",
@@ -271,55 +272,6 @@ const improvedTimeUtils = {
     };
   },
 };
-
-/**
- * Enhanced quest availability checking with fixed logic
- */
-// export const checkQuestAvailabilityWithTiming = (
-//   quest,
-//   questSubmissions,
-//   user,
-//   completedQuests,
-// ) => {
-//   // Get availability info with proper priority order
-//   const availability = improvedTimeUtils.getQuestNextAvailability(
-//     quest,
-//     questSubmissions,
-//   );
-
-//   // Check requirements/conditions
-//   if (quest.conditions && quest.conditions.length > 0) {
-//     const meetsAllRequirements = quest.conditions.every((requirement) => {
-//       switch (requirement.type) {
-//         case "ambassador":
-//           return user.role_type === requirement.role;
-//         case "quest_completion":
-//           return completedQuests.includes(requirement.quest_id);
-//         case "pod_membership":
-//           return user.pod_id === requirement.pod_id;
-//         case "points_minimum":
-//           return (user.total_points || 0) >= requirement.minimum_points;
-//         default:
-//           return true;
-//       }
-//     });
-
-//     if (!meetsAllRequirements) {
-//       return {
-//         available: false,
-//         reason: "Requirements not met",
-//         nextAvailableDate: null,
-//       };
-//     }
-//   }
-
-//   // Return the availability result
-//   return {
-//     available: availability.type === "available",
-//     reason: availability.reason,
-//     nextAvailableDate: availability.availableAt,
-//   };
-// };
 
 export const checkQuestAvailabilityWithTiming = (
   quest,

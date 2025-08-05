@@ -228,7 +228,7 @@ const QuestTelegramTask = ({ task, questId, telegramUser }) => {
         <div className="flex w-full justify-end">
           <Button
             as={Link}
-            href="/settings"
+            href="/settings?tab=socials"
             className="border border-white bg-gradient-primary hover:opacity-90"
             endContent={<Settings className="h-4 w-4" />}
           >
@@ -242,7 +242,6 @@ const QuestTelegramTask = ({ task, questId, telegramUser }) => {
   return (
     <>
       <div className="mb-3 space-y-3">
-        {/* Channel/Group Information Card */}
         {(groupData || task?.channelName || task?.groupName) && (
           <div className="rounded-xl border border-gray-600 bg-gray-700 p-4">
             <div className="flex items-start gap-3">
@@ -325,7 +324,6 @@ const QuestTelegramTask = ({ task, questId, telegramUser }) => {
           </div>
         )}
 
-        {/* Simple Join Instructions */}
         <div className="flex items-center gap-2 rounded-xl border border-gray-300 px-3 py-2">
           <ShieldAlertIcon className="h-4 w-4 text-gray-100" />
 
@@ -336,7 +334,6 @@ const QuestTelegramTask = ({ task, questId, telegramUser }) => {
           </p>
         </div>
 
-        {/* Verification Notice */}
         {task?.requireVerification &&
           !joinVerified &&
           currentAnswer?.joined && (
@@ -352,7 +349,6 @@ const QuestTelegramTask = ({ task, questId, telegramUser }) => {
           )}
       </div>
 
-      {/* Action Buttons */}
       <div className="flex w-full justify-end gap-2">
         <Button
           as={Link}
