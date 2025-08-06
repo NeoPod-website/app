@@ -22,11 +22,14 @@ const ProfilePage = async () => {
 
   return (
     <MainPageScroll scrollable={false}>
-      <div className="flex h-full flex-1 gap-6 overflow-hidden">
-        <WrapperContainer scrollable={true} className="space-y-6 p-2">
+      <div className="hide-scroll flex h-full flex-1 flex-col gap-6 overflow-y-auto lg:flex-row lg:overflow-y-hidden">
+        <WrapperContainer
+          scrollable={true}
+          className="flex-none space-y-6 p-2 lg:flex-1"
+        >
           <ProfileHeader user={user} />
 
-          <section className="thin-scrollbar space-y-7 overflow-y-auto px-4 2xl:px-6">
+          <section className="thin-scrollbar space-y-7 px-4 lg:overflow-y-auto 2xl:px-6">
             <ProfileName user={user} />
             <ProfileStats user={user} />
             <ProfileSocials user={user} />
@@ -34,14 +37,16 @@ const ProfilePage = async () => {
           </section>
         </WrapperContainer>
 
-        <WrapperContainer>
+        <WrapperContainer className="flex-none space-y-6 p-2 lg:flex-1">
           <div className="p-6">
             <h2 className="mb-4 text-xl font-bold text-white">Quick Actions</h2>
+
             <div className="space-y-4">
               <div className="rounded-lg border border-gray-400 bg-gradient-dark p-4">
                 <h3 className="mb-2 font-semibold text-white">
                   Invite Friends
                 </h3>
+
                 <p className="text-sm text-gray-400">
                   Share your invite code: {user?.invite_code || "N/A"}
                 </p>
@@ -51,6 +56,7 @@ const ProfilePage = async () => {
                 <h3 className="mb-2 font-semibold text-white">
                   Pod Information
                 </h3>
+
                 <p className="text-sm text-gray-400">
                   Pod ID: {user?.pod_id || "Not assigned"}
                 </p>

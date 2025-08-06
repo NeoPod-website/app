@@ -29,28 +29,28 @@ const ProfileSocials = ({ user }) => {
   const socials = [
     {
       platform: "twitter",
-      username: user?.twitter,
+      username: user?.twitter_username,
       icon: XIcon,
       label: "Twitter",
     },
 
     {
       platform: "discord",
-      username: user?.discord,
+      username: user?.discord_username,
       icon: DiscordIcon,
       label: "Discord",
     },
 
     {
       platform: "telegram",
-      username: user?.telegram,
+      username: user?.telegram_username,
       icon: TelegramIcon,
       label: "Telegram",
     },
   ];
 
   return (
-    <div className="flex items-center gap-5 3xl:gap-7">
+    <div className="flex flex-wrap items-center gap-3 2xl:gap-5 3xl:gap-7">
       {socials.map((social, index) => {
         const IconComponent = social.icon;
         const isConnected = social.username;

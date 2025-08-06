@@ -87,18 +87,21 @@ const LoadMoreNotifications = ({
           icon="📊"
           color="from-blue-500 to-cyan-500"
         />
+
         <NotificationStatsCard
           label="Announcements"
           value={typeStats.announcement || 0}
           icon="📢"
           color="from-emerald-500 to-teal-500"
         />
+
         <NotificationStatsCard
           label="Updates"
           value={typeStats.update || 0}
           icon="📰"
           color="from-amber-500 to-orange-500"
         />
+
         <NotificationStatsCard
           label="Achievements"
           value={typeStats.achievement || 0}
@@ -107,7 +110,7 @@ const LoadMoreNotifications = ({
         />
       </div>
 
-      <section className="thin-scrollbar flex-1 space-y-6 overflow-y-auto pr-4 3xl:space-y-8">
+      <section className="thin-scrollbar flex-1 space-y-6 pr-4 lg:overflow-y-auto 3xl:space-y-8">
         {todayNotifications.length > 0 && (
           <NotificationGroup
             notifications={todayNotifications}

@@ -160,7 +160,7 @@ const ProfileHeader = ({ user }) => {
 
   return (
     <div className="relative">
-      <div className="relative h-32 w-full overflow-hidden rounded-2xl sm:h-40 md:h-44">
+      <div className="relative h-24 w-full overflow-hidden rounded-2xl sm:h-40 md:h-44 xl:h-28 3xl:h-32">
         <Image
           fill
           alt="Profile Banner Image"
@@ -170,17 +170,17 @@ const ProfileHeader = ({ user }) => {
       </div>
 
       <div className="mx-6 -mt-12 flex items-end justify-between sm:-mt-14 md:-mt-16">
-        <div className="relative aspect-square w-28 overflow-hidden rounded-full border-4 border-black sm:w-32 md:w-36">
+        <div className="relative aspect-square w-28 overflow-hidden rounded-full border-4 border-black xl:w-32 3xl:w-36">
           <Image
             fill
             alt="profile"
             src={profilePhotoUrl}
-            className={`absolute left-0 top-0 h-full w-full object-cover ${isLoadingPhoto ? "animate-pulse opacity-75" : ""}`}
             onError={handleImageError}
+            className={`absolute left-0 top-0 h-full w-full object-cover ${isLoadingPhoto ? "animate-pulse opacity-75" : ""}`}
           />
         </div>
 
-        <div className="mb-2 flex w-fit items-center gap-3 rounded-lg border-t border-gray-400 bg-gradient-dark px-4 py-2.5 text-sm font-bold sm:text-base">
+        <div className="mb-2 flex w-fit items-center gap-3 rounded-lg border-t border-gray-400 bg-gradient-dark px-4 py-2.5 text-sm font-bold 3xl:text-base">
           {shortAddress(
             user?.wallet_address ||
               "0x0000000000000000000000000000000000000000",

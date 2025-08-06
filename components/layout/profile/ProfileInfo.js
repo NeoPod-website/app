@@ -4,8 +4,8 @@ import { GlobeIcon, MailIcon } from "lucide-react";
 const ProfileInfo = ({ user }) => {
   return (
     <div className="">
-      <div className="flex gap-10 border-t border-gray-400 py-6 xl:gap-16 3xl:gap-20">
-        <p className="min-w-28 text-base font-bold text-white">Username</p>
+      <div className="flex gap-10 border-t border-gray-400 py-6 text-sm xl:gap-16 2xl:text-base 3xl:gap-20">
+        <p className="min-w-20 font-bold text-white 3xl:min-w-28">Username</p>
 
         <div className="flex flex-1 rounded-lg border border-gray-400">
           <p className="border-r border-gray-400 px-4 py-2.5 text-gray-200">
@@ -16,8 +16,10 @@ const ProfileInfo = ({ user }) => {
         </div>
       </div>
 
-      <div className="flex gap-10 border-t border-gray-400 py-6 xl:gap-16 3xl:gap-20">
-        <p className="min-w-28 text-base font-bold text-white">Email Address</p>
+      <div className="flex gap-10 border-t border-gray-400 py-6 text-sm xl:gap-16 2xl:text-base 3xl:gap-20">
+        <p className="min-w-20 font-bold text-white 3xl:min-w-28">
+          Email Address
+        </p>
 
         <div className="flex flex-1 items-center gap-3 rounded-lg border border-gray-400 px-4 py-2.5">
           <MailIcon className="h-5 w-5 text-gray-200" />
@@ -26,8 +28,8 @@ const ProfileInfo = ({ user }) => {
         </div>
       </div>
 
-      <div className="flex gap-10 border-t border-gray-400 py-6 xl:gap-16 3xl:gap-20">
-        <p className="min-w-28 text-base font-bold text-white">Role</p>
+      <div className="flex gap-10 border-t border-gray-400 py-6 text-sm xl:gap-16 2xl:text-base 3xl:gap-20">
+        <p className="min-w-20 font-bold text-white 3xl:min-w-28">Role</p>
 
         <div className="flex flex-1 items-center gap-3 rounded-lg border border-gray-400 px-4 py-2.5">
           <GlobeIcon className="h-5 w-5 text-gray-200" />
@@ -36,8 +38,8 @@ const ProfileInfo = ({ user }) => {
         </div>
       </div>
 
-      <div className="flex gap-10 border-t border-gray-400 py-6 xl:gap-16 3xl:gap-20">
-        <p className="min-w-28 text-base font-bold text-white">Status</p>
+      <div className="flex gap-10 border-t border-gray-400 py-6 text-sm xl:gap-16 2xl:text-base 3xl:gap-20">
+        <p className="min-w-20 font-bold text-white 3xl:min-w-28">Status</p>
 
         <div className="flex flex-1 items-center gap-3 rounded-lg border border-gray-400 px-4 py-2.5">
           <div
