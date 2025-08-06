@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@heroui/react";
 import { Trash2, Image as ImageIcon } from "lucide-react";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 

@@ -15,6 +15,7 @@ import { removePod } from "@/redux/slice/podsSlice";
 
 const RemovePodBtn = ({ podId, name, cover_photo }) => {
   const dispatch = useDispatch();
+
   const { deleteFile } = useUpload();
   const [isLoading, setIsLoading] = useState(false);
 

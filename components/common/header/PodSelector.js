@@ -9,7 +9,7 @@ import { languages } from "@/data/langData";
 
 import { setCurrentPod, setPods } from "@/redux/slice/podsSlice";
 
-const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
+const PodSelector = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const pathname = usePathname();
@@ -46,76 +46,6 @@ const PodSelector = ({ assignedPods = [], adminRoleType = "reviewer" }) => {
   const getLanguageName = useCallback((code) => {
     return languages.find((lang) => lang.code === code)?.name || code;
   }, []);
-
-  // Fetch pods only once on mount
-  // useEffect(() => {
-  //   const fetchPods = async () => {
-  //     setIsLoading(true);
-
-  //     try {
-  //       let res;
-  //       const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-  //       if (adminRoleType === "super") {
-  //         res = await fetch(`${API_URL}/pods?limit=100`, {
-  //           method: "GET",
-  //           headers: { "Content-Type": "application/json" },
-  //           credentials: "include",
-  //         });
-  //       } else if (assignedPods.length > 0) {
-  //         const url =
-  //           assignedPods.length > 25
-  //             ? `${API_URL}/pods/batch/optimized`
-  //             : `${API_URL}/pods/batch`;
-
-  //         res = await fetch(url, {
-  //           method: "POST",
-  //           headers: { "Content-Type": "application/json" },
-  //           credentials: "include",
-  //           body: JSON.stringify({ podIds: assignedPods }),
-  //         });
-  //       } else {
-  //         dispatch(setPods(pods));
-  //         setIsLoading(false);
-  //         return;
-  //       }
-
-  //       const data = await res.json();
-
-  //       if (!res.ok) {
-  //         throw new Error(data.message || `Error ${res.status}`);
-  //       }
-
-  //       const pods = data.data.pods || [];
-
-  //       dispatch(setPods(pods));
-
-  //       // Set first pod as default immediately after setting allPods
-  //       if (pods.length > 0) {
-  //         if (
-  //           urlPodId.podId &&
-  //           pods.some((pod) => pod.pod_id === urlPodId.podId)
-  //         ) {
-  //           setSelectedLanguage(new Set([urlPodId.podId]));
-  //           dispatch(setCurrentPod(urlPodId.podId));
-  //         } else {
-  //           setSelectedLanguage(new Set([pods[0].pod_id]));
-  //           dispatch(setCurrentPod(pods[0].pod_id));
-  //         }
-  //       }
-  //     } catch (err) {
-  //       addToast({
-  //         title: "Error",
-  //         color: "danger",
-  //         description: err.message,
-  //       });
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchPods();
-  // }, []);
 
   // Simplified approach - always use getAllPods since it handles role-based access
   useEffect(() => {
