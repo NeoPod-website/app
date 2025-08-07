@@ -8,7 +8,7 @@ const NotificationGroup = ({ notifications, title, icon }) => {
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-2">
           {icon}
-          <h2 className="font-work-sans text-2xl font-bold text-white">
+          <h2 className="font-work-sans text-xl font-bold text-white 3xl:text-2xl">
             {title}
           </h2>
         </div>

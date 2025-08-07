@@ -65,7 +65,7 @@ const ProfileSocials = ({ user }) => {
                 className="flex items-center gap-3 rounded-lg border border-gray-400 bg-gradient-dark px-4 py-2.5 transition-opacity hover:bg-opacity-80"
                 title={`${social.label}: ${social.username}`}
               >
-                <IconComponent className="h-5 w-5 text-white" />
+                <IconComponent className="h-4 w-4 text-white 3xl:h-5 3xl:w-5" />
 
                 <p className="text-sm text-white 3xl:text-base">
                   {truncateSocial(social.username)}
@@ -73,7 +73,7 @@ const ProfileSocials = ({ user }) => {
               </Link>
             ) : (
               <div className="flex items-center gap-3 rounded-lg border border-gray-400 bg-opacity-50 bg-gradient-dark px-4 py-2.5">
-                <IconComponent className="h-5 w-5 text-gray-300" />
+                <IconComponent className="h-4 w-4 text-gray-300 3xl:h-5 3xl:w-5" />
 
                 <p className="text-sm text-gray-300 3xl:text-base">
                   Not connected

@@ -121,9 +121,8 @@ const AmbassadorNotificationsPage = async () => {
             Notifications
           </h2>
 
-          <p className="text-lg text-gray-200">
-            Stay updated with the latest from NeoPod •{" "}
-            {notificationData.totalResults} total
+          <p className="text-base text-gray-200 3xl:text-lg">
+            Stay updated with the latest from NeoPod
           </p>
         </div>
 

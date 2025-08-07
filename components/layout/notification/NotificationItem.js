@@ -22,16 +22,19 @@ const NotificationItem = ({ notification, index }) => {
         <div className="flex flex-1 items-start gap-4">
           <div className="flex-shrink-0">
             <div
-              className={`rounded-xl bg-gradient-to-br ${getTypeColor(notification.notification_type)} p-3 shadow-lg transition-transform duration-300 group-hover:scale-110`}
+              className={`rounded-xl bg-gradient-to-br ${getTypeColor(notification.notification_type)} p-2 shadow-lg transition-transform duration-300 group-hover:scale-110 3xl:p-3`}
             >
-              <BellRingIcon size={24} className="text-white" />
+              <BellRingIcon
+                size={24}
+                className="h-5 w-5 text-white 3xl:h-6 3xl:w-6"
+              />
             </div>
           </div>
 
           <div className="min-w-0 flex-1">
             <div className="mb-2 flex items-center gap-3">
               <h3
-                className={`truncate font-work-sans text-xl font-bold ${titleColor} transition-colors duration-300 group-hover:text-blue-300`}
+                className={`truncate font-work-sans text-lg font-bold 3xl:text-xl ${titleColor} transition-colors duration-300 group-hover:text-blue-300`}
               >
                 {notification.title}
               </h3>
@@ -41,7 +44,7 @@ const NotificationItem = ({ notification, index }) => {
               </span>
             </div>
 
-            <p className="mb-3 text-sm leading-relaxed text-gray-100 lg:text-base">
+            <p className="mb-2 text-sm leading-relaxed text-gray-100 lg:text-base 3xl:mb-3">
               {notification.body}
             </p>
 
@@ -69,7 +72,7 @@ const NotificationItem = ({ notification, index }) => {
               </div>
             )}
 
-            <div className="flex items-center gap-4 text-sm text-gray-200">
+            <div className="flex items-center gap-4 text-xs text-gray-200 3xl:text-sm">
               <div className="flex items-center gap-1">
                 <ClockIcon size={14} />
                 <span>{formatTimeAgo(notification.created_at)}</span>

@@ -63,6 +63,7 @@ const LoadMoreNotifications = ({
 
       // Append new notifications to existing ones
       setNotifications((prev) => [...prev, ...newNotifications]);
+
       setNextKey(data.data?.pagination?.next_key || null);
       setHasMore(data.data?.pagination?.has_more || false);
     } catch (error) {
@@ -115,7 +116,12 @@ const LoadMoreNotifications = ({
           <NotificationGroup
             notifications={todayNotifications}
             title="Today"
-            icon={<Calendar size={24} className="text-blue-400" />}
+            icon={
+              <Calendar
+                size={24}
+                className="h-5 w-5 text-blue-400 3xl:h-6 3xl:w-6"
+              />
+            }
           />
         )}
 
@@ -123,7 +129,12 @@ const LoadMoreNotifications = ({
           <NotificationGroup
             notifications={yesterdayNotifications}
             title="Yesterday"
-            icon={<Clock size={24} className="text-purple-400" />}
+            icon={
+              <Clock
+                size={24}
+                className="h-5 w-5 text-purple-400 3xl:h-6 3xl:w-6"
+              />
+            }
           />
         )}
 
@@ -131,7 +142,12 @@ const LoadMoreNotifications = ({
           <NotificationGroup
             notifications={olderNotifications}
             title="Earlier"
-            icon={<Clock size={24} className="text-gray-400" />}
+            icon={
+              <Clock
+                size={24}
+                className="h-5 w-5 text-gray-400 3xl:h-6 3xl:w-6"
+              />
+            }
           />
         )}
 

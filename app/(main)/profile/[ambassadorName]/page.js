@@ -1,6 +1,6 @@
 import React from "react";
-import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
 import MainPageScroll from "@/components/common/MainPageScroll";
 import WrapperContainer from "@/components/common/WrapperContainer";
@@ -85,8 +85,11 @@ const AmbassadorProfilePage = async ({ params }) => {
 
   return (
     <MainPageScroll scrollable={false}>
-      <div className="flex h-full flex-1 gap-6 overflow-hidden">
-        <WrapperContainer scrollable={true} className="space-y-6 p-2">
+      <div className="hide-scroll flex h-full flex-1 flex-col gap-6 overflow-y-auto lg:flex-row lg:overflow-y-hidden">
+        <WrapperContainer
+          scrollable={true}
+          className="flex-none space-y-6 p-2 lg:flex-1"
+        >
           <ProfileHeader user={ambassador} />
 
           <section className="thin-scrollbar space-y-7 overflow-y-auto px-4 2xl:px-6">
@@ -97,8 +100,7 @@ const AmbassadorProfilePage = async ({ params }) => {
           </section>
         </WrapperContainer>
 
-        <WrapperContainer className="overflow-y-auto">
-          hi
+        <WrapperContainer className="hidden flex-none space-y-6 p-2 lg:block lg:flex-1">
           {/* <div className="p-6">
             {isOwnProfile ? (
               <>
