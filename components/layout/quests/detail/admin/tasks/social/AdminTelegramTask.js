@@ -34,7 +34,6 @@ const TelegramChannelSettings = ({ taskId }) => {
   const dispatch = useDispatch();
 
   const currentTasks = useSelector((state) => state.quest.currentQuest.tasks);
-
   const currentTask = currentTasks.find((task) => task.id === taskId) || {};
 
   const [localChannelLink, setLocalChannelLink] = useState(
@@ -44,9 +43,6 @@ const TelegramChannelSettings = ({ taskId }) => {
     currentTask.channelName || "",
   );
   const [localChatId, setLocalChatId] = useState(currentTask.chatId || "");
-  const [localRequireVerification, setLocalRequireVerification] = useState(
-    currentTask.requireVerification || false,
-  );
   const [localIsGroup, setLocalIsGroup] = useState(
     currentTask.isGroup || false,
   );
@@ -60,7 +56,6 @@ const TelegramChannelSettings = ({ taskId }) => {
       setLocalChannelLink(currentTask.channelLink || "");
       setLocalChannelName(currentTask.channelName || "");
       setLocalChatId(currentTask.chatId || "");
-      setLocalRequireVerification(currentTask.requireVerification || false);
       setLocalIsGroup(currentTask.isGroup || false);
     }
   }, [currentTask]);
@@ -73,7 +68,10 @@ const TelegramChannelSettings = ({ taskId }) => {
       dispatch(
         updateCurrentQuestTask({
           id: taskId,
-          changes: changes,
+          changes: {
+            ...changes,
+            requireVerification: true, // Always true
+          },
         }),
       );
     } else {
@@ -83,7 +81,6 @@ const TelegramChannelSettings = ({ taskId }) => {
 
   useEffect(() => {
     if (!taskId) return;
-
     if (debouncedChannelLink !== currentTask.channelLink) {
       safeUpdateTask({ channelLink: debouncedChannelLink });
     }
@@ -91,7 +88,6 @@ const TelegramChannelSettings = ({ taskId }) => {
 
   useEffect(() => {
     if (!taskId) return;
-
     if (debouncedChannelName !== currentTask.channelName) {
       safeUpdateTask({ channelName: debouncedChannelName });
     }
@@ -99,24 +95,10 @@ const TelegramChannelSettings = ({ taskId }) => {
 
   useEffect(() => {
     if (!taskId) return;
-
     if (debouncedChatId !== currentTask.chatId) {
       safeUpdateTask({ chatId: debouncedChatId });
     }
   }, [debouncedChatId, currentTask.chatId, taskId]);
-
-  const handleVerificationChange = (checked) => {
-    setLocalRequireVerification(checked);
-    const changes = { requireVerification: checked };
-
-    // Clear chatId if verification is disabled
-    if (!checked) {
-      changes.chatId = "";
-      setLocalChatId("");
-    }
-
-    safeUpdateTask(changes);
-  };
 
   const handleIsGroupChange = (checked) => {
     setLocalIsGroup(checked);
@@ -193,81 +175,62 @@ const TelegramChannelSettings = ({ taskId }) => {
         </label>
       </div>
 
-      <div className="flex items-center gap-2">
-        <Switch
-          size="sm"
-          isSelected={localRequireVerification}
-          onValueChange={(value) => handleVerificationChange(value)}
-        />
+      <div className="rounded-lg border border-yellow-600 bg-yellow-900/10 p-3">
+        <div className="mb-2">
+          <label
+            htmlFor="telegram-chat-id"
+            className="mb-1 block text-sm font-medium text-yellow-600"
+          >
+            Chat ID <span className="text-red-400">*</span>
+          </label>
 
-        <label className="text-sm text-gray-300">
-          Require user to verify Telegram membership
-        </label>
-      </div>
+          <Input
+            required
+            size="lg"
+            type="text"
+            variant="bordered"
+            value={localChatId}
+            placeholder="-1001234567890"
+            id="telegram-chat-id"
+            onChange={(e) => setLocalChatId(e.target.value)}
+            className="bg-dark"
+            classNames={{
+              inputWrapper:
+                "border-yellow-600 rounded-lg focus-within:!border-yellow-600 focus-within:!ring-yellow-600 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
+              input: "placeholder:text-gray-300",
+            }}
+          />
+        </div>
 
-      {localRequireVerification && (
-        <div className="rounded-lg border border-yellow-600 bg-yellow-900/10 p-3">
-          <div className="mb-2">
-            <label
-              htmlFor="telegram-chat-id"
-              className="mb-1 block text-sm font-medium text-yellow-600"
-            >
-              Chat ID <span className="text-red-400">*</span>
-            </label>
+        <div className="space-y-2 text-xs text-yellow-400">
+          <p className="font-medium">How to get Chat ID:</p>
+          <ol className="ml-4 list-decimal space-y-1">
+            <li>
+              Add your bot to the Telegram {localIsGroup ? "group" : "channel"}
+            </li>
+            <li>
+              Send any message in the {localIsGroup ? "group" : "channel"}
+            </li>
+            <li>Check your bot logs for the Chat ID</li>
+            <li>
+              Chat ID format:{" "}
+              <code className="rounded bg-yellow-900/30 px-1">
+                -1001234567890
+              </code>
+            </li>
+          </ol>
 
-            <Input
-              required
-              size="lg"
-              type="text"
-              variant="bordered"
-              value={localChatId}
-              placeholder="-1001234567890"
-              id="telegram-chat-id"
-              onChange={(e) => setLocalChatId(e.target.value)}
-              className="bg-dark"
-              classNames={{
-                inputWrapper:
-                  "border-yellow-600 rounded-lg focus-within:!border-yellow-600 focus-within:!ring-yellow-600 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
-                input: "placeholder:text-gray-300",
-              }}
-            />
-          </div>
-
-          <div className="space-y-2 text-xs text-yellow-400">
-            <p className="font-medium">How to get Chat ID:</p>
-            <ol className="ml-4 list-decimal space-y-1">
-              <li>
-                Add your bot to the Telegram{" "}
-                {localIsGroup ? "group" : "channel"}
-              </li>
-
-              <li>
-                Send any message in the {localIsGroup ? "group" : "channel"}
-              </li>
-
-              <li>Check your bot logs for the Chat ID</li>
-
-              <li>
-                Chat ID format:{" "}
-                <code className="rounded bg-yellow-900/30 px-1">
-                  -1001234567890
-                </code>
-              </li>
-            </ol>
-
-            <div className="mt-2 rounded bg-yellow-900/20 p-2">
-              <p className="text-xs font-medium text-red-400">⚠️ Important:</p>
-
-              <p className="text-xs text-yellow-400">
-                Your bot must be added to this{" "}
-                {localIsGroup ? "group" : "channel"} to verify user membership.
-              </p>
-            </div>
+          <div className="mt-2 rounded bg-yellow-900/20 p-2">
+            <p className="text-xs font-medium text-red-400">⚠️ Important:</p>
+            <p className="text-xs text-yellow-400">
+              Your bot must be added to this{" "}
+              {localIsGroup ? "group" : "channel"} to verify user membership.
+            </p>
           </div>
         </div>
-      )}
+      </div>
 
-      {localRequireVerification && !localChatId && (
+      {!localChatId && (
         <div className="rounded-lg border border-red-300 bg-red-900/10 p-3">
           <p className="text-sm text-red-300">
             ⚠️ Chat ID is required for verification. Users won't be able to
@@ -275,6 +238,14 @@ const TelegramChannelSettings = ({ taskId }) => {
           </p>
         </div>
       )}
+
+      <div className="bg-blue-900/20 rounded-lg border border-blue-400 p-3">
+        <p className="text-sm text-blue-300">
+          <strong>Note:</strong> Ambassadors will always need to verify Telegram
+          membership. Make sure to add your bot to the channel/group and provide
+          the correct Chat ID.
+        </p>
+      </div>
     </div>
   );
 };
@@ -311,12 +282,12 @@ const AdminTelegramTask = ({ index, task }) => {
               <p className="text-xs text-gray-400">
                 {currentTask.isGroup ? "Group" : "Channel"}:{" "}
                 {currentTask.channelName}
-                {currentTask.requireVerification && currentTask.chatId && (
+                {currentTask.chatId && (
                   <span className="ml-2 text-green-400">
                     ✓ Verification Ready
                   </span>
                 )}
-                {currentTask.requireVerification && !currentTask.chatId && (
+                {!currentTask.chatId && (
                   <span className="ml-2 text-red-400">⚠️ Missing Chat ID</span>
                 )}
               </p>
