@@ -15,8 +15,8 @@ const CurrentUserSection = memo(({ currentUser, leaderboardType }) => {
       </h2>
 
       <AmbassadorRow
-        ambassador={currentUser}
         isCurrentUser={true}
+        ambassador={currentUser}
         leaderboardType={leaderboardType}
       />
     </div>
@@ -89,27 +89,23 @@ const AmbassadorLeaderboard = ({
   hasMore = false,
   onLoadMore = null,
   isLoading = false,
-  currentAmbassadorId = null,
+  currentAmbassador = null,
   leaderboardType = "all_time",
 }) => {
-  const { currentUser, otherAmbassadors } = useMemo(() => {
-    const currentUser = data.find(
-      (amb) => amb.ambassador_id === currentAmbassadorId,
-    );
-
+  const { otherAmbassadors } = useMemo(() => {
     const otherAmbassadors = data.filter(
-      (amb) => amb.ambassador_id !== currentAmbassadorId,
+      (amb) => amb.ambassador_id !== currentAmbassador?.ambassador_id,
     );
 
-    return { currentUser, otherAmbassadors };
-  }, [data, currentAmbassadorId]);
+    return { otherAmbassadors };
+  }, [data, currentAmbassador]);
 
   return (
     <div className="w-full pr-3">
       <TableHeader leaderboardType={leaderboardType} />
 
       <CurrentUserSection
-        currentUser={currentUser}
+        currentUser={currentAmbassador}
         leaderboardType={leaderboardType}
       />
 

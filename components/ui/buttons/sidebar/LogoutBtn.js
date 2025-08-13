@@ -38,8 +38,6 @@ const LogoutBtn = () => {
         // Step 3: Redirect to Auth0 logout (this will handle Auth0 session cleanup)
         // window.location.href = "/auth/logout";
 
-        router.push("/login");
-
         addToast({
           color: "success",
           title: "Logging out...",
@@ -58,8 +56,6 @@ const LogoutBtn = () => {
       // Still redirect to Auth0 logout
       // window.location.href = "/auth/logout";
 
-      router.push("/login");
-
       addToast({
         color: "warning",
         title: "Partial logout",
@@ -68,6 +64,7 @@ const LogoutBtn = () => {
       });
     } finally {
       setIsLoggingOut(false);
+      router.push("/login");
     }
   };
 

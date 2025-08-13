@@ -21,9 +21,11 @@ const FilterHeader = ({
   activeFiltersCount,
 }) => {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border-t border-gray-400 bg-black/60 px-8 py-2.5 backdrop-blur-sm">
+    <div className="flex items-center justify-between gap-4 rounded-xl border-t border-gray-400 bg-black/60 px-4 py-2.5 backdrop-blur-sm xl:px-6 3xl:px-8">
       {headerLabel ? (
-        <h2 className="text-lg capitalize text-gray-100">{headerLabel}</h2>
+        <h2 className="text-base capitalize text-gray-100 xl:text-lg">
+          {headerLabel}
+        </h2>
       ) : (
         <NeoBreadcrumbs list={list} />
       )}
@@ -44,15 +46,18 @@ const FilterHeader = ({
           </>
         )}
 
-        {role === "super" ||
-          (headerLabel !== "pods" && (
-            <Link
-              href={linkHref}
-              className="flex items-center gap-1 rounded-full border border-black bg-white px-3 py-1.5 text-sm font-medium text-black transition-colors hover:bg-gray-50"
-            >
-              {linkLabel} <SendHorizontalIcon size={16} className="-mt-0.5" />
-            </Link>
-          ))}
+        {(role === "super" || headerLabel !== "pods") && linkHref && (
+          <Link
+            href={linkHref}
+            className="flex items-center gap-1 rounded-full border border-black bg-white px-2 py-1 text-sm font-medium text-black transition-colors hover:bg-gray-50 3xl:px-3 3xl:py-1.5"
+          >
+            {linkLabel}{" "}
+            <SendHorizontalIcon
+              size={16}
+              className="h-3 w-3 3xl:-mt-0.5 3xl:h-4 3xl:w-4"
+            />
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,9 @@
 "use client";
 
 import React from "react";
-import { Button, Tab, Tabs } from "@heroui/react";
+import { Tab, Tabs } from "@heroui/react";
+
+import FilterPanel from "@/components/common/filter/FilterPanel";
 
 export const STATUS_OPTIONS = [
   { value: "", label: "All Statuses" },
@@ -17,14 +19,17 @@ const CategoryFilterPanel = ({
   hasActiveFilters,
 }) => {
   return (
-    <div className="mb-3 flex items-center justify-between px-8">
+    <FilterPanel
+      resetFilters={resetFilters}
+      hasActiveFilters={hasActiveFilters}
+    >
       <Tabs
         selectedKey={statusFilter}
         onSelectionChange={setStatusFilter}
         classNames={{
-          base: "rounded-full border-2 border-white p-1",
+          base: "rounded-full border-2 border-white p-0.5 xl:p-1",
           tabList: "bg-transparent p-0",
-          tab: "rounded-full px-4 py-2 transition-colors",
+          tab: "rounded-full px-2 3xl:px-4 py-1 h-7 3xl:h-8 3xl:py-2 transition-colors",
           cursor: "bg-white rounded-full",
           tabContent:
             "group-data-[selected=true]:text-black group-data-[selected=false]:text-gray-200 hover:text-white",
@@ -34,17 +39,7 @@ const CategoryFilterPanel = ({
           <Tab key={option.value} title={option.label} />
         ))}
       </Tabs>
-
-      <div className="flex flex-1 items-center justify-end gap-4">
-        <Button
-          onPress={resetFilters}
-          disabled={!hasActiveFilters}
-          className="flex items-center gap-1 rounded-full border border-black bg-white px-3 py-1.5 text-sm font-medium text-black transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          Reset Filters
-        </Button>
-      </div>
-    </div>
+    </FilterPanel>
   );
 };
 

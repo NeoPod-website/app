@@ -29,7 +29,7 @@ async function fetchCategories(podId) {
         Authorization: `Bearer ${token.value}`,
       },
       credentials: "include",
-      cache: "no-store", // Always fetch fresh data
+      cache: "no-store",
     });
 
     const data = await response.json();

@@ -151,7 +151,6 @@ const SocialConnectedState = ({
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {connectedPlatforms.map(([platformKey, platform]) => {
-              const iconColorClass = getPlatformIcon(platformKey);
               const profileUrl = getProfileUrl(platformKey, platform);
               const displayInfo = getPlatformDisplayInfo(platformKey, platform);
 
@@ -174,14 +173,14 @@ const SocialConnectedState = ({
                         <div className="flex items-center gap-3">
                           <div className="relative">
                             <div
-                              className={`flex h-14 w-14 items-center justify-center rounded-xl ${platform.color}/20`}
+                              className={`flex h-12 w-12 items-center justify-center rounded-xl ${platform.color}/20 2xl:h-14 2xl:w-14`}
                             >
                               <Image
                                 width={24}
                                 height={24}
                                 src={platform.icon}
                                 alt={platform.name}
-                                className="h-6 w-6 rounded"
+                                className="h-5 w-5 rounded 2xl:h-6 2xl:w-6"
                               />
                             </div>
 
@@ -191,11 +190,11 @@ const SocialConnectedState = ({
                           </div>
 
                           <div className="flex-1">
-                            <h4 className="flex items-center gap-2 truncate text-lg font-bold text-white">
+                            <h4 className="flex items-center gap-2 truncate text-base font-bold text-white lg:text-lg">
                               {displayInfo.displayName}
                             </h4>
 
-                            <div className="flex items-center gap-2">
+                            <div className="hidden items-center gap-2 sm:flex">
                               <span className="text-sm text-gray-200">
                                 {displayInfo.username}
                               </span>

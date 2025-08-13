@@ -41,7 +41,7 @@ const AmbassadorRow = ({
         />
       </div>
 
-      <div className="flex gap-8">
+      <div className="flex items-center gap-8">
         <PointsSection ambassador={ambassador} />
 
         <div className="hidden w-20 flex-shrink-0 justify-center lg:flex lg:w-20">

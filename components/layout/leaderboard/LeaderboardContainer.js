@@ -85,8 +85,8 @@ const LeaderboardContainer = ({
       isLoading={isLoading}
       data={leaderboardData}
       onLoadMore={handleLoadMore}
+      currentAmbassador={userRank}
       leaderboardType={leaderboardType}
-      currentAmbassadorId={userRank?.ambassador_id || null}
     />
   );
 };
