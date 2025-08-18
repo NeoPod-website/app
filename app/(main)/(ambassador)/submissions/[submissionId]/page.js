@@ -202,7 +202,7 @@ const SubmissionViewPage = async ({ params }) => {
   }
 
   return (
-    <div className="flex flex-1 gap-4 overflow-hidden">
+    <div className="flex h-full flex-1 flex-col gap-4 overflow-y-auto scrollbar-hide lg:flex-row lg:overflow-hidden">
       <SubmissionDetailMain submission={enrichedSubmission} user={user} />
       <SubmissionDetailSidebar submission={enrichedSubmission} user={user} />
     </div>

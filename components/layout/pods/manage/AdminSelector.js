@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect, useCallback, memo, useMemo } from "react";
 import { Select, SelectItem } from "@heroui/react";
+import React, { useState, useEffect, useCallback, memo, useMemo } from "react";
 
 // Memoized admin item component to prevent unnecessary re-renders
 const AdminItem = memo(({ admin }) => (

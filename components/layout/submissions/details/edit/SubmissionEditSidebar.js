@@ -7,14 +7,14 @@ import SubmissionDetailSidebarCard from "../SubmissionDetailSidebarCard";
 
 const SubmissionEditSidebarHeader = ({ submission }) => {
   return (
-    <section className="flex justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-8 py-2.5 backdrop-blur-xs">
+    <section className="hidden justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-2 py-2.5 backdrop-blur-xs md:px-4 lg:flex xl:px-6 3xl:px-8">
       <h2 className="text-md text-white">Edit Controls</h2>
 
       <Link
         href={`/submissions/${submission.submission_id}`}
-        className="flex w-fit items-center gap-2 rounded border border-gray-400 bg-gradient-dark px-3 py-1 text-gray-50 hover:border-gray-300 hover:text-white"
+        className="flex w-fit items-center gap-1.5 rounded border border-gray-400 bg-gradient-dark px-3 py-1 text-sm text-gray-50 hover:border-gray-300 hover:text-white"
       >
-        <XIcon size={16} />
+        <XIcon size={14} />
         Cancel
       </Link>
     </section>
@@ -26,7 +26,7 @@ const SubmissionEditSidebar = ({ submission }) => {
   const completedTasks = Object.keys(submission.submission_data).length;
 
   return (
-    <div className="flex max-w-md flex-1 flex-col gap-2">
+    <div className="flex flex-1 flex-col gap-2 lg:min-w-96 lg:max-w-md">
       <SubmissionEditSidebarHeader submission={submission} />
 
       <div className="space-y-3 overflow-y-auto scrollbar-hide">
@@ -36,7 +36,7 @@ const SubmissionEditSidebar = ({ submission }) => {
           completedTasks={completedTasks}
         />
 
-        <WrapperContainer className="space-y-4 px-10 py-6 scrollbar-hide">
+        <WrapperContainer className="space-y-4 p-4 scrollbar-hide lg:p-6 3xl:px-10 3xl:py-6">
           <h3 className="text-lg font-bold text-yellow-300">Important</h3>
 
           <div className="space-y-3 text-sm text-gray-100">

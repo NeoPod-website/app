@@ -6,7 +6,7 @@ import WrapperContainer from "@/components/common/WrapperContainer";
 import QuestDetailsTask from "@/components/layout/quests/detail/QuestDetailTask";
 import UpdateSubmissionButton from "@/components/ui/buttons/submissions/UpdateSubmissionButton";
 
-const StatusChip = ({ children, variant = "yellow" }) => {
+const StatusChip = ({ children, variant = "yellow", className }) => {
   const variants = {
     yellow: "bg-yellow-500/20 text-yellow-300 ring-yellow-500/30",
     gray: "bg-gray-600 text-gray-200 ring-gray-400",
@@ -14,7 +14,7 @@ const StatusChip = ({ children, variant = "yellow" }) => {
 
   return (
     <div
-      className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 ${variants[variant]}`}
+      className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 ${variants[variant]} ${className}`}
     >
       {children}
     </div>
@@ -26,7 +26,7 @@ const SubmissionEditMainHeader = ({ submission }) => {
   const totalTasks = submission.quest_tasks?.length || completedTasks;
 
   return (
-    <section className="flex justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-8 py-2.5 backdrop-blur-xs">
+    <section className="flex justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-2 py-2.5 backdrop-blur-xs md:px-4 xl:px-6 3xl:px-8">
       <Link
         href={`/submissions/${submission.submission_id}`}
         className="inline-flex items-center gap-2 text-sm text-gray-200 transition-colors hover:text-white"
@@ -36,12 +36,12 @@ const SubmissionEditMainHeader = ({ submission }) => {
       </Link>
 
       <div className="flex flex-wrap items-center gap-3">
-        <StatusChip variant="yellow">
+        <StatusChip variant="yellow" className="hidden lg:flex">
           <ClockIcon size={12} />
           <span>Editing</span>
         </StatusChip>
 
-        <StatusChip variant="gray">
+        <StatusChip variant="gray" className="hidden xl:flex">
           <FileTextIcon size={12} />
           <span>{totalTasks} tasks</span>
         </StatusChip>
@@ -54,43 +54,39 @@ const SubmissionEditMainHeader = ({ submission }) => {
 
 const SubmissionEditHeader = ({ submission }) => {
   return (
-    <div className="space-y-6 pb-6">
-      <SubmissionEditMainHeader submission={submission} />
+    <div className="space-y-4">
+      <h1 className="text-3xl font-bold text-white">
+        Edit: {submission.quest_name}
+      </h1>
 
-      <div className="space-y-4">
-        <h1 className="text-3xl font-bold text-white">
-          Edit: {submission.quest_name}
-        </h1>
+      <div className="mt-2 flex items-center gap-2 text-gray-200">
+        <span className="rounded-md bg-gray-600 px-2 py-1 text-sm">
+          {submission.category_name}
+        </span>
 
-        <div className="mt-2 flex items-center gap-2 text-gray-200">
-          <span className="rounded-md bg-gray-600 px-2 py-1 text-sm">
-            {submission.category_name}
-          </span>
+        {submission.pod_name && (
+          <>
+            <span>•</span>
+            <span className="rounded-md bg-gray-600 px-2 py-1 text-sm">
+              {submission.pod_name}
+            </span>
+          </>
+        )}
+      </div>
 
-          {submission.pod_name && (
-            <>
-              <span>•</span>
-              <span className="rounded-md bg-gray-600 px-2 py-1 text-sm">
-                {submission.pod_name}
-              </span>
-            </>
-          )}
-        </div>
+      <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-4">
+        <div className="flex items-start gap-3">
+          <EditIcon size={16} className="mt-0.5 text-yellow-400" />
 
-        <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-4">
-          <div className="flex items-start gap-3">
-            <EditIcon size={16} className="mt-0.5 text-yellow-400" />
+          <div className="space-y-1">
+            <p className="text-sm font-medium text-yellow-300">
+              Editing Your Submission
+            </p>
 
-            <div className="space-y-1">
-              <p className="text-sm font-medium text-yellow-300">
-                Editing Your Submission
-              </p>
-
-              <p className="text-sm text-yellow-200">
-                Modify your answers below and click "Update Submission" to save
-                your changes. Your submission will remain in pending status.
-              </p>
-            </div>
+            <p className="text-sm text-yellow-200">
+              Modify your answers below and click "Update Submission" to save
+              your changes. Your submission will remain in pending status.
+            </p>
           </div>
         </div>
       </div>
@@ -107,11 +103,13 @@ const SubmissionEditMain = ({ submission, user }) => {
   };
 
   return (
-    <div className="flex max-w-7xl flex-1 flex-col gap-2 overflow-hidden">
-      <SubmissionEditHeader submission={submission} />
+    <div className="flex max-w-7xl flex-1 flex-col gap-2 space-y-6 lg:flex-[2]">
+      <SubmissionEditMainHeader submission={submission} />
 
-      <WrapperContainer scrollable className="space-y-6 p-6 3xl:p-10">
-        <div className="space-y-6 overflow-y-auto scrollbar-hide">
+      <div className="space-y-6 overflow-y-auto scrollbar-hide">
+        <SubmissionEditHeader submission={submission} />
+
+        <WrapperContainer scrollable={false} className="space-y-6 p-6 3xl:p-10">
           <h2 className="text-xl font-bold text-white">Quest Tasks</h2>
 
           <div className="space-y-6">
@@ -122,8 +120,8 @@ const SubmissionEditMain = ({ submission, user }) => {
               existingSubmission={submission}
             />
           </div>
-        </div>
-      </WrapperContainer>
+        </WrapperContainer>
+      </div>
     </div>
   );
 };

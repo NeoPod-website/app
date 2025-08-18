@@ -36,7 +36,7 @@ const SubmissionDetailSidebarCard = ({
   const submissionTime = formatSubmissionTime(submission.submitted_at);
 
   return (
-    <>
+    <div className="flex flex-col gap-3 md:flex-row lg:flex-col">
       <SubmissionDetailSubmissionCard
         InfoItem={InfoItem}
         submission={submission}
@@ -46,7 +46,7 @@ const SubmissionDetailSidebarCard = ({
       />
 
       <SubmissionDetailQuestCard InfoItem={InfoItem} submission={submission} />
-    </>
+    </div>
   );
 };
 

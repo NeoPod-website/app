@@ -74,14 +74,14 @@ const getStatusInfo = (reviewStatus, reviewedBy, resubmissionCount) => {
 
 const SubmissionDetailSidebarHeader = ({ submission }) => {
   return (
-    <section className="flex justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-8 py-2.5 backdrop-blur-xs">
+    <section className="hidden justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-8 py-2.5 backdrop-blur-xs lg:flex">
       <h2 className="text-md text-white">Submission Info</h2>
 
       <Link
         href={`/quests/${submission.category_id}/${submission.quest_id}`}
-        className="flex w-fit items-center gap-2 rounded border border-gray-400 bg-gradient-dark px-3 py-1 text-gray-50 transition-colors hover:border-gray-300 hover:text-white"
+        className="flex w-fit items-center gap-1.5 rounded border border-gray-400 bg-gradient-dark px-3 py-1 text-sm text-gray-50 transition-colors hover:border-gray-300 hover:text-white"
       >
-        <ExternalLinkIcon size={16} />
+        <ExternalLinkIcon size={14} />
         View Quest
       </Link>
     </section>
@@ -99,7 +99,7 @@ const SubmissionDetailSidebar = ({ submission }) => {
   );
 
   return (
-    <div className="flex max-w-md flex-1 flex-col gap-2">
+    <div className="flex flex-1 flex-col gap-2 lg:max-w-md">
       <SubmissionDetailSidebarHeader submission={submission} />
 
       <div className="space-y-3 overflow-y-auto scrollbar-hide">
@@ -109,7 +109,7 @@ const SubmissionDetailSidebar = ({ submission }) => {
           completedTasks={completedTasks}
         />
 
-        <WrapperContainer className="space-y-6 px-10 py-6 scrollbar-hide">
+        <WrapperContainer className="space-y-4 p-4 scrollbar-hide lg:p-6 3xl:space-y-6 3xl:px-10 3xl:py-6">
           <div className="space-y-4">
             <h3 className={`text-lg font-bold ${statusInfo.titleColor}`}>
               {statusInfo.title}

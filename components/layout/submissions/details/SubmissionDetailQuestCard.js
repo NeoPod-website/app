@@ -33,10 +33,10 @@ const SubmissionDetailQuestCard = ({ InfoItem, submission }) => {
   };
 
   return (
-    <WrapperContainer className="space-y-6 px-10 py-6 scrollbar-hide">
-      <h3 className="mb-4 text-lg font-bold text-white">Quest Details</h3>
+    <WrapperContainer className="space-y-4 p-4 scrollbar-hide lg:p-6 3xl:space-y-6 3xl:px-10 3xl:py-6">
+      <h3 className="text-lg font-bold text-white">Quest Details</h3>
 
-      <div className="space-y-4">
+      <div className="space-y-2 lg:space-y-3 3xl:space-y-4">
         {submission.quest_points && (
           <InfoItem label="Points" icon={TrophyIcon}>
             <span className="font-semibold text-yellow-300">

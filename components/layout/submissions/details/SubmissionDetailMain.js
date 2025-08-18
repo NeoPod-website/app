@@ -120,7 +120,7 @@ const getStatusConfig = (reviewStatus, reviewedBy) => {
   return configs[reviewStatus?.toLowerCase()] || configs.pending;
 };
 
-const StatusChip = ({ children, variant = "yellow" }) => {
+const StatusChip = ({ children, variant = "yellow", className }) => {
   const variants = {
     yellow: "bg-yellow-500/20 text-yellow-300 ring-yellow-500/30",
     green: "bg-green-500/20 text-green-300 ring-green-500/30",
@@ -131,7 +131,7 @@ const StatusChip = ({ children, variant = "yellow" }) => {
 
   return (
     <div
-      className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 ${variants[variant]}`}
+      className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 ${variants[variant]} ${className}`}
     >
       {children}
     </div>
@@ -179,7 +179,7 @@ const SubmissionDetailMainHeader = ({ submission }) => {
   const StatusIcon = statusConfig.icon;
 
   return (
-    <section className="flex justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-8 py-2.5 backdrop-blur-xs">
+    <section className="flex justify-between gap-2.5 rounded-xl border-t border-gray-400 bg-black/50 px-2 py-2.5 backdrop-blur-xs md:px-4 xl:px-6 3xl:px-8">
       <Link
         href="/submissions"
         className="inline-flex items-center gap-2 text-sm text-gray-200 transition-colors hover:text-white"
@@ -189,12 +189,12 @@ const SubmissionDetailMainHeader = ({ submission }) => {
       </Link>
 
       <div className="flex flex-wrap items-center gap-3">
-        <StatusChip variant={statusConfig.variant}>
+        <StatusChip variant={statusConfig.variant} className="hidden lg:flex">
           <StatusIcon size={12} />
           <span>{statusConfig.label}</span>
         </StatusChip>
 
-        <StatusChip variant="gray">
+        <StatusChip variant="gray" className="hidden 2xl:flex">
           <FileTextIcon size={12} />
           <span>
             {completedTasks} of {totalTasks} tasks
@@ -202,7 +202,7 @@ const SubmissionDetailMainHeader = ({ submission }) => {
         </StatusChip>
 
         {submission.resubmission_count > 0 && (
-          <StatusChip variant="gray">
+          <StatusChip variant="gray" className="hidden 3xl:flex">
             <AlertCircleIcon size={12} />
             <span>Resubmission #{submission.resubmission_count}</span>
           </StatusChip>
@@ -211,14 +211,14 @@ const SubmissionDetailMainHeader = ({ submission }) => {
         {statusConfig.canEdit ? (
           <Link
             href={`/submissions/${submission.submission_id}/edit`}
-            className="flex w-fit items-center gap-2 rounded border border-gray-400 bg-gradient-dark px-3 py-1 text-gray-50 transition-colors hover:border-gray-300 hover:text-white"
+            className="flex w-fit items-center gap-2 rounded border border-gray-400 bg-gradient-dark px-3 py-1 text-sm text-gray-50 transition-colors hover:border-gray-300 hover:text-white"
           >
-            <EditIcon size={16} />
+            <EditIcon size={14} />
             Edit
           </Link>
         ) : (
-          <div className="flex w-fit cursor-not-allowed items-center gap-2 rounded border border-gray-500 bg-gray-700/50 px-3 py-1 text-gray-400">
-            <EditIcon size={16} />
+          <div className="flex w-fit cursor-not-allowed items-center gap-2 rounded border border-gray-500 bg-gray-700/50 px-3 py-1 text-sm text-gray-400">
+            <EditIcon size={14} />
             Edit
           </div>
         )}
@@ -267,7 +267,7 @@ const SubmissionDetailMain = ({ submission }) => {
   }
 
   return (
-    <div className="flex max-w-7xl flex-1 flex-col gap-2 overflow-hidden">
+    <div className="flex max-w-7xl flex-1 flex-col gap-2 lg:overflow-hidden">
       <SubmissionDetailMainHeading submission={submission} />
 
       <WrapperContainer scrollable className="space-y-6 p-6 3xl:p-10">

@@ -52,64 +52,6 @@ async function fetchSubmissionForEdit(submissionId) {
   return submission;
 }
 
-// Function 2: Fetch quest and category details in parallel
-// async function fetchQuestAndCategoryDetails(submission) {
-//   const cookieStore = await cookies();
-//   const token = cookieStore.get("neo-jwt");
-
-//   if (!token?.value) {
-//     throw new Error("Authentication token not found");
-//   }
-
-//   const headers = {
-//     "Content-Type": "application/json",
-//     Authorization: `Bearer ${token.value}`,
-//   };
-
-//   // Fetch quest and category in parallel
-//   const [questResponse, categoryResponse] = await Promise.all([
-//     fetch(`${process.env.NEXT_PUBLIC_API_URL}/quests/${submission.quest_id}`, {
-//       method: "GET",
-//       headers,
-//       credentials: "include",
-//     }),
-//     fetch(
-//       `${process.env.NEXT_PUBLIC_API_URL}/categories/${submission.category_id}`,
-//       {
-//         method: "GET",
-//         headers,
-//         credentials: "include",
-//       },
-//     ),
-//   ]);
-
-//   // Handle quest response
-//   if (!questResponse.ok) {
-//     return null;
-//   }
-
-//   // Handle category response
-//   if (!categoryResponse.ok) {
-//     return null;
-//   }
-
-//   // Parse responses in parallel
-//   const [questData, categoryData] = await Promise.all([
-//     questResponse.json(),
-//     categoryResponse.json(),
-//   ]);
-
-//   const quest = questData.data?.quest;
-//   const category = categoryData.data?.category;
-
-//   return {
-//     ...submission,
-//     quest,
-//     quest_name: quest?.name || "Unknown Quest",
-//     category_name: category?.name || "Unknown Category",
-//   };
-// }
-
 async function fetchQuestAndCategoryDetails(submission) {
   const cookieStore = await cookies();
   const token = cookieStore.get("neo-jwt");
@@ -200,7 +142,7 @@ const SubmissionEditPage = async ({ params }) => {
   }
 
   return (
-    <div className="flex h-full flex-1 gap-4">
+    <div className="flex h-full flex-1 flex-col gap-4 overflow-y-auto scrollbar-hide lg:flex-row lg:overflow-hidden">
       <SubmissionEditMain submission={enrichedSubmission} user={user} />
       <SubmissionEditSidebar submission={enrichedSubmission} />
     </div>
