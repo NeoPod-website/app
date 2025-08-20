@@ -59,7 +59,7 @@ const AdminPodMain = ({ role, isNew = false, initialPod = {}, id = "" }) => {
     };
 
     return isNew ? (
-      <AdminCreatePod {...commonProps} />
+      <AdminCreatePod {...commonProps} role={role} />
     ) : (
       <AdminEditPod
         {...commonProps}

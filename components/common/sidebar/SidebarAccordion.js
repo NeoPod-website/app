@@ -5,9 +5,13 @@ import Link from "next/link";
 import { Accordion, AccordionItem } from "@heroui/react";
 
 const SidebarAccordion = ({ index, item, isActive, role }) => {
+  let children = item.children || [];
+
   if (role !== "super" && item.name === "Manage Roles") {
-    return null;
-  } else if (role === "reviewer" && item.name === "Manage Tasks") {
+    children = children.filter((child) => child.name !== "Manage Admins");
+  }
+
+  if (role === "reviewer" && item.name === "Manage Tasks") {
     return null;
   }
 
@@ -25,7 +29,7 @@ const SidebarAccordion = ({ index, item, isActive, role }) => {
           title: `text-gray-100 hover:text-white md:hidden xl:inline text-sm 3xl:text-base ${isActive ? "!bg-gray-500 text-white hover:!border-white hover:!bg-transparent" : ""}`,
         }}
       >
-        {item.children.map((child, childIndex) => (
+        {children.map((child, childIndex) => (
           <Link
             href={child.href}
             title={child.name}

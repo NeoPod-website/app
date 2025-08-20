@@ -37,6 +37,8 @@ const PodSelector = () => {
         router.push(`/view/quests/${selectedPodId}`);
       } else if (pathname.includes("/admin/leaderboard")) {
         router.push(`/admin/leaderboard/initiate/${selectedPodId}`);
+      } else if (pathname.includes("/admin/manage/ambassadors")) {
+        router.push(`/admin/manage/ambassadors/${selectedPodId}`);
       }
     },
     [pathname],

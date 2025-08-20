@@ -37,6 +37,7 @@ const PodForm = ({
   handlePodDataChange,
   isSubmitting,
 }) => {
+  // console.log(role);
   const submitButtonText = useMemo(() => {
     if (isNew) {
       return isSubmitting ? "Creating..." : "Create";

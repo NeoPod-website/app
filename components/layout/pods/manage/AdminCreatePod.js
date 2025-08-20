@@ -67,9 +67,10 @@ const validateFieldLengths = (podData) => {
 };
 
 const AdminCreatePod = ({
-  isNew = false,
+  role,
   podData,
   isSubmitting,
+  isNew = false,
   setIsSubmitting,
   handlePodDataChange,
 }) => {
@@ -163,6 +164,7 @@ const AdminCreatePod = ({
   // Memoize form props to prevent unnecessary re-renders
   const formProps = useMemo(
     () => ({
+      role,
       isNew,
       status: podData.status,
       setStatus: (value) => handlePodDataChange("status", value),

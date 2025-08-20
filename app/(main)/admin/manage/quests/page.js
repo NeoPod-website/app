@@ -1,13 +1,11 @@
 import React from "react";
 
-import QuestProvider from "@/providers/QuestProvider";
+import PodProvider from "@/providers/PodProvider";
 
 import MainPageScroll from "@/components/common/MainPageScroll";
 
-import FilterHeader from "@/components/common/filter/FilterHeader";
 import WrapperContainer from "@/components/common/WrapperContainer";
 
-import FilterPanelLoader from "@/components/ui/loader/filter/FilterPanelLoader";
 import CategoryItemLoader from "@/components/ui/loader/category/CategoryItemLoader";
 import AdminQuestListLoader from "@/components/ui/loader/quest/admin/AdminQuestListLoader";
 
@@ -19,22 +17,19 @@ export const metadata = {
 
 const ManageQuestsPage = async () => {
   return (
-    <QuestProvider>
+    <PodProvider>
       <MainPageScroll scrollable={false}>
-        <FilterHeader
-          showFilter={false}
-          linkLabel="Loading..."
-          headerLabel="Quests"
-          linkHref="/admin/manage/quests"
-        />
-        <FilterPanelLoader />
+        <WrapperContainer>
+          <CategoryItemLoader />
+          <AdminQuestListLoader count={2} />
+        </WrapperContainer>
 
         <WrapperContainer>
           <CategoryItemLoader />
-          <AdminQuestListLoader />
+          <AdminQuestListLoader count={3} />
         </WrapperContainer>
       </MainPageScroll>
-    </QuestProvider>
+    </PodProvider>
   );
 };
 

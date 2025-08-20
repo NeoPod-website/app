@@ -11,7 +11,7 @@ export const metadata = {
 };
 
 const AdminLeaderboardPage = async ({ params }) => {
-  const { role } = await params;
+  const { role = "all-time" } = await params;
 
   const validRoles = [
     "initiate",
