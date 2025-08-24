@@ -26,7 +26,7 @@ export async function middleware(request) {
   const url = new URL(request.url);
   const pathname = url.pathname;
 
-  // ✅ Use the passed request for cookie access
+  // Use the passed request for cookie access
   const jwtPayload = await verifyJwtToken(request);
 
   const isAuthenticated = !!jwtPayload;
@@ -71,7 +71,7 @@ export async function middleware(request) {
   return auth0.middleware(request);
 }
 
-// ✅ JWT Token Verification with Request Scope
+// JWT Token Verification with Request Scope
 async function verifyJwtToken(request) {
   try {
     const jwtCookie = request.cookies.get("neo-jwt");

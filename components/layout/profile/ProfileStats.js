@@ -27,9 +27,7 @@ const ProfileStats = ({ user }) => {
       </div>
 
       <div className="min-w-24 space-y-3 border-r border-gray-400 pr-3 2xl:pr-5 3xl:pr-7">
-        <span className="text-sm text-gray-100 3xl:text-base">
-          Total XPs Earned
-        </span>
+        <span className="text-sm text-gray-100 3xl:text-base">Total XPs</span>
 
         <p className="text-sm text-white 3xl:text-base">
           {user?.total_points || 0} XP
