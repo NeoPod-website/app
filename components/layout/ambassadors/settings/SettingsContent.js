@@ -7,11 +7,7 @@ import SecurityTab from "./tabs/SecurityTab";
 import AppearanceTab from "./tabs/AppearanceTab";
 import NotificationsTab from "./tabs/NotificationsTab";
 
-import { getCachedSession } from "@/lib/userSession";
-
-const SettingsContent = async ({ activeTab }) => {
-  const { user } = await getCachedSession();
-
+const SettingsContent = async ({ activeTab, user }) => {
   const renderContent = () => {
     switch (activeTab) {
       case "profile":
