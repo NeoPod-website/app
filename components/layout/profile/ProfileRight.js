@@ -1,10 +1,12 @@
 import React from "react";
 
-import RankingsCard from "@/components/layout/profile/right/RankingsCard";
-import PromotionCard from "@/components/layout/profile/right/PromotionCard";
-import QuickInfoCard from "@/components/layout/profile/right/QuickInfoCard";
-import StatisticsGrid from "@/components/layout/profile/right/StatisticsGrid";
-import TierProgressCard from "@/components/layout/profile/right/TierProgressCard";
+import RankingsCard from "./right/RankingsCard";
+import PromotionCard from "./right/PromotionCard";
+import QuickInfoCard from "./right/QuickInfoCard";
+import StatisticsGrid from "./right/StatisticsGrid";
+import RewardClaimCard from "./right/RewardClaimCard";
+import TierProgressCard from "./right/TierProgressCard";
+
 import RefreshTokenBtn from "@/components/ui/buttons/profile/RefreshTokenBtn";
 
 const ProfileRightSidebar = ({ user, stats, me }) => {
@@ -21,6 +23,7 @@ const ProfileRightSidebar = ({ user, stats, me }) => {
       <RankingsCard stats={stats} />
       {me && <PromotionCard user={user} stats={stats} />}
       <QuickInfoCard user={user} />
+      <RewardClaimCard user={user} me={me} />
     </div>
   );
 };
