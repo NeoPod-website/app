@@ -96,7 +96,7 @@ const AdminCard = ({ admin, isPreview = false }) => {
               {admin.username || "Unknown User"}
             </h2>
 
-            {admin.is_admin && <Shield size={16} className="text-blue-400" />}
+            {admin.isAdmin && <Shield size={16} className="text-blue-400" />}
           </div>
 
           <div className="flex items-center justify-center gap-2">

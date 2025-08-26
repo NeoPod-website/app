@@ -451,7 +451,7 @@ const EditAdminModal = ({ isOpen, onClose, admin, onSuccess }) => {
                 {admin?.username || "Unknown User"}
               </h3>
 
-              {admin?.is_admin && (
+              {admin?.isAdmin && (
                 <span className="text-blue-400">
                   <span className="text-sm">Admin</span>
                 </span>

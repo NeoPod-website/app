@@ -33,7 +33,7 @@ const AdminUserMain = () => {
       is_active: true,
       assigned_pods: adminData.assigned_pods || [],
       reviews_number: 0,
-      is_admin: true,
+      isAdmin: true,
       profile_photo: null,
     }),
     [

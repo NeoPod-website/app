@@ -302,7 +302,7 @@ const AdminUserInfo = memo(({ admin }) => {
           {admin.username}
         </p>
 
-        {admin.is_admin && (
+        {admin.isAdmin && (
           <span className="text-sm text-blue-400">
             <Shield size={14} />
           </span>

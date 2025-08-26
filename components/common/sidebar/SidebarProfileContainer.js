@@ -119,17 +119,21 @@ const fetchUserStats = async () => {
   }
 };
 
-const SidebarProfileContainer = async () => {
-  // Fetch fresh user data instead of using cache
-  const user = await fetchUserData();
+const SidebarProfileContainer = async ({ session }) => {
+  let user;
+  let stats;
+
+  if (session && session.isAdmin) {
+    user = session;
+  } else {
+    user = await fetchUserData();
+    stats = await fetchUserStats();
+  }
 
   // Render placeholder for unauthenticated users
   if (!user) {
     return <UnauthenticatedSidebar />;
   }
-
-  // Fetch stats only for ambassadors (not admins)
-  const stats = user.is_admin ? null : await fetchUserStats();
 
   // Determine which role component to render
   return (
@@ -147,7 +151,8 @@ const SidebarProfileContainer = async () => {
  */
 function getRoleComponent(user, stats) {
   // Admin users always get the main sidebar profile
-  if (user.is_admin) {
+  if (user.isAdmin) {
+    console.log("Rendering SidebarProfile for admin user");
     return <SidebarProfile user={user} />;
   }
 

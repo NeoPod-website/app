@@ -15,7 +15,7 @@ const DashboardSidebar = ({ menuItems, session }) => {
 
       <div className="hidden space-y-4 xl:block 3xl:space-y-5">
         <SidebarSocial />
-        <SidebarProfileContainer />
+        <SidebarProfileContainer session={session} />
       </div>
     </section>
   );
