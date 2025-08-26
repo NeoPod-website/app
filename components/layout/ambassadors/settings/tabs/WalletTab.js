@@ -984,147 +984,120 @@ import WalletSigningFlow from "./wallet/WalletSigningFlow";
 import WalletConnectedState from "./wallet/WalletConnectedState";
 import WalletDisconnectedState from "./wallet/WalletDisconnectedState";
 
-// Simple verification states
-const VERIFICATION_STATES = {
-  IDLE: "idle",
-  CHECKING: "checking",
-  VERIFIED: "verified",
-  NEEDS_SIGNATURE: "needs_signature",
-  ERROR: "error",
-};
-
 const WalletTab = ({ ambassadorAddress }) => {
-  console.log(
-    "🏗️ WalletTab mounted with ambassadorAddress:",
-    ambassadorAddress,
-  );
+  console.log("🏗️ WalletTab render - ambassadorAddress:", ambassadorAddress);
 
   const router = useRouter();
   const { ready } = usePrivy();
   const { disconnect } = useDisconnect();
   const account = useAccount();
 
-  // Simplified state management
-  const [verificationStatus, setVerificationStatus] = useState(
-    VERIFICATION_STATES.IDLE,
-  );
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [verificationState, setVerificationState] = useState({
+    error: null,
+    isVerified: null,
+    isSigningMessage: false,
+    isCheckingVerification: false,
+  });
 
-  // Simple derived state using wagmi's proper API
-  const hasAmbassadorAddress = Boolean(ambassadorAddress);
-  const isWalletConnected = account.status === "connected" && ready;
-  const isWalletConnecting =
-    account.status === "connecting" || account.status === "reconnecting";
-
-  console.log("🔄 WalletTab render state:", {
+  console.log("🔄 Current state:", {
     ready,
     accountStatus: account.status,
     accountAddress: account.address,
-    hasAmbassadorAddress,
-    isWalletConnected,
-    isWalletConnecting,
-    verificationStatus,
-    isInitialized,
-    error,
+    ambassadorAddress,
+    verificationState,
   });
 
-  // Initialization effect - runs once when Privy is ready
-  useEffect(() => {
-    if (!ready) {
-      console.log("⏳ Waiting for Privy to be ready...");
-      return;
-    }
-
-    if (!isInitialized) {
-      console.log("🚀 Privy ready - initializing wallet tab");
-      setIsInitialized(true);
-
-      // Check initial state
-      if (hasAmbassadorAddress) {
-        console.log("👑 Ambassador address found - setting as verified");
-        setVerificationStatus(VERIFICATION_STATES.VERIFIED);
-      } else if (account.status === "connected") {
-        console.log("🔗 Wallet already connected - checking verification");
-        // Small delay to ensure everything is settled
-        setTimeout(() => {
-          setVerificationStatus(VERIFICATION_STATES.IDLE); // This will trigger the main effect
-        }, 100);
-      } else {
-        console.log("💔 No wallet connected - showing disconnected state");
-        setVerificationStatus(VERIFICATION_STATES.IDLE);
-      }
-    }
-  }, [ready, isInitialized, hasAmbassadorAddress, account.status]);
+  const hasAmbassadorAddress = Boolean(ambassadorAddress);
 
   // Check wallet verification
-  const checkVerification = useCallback(async () => {
-    // Use wagmi's guaranteed address when connected
-    if (account.status !== "connected" || hasAmbassadorAddress) {
-      console.log("❌ Skipping verification check:", {
-        status: account.status,
-        hasAmbassadorAddress,
-      });
-      return;
-    }
+  const checkWalletVerification = useCallback(async () => {
+    if (!account.address || hasAmbassadorAddress) return;
 
-    const { address } = account; // address is guaranteed to exist when status is "connected"
-    console.log("🔍 Starting wallet verification for:", address);
+    console.log("🔍 Checking verification for address:", account.address);
 
-    setVerificationStatus(VERIFICATION_STATES.CHECKING);
-    setError(null);
+    setVerificationState((prev) => ({
+      ...prev,
+      isCheckingVerification: true,
+      error: null,
+    }));
 
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/wallet_address/${address}`;
-      console.log("📡 Calling verification API:", apiUrl);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/wallet_address/${account.address}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        },
+      );
 
-      const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-
-      console.log("📨 Verification API response:", {
-        status: response.status,
-        ok: response.ok,
-      });
+      console.log("📨 Verification response:", response.status);
 
       if (response.ok) {
-        console.log("✅ Wallet is already verified!");
-        setVerificationStatus(VERIFICATION_STATES.VERIFIED);
+        console.log("✅ Wallet already verified");
+        setVerificationState((prev) => ({
+          ...prev,
+          isVerified: true,
+          isCheckingVerification: false,
+        }));
       } else if (response.status === 404) {
-        console.log("📝 Wallet needs signature verification");
-        setVerificationStatus(VERIFICATION_STATES.NEEDS_SIGNATURE);
+        console.log("📝 Wallet needs signature");
+        setVerificationState((prev) => ({
+          ...prev,
+          isVerified: false,
+          isCheckingVerification: false,
+        }));
       } else {
-        throw new Error(`Verification failed: ${response.status}`);
+        throw new Error(`HTTP ${response.status}`);
       }
-    } catch (err) {
-      console.error("❌ Verification check failed:", err);
-      setError(err.message);
-      setVerificationStatus(VERIFICATION_STATES.ERROR);
+    } catch (error) {
+      console.error("❌ Verification error:", error);
+      setVerificationState((prev) => ({
+        ...prev,
+        error: error.message,
+        isVerified: false,
+        isCheckingVerification: false,
+      }));
     }
-  }, [account.status, account.address, hasAmbassadorAddress]);
+  }, [account.address, hasAmbassadorAddress]);
 
   // Handle signature success
   const handleSignatureSuccess = useCallback(() => {
-    console.log("✅ Signature verification successful!");
-    setVerificationStatus(VERIFICATION_STATES.VERIFIED);
-    setError(null);
+    console.log("✅ Signature successful");
+    setVerificationState((prev) => ({
+      ...prev,
+      isVerified: true,
+      isSigningMessage: false,
+      error: null,
+    }));
   }, []);
 
   // Handle signature error
-  const handleSignatureError = useCallback((err) => {
-    console.error("❌ Signature verification failed:", err);
-    setError(err.message);
-    setVerificationStatus(VERIFICATION_STATES.ERROR);
+  const handleSignatureError = useCallback((error) => {
+    console.error("❌ Signature error:", error);
+    setVerificationState((prev) => ({
+      ...prev,
+      isSigningMessage: false,
+      error: error.message,
+      isVerified: false,
+    }));
   }, []);
+
+  // Handle back from signing
+  const handleBack = useCallback(() => {
+    console.log("⬅️ Going back from signing");
+    disconnect();
+    setVerificationState({
+      error: null,
+      isVerified: null,
+      isSigningMessage: false,
+      isCheckingVerification: false,
+    });
+  }, [disconnect]);
 
   // Handle disconnect
   const handleDisconnect = useCallback(async () => {
-    console.log("🔌 Disconnecting wallet...");
-    setIsLoading(true);
-
+    console.log("🔌 Disconnecting wallet");
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/disconnect-wallet`,
@@ -1135,115 +1108,112 @@ const WalletTab = ({ ambassadorAddress }) => {
         },
       );
 
-      console.log("📡 Disconnect API response:", response.status);
-
       if (response.ok) {
         const data = await response.json();
         if (data?.token) {
-          console.log("🔑 Updating JWT token after disconnect");
           localStorage.removeItem("neo-jwt");
           localStorage.setItem("neo-jwt", data.token);
         }
       }
-    } catch (err) {
-      console.error("❌ Disconnect API error:", err);
-    } finally {
-      console.log("🔌 Performing local wallet disconnect");
-      disconnect();
-      setVerificationStatus(VERIFICATION_STATES.IDLE);
-      setError(null);
-      setIsLoading(false);
-      console.log("🔄 Refreshing page after disconnect");
-      router.refresh();
+    } catch (error) {
+      console.error("Disconnect error:", error);
     }
+
+    disconnect();
+    setVerificationState({
+      error: null,
+      isVerified: null,
+      isSigningMessage: false,
+      isCheckingVerification: false,
+    });
+    router.refresh();
   }, [disconnect, router]);
 
-  // Handle back from signing
-  const handleBack = useCallback(() => {
-    console.log("⬅️ Going back from signature flow");
-    disconnect();
-    setVerificationStatus(VERIFICATION_STATES.IDLE);
-    setError(null);
-  }, [disconnect]);
-
-  // Update verification state helper (for child components)
+  // Update verification state helper
   const updateVerificationState = useCallback((updates) => {
-    console.log("🔄 Child component updating verification state:", updates);
-    if (updates.isSigningMessage !== undefined) {
-      setIsLoading(updates.isSigningMessage);
-    }
-    if (updates.error !== undefined) {
-      setError(updates.error);
-    }
+    setVerificationState((prev) => ({ ...prev, ...updates }));
   }, []);
 
-  // Main effect: Handle wallet connection changes (only after initialization)
+  // Set ambassador as verified
   useEffect(() => {
-    if (!isInitialized || !ready) {
-      console.log("⏳ Skipping main effect - not initialized or ready");
-      return;
+    if (hasAmbassadorAddress && verificationState.isVerified === null) {
+      console.log("👑 Setting ambassador as verified");
+      setVerificationState((prev) => ({
+        ...prev,
+        isVerified: true,
+      }));
     }
+  }, [hasAmbassadorAddress, verificationState.isVerified]);
 
-    console.log("🎯 Main effect triggered:", {
-      accountStatus: account.status,
-      hasAmbassadorAddress,
-      verificationStatus,
-      accountAddress: account.address,
-    });
-
-    if (hasAmbassadorAddress) {
-      console.log("👑 Ambassador address - ensuring verified status");
-      if (verificationStatus !== VERIFICATION_STATES.VERIFIED) {
-        setVerificationStatus(VERIFICATION_STATES.VERIFIED);
-      }
-    } else if (
+  // Check verification when wallet connects
+  useEffect(() => {
+    if (
+      !hasAmbassadorAddress &&
       account.status === "connected" &&
-      verificationStatus === VERIFICATION_STATES.IDLE
+      account.address &&
+      ready &&
+      verificationState.isVerified === null &&
+      !verificationState.isCheckingVerification
     ) {
-      console.log("🔗 Wallet connected and idle - starting verification");
-      checkVerification();
-    } else if (account.status === "disconnected") {
-      console.log("💔 Wallet disconnected - resetting to idle");
-      setVerificationStatus(VERIFICATION_STATES.IDLE);
-      setError(null);
+      console.log("🚀 Wallet connected - checking verification");
+      checkWalletVerification();
     }
   }, [
-    account.status,
     hasAmbassadorAddress,
-    verificationStatus,
-    checkVerification,
-    isInitialized,
+    account.status,
+    account.address,
     ready,
+    verificationState.isVerified,
+    verificationState.isCheckingVerification,
+    checkWalletVerification,
   ]);
 
-  // Create legacy verificationState object for child components
-  const legacyVerificationState = {
-    error,
-    isVerified: verificationStatus === VERIFICATION_STATES.VERIFIED,
-    isSigningMessage: isLoading,
-    isCheckingVerification: verificationStatus === VERIFICATION_STATES.CHECKING,
-  };
+  // Reset when disconnected
+  useEffect(() => {
+    if (account.status === "disconnected" && !hasAmbassadorAddress) {
+      console.log("💔 Wallet disconnected - resetting");
+      setVerificationState({
+        error: null,
+        isVerified: null,
+        isSigningMessage: false,
+        isCheckingVerification: false,
+      });
+    }
+  }, [account.status, hasAmbassadorAddress]);
 
-  // Render logic - simple and clear
-  if (!ready || !isInitialized) {
-    console.log("🔄 Rendering: Initialization screen");
+  // RENDER LOGIC
+
+  // Wait for Privy to be ready
+  if (!ready) {
+    console.log("🔄 Rendering: Initializing (Privy not ready)");
     return (
       <div className="mx-auto mt-10 text-center">
         <Spinner size="lg" className="mb-4" color="white" />
         <h3 className="mb-2 text-lg font-medium text-white">
           Initializing Wallet
         </h3>
-        <p className="text-sm text-gray-200">
-          {!ready
-            ? "Preparing wallet connection..."
-            : "Setting up wallet state..."}
-        </p>
+        <p className="text-sm text-gray-200">Preparing wallet connection...</p>
       </div>
     );
   }
 
-  if (isWalletConnecting) {
-    console.log("🔄 Rendering: Wallet connecting screen");
+  // Ambassador address - show connected immediately
+  if (hasAmbassadorAddress) {
+    console.log("🔄 Rendering: Ambassador wallet connected");
+    return (
+      <WalletConnectedState
+        address={ambassadorAddress}
+        isUsingAmbassadorAddress={true}
+        verificationState={verificationState}
+        onDisconnect={handleDisconnect}
+        updateVerificationState={updateVerificationState}
+      />
+    );
+  }
+
+  // Wallet connecting
+  if (account.status === "connecting" || account.status === "reconnecting") {
+    console.log("🔄 Rendering: Wallet connecting");
     return (
       <div className="mx-auto mt-10 text-center">
         <div className="bg-blue-600/20 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
@@ -1258,8 +1228,12 @@ const WalletTab = ({ ambassadorAddress }) => {
     );
   }
 
-  if (verificationStatus === VERIFICATION_STATES.CHECKING) {
-    console.log("🔄 Rendering: Verification checking screen");
+  // Checking verification
+  if (
+    account.status === "connected" &&
+    verificationState.isCheckingVerification
+  ) {
+    console.log("🔄 Rendering: Checking verification");
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center">
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-600/20">
@@ -1274,16 +1248,17 @@ const WalletTab = ({ ambassadorAddress }) => {
     );
   }
 
-  if (verificationStatus === VERIFICATION_STATES.NEEDS_SIGNATURE) {
-    console.log("🔄 Rendering: Signature flow screen");
-    // Use wagmi's guaranteed address when connected
-    const address = account.status === "connected" ? account.address : null;
-
+  // Need signature
+  if (
+    account.status === "connected" &&
+    verificationState.isVerified === false
+  ) {
+    console.log("🔄 Rendering: Signature flow");
     return (
       <WalletSigningFlow
-        address={address}
+        address={account.address}
         onBack={handleBack}
-        verificationState={legacyVerificationState}
+        verificationState={verificationState}
         onSignatureError={handleSignatureError}
         onSignatureSuccess={handleSignatureSuccess}
         updateVerificationState={updateVerificationState}
@@ -1291,53 +1266,25 @@ const WalletTab = ({ ambassadorAddress }) => {
     );
   }
 
-  if (verificationStatus === VERIFICATION_STATES.VERIFIED) {
-    console.log("🔄 Rendering: Wallet connected screen");
-    // Use appropriate address based on source
-    const displayAddress = hasAmbassadorAddress
-      ? ambassadorAddress
-      : account.status === "connected"
-        ? account.address
-        : null;
-
+  // Wallet connected and verified
+  if (account.status === "connected" && verificationState.isVerified === true) {
+    console.log("🔄 Rendering: Wallet connected and verified");
     return (
       <WalletConnectedState
-        address={displayAddress}
-        isUsingAmbassadorAddress={hasAmbassadorAddress}
-        verificationState={legacyVerificationState}
+        address={account.address}
+        isUsingAmbassadorAddress={false}
+        verificationState={verificationState}
         onDisconnect={handleDisconnect}
         updateVerificationState={updateVerificationState}
       />
     );
   }
 
-  if (verificationStatus === VERIFICATION_STATES.ERROR) {
-    console.log("🔄 Rendering: Error screen");
-    return (
-      <div className="mx-auto mt-10 text-center">
-        <h3 className="mb-2 text-lg font-medium text-red-400">
-          Verification Error
-        </h3>
-        <p className="mb-4 text-sm text-gray-300">{error}</p>
-        <button
-          onClick={() => {
-            console.log("🔄 Retrying after error");
-            setVerificationStatus(VERIFICATION_STATES.IDLE);
-            setError(null);
-          }}
-          className="bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2 text-sm text-white"
-        >
-          Try Again
-        </button>
-      </div>
-    );
-  }
-
   // Default: Disconnected state
-  console.log("🔄 Rendering: Disconnected state screen");
+  console.log("🔄 Rendering: Disconnected state");
   return (
     <WalletDisconnectedState
-      verificationState={legacyVerificationState}
+      verificationState={verificationState}
       updateVerificationState={updateVerificationState}
     />
   );
