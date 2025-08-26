@@ -232,7 +232,7 @@ const ProfilePage = async () => {
           className="flex-none space-y-6 p-2 md:p-4 lg:flex-1 lg:p-6 3xl:p-8"
         >
           <section className="hide-scroll lg:overflow-y-auto">
-            <ProfileRightSidebar user={userData} stats={statsData} />
+            <ProfileRightSidebar user={userData} stats={statsData} me={true} />
           </section>
         </WrapperContainer>
       </div>
