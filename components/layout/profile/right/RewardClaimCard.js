@@ -66,7 +66,7 @@ const RewardClaimCard = React.memo(({ user, me = false }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ networkName: "neotestnet" }),
+          body: JSON.stringify({ networkName: "neo" }),
           credentials: "include",
         },
       );
