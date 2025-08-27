@@ -1207,7 +1207,6 @@ const WalletTab = ({ ambassadorAddress }) => {
     isConnected,
     address,
     ambassadorAddress,
-    state,
   });
 
   const [state, setState] = useState({
