@@ -32,22 +32,6 @@ export default function Providers({ children }) {
 
           showWalletLoginFirst: false,
         },
-
-        // loginMethods: ["wallet"],
-
-        embeddedWallets: {
-          requireUserPasswordOnCreate: false,
-          showWalletUIs: true,
-          ethereum: {
-            createOnLogin: "users-without-wallets",
-          },
-          solana: {
-            createOnLogin: "off",
-          },
-        },
-        mfa: {
-          noPromptOnMfaRequired: false,
-        },
       }}
     >
       <QueryClientProvider client={queryClient}>
