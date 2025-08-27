@@ -706,6 +706,481 @@
 
 // export default WalletTab;
 
+// "use client";
+
+// import { Spinner } from "@heroui/react";
+// import { WalletIcon } from "lucide-react";
+// import { useRouter } from "next/navigation";
+// import { usePrivy } from "@privy-io/react-auth";
+// import { useAccount, useDisconnect } from "wagmi";
+// import React, { useState, useEffect, useCallback, useRef } from "react";
+
+// import WalletSigningFlow from "./wallet/WalletSigningFlow";
+// import WalletConnectedState from "./wallet/WalletConnectedState";
+// import WalletDisconnectedState from "./wallet/WalletDisconnectedState";
+
+// const CONNECTION_TIMEOUT = 15000; // 15 seconds
+// const VERIFICATION_TIMEOUT = 10000; // 10 seconds
+
+// const WalletTab = ({ ambassadorAddress }) => {
+//   const router = useRouter();
+//   const { ready } = usePrivy();
+//   const { disconnect } = useDisconnect();
+//   const { isConnected, status, address } = useAccount();
+
+//   // Refs for cleanup
+//   const connectionTimeoutRef = useRef(null);
+//   const verificationTimeoutRef = useRef(null);
+//   const isMountedRef = useRef(true);
+
+//   // Main state with UI states
+//   const [walletState, setWalletState] = useState({
+//     // Verification states
+//     isVerified: null,
+//     isCheckingVerification: false,
+//     isSigningMessage: false,
+
+//     // Error states
+//     error: null,
+//     signatureError: null,
+
+//     // Connection states
+//     connectionTimedOut: false,
+//     showConnectingUI: false,
+//     showVerificationUI: false,
+
+//     // UI control states
+//     currentView: "LOADING",
+
+//     lastUpdated: null,
+//   });
+
+//   // Cleanup function
+//   const clearTimeouts = useCallback(() => {
+//     if (connectionTimeoutRef.current) {
+//       clearTimeout(connectionTimeoutRef.current);
+//       connectionTimeoutRef.current = null;
+//     }
+//     if (verificationTimeoutRef.current) {
+//       clearTimeout(verificationTimeoutRef.current);
+//       verificationTimeoutRef.current = null;
+//     }
+//   }, []);
+
+//   // Safe state update
+//   const updateWalletState = useCallback((updates) => {
+//     if (isMountedRef.current) {
+//       setWalletState((prev) => ({ ...prev, ...updates }));
+//     }
+//   }, []);
+
+//   // Determine current view based on all conditions
+//   const determineCurrentView = useCallback(() => {
+//     // Ambassador address exists - always connected
+//     if (ambassadorAddress) {
+//       return "CONNECTED";
+//     }
+
+//     // Privy not ready
+//     if (!ready) {
+//       return "LOADING";
+//     }
+
+//     // Connection timed out or has error
+//     if (walletState.connectionTimedOut || walletState.error) {
+//       return "ERROR";
+//     }
+
+//     // Wagmi states
+//     if (status === "connecting") {
+//       return "CONNECTING";
+//     }
+
+//     if (status === "connected" && address) {
+//       // Connected wallet - check verification status
+//       if (walletState.isCheckingVerification) {
+//         return "VERIFYING";
+//       }
+
+//       if (walletState.isVerified === false) {
+//         return "SIGNING";
+//       }
+
+//       if (walletState.isVerified === true) {
+//         return "CONNECTED";
+//       }
+
+//       // Default to verifying if verification status is unknown
+//       return "VERIFYING";
+//     }
+
+//     // Default to disconnected
+//     return "DISCONNECTED";
+//   }, [
+//     ambassadorAddress,
+//     ready,
+//     status,
+//     address,
+//     walletState.connectionTimedOut,
+//     walletState.error,
+//     walletState.isCheckingVerification,
+//     walletState.isVerified,
+//   ]);
+
+//   // Update current view whenever dependencies change
+//   useEffect(() => {
+//     const newView = determineCurrentView();
+//     if (newView !== walletState.currentView) {
+//       updateWalletState({ currentView: newView });
+//     }
+//   }, [determineCurrentView, walletState.currentView, updateWalletState]);
+
+//   // Reset state
+//   const resetWalletState = useCallback(() => {
+//     clearTimeouts();
+//     updateWalletState({
+//       isVerified: null,
+//       isCheckingVerification: false,
+//       isSigningMessage: false,
+//       error: null,
+//       signatureError: null,
+//       connectionTimedOut: false,
+//       showConnectingUI: false,
+//       showVerificationUI: false,
+//       currentView: "DISCONNECTED",
+//       lastUpdated: null,
+//     });
+//   }, [clearTimeouts, updateWalletState]);
+
+//   // Check wallet verification
+//   const checkWalletVerification = useCallback(
+//     async (walletAddress) => {
+//       if (!walletAddress || ambassadorAddress) return;
+
+//       updateWalletState({
+//         isCheckingVerification: true,
+//         error: null,
+//       });
+
+//       // Set verification timeout
+//       verificationTimeoutRef.current = setTimeout(() => {
+//         if (isMountedRef.current) {
+//           updateWalletState({
+//             isCheckingVerification: false,
+//             error: "Verification check timed out",
+//             isVerified: false,
+//           });
+//         }
+//       }, VERIFICATION_TIMEOUT);
+
+//       try {
+//         const response = await fetch(
+//           `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/wallet_address/${walletAddress}`,
+//           {
+//             method: "GET",
+//             headers: { "Content-Type": "application/json" },
+//             credentials: "include",
+//           },
+//         );
+
+//         if (!isMountedRef.current) return;
+
+//         clearTimeout(verificationTimeoutRef.current);
+//         verificationTimeoutRef.current = null;
+
+//         if (response.ok) {
+//           updateWalletState({
+//             isVerified: true,
+//             isCheckingVerification: false,
+//             lastUpdated: new Date(),
+//             error: null,
+//           });
+//         } else if (response.status === 404) {
+//           updateWalletState({
+//             isVerified: false,
+//             isCheckingVerification: false,
+//             error: null,
+//           });
+//         } else {
+//           throw new Error(`Verification failed: ${response.status}`);
+//         }
+//       } catch (error) {
+//         if (!isMountedRef.current) return;
+
+//         clearTimeout(verificationTimeoutRef.current);
+//         verificationTimeoutRef.current = null;
+
+//         console.error("Verification error:", error);
+//         updateWalletState({
+//           isCheckingVerification: false,
+//           error: error.message || "Failed to verify wallet",
+//           isVerified: false,
+//         });
+//       }
+//     },
+//     [ambassadorAddress, updateWalletState],
+//   );
+
+//   // Handle disconnect
+//   const handleDisconnectWallet = useCallback(async () => {
+//     try {
+//       const response = await fetch(
+//         `${process.env.NEXT_PUBLIC_API_URL}/auth/disconnect-wallet`,
+//         {
+//           method: "POST",
+//           headers: { "Content-Type": "application/json" },
+//           credentials: "include",
+//         },
+//       );
+
+//       if (response.ok) {
+//         const data = await response.json();
+//         localStorage.removeItem("neo-jwt");
+//         localStorage.setItem("neo-jwt", data.token);
+//       }
+
+//       // Disconnect wagmi
+//       if (status === "connected") {
+//         disconnect();
+//       }
+
+//       // Reset state
+//       resetWalletState();
+
+//       // Refresh page
+//       router.refresh();
+//     } catch (error) {
+//       console.error("Disconnect error:", error);
+
+//       // Fallback: disconnect locally
+//       if (status === "connected") {
+//         disconnect();
+//       }
+
+//       updateWalletState({
+//         error: "Failed to disconnect properly. Please refresh the page.",
+//       });
+//     }
+//   }, [status, disconnect, router, resetWalletState, updateWalletState]);
+
+//   // Handle signature success
+//   const handleSignatureSuccess = useCallback(async () => {
+//     updateWalletState({
+//       isVerified: true,
+//       isSigningMessage: false,
+//       signatureError: null,
+//       lastUpdated: new Date(),
+//     });
+//   }, [updateWalletState]);
+
+//   // Handle signature error
+//   const handleSignatureError = useCallback(
+//     (error) => {
+//       console.error("Signature error:", error);
+//       updateWalletState({
+//         isSigningMessage: false,
+//         signatureError: error?.message || "Signature verification failed",
+//         isVerified: false,
+//       });
+//     },
+//     [updateWalletState],
+//   );
+
+//   // Handle back from signing
+//   const handleBackFromSigning = useCallback(() => {
+//     disconnect();
+//     resetWalletState();
+//   }, [disconnect, resetWalletState]);
+
+//   // Effect: Set ambassador address as verified immediately
+//   useEffect(() => {
+//     if (ambassadorAddress && walletState.isVerified !== true) {
+//       updateWalletState({
+//         isVerified: true,
+//         lastUpdated: new Date(),
+//       });
+//     }
+//   }, [ambassadorAddress, walletState.isVerified, updateWalletState]);
+
+//   // Effect: Handle connection timeout
+//   useEffect(() => {
+//     if (status === "connecting" && ready) {
+//       connectionTimeoutRef.current = setTimeout(() => {
+//         if (isMountedRef.current && status === "connecting") {
+//           updateWalletState({
+//             connectionTimedOut: true,
+//             error: "Connection timed out. Please try again.",
+//           });
+//           disconnect();
+//         }
+//       }, CONNECTION_TIMEOUT);
+//     } else {
+//       if (connectionTimeoutRef.current) {
+//         clearTimeout(connectionTimeoutRef.current);
+//         connectionTimeoutRef.current = null;
+//       }
+//       if (walletState.connectionTimedOut) {
+//         updateWalletState({ connectionTimedOut: false });
+//       }
+//     }
+
+//     return () => {
+//       if (connectionTimeoutRef.current) {
+//         clearTimeout(connectionTimeoutRef.current);
+//       }
+//     };
+//   }, [
+//     status,
+//     ready,
+//     disconnect,
+//     updateWalletState,
+//     walletState.connectionTimedOut,
+//   ]);
+
+//   // Effect: Check verification when wallet connects
+//   useEffect(() => {
+//     if (
+//       !ambassadorAddress &&
+//       status === "connected" &&
+//       address &&
+//       ready &&
+//       walletState.isVerified === null &&
+//       !walletState.isCheckingVerification
+//     ) {
+//       checkWalletVerification(address);
+//     }
+//   }, [
+//     ambassadorAddress,
+//     status,
+//     address,
+//     ready,
+//     walletState.isVerified,
+//     walletState.isCheckingVerification,
+//     checkWalletVerification,
+//   ]);
+
+//   // Effect: Reset state when disconnected (but not for ambassador)
+//   useEffect(() => {
+//     if (
+//       status === "disconnected" &&
+//       !ambassadorAddress &&
+//       walletState.currentView !== "DISCONNECTED"
+//     ) {
+//       resetWalletState();
+//     }
+//   }, [status, ambassadorAddress, walletState.currentView, resetWalletState]);
+
+//   // Effect: Cleanup on unmount
+//   useEffect(() => {
+//     isMountedRef.current = true;
+//     return () => {
+//       isMountedRef.current = false;
+//       clearTimeouts();
+//     };
+//   }, [clearTimeouts]);
+
+//   // Render based on current view state
+//   switch (walletState.currentView) {
+//     case "LOADING":
+//       return (
+//         <div className="mx-auto mt-10 text-center">
+//           <Spinner size="lg" className="mb-4" color="white" />
+//           <h3 className="mb-2 text-lg font-medium text-white">
+//             Initializing Wallet
+//           </h3>
+//           <p className="text-sm text-gray-200">
+//             Preparing wallet connection...
+//           </p>
+//         </div>
+//       );
+
+//     case "ERROR":
+//       return (
+//         <div className="mx-auto mt-10 text-center">
+//           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-600/20">
+//             <WalletIcon size={32} className="text-red-400" />
+//           </div>
+//           <h3 className="mb-2 text-xl font-bold text-red-400">
+//             Connection Failed
+//           </h3>
+//           <p className="mb-4 text-gray-300">
+//             {walletState.error || "Connection failed. Please try again."}
+//           </p>
+//           <WalletDisconnectedState
+//             verificationState={walletState}
+//             updateVerificationState={updateWalletState}
+//           />
+//         </div>
+//       );
+
+//     case "CONNECTING":
+//       return (
+//         <div className="mx-auto mt-10 text-center">
+//           <div className="bg-blue-600/20 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+//             <WalletIcon size={32} className="text-gray-100" />
+//           </div>
+//           <Spinner size="lg" className="mb-4" color="white" />
+//           <h3 className="mb-2 text-xl font-bold text-white">
+//             Connecting Wallet
+//           </h3>
+//           <p className="text-gray-200">
+//             Please approve the connection in your wallet...
+//           </p>
+//         </div>
+//       );
+
+//     case "VERIFYING":
+//       return (
+//         <div className="flex min-h-[400px] flex-col items-center justify-center">
+//           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-600/20">
+//             <WalletIcon size={32} className="text-purple-400" />
+//           </div>
+//           <Spinner size="lg" className="mb-4" color="white" />
+//           <h3 className="mb-2 text-xl font-bold text-white">
+//             Verifying Wallet
+//           </h3>
+//           <p className="text-gray-400">
+//             Checking your wallet verification status...
+//           </p>
+//         </div>
+//       );
+
+//     case "SIGNING":
+//       return (
+//         <WalletSigningFlow
+//           address={address}
+//           onBack={handleBackFromSigning}
+//           verificationState={walletState}
+//           onSignatureError={handleSignatureError}
+//           onSignatureSuccess={handleSignatureSuccess}
+//           updateVerificationState={updateWalletState}
+//         />
+//       );
+
+//     case "CONNECTED":
+//       return (
+//         <WalletConnectedState
+//           address={ambassadorAddress || address}
+//           isUsingAmbassadorAddress={!!ambassadorAddress}
+//           verificationState={walletState}
+//           onDisconnect={handleDisconnectWallet}
+//           updateVerificationState={updateWalletState}
+//         />
+//       );
+
+//     case "DISCONNECTED":
+//     default:
+//       return (
+//         <WalletDisconnectedState
+//           verificationState={walletState}
+//           updateVerificationState={updateWalletState}
+//         />
+//       );
+//   }
+// };
+
+// export default WalletTab;
+
 "use client";
 
 import { Spinner } from "@heroui/react";
@@ -713,14 +1188,11 @@ import { WalletIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
 import { useAccount, useDisconnect } from "wagmi";
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import WalletSigningFlow from "./wallet/WalletSigningFlow";
 import WalletConnectedState from "./wallet/WalletConnectedState";
 import WalletDisconnectedState from "./wallet/WalletDisconnectedState";
-
-const CONNECTION_TIMEOUT = 15000; // 15 seconds
-const VERIFICATION_TIMEOUT = 10000; // 10 seconds
 
 const WalletTab = ({ ambassadorAddress }) => {
   const router = useRouter();
@@ -728,202 +1200,103 @@ const WalletTab = ({ ambassadorAddress }) => {
   const { disconnect } = useDisconnect();
   const { isConnected, status, address } = useAccount();
 
-  // Refs for cleanup
-  const connectionTimeoutRef = useRef(null);
-  const verificationTimeoutRef = useRef(null);
-  const isMountedRef = useRef(true);
+  // Debug logging
+  console.log("🔍 WalletTab Debug:", {
+    ready,
+    status,
+    isConnected,
+    address,
+    ambassadorAddress,
+    state,
+  });
 
-  // Main state with UI states
-  const [walletState, setWalletState] = useState({
-    // Verification states
+  const [state, setState] = useState({
     isVerified: null,
     isCheckingVerification: false,
     isSigningMessage: false,
-
-    // Error states
     error: null,
     signatureError: null,
-
-    // Connection states
-    connectionTimedOut: false,
-    showConnectingUI: false,
-    showVerificationUI: false,
-
-    // UI control states
-    currentView: "LOADING", // LOADING, DISCONNECTED, CONNECTING, VERIFYING, SIGNING, CONNECTED, ERROR
-
+    connectionStartTime: null,
     lastUpdated: null,
   });
 
-  // Cleanup function
-  const clearTimeouts = useCallback(() => {
-    if (connectionTimeoutRef.current) {
-      clearTimeout(connectionTimeoutRef.current);
-      connectionTimeoutRef.current = null;
-    }
-    if (verificationTimeoutRef.current) {
-      clearTimeout(verificationTimeoutRef.current);
-      verificationTimeoutRef.current = null;
-    }
+  const updateState = useCallback((updates) => {
+    console.log("🔄 State Update:", updates);
+    setState((prev) => {
+      const newState = { ...prev, ...updates };
+      console.log("📊 New State:", newState);
+      return newState;
+    });
   }, []);
 
-  // Safe state update
-  const updateWalletState = useCallback((updates) => {
-    if (isMountedRef.current) {
-      setWalletState((prev) => ({ ...prev, ...updates }));
-    }
-  }, []);
-
-  // Determine current view based on all conditions
-  const determineCurrentView = useCallback(() => {
-    // Ambassador address exists - always connected
-    if (ambassadorAddress) {
-      return "CONNECTED";
-    }
-
-    // Privy not ready
-    if (!ready) {
-      return "LOADING";
-    }
-
-    // Connection timed out or has error
-    if (walletState.connectionTimedOut || walletState.error) {
-      return "ERROR";
-    }
-
-    // Wagmi states
-    if (status === "connecting") {
-      return "CONNECTING";
-    }
-
-    if (status === "connected" && address) {
-      // Connected wallet - check verification status
-      if (walletState.isCheckingVerification) {
-        return "VERIFYING";
-      }
-
-      if (walletState.isVerified === false) {
-        return "SIGNING";
-      }
-
-      if (walletState.isVerified === true) {
-        return "CONNECTED";
-      }
-
-      // Default to verifying if verification status is unknown
-      return "VERIFYING";
-    }
-
-    // Default to disconnected
-    return "DISCONNECTED";
-  }, [
-    ambassadorAddress,
-    ready,
-    status,
-    address,
-    walletState.connectionTimedOut,
-    walletState.error,
-    walletState.isCheckingVerification,
-    walletState.isVerified,
-  ]);
-
-  // Update current view whenever dependencies change
-  useEffect(() => {
-    const newView = determineCurrentView();
-    if (newView !== walletState.currentView) {
-      updateWalletState({ currentView: newView });
-    }
-  }, [determineCurrentView, walletState.currentView, updateWalletState]);
-
-  // Reset state
-  const resetWalletState = useCallback(() => {
-    clearTimeouts();
-    updateWalletState({
+  const resetState = useCallback(() => {
+    console.log("🔄 Resetting State");
+    setState({
       isVerified: null,
       isCheckingVerification: false,
       isSigningMessage: false,
       error: null,
       signatureError: null,
-      connectionTimedOut: false,
-      showConnectingUI: false,
-      showVerificationUI: false,
-      currentView: "DISCONNECTED",
+      connectionStartTime: null,
       lastUpdated: null,
     });
-  }, [clearTimeouts, updateWalletState]);
+  }, []);
 
-  // Check wallet verification
-  const checkWalletVerification = useCallback(
-    async (walletAddress) => {
-      if (!walletAddress || ambassadorAddress) return;
+  const checkWalletVerification = async (walletAddress) => {
+    if (!walletAddress || ambassadorAddress) return;
 
-      updateWalletState({
-        isCheckingVerification: true,
-        error: null,
-      });
+    console.log("🔍 Starting wallet verification for:", walletAddress);
+    updateState({ isCheckingVerification: true, error: null });
 
-      // Set verification timeout
-      verificationTimeoutRef.current = setTimeout(() => {
-        if (isMountedRef.current) {
-          updateWalletState({
-            isCheckingVerification: false,
-            error: "Verification check timed out",
-            isVerified: false,
-          });
-        }
-      }, VERIFICATION_TIMEOUT);
-
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/wallet_address/${walletAddress}`,
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-          },
-        );
-
-        if (!isMountedRef.current) return;
-
-        clearTimeout(verificationTimeoutRef.current);
-        verificationTimeoutRef.current = null;
-
-        if (response.ok) {
-          updateWalletState({
-            isVerified: true,
-            isCheckingVerification: false,
-            lastUpdated: new Date(),
-            error: null,
-          });
-        } else if (response.status === 404) {
-          updateWalletState({
-            isVerified: false,
-            isCheckingVerification: false,
-            error: null,
-          });
-        } else {
-          throw new Error(`Verification failed: ${response.status}`);
-        }
-      } catch (error) {
-        if (!isMountedRef.current) return;
-
-        clearTimeout(verificationTimeoutRef.current);
-        verificationTimeoutRef.current = null;
-
-        console.error("Verification error:", error);
-        updateWalletState({
-          isCheckingVerification: false,
-          error: error.message || "Failed to verify wallet",
-          isVerified: false,
-        });
-      }
-    },
-    [ambassadorAddress, updateWalletState],
-  );
-
-  // Handle disconnect
-  const handleDisconnectWallet = useCallback(async () => {
     try {
+      console.log("📡 Making verification API call...");
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/wallet_address/${walletAddress}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        },
+      );
+
+      console.log(
+        "📡 Verification API response:",
+        response.status,
+        response.statusText,
+      );
+
+      if (response.ok) {
+        console.log("✅ Wallet verified successfully");
+        updateState({
+          isVerified: true,
+          isCheckingVerification: false,
+          lastUpdated: new Date(),
+          error: null,
+        });
+      } else if (response.status === 404) {
+        console.log("❌ Wallet not found - needs signature");
+        updateState({
+          isVerified: false,
+          isCheckingVerification: false,
+          error: null,
+        });
+      } else {
+        throw new Error(`Server error: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("💥 Verification error:", error);
+      updateState({
+        isCheckingVerification: false,
+        error: error.message || "Failed to verify wallet",
+        isVerified: false,
+      });
+    }
+  };
+
+  const handleDisconnectWallet = async () => {
+    console.log("🔌 Disconnecting wallet...");
+    try {
+      console.log("📡 Making disconnect API call...");
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/disconnect-wallet`,
         {
@@ -933,250 +1306,242 @@ const WalletTab = ({ ambassadorAddress }) => {
         },
       );
 
+      console.log("📡 Disconnect API response:", response.status);
+
       if (response.ok) {
         const data = await response.json();
+        console.log("💾 Updating JWT token");
         localStorage.removeItem("neo-jwt");
         localStorage.setItem("neo-jwt", data.token);
       }
 
-      // Disconnect wagmi
-      if (status === "connected") {
+      if (isConnected) {
+        console.log("🔌 Disconnecting wagmi...");
         disconnect();
       }
 
-      // Reset state
-      resetWalletState();
-
-      // Refresh page
+      resetState();
+      console.log("🔄 Refreshing page...");
       router.refresh();
     } catch (error) {
-      console.error("Disconnect error:", error);
-
-      // Fallback: disconnect locally
-      if (status === "connected") {
+      console.error("💥 Disconnect error:", error);
+      if (isConnected) {
+        console.log("🔌 Fallback: disconnecting wagmi...");
         disconnect();
       }
-
-      updateWalletState({
-        error: "Failed to disconnect properly. Please refresh the page.",
-      });
+      resetState();
     }
-  }, [status, disconnect, router, resetWalletState, updateWalletState]);
+  };
 
-  // Handle signature success
-  const handleSignatureSuccess = useCallback(async () => {
-    updateWalletState({
+  const handleSignatureSuccess = () => {
+    updateState({
       isVerified: true,
       isSigningMessage: false,
       signatureError: null,
       lastUpdated: new Date(),
     });
-  }, [updateWalletState]);
+  };
 
-  // Handle signature error
-  const handleSignatureError = useCallback(
-    (error) => {
-      console.error("Signature error:", error);
-      updateWalletState({
-        isSigningMessage: false,
-        signatureError: error?.message || "Signature verification failed",
-        isVerified: false,
-      });
-    },
-    [updateWalletState],
-  );
+  const handleSignatureError = (error) => {
+    console.error("Signature error:", error);
+    updateState({
+      isSigningMessage: false,
+      signatureError: error?.message || "Signature failed",
+      isVerified: false,
+    });
+  };
 
-  // Handle back from signing
-  const handleBackFromSigning = useCallback(() => {
+  const handleBackFromSigning = () => {
     disconnect();
-    resetWalletState();
-  }, [disconnect, resetWalletState]);
+    resetState();
+  };
 
-  // Effect: Set ambassador address as verified immediately
+  // Track connection start time
   useEffect(() => {
-    if (ambassadorAddress && walletState.isVerified !== true) {
-      updateWalletState({
+    if (status === "connecting" && !state.connectionStartTime) {
+      console.log("⏱️ Connection started");
+      updateState({ connectionStartTime: Date.now() });
+    } else if (status !== "connecting" && state.connectionStartTime) {
+      console.log("⏱️ Connection finished, clearing timer");
+      updateState({ connectionStartTime: null });
+    }
+  }, [status, state.connectionStartTime]);
+
+  // Check for stuck connection
+  useEffect(() => {
+    if (status === "connecting" && state.connectionStartTime) {
+      console.log("⏰ Setting 15s timeout for connection");
+      const timeout = setTimeout(() => {
+        const elapsed = Date.now() - state.connectionStartTime;
+        console.log(
+          `⏰ Connection timeout check: ${elapsed}ms elapsed, status: ${status}`,
+        );
+        if (elapsed > 15000 && status === "connecting") {
+          console.log("💥 Connection timed out after 15s");
+          updateState({
+            error:
+              "Connection is taking too long. Please try again or check your wallet.",
+            connectionStartTime: null,
+          });
+        }
+      }, 15000);
+
+      return () => {
+        console.log("🧹 Clearing connection timeout");
+        clearTimeout(timeout);
+      };
+    }
+  }, [status, state.connectionStartTime]);
+
+  // Set ambassador as verified
+  useEffect(() => {
+    if (ambassadorAddress && state.isVerified !== true) {
+      console.log(
+        "👑 Ambassador address found, setting as verified:",
+        ambassadorAddress,
+      );
+      updateState({
         isVerified: true,
         lastUpdated: new Date(),
       });
     }
-  }, [ambassadorAddress, walletState.isVerified, updateWalletState]);
+  }, [ambassadorAddress, state.isVerified]);
 
-  // Effect: Handle connection timeout
-  useEffect(() => {
-    if (status === "connecting" && ready) {
-      connectionTimeoutRef.current = setTimeout(() => {
-        if (isMountedRef.current && status === "connecting") {
-          updateWalletState({
-            connectionTimedOut: true,
-            error: "Connection timed out. Please try again.",
-          });
-          disconnect();
-        }
-      }, CONNECTION_TIMEOUT);
-    } else {
-      if (connectionTimeoutRef.current) {
-        clearTimeout(connectionTimeoutRef.current);
-        connectionTimeoutRef.current = null;
-      }
-      if (walletState.connectionTimedOut) {
-        updateWalletState({ connectionTimedOut: false });
-      }
-    }
-
-    return () => {
-      if (connectionTimeoutRef.current) {
-        clearTimeout(connectionTimeoutRef.current);
-      }
-    };
-  }, [
-    status,
-    ready,
-    disconnect,
-    updateWalletState,
-    walletState.connectionTimedOut,
-  ]);
-
-  // Effect: Check verification when wallet connects
+  // Check verification when wallet connects
   useEffect(() => {
     if (
       !ambassadorAddress &&
-      status === "connected" &&
+      isConnected &&
       address &&
       ready &&
-      walletState.isVerified === null &&
-      !walletState.isCheckingVerification
+      state.isVerified === null
     ) {
+      console.log("🔍 Wallet connected, checking verification:", {
+        isConnected,
+        address,
+        ready,
+      });
       checkWalletVerification(address);
     }
-  }, [
-    ambassadorAddress,
-    status,
-    address,
-    ready,
-    walletState.isVerified,
-    walletState.isCheckingVerification,
-    checkWalletVerification,
-  ]);
+  }, [ambassadorAddress, isConnected, address, ready, state.isVerified]);
 
-  // Effect: Reset state when disconnected (but not for ambassador)
+  // Reset when disconnected
   useEffect(() => {
-    if (
-      status === "disconnected" &&
-      !ambassadorAddress &&
-      walletState.currentView !== "DISCONNECTED"
-    ) {
-      resetWalletState();
+    if (status === "disconnected" && !ambassadorAddress) {
+      console.log("🔌 Wallet disconnected, resetting state");
+      resetState();
     }
-  }, [status, ambassadorAddress, walletState.currentView, resetWalletState]);
+  }, [status, ambassadorAddress]);
 
-  // Effect: Cleanup on unmount
-  useEffect(() => {
-    isMountedRef.current = true;
-    return () => {
-      isMountedRef.current = false;
-      clearTimeouts();
-    };
-  }, [clearTimeouts]);
-
-  // Render based on current view state
-  switch (walletState.currentView) {
-    case "LOADING":
-      return (
-        <div className="mx-auto mt-10 text-center">
-          <Spinner size="lg" className="mb-4" color="white" />
-          <h3 className="mb-2 text-lg font-medium text-white">
-            Initializing Wallet
-          </h3>
-          <p className="text-sm text-gray-200">
-            Preparing wallet connection...
-          </p>
-        </div>
-      );
-
-    case "ERROR":
-      return (
-        <div className="mx-auto mt-10 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-600/20">
-            <WalletIcon size={32} className="text-red-400" />
-          </div>
-          <h3 className="mb-2 text-xl font-bold text-red-400">
-            Connection Failed
-          </h3>
-          <p className="mb-4 text-gray-300">
-            {walletState.error || "Connection failed. Please try again."}
-          </p>
-          <WalletDisconnectedState
-            verificationState={walletState}
-            updateVerificationState={updateWalletState}
-          />
-        </div>
-      );
-
-    case "CONNECTING":
-      return (
-        <div className="mx-auto mt-10 text-center">
-          <div className="bg-blue-600/20 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-            <WalletIcon size={32} className="text-gray-100" />
-          </div>
-          <Spinner size="lg" className="mb-4" color="white" />
-          <h3 className="mb-2 text-xl font-bold text-white">
-            Connecting Wallet
-          </h3>
-          <p className="text-gray-200">
-            Please approve the connection in your wallet...
-          </p>
-        </div>
-      );
-
-    case "VERIFYING":
-      return (
-        <div className="flex min-h-[400px] flex-col items-center justify-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-600/20">
-            <WalletIcon size={32} className="text-purple-400" />
-          </div>
-          <Spinner size="lg" className="mb-4" color="white" />
-          <h3 className="mb-2 text-xl font-bold text-white">
-            Verifying Wallet
-          </h3>
-          <p className="text-gray-400">
-            Checking your wallet verification status...
-          </p>
-        </div>
-      );
-
-    case "SIGNING":
-      return (
-        <WalletSigningFlow
-          address={address}
-          onBack={handleBackFromSigning}
-          verificationState={walletState}
-          onSignatureError={handleSignatureError}
-          onSignatureSuccess={handleSignatureSuccess}
-          updateVerificationState={updateWalletState}
-        />
-      );
-
-    case "CONNECTED":
-      return (
-        <WalletConnectedState
-          address={ambassadorAddress || address}
-          isUsingAmbassadorAddress={!!ambassadorAddress}
-          verificationState={walletState}
-          onDisconnect={handleDisconnectWallet}
-          updateVerificationState={updateWalletState}
-        />
-      );
-
-    case "DISCONNECTED":
-    default:
-      return (
-        <WalletDisconnectedState
-          verificationState={walletState}
-          updateVerificationState={updateWalletState}
-        />
-      );
+  // Ambassador address - show connected immediately
+  if (ambassadorAddress) {
+    return (
+      <WalletConnectedState
+        address={ambassadorAddress}
+        isUsingAmbassadorAddress={true}
+        verificationState={state}
+        onDisconnect={handleDisconnectWallet}
+        updateVerificationState={updateState}
+      />
+    );
   }
+
+  // Privy not ready
+  if (!ready) {
+    return (
+      <div className="mx-auto mt-10 text-center">
+        <Spinner size="lg" className="mb-4" color="white" />
+        <h3 className="mb-2 text-lg font-medium text-white">
+          Initializing Wallet
+        </h3>
+        <p className="text-sm text-gray-200">Preparing wallet connection...</p>
+      </div>
+    );
+  }
+
+  // Show error
+  if (state.error) {
+    return (
+      <div className="mx-auto mt-10 text-center">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-600/20">
+          <WalletIcon size={32} className="text-red-400" />
+        </div>
+        <h3 className="mb-2 text-xl font-bold text-red-400">Error</h3>
+        <p className="mb-4 text-sm text-gray-300">{state.error}</p>
+        <WalletDisconnectedState
+          verificationState={state}
+          updateVerificationState={updateState}
+        />
+      </div>
+    );
+  }
+
+  // Wallet connecting
+  if (status === "connecting") {
+    return (
+      <div className="mx-auto mt-10 text-center">
+        <div className="bg-blue-600/20 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+          <WalletIcon size={32} className="text-gray-100" />
+        </div>
+        <Spinner size="lg" className="mb-4" color="white" />
+        <h3 className="mb-2 text-xl font-bold text-white">Connecting Wallet</h3>
+        <p className="text-sm text-gray-200">
+          Please approve the connection in your wallet...
+        </p>
+      </div>
+    );
+  }
+
+  // Checking verification
+  if (isConnected && address && state.isCheckingVerification) {
+    return (
+      <div className="flex min-h-[400px] flex-col items-center justify-center">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-600/20">
+          <WalletIcon size={32} className="text-purple-400" />
+        </div>
+        <Spinner size="lg" className="mb-4" color="white" />
+        <h3 className="mb-2 text-xl font-bold text-white">Verifying Wallet</h3>
+        <p className="text-sm text-gray-400">
+          Checking your wallet verification status...
+        </p>
+      </div>
+    );
+  }
+
+  // Needs signature
+  if (isConnected && address && state.isVerified === false) {
+    return (
+      <WalletSigningFlow
+        address={address}
+        onBack={handleBackFromSigning}
+        verificationState={state}
+        onSignatureError={handleSignatureError}
+        onSignatureSuccess={handleSignatureSuccess}
+        updateVerificationState={updateState}
+      />
+    );
+  }
+
+  // Verified and connected
+  if (isConnected && address && state.isVerified === true) {
+    return (
+      <WalletConnectedState
+        address={address}
+        verificationState={state}
+        onDisconnect={handleDisconnectWallet}
+        updateVerificationState={updateState}
+        isUsingAmbassadorAddress={false}
+      />
+    );
+  }
+
+  // Default: disconnected
+  return (
+    <WalletDisconnectedState
+      verificationState={state}
+      updateVerificationState={updateState}
+    />
+  );
 };
 
 export default WalletTab;
