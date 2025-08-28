@@ -9,17 +9,18 @@ import TelegramIcon from "@/components/ui/socialIcons/TelegramIcon";
 const truncateSocial = (username, maxLength = 12) => {
   if (!username) return "Not connected";
   if (username.length <= maxLength) return username;
+
   return username.substring(0, maxLength) + "...";
 };
 
 // Helper function to get social platform URL
-const getSocialUrl = (platform, username) => {
-  if (!username) return "#";
+const getSocialUrl = (platform, id) => {
+  if (!id) return "#";
 
   const urls = {
-    twitter: `https://twitter.com/${username}`,
-    discord: `https://discord.com/users/${username}`,
-    telegram: `https://t.me/${username}`,
+    twitter: `https://twitter.com/${id}`,
+    discord: `https://discord.com/users/${id}`,
+    telegram: `https://t.me/${id}`,
   };
 
   return urls[platform] || "#";
@@ -30,6 +31,7 @@ const ProfileSocials = ({ user }) => {
     {
       platform: "twitter",
       username: user?.twitter_username,
+      id: user?.twitter_username,
       icon: XIcon,
       label: "Twitter",
     },
@@ -37,6 +39,7 @@ const ProfileSocials = ({ user }) => {
     {
       platform: "discord",
       username: user?.discord_username,
+      id: user?.discord,
       icon: DiscordIcon,
       label: "Discord",
     },
@@ -44,6 +47,7 @@ const ProfileSocials = ({ user }) => {
     {
       platform: "telegram",
       username: user?.telegram_username,
+      id: user?.telegram_username,
       icon: TelegramIcon,
       label: "Telegram",
     },
@@ -59,7 +63,7 @@ const ProfileSocials = ({ user }) => {
           <React.Fragment key={social.platform}>
             {isConnected ? (
               <Link
-                href={getSocialUrl(social.platform, social.username)}
+                href={getSocialUrl(social.platform, social.id)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 rounded-lg border border-gray-400 bg-gradient-dark px-4 py-2.5 transition-opacity hover:bg-opacity-80"
