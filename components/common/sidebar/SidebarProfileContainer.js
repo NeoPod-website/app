@@ -152,7 +152,6 @@ const SidebarProfileContainer = async ({ session }) => {
 function getRoleComponent(user, stats) {
   // Admin users always get the main sidebar profile
   if (user.isAdmin) {
-    console.log("Rendering SidebarProfile for admin user");
     return <SidebarProfile user={user} />;
   }
 

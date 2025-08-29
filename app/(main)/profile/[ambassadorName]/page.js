@@ -124,6 +124,7 @@ const AmbassadorProfilePage = async ({ params }) => {
   });
 
   const isOwnProfile = currentUser?.username === ambassador.username;
+  const isAdmin = isOwnProfile ? isOwnProfile : currentUser?.isAdmin;
 
   return (
     <MainPageScroll scrollable={false}>
@@ -137,8 +138,8 @@ const AmbassadorProfilePage = async ({ params }) => {
           <section className="thin-scrollbar space-y-7 overflow-y-auto px-4 2xl:px-6">
             <ProfileName user={ambassador} />
             <ProfileStats user={ambassador} />
-            <ProfileSocials user={ambassador} />
-            <ProfileInfo user={ambassador} />
+            {isAdmin && <ProfileSocials user={ambassador} />}
+            <ProfileInfo isAdmin={isAdmin} user={ambassador} />
           </section>
         </WrapperContainer>
 

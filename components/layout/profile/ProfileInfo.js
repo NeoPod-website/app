@@ -1,7 +1,7 @@
 import React from "react";
 import { GlobeIcon, MailIcon } from "lucide-react";
 
-const ProfileInfo = ({ user }) => {
+const ProfileInfo = ({ user, isAdmin }) => {
   return (
     <div className="">
       <div className="flex gap-10 border-t border-gray-400 py-6 text-sm xl:gap-16 2xl:text-base 3xl:gap-20">
@@ -16,17 +16,19 @@ const ProfileInfo = ({ user }) => {
         </div>
       </div>
 
-      <div className="flex gap-10 border-t border-gray-400 py-6 text-sm xl:gap-16 2xl:text-base 3xl:gap-20">
-        <p className="min-w-20 font-bold text-white 3xl:min-w-28">
-          Email Address
-        </p>
+      {isAdmin && (
+        <div className="flex gap-10 border-t border-gray-400 py-6 text-sm xl:gap-16 2xl:text-base 3xl:gap-20">
+          <p className="min-w-20 font-bold text-white 3xl:min-w-28">
+            Email Address
+          </p>
 
-        <div className="flex flex-1 items-center gap-3 rounded-lg border border-gray-400 px-4 py-2.5">
-          <MailIcon className="h-5 w-5 text-gray-200" />
+          <div className="flex flex-1 items-center gap-3 rounded-lg border border-gray-400 px-4 py-2.5">
+            <MailIcon className="h-5 w-5 text-gray-200" />
 
-          <p>{user?.email || "Not provided"}</p>
+            <p>{user?.email || "Not provided"}</p>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="flex gap-10 border-t border-gray-400 py-6 text-sm xl:gap-16 2xl:text-base 3xl:gap-20">
         <p className="min-w-20 font-bold text-white 3xl:min-w-28">Role</p>
