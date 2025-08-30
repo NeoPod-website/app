@@ -118,12 +118,12 @@ const XProfileCard = ({
         <CardBody className={compact ? "p-2" : "p-3"}>
           <div className="flex items-center space-x-3">
             <Avatar
-              size={compact ? "sm" : "md"}
               alt={profile.name}
+              size={compact ? "sm" : "md"}
               src={profile.profileImageUrl}
-              className="ring-2 ring-gray-600 transition-colors group-hover:ring-gray-500"
+              className="hidden ring-2 ring-gray-600 transition-colors group-hover:ring-gray-500 sm:inline-block"
               fallback={
-                <div className="bg-gradient-to-br from-blue-500 to-purple-500 font-semibold text-white">
+                <div className="font-semibold text-white">
                   {profile.name?.[0]?.toUpperCase()}
                 </div>
               }
@@ -132,7 +132,7 @@ const XProfileCard = ({
             <div className="min-w-0 flex-1" aria-label="Profile Name">
               <div className="flex items-center space-x-1">
                 <p
-                  className={`truncate font-medium text-gray-100 group-hover:text-white ${compact ? "text-sm" : ""}`}
+                  className={`font-medium text-gray-100 group-hover:text-white ${compact ? "text-sm" : ""}`}
                 >
                   {profile.name}
                 </p>
@@ -153,7 +153,7 @@ const XProfileCard = ({
 
             {showStats && (
               <div
-                className={`text-right text-gray-200 ${compact ? "text-xs" : "text-sm"}`}
+                className={`hidden text-right text-gray-200 sm:block ${compact ? "text-xs" : "text-sm"}`}
                 aria-label="Profile Stats"
               >
                 <div>{formatNumber(profile.followersCount)} followers</div>
