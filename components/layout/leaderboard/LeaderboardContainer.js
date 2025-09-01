@@ -8,6 +8,7 @@ import AmbassadorLeaderboard from "./AmbassadorLeaderboard";
 const LeaderboardContainer = ({
   userRank,
   initialData,
+  period = null,
   initialLastKey,
   initialHasMore,
   leaderboardType,
@@ -38,6 +39,10 @@ const LeaderboardContainer = ({
       // Add period parameter for all_time leaderboard
       if (leaderboardType === "all_time") {
         query.append("period", "all_time");
+      }
+
+      if (period) {
+        query.append("period", period);
       }
 
       const response = await fetch(

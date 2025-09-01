@@ -1,9 +1,9 @@
 import React from "react";
+import Link from "next/link";
 import { cookies } from "next/headers";
 
 import WrapperContainer from "@/components/common/WrapperContainer";
 import LeaderboardContainer from "@/components/layout/leaderboard/LeaderboardContainer";
-import Link from "next/link";
 
 export const metadata = {
   title: "Monthly Leaderboard | NeoPod",
@@ -11,7 +11,7 @@ export const metadata = {
     "Check the top performers for the current month. See how your achievements compare to other ambassadors and climb the leaderboard.",
 };
 
-const fetchLeaderboardData = async (limit = 10, lastKey = null) => {
+const fetchLeaderboardData = async (limit = 10, lastKey = null, period) => {
   const cookieStore = await cookies();
   const token = cookieStore.get("neo-jwt");
 
@@ -25,6 +25,10 @@ const fetchLeaderboardData = async (limit = 10, lastKey = null) => {
 
   if (lastKey) {
     query.append("last_key", lastKey);
+  }
+
+  if (period) {
+    query.append("period", period);
   }
 
   const response = await fetch(
@@ -66,7 +70,7 @@ const fetchLeaderboardData = async (limit = 10, lastKey = null) => {
   };
 };
 
-const fetchUserRank = async () => {
+const fetchUserRank = async (period) => {
   const cookieStore = await cookies();
   const token = cookieStore.get("neo-jwt");
 
@@ -74,8 +78,12 @@ const fetchUserRank = async () => {
     return null;
   }
 
+  const query = new URLSearchParams({
+    period: period,
+  });
+
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/leaderboards/rank`,
+    `${process.env.NEXT_PUBLIC_API_URL}/leaderboards/rank?${query.toString()}`,
     {
       method: "GET",
       headers: {
@@ -95,11 +103,13 @@ const fetchUserRank = async () => {
   return data.ambassador_rank || null;
 };
 
-const MonthlyLeaderboardPage = async () => {
+const MonthlyLeaderboardPage = async ({ params }) => {
+  const { period } = await params;
+
   // Fetch initial leaderboard data and user rank in parallel
   const [leaderboardData, userRank] = await Promise.all([
-    fetchLeaderboardData(10),
-    fetchUserRank(),
+    fetchLeaderboardData(10, null, period),
+    fetchUserRank(period),
   ]);
 
   // Get stats from first ambassador (they all have total_ambassadors_in_category)
@@ -121,23 +131,14 @@ const MonthlyLeaderboardPage = async () => {
 
   return (
     <WrapperContainer scrollable={true} className="p-6 3xl:p-10">
-      <div className="flex flex-wrap items-start justify-between">
-        <div className="mb-4 lg:mb-6 3xl:mb-8">
-          <h1 className="mb-2 text-2xl font-bold text-gray-100 3xl:text-3xl">
-            Monthly Leaderboard
-          </h1>
+      <div className="mb-4 lg:mb-6 3xl:mb-8">
+        <h1 className="mb-2 text-2xl font-bold text-gray-100 3xl:text-3xl">
+          Monthly Leaderboard
+        </h1>
 
-          <p className="text-sm text-gray-300 3xl:text-base">
-            {leaderboardData.period} • Monthly Rankings
-          </p>
-        </div>
-
-        <Link
-          href="/leaderboard/monthly/2025_08"
-          className="inline-block rounded-md border border-gray-400 bg-gradient-dark px-3 py-1.5 text-sm font-medium text-gray-100 hover:text-white"
-        >
-          Previous Month
-        </Link>
+        <p className="text-sm text-gray-300 3xl:text-base">
+          {leaderboardData.period} • Monthly Rankings
+        </p>
       </div>
 
       <div className="mb-3 rounded-2xl border border-gray-600/30 bg-gray-700/30 p-4 lg:mb-4 3xl:mb-6 3xl:p-6">
@@ -182,6 +183,7 @@ const MonthlyLeaderboardPage = async () => {
 
       <section className="thin-scrollbar flex flex-1 flex-col overflow-y-auto">
         <LeaderboardContainer
+          period={period}
           userRank={userRank}
           leaderboardType="monthly"
           initialData={leaderboardData.ambassadors}

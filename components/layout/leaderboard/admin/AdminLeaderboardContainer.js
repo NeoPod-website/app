@@ -9,6 +9,7 @@ const AdminLeaderboardContainer = ({
   role,
   podId,
   initialData,
+  period = null,
   initialLastKey,
   initialHasMore,
 }) => {
@@ -46,7 +47,10 @@ const AdminLeaderboardContainer = ({
         const currentMonth = `${now.getFullYear()}_${(now.getMonth() + 1)
           .toString()
           .padStart(2, "0")}`;
-        query.append("period", currentMonth);
+
+        const monthPeriod = period ? period : currentMonth;
+
+        query.append("period", monthPeriod);
         query.append("role_type", role);
       }
 

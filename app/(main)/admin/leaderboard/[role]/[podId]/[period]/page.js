@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
@@ -17,6 +16,7 @@ const fetchAdminLeaderboardData = async (
   role,
   limit = 10,
   lastKey = null,
+  period,
 ) => {
   const cookieStore = await cookies();
   const token = cookieStore.get("neo-jwt");
@@ -34,11 +34,7 @@ const fetchAdminLeaderboardData = async (
     query.append("period", "all_time");
   } else {
     // For specific roles, use current month in YYYY_MM format
-    const now = new Date();
-    const currentMonth = `${now.getFullYear()}_${(now.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}`;
-    query.append("period", currentMonth);
+    query.append("period", period);
     query.append("role_type", role);
   }
 
@@ -120,7 +116,7 @@ const fetchPodInfo = async (podId) => {
 };
 
 const AdminPodLeaderboardPage = async ({ params }) => {
-  const { podId, role } = await params;
+  const { podId, role, period } = await params;
 
   // Validate that we have podId
   if (!podId) {
@@ -142,7 +138,7 @@ const AdminPodLeaderboardPage = async ({ params }) => {
 
   // Fetch initial leaderboard data and pod info in parallel
   const [leaderboardData, podInfo] = await Promise.all([
-    fetchAdminLeaderboardData(podId, role, 10),
+    fetchAdminLeaderboardData(podId, role, 10, null, period),
     fetchPodInfo(podId),
   ]);
 
@@ -182,23 +178,14 @@ const AdminPodLeaderboardPage = async ({ params }) => {
 
   return (
     <WrapperContainer scrollable={true} className="p-6 3xl:p-10">
-      <div className="flex flex-wrap items-start justify-between">
-        <div className="mb-4 lg:mb-6 3xl:mb-8">
-          <h1 className="mb-2 text-xl font-bold text-gray-100 md:text-3xl 3xl:text-2xl">
-            {roleDisplay} Leaderboard
-          </h1>
+      <div className="mb-4 lg:mb-6 3xl:mb-8">
+        <h1 className="mb-2 text-xl font-bold text-gray-100 md:text-3xl 3xl:text-2xl">
+          {roleDisplay} Leaderboard
+        </h1>
 
-          <p className="text-sm text-gray-300 3xl:text-base">
-            {podName} ({podLanguage}) • {periodDisplay}
-          </p>
-        </div>
-
-        <Link
-          href={`/admin/leaderboard/${role}/${podId}/2025_08`}
-          className="inline-block rounded-md border border-gray-400 bg-gradient-dark px-3 py-1.5 text-sm font-medium text-gray-100 hover:text-white"
-        >
-          Previous Month
-        </Link>
+        <p className="text-sm text-gray-300 3xl:text-base">
+          {podName} ({podLanguage}) • {periodDisplay}
+        </p>
       </div>
 
       <div className="mb-3 rounded-2xl border border-gray-600/30 bg-gray-700/30 p-4 lg:mb-4 3xl:mb-6 3xl:p-6">
@@ -219,6 +206,7 @@ const AdminPodLeaderboardPage = async ({ params }) => {
             <div className="text-xl font-bold text-gray-100 3xl:text-2xl">
               {topScore.toLocaleString()}
             </div>
+
             <div className="text-xs text-gray-400 3xl:text-sm">Top Score</div>
           </div>
 
@@ -226,6 +214,7 @@ const AdminPodLeaderboardPage = async ({ params }) => {
             <div className="text-xl font-bold text-gray-100 3xl:text-2xl">
               {totalQuests}
             </div>
+
             <div className="text-xs text-gray-400 3xl:text-sm">
               Total Quests
             </div>
@@ -235,6 +224,7 @@ const AdminPodLeaderboardPage = async ({ params }) => {
             <div className="text-xl font-bold text-gray-100 3xl:text-2xl">
               {podIdDisplay}
             </div>
+
             <div className="text-xs text-gray-400 3xl:text-sm">Pod ID</div>
           </div>
         </div>
@@ -244,6 +234,7 @@ const AdminPodLeaderboardPage = async ({ params }) => {
         <AdminLeaderboardContainer
           role={role}
           podId={podId}
+          period={period}
           initialData={leaderboardData.ambassadors}
           initialLastKey={leaderboardData.pagination.lastKey}
           initialHasMore={leaderboardData.pagination.hasMore}
