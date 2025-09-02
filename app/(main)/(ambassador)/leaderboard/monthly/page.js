@@ -1,9 +1,9 @@
 import React from "react";
+import Link from "next/link";
 import { cookies } from "next/headers";
 
 import WrapperContainer from "@/components/common/WrapperContainer";
 import LeaderboardContainer from "@/components/layout/leaderboard/LeaderboardContainer";
-import Link from "next/link";
 
 export const metadata = {
   title: "Monthly Leaderboard | NeoPod",
@@ -96,6 +96,13 @@ const fetchUserRank = async () => {
 };
 
 const MonthlyLeaderboardPage = async () => {
+  const now = new Date();
+
+  const prevMonth = `${now.getFullYear()}_${now
+    .getMonth()
+    .toString()
+    .padStart(2, "0")}`;
+
   // Fetch initial leaderboard data and user rank in parallel
   const [leaderboardData, userRank] = await Promise.all([
     fetchLeaderboardData(10),
@@ -133,7 +140,7 @@ const MonthlyLeaderboardPage = async () => {
         </div>
 
         <Link
-          href="/leaderboard/monthly/2025_08"
+          href={`/leaderboard/monthly/${prevMonth}`}
           className="inline-block rounded-md border border-gray-400 bg-gradient-dark px-3 py-1.5 text-sm font-medium text-gray-100 hover:text-white"
         >
           Previous Month

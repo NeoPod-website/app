@@ -122,6 +122,13 @@ const fetchPodInfo = async (podId) => {
 const AdminPodLeaderboardPage = async ({ params }) => {
   const { podId, role } = await params;
 
+  const now = new Date();
+
+  const prevMonth = `${now.getFullYear()}_${now
+    .getMonth()
+    .toString()
+    .padStart(2, "0")}`;
+
   // Validate that we have podId
   if (!podId) {
     notFound();
@@ -194,7 +201,7 @@ const AdminPodLeaderboardPage = async ({ params }) => {
         </div>
 
         <Link
-          href={`/admin/leaderboard/${role}/${podId}/2025_08`}
+          href={`/admin/leaderboard/${role}/${podId}/${prevMonth}`}
           className="inline-block rounded-md border border-gray-400 bg-gradient-dark px-3 py-1.5 text-sm font-medium text-gray-100 hover:text-white"
         >
           Previous Month

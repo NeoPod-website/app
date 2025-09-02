@@ -19,6 +19,7 @@ import {
   ClipboardListIcon,
   CircleCheckBigIcon,
   ChartNoAxesCombined,
+  LucideChevronsLeftRightEllipsis,
 } from "lucide-react";
 
 const ambassadorMenuItems = [
@@ -200,6 +201,17 @@ const adminMenuItems = [
     name: "Notifications",
     icon: <BellIcon size={20} className="h-4 w-4 3xl:h-5 3xl:w-5" />,
     href: "/admin/notifications",
+  },
+
+  {
+    name: "Webhooks",
+    icon: (
+      <LucideChevronsLeftRightEllipsis
+        size={20}
+        className="h-4 w-4 3xl:h-5 3xl:w-5"
+      />
+    ),
+    href: "/admin/webhooks",
   },
 ];
 
