@@ -35,7 +35,7 @@ const fetchWebhookById = async (webhookId) => {
 };
 
 const EditWebhookPage = async ({ params }) => {
-  const { webhookId } = params;
+  const { webhookId } = await params;
   const webhook = await fetchWebhookById(webhookId);
 
   const breadcrumbsList = [
