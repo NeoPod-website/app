@@ -68,16 +68,16 @@ const fetchUserStats = async () => {
 };
 
 const SidebarProfileContainer = async ({ session }) => {
-  let user;
-  let stats;
+  let user = null;
+  let stats = null;
 
-  if (session) {
-    if (session.isAdmin) {
-      user = session;
-    } else {
-      user = await fetchUserData();
-      stats = await fetchUserStats();
-    }
+  if (session && session.isAdmin) {
+    user = session;
+  }
+
+  if (!user) {
+    user = await fetchUserData();
+    stats = await fetchUserStats();
   }
 
   // Render placeholder for unauthenticated users
