@@ -17,6 +17,10 @@ const SidebarMenuItem = ({ index, item, role }) => {
     return <InboxButton item={item} />;
   }
 
+  if (role !== "super" && item.name === "Webhooks") {
+    return null;
+  }
+
   if (role === "reviewer" && item.name === "Notifications") {
     return null;
   }

@@ -11,7 +11,10 @@ const SidebarAccordion = ({ index, item, isActive, role }) => {
     children = children.filter((child) => child.name !== "Manage Admins");
   }
 
-  if (role === "reviewer" && item.name === "Manage Tasks") {
+  if (
+    role === "reviewer" &&
+    (item.name === "Manage Tasks" || item.name === "Manage Roles")
+  ) {
     return null;
   }
 

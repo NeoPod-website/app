@@ -7,10 +7,10 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import { Spinner } from "@heroui/react";
 import { WalletIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
+import { addToast, Spinner } from "@heroui/react";
 import { useAccount, useDisconnect } from "wagmi";
 
 import WalletSigningFlow from "./wallet/WalletSigningFlow";
@@ -196,10 +196,19 @@ const WalletTab = ({ ambassadorAddress }) => {
         },
       );
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
         localStorage.removeItem("neo-jwt");
         localStorage.setItem("neo-jwt", data.token);
+      } else {
+        addToast({
+          color: "danger",
+          title: "Disconnect Failed",
+          description: data.message || "Unknown error",
+        });
+
+        return;
       }
 
       // Disconnect wagmi only if connected

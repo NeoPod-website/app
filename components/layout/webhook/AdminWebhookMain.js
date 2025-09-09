@@ -4,6 +4,7 @@ import React, { useState, useCallback, useMemo } from "react";
 
 import AdminEditWebhook from "./AdminEditWebhook";
 import AdminCreateWebhook from "./AdminCreateWebhook";
+import WebhookSamplePayloads from "./WebhookTestPayloads";
 
 import WrapperContainer from "@/components/common/WrapperContainer";
 
@@ -13,76 +14,6 @@ const DEFAULT_WEBHOOK_DATA = {
   events: [],
   description: "",
   status: "active",
-};
-
-// Move sample data outside component to prevent recreation
-const getSamplePayload = (eventType) => {
-  const samples = {
-    "user.banned": {
-      user_id: "user_123",
-      username: "john_doe",
-      reason: "violation of terms",
-      banned_by: "admin_456",
-      ban_duration: "permanent",
-    },
-
-    "quest.succeeded": {
-      user_id: "user_123",
-      quest_id: "quest_456",
-      quest_title: "Complete Daily Tasks",
-      points_earned: 100,
-      completion_time: new Date().toISOString(),
-    },
-
-    "quest.failed": {
-      user_id: "user_123",
-      quest_id: "quest_456",
-      quest_title: "Weekly Challenge",
-      failure_reason: "timeout",
-      points_lost: 50,
-    },
-
-    "quest.claimed": {
-      user_id: "user_123",
-      quest_id: "quest_456",
-      claim_id: "claim_789",
-      submission_url: "https://example.com/submission",
-      claimed_at: new Date().toISOString(),
-    },
-
-    "join.community": {
-      ambassador_id: "user_123",
-      community_id: "pod_456",
-      ambassador: {
-        id: "user_123",
-        username: "Sam",
-        email: "sam@example.com",
-        display_name: "Sam",
-      },
-      community: {
-        id: "pod_456",
-        name: "NeoPod English",
-        description: "This is NeoPod english community.",
-      },
-      joined_at: new Date().toISOString(),
-    },
-
-    "sprint.started": {
-      sprint_id: "sprint_789",
-      sprint_name: "Q1 Challenge",
-      start_date: new Date().toISOString(),
-      end_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-      participants_count: 45,
-    },
-  };
-
-  const payload = {
-    event: eventType,
-    timestamp: new Date().toISOString(),
-    data: samples[eventType] || samples["quest.succeeded"],
-  };
-
-  return JSON.stringify(payload, null, 2);
 };
 
 const isValidUrl = (string) => {
@@ -215,24 +146,7 @@ const AdminWebhookMain = ({ isNew = false, initialWebhookData = {} }) => {
               </div>
             </div>
 
-            {hasEvents && (
-              <div className="border-t border-gray-700 pt-4">
-                <h5 className="mb-3 text-sm font-medium text-gray-200">
-                  Sample Payload
-                </h5>
-
-                <div className="rounded-lg border-y border-gray-500 bg-gradient-dark/60 p-4">
-                  <pre className="whitespace-pre-wrap text-xs text-gray-100">
-                    {getSamplePayload(webhookData.events[0])}
-                  </pre>
-                </div>
-
-                <p className="mt-2 text-xs text-gray-300">
-                  Structure varies by event type. All payloads include timestamp
-                  and HMAC signature headers.
-                </p>
-              </div>
-            )}
+            {hasEvents && <WebhookSamplePayloads events={webhookData.events} />}
           </div>
 
           <div className="rounded-xl border-t border-gray-400 bg-gradient-dark/60 p-6 backdrop-blur-sm">
