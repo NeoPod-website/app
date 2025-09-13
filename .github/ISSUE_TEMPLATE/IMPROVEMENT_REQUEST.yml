@@ -1,5 +1,5 @@
 name: "Improvement Request"
-description: "Suggest improvements for the Push Ambassador website."
+description: "Suggest improvements for the NeoPod website (NEO Ambassador Website)."
 title: "[Improvement] <Short Description>"
 labels: ["improvement"]
 assignees: []
@@ -29,7 +29,6 @@ body:
       label: "Benefit of Improvement"
       description: "Why is this improvement necessary?"
       placeholder: "Explain why this should be changed..."
-
 
   - type: textarea
     id: additional_info

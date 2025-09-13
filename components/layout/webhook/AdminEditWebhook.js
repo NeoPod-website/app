@@ -24,12 +24,14 @@ const AdminEditWebhook = ({
         if (!webhookData.url?.trim()) {
           throw new Error("URL is required");
         }
+
         if (!webhookData.events?.length) {
           throw new Error("At least one event must be selected");
         }
 
         try {
           const urlObj = new URL(webhookData.url.trim());
+
           if (!["http:", "https:"].includes(urlObj.protocol)) {
             throw new Error("URL must use HTTP or HTTPS protocol");
           }
@@ -48,6 +50,7 @@ const AdminEditWebhook = ({
         if (webhookData.name?.trim()) {
           payload.name = webhookData.name.trim();
         }
+
         if (webhookData.description?.trim()) {
           payload.description = webhookData.description.trim();
         }

@@ -108,14 +108,14 @@ const SidebarProfilePhoto = ({ user }) => {
     <Image
       width={48}
       height={48}
-      alt={`${user?.username || "User"} Profile Photo`}
-      className={`h-10 w-10 rounded-md object-cover 3xl:h-12 3xl:w-12 ${
-        isLoading ? "animate-pulse opacity-75" : ""
-      }`}
       src={signedUrl}
-      onError={handleImageError}
       priority={false}
       placeholder="blur"
+      onError={handleImageError}
+      alt={`${user?.username || "User"} Profile Photo`}
+      className={`h-10 w-10 select-none rounded-md object-cover 3xl:h-12 3xl:w-12 ${
+        isLoading ? "animate-pulse opacity-75" : ""
+      }`}
       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R7+Cp9mJWl4nZkm73CqJSb7Cw+xRqYmwqM4a7rAHGKaX2sA88SsSwGkdHlHTjyf"
     />
   );

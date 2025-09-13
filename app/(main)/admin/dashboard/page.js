@@ -1,6 +1,4 @@
-import Link from "next/link";
-
-import { auth0 } from "@/lib/auth0";
+import MainPageScroll from "@/components/common/MainPageScroll";
 
 export const metadata = {
   title: "Dashboard | Admin Panel | NeoPod",
@@ -9,21 +7,7 @@ export const metadata = {
 };
 
 const AdminDashboardPage = async () => {
-  const session = await auth0.getSession();
-
-  return (
-    <div className="flex flex-col">
-      <Link href="/login" className="w-fit">
-        Login
-      </Link>
-      <a href="/auth/logout" className="w-fit">
-        Logout
-      </a>
-      <Link href="/history" className="w-fit">
-        History
-      </Link>
-    </div>
-  );
+  return <MainPageScroll scrollable={true}>hi</MainPageScroll>;
 };
 
 export default AdminDashboardPage;
