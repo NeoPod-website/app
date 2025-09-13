@@ -2,6 +2,7 @@ import React, { memo, useMemo } from "react";
 import { Button, Spinner } from "@heroui/react";
 
 import AdminAmbassadorContainer from "./AdminAmbassadorContainer";
+
 import WrapperContainer from "@/components/common/WrapperContainer";
 
 // Shared button styles to avoid repetition
@@ -68,14 +69,14 @@ const LoadingState = memo(() => (
 
 const AdminAmbassadorsList = ({
   podId,
-  ambassadors,
-  hasActiveFilters,
-  resetFilters,
-  loading,
   error,
+  loading,
   pagination,
   onLoadMore,
+  ambassadors,
+  resetFilters,
   isSearchMode,
+  hasActiveFilters,
   onAmbassadorUpdate,
 }) => {
   // Memoize validation to avoid re-computation

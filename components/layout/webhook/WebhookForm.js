@@ -14,14 +14,15 @@ import { SendHorizontalIcon } from "lucide-react";
 import React, { useCallback, useMemo } from "react";
 
 const SUPPORTED_EVENTS = [
+  { key: "join.community", label: "Join Community" },
   { key: "user.banned", label: "User Banned" },
+  { key: "user.role.changed", label: "User Role Changed" },
   { key: "quest.failed", label: "Quest Failed" },
   // { key: "sprint.ended", label: "Sprint Ended" },
   { key: "quest.claimed", label: "Quest Claimed" },
   // { key: "sprint.started", label: "Sprint Started" },
-  { key: "join.community", label: "Join Community" },
   { key: "quest.succeeded", label: "Quest Succeeded" },
-  { key: "quest.claim.status.updated", label: "Quest Claim Status Updated" },
+  // { key: "quest.claim.status.updated", label: "Quest Claim Status Updated" },
 ];
 
 const STATUS_OPTIONS = [
@@ -209,8 +210,8 @@ const WebhookForm = ({
             as={Link}
             size="lg"
             radius="full"
-            disabled={isSubmitting}
             href="/admin/webhooks"
+            disabled={isSubmitting}
             className="neo-button border border-red-500 bg-red-500/20 text-white"
           >
             Cancel
@@ -220,10 +221,10 @@ const WebhookForm = ({
             size="lg"
             type="submit"
             radius="full"
-            disabled={isSubmitting || !isFormValid}
             isLoading={isSubmitting}
-            className="neo-button border border-white bg-gradient-primary text-white disabled:opacity-50"
+            disabled={isSubmitting || !isFormValid}
             endContent={<SendHorizontalIcon size={16} />}
+            className="neo-button border border-white bg-gradient-primary text-white disabled:opacity-50"
           >
             {isNew ? "Create Webhook" : "Update Webhook"}
           </Button>
