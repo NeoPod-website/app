@@ -59,7 +59,7 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
         const { taskId, answer, file } = filesToUpload[0];
 
         const uploadResult = await uploadFile(file, {
-          size: "MEDIUM",
+          size: "SUBMISSION",
           fileName: "file",
           entityId: ambassadorId,
           entityType: "SUBMISSIONS",
@@ -91,7 +91,7 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
         const files = filesToUpload.map((item) => item.file);
 
         const uploadResults = await uploadMultipleFiles(files, {
-          size: "MEDIUM",
+          size: "SUBMISSION",
           entityId: ambassadorId,
           entityType: "SUBMISSIONS",
           customFolder: `submissions/${ambassadorId}/${questId}`,
