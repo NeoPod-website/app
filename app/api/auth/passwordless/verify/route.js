@@ -7,6 +7,9 @@ export async function POST(request) {
 
     const userAgent = request.headers.get("user-agent");
     const forwarded = request.headers.get("x-forwarded-for");
+    const forwardedHost = request.headers.get("x-forwarded-host");
+    const forwardedPort = request.headers.get("x-forwarded-port");
+    const forwardedProto = request.headers.get("x-forwarded-proto");
 
     const secChUa = request.headers.get("sec-ch-ua");
     const secChUaMobile = request.headers.get("sec-ch-ua-mobile");
@@ -21,6 +24,11 @@ export async function POST(request) {
         headers: {
           "Content-Type": "application/json",
           "Auth0-Forwarded-For": forwarded,
+          "X-Forwarded-For": forwarded,
+          "X-Forwarded-Proto": forwardedProto,
+          "X-Forwarded-Host": forwardedHost,
+          "X-Forwarded-Port": forwardedPort,
+
           "user-agent": userAgent,
           "sec-ch-ua": secChUa,
           "sec-ch-ua-mobile": secChUaMobile,
