@@ -5,12 +5,27 @@ export async function POST(request) {
   try {
     const { email, otp } = await request.json();
 
+    const userAgent = request.headers.get("user-agent");
+    const forwarded = request.headers.get("x-forwarded-for");
+
+    const secChUa = request.headers.get("sec-ch-ua");
+    const secChUaMobile = request.headers.get("sec-ch-ua-mobile");
+    const secChUaPlatform = request.headers.get("sec-ch-ua-platform");
+
+    const language = request.headers.get("accept-language");
+
     const response = await fetch(
       `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Auth0-Forwarded-For": forwarded,
+          "user-agent": userAgent,
+          "sec-ch-ua": secChUa,
+          "sec-ch-ua-mobile": secChUaMobile,
+          "sec-ch-ua-platform": secChUaPlatform,
+          "accept-language": language,
         },
 
         body: JSON.stringify({
