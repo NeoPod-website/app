@@ -53,13 +53,34 @@ const AuthMain = ({ inviteCode }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/passwordless/start", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      // const response = await fetch("/api/auth/passwordless/start", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ email }),
+      // });
+
+      const response = await fetch(
+        `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/passwordless/start`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            client_id: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID,
+            connection: "email",
+            email,
+            send: "code",
+            authParams: {
+              scope: "openid profile email",
+              response_type: "token id_token",
+              redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/callback`,
+            },
+          }),
         },
-        body: JSON.stringify({ email }),
-      });
+      );
 
       const data = await response.json();
 
