@@ -9,13 +9,13 @@ import TierProgressCard from "./right/TierProgressCard";
 
 import RefreshTokenBtn from "@/components/ui/buttons/profile/RefreshTokenBtn";
 
-const ProfileRightSidebar = ({ user, stats, me }) => {
+const ProfileRightSidebar = ({ user, stats, me, isAdmin = false }) => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold text-white">Progress & Rankings</h2>
 
-        <RefreshTokenBtn />
+        {me && <RefreshTokenBtn />}
       </div>
 
       <TierProgressCard user={user} stats={stats} />

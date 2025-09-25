@@ -139,7 +139,11 @@ const AmbassadorProfilePage = async ({ params }) => {
             <ProfileName user={ambassador} />
             <ProfileStats user={ambassador} />
             {isAdmin && <ProfileSocials user={ambassador} />}
-            <ProfileInfo isAdmin={isAdmin} user={ambassador} />
+            <ProfileInfo
+              me={isOwnProfile}
+              user={ambassador}
+              isAdmin={isAdmin}
+            />
           </section>
         </WrapperContainer>
 
@@ -151,6 +155,7 @@ const AmbassadorProfilePage = async ({ params }) => {
             <ProfileRightSidebar
               me={isOwnProfile}
               user={ambassador}
+              isAdmin={isAdmin}
               stats={statsData.stats}
             />
           </section>
