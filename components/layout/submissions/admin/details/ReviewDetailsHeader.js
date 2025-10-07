@@ -10,6 +10,7 @@ import {
 import React from "react";
 
 import WrapperContainer from "@/components/common/WrapperContainer";
+import BanSubmissionBtn from "@/components/ui/buttons/submissions/admin/BanUserBtn";
 import UndoSubmissionBtn from "@/components/ui/buttons/submissions/admin/UndoSubmissionBtn";
 import FlagSubmissionBtn from "@/components/ui/buttons/submissions/admin/FlagSubmissionBtn";
 
@@ -77,20 +78,23 @@ const ReviewDetailsHeader = ({ submission, onSubmissionUpdate }) => {
       </div>
 
       <div className="flex items-center gap-2">
-        <>
-          <FlagSubmissionBtn
-            submission={submission}
-            onSubmissionUpdate={onSubmissionUpdate}
-          />
+        <BanSubmissionBtn
+          submission={submission}
+          onSubmissionUpdate={onSubmissionUpdate}
+        />
 
-          {submission.review_status !== "pending" &&
-            submission.is_flagged === "false" && (
-              <UndoSubmissionBtn
-                submission={submission}
-                onSubmissionUpdate={onSubmissionUpdate}
-              />
-            )}
-        </>
+        <FlagSubmissionBtn
+          submission={submission}
+          onSubmissionUpdate={onSubmissionUpdate}
+        />
+
+        {submission.review_status !== "pending" &&
+          submission.is_flagged === "false" && (
+            <UndoSubmissionBtn
+              submission={submission}
+              onSubmissionUpdate={onSubmissionUpdate}
+            />
+          )}
       </div>
     </WrapperContainer>
   );

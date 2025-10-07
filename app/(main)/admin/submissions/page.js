@@ -12,7 +12,6 @@ import ReviewDetailsPanel from "@/components/layout/submissions/admin/details/Re
 
 import { setHighlightedSubmissionsData } from "@/redux/slice/questSlice";
 
-// API utility functions (unchanged)
 const buildApiUrl = (podId, status) => {
   const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/submissions/pod/${podId}`;
 
