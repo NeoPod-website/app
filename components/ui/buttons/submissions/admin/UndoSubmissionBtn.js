@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { UndoIcon } from "lucide-react";
 import { addToast } from "@heroui/react";
 import { useSelector } from "react-redux";
+
 import {
   useHighlightActions,
   createHighlightErrorHandler,
@@ -116,18 +117,14 @@ const UndoSubmissionBtn = ({ submission, onSubmissionUpdate }) => {
       }
 
       // STEP 3: Success notification
-      const message = isHighlighted
-        ? "Submission reverted to pending and removed from highlights"
-        : "Submission reverted to pending";
+      // const message = isHighlighted
+      //   ? "Submission reverted to pending and removed from highlights"
+      //   : "Submission reverted to pending";
 
-      addToast({
-        title: message,
-        color: "success",
-      });
-
-      console.log(
-        `Undo operation completed successfully for submission ${submission.submission_id}`,
-      );
+      // addToast({
+      //   title: message,
+      //   color: "success",
+      // });
     } catch (error) {
       console.error("Critical error in undo operation:", error);
       handleError(error, "undoing submission");
@@ -142,12 +139,8 @@ const UndoSubmissionBtn = ({ submission, onSubmissionUpdate }) => {
   }
 
   // Determine button appearance and text
+  const buttonText = isLoading ? "Undoing..." : "Undo";
   const isHighlighted = questHighlights.includes(submission.submission_id);
-  const buttonText = isLoading
-    ? "Undoing..."
-    : isHighlighted
-      ? "Undo & Remove Highlight"
-      : "Undo to Pending";
 
   const buttonClasses = `
     flex items-center gap-1 rounded-lg border transition-colors

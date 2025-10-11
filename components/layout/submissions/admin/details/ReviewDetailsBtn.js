@@ -49,10 +49,10 @@ const ReviewDetailsBtn = ({
       setReviewComment("");
 
       // Show success notification
-      addToast({
-        title: `Submission ${reviewStatus} successfully`,
-        color: "success",
-      });
+      // addToast({
+      //   title: `Submission ${reviewStatus} successfully`,
+      //   color: "success",
+      // });
 
       return data;
     } catch (error) {
