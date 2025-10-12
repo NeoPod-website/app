@@ -62,13 +62,15 @@ const CategoryItem = ({
 
       <div className="absolute bottom-5 left-5 z-20 space-y-1">
         <div className="flex items-center gap-1.5 3xl:gap-2.5">
-          <Image
-            width={38}
-            height={38}
-            src={iconURL}
-            alt={title + " icon"}
-            className="overflow-hidden rounded-lg lg:h-8 lg:w-8 3xl:h-9 3xl:w-9"
-          />
+          {icon && (
+            <Image
+              width={38}
+              height={38}
+              src={iconURL}
+              alt={title + " icon"}
+              className="overflow-hidden rounded-lg lg:h-8 lg:w-8 3xl:h-9 3xl:w-9"
+            />
+          )}
 
           <h3 className="font-work-sans text-xl font-bold 3xl:text-2xl">
             {title}
