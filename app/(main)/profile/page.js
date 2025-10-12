@@ -88,7 +88,7 @@ const ProfilePage = async () => {
             <ProfileName user={userData} />
             <ProfileStats user={userData} />
             <ProfileSocials user={userData} />
-            <ProfileInfo user={userData} />
+            <ProfileInfo user={userData} me={true} />
           </section>
         </WrapperContainer>
 
