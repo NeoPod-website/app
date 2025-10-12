@@ -43,15 +43,15 @@ const ReviewDetailsPanel = ({
             reviewComment={reviewComment}
             setReviewComment={setReviewComment}
           />
-
-          <ReviewDetailsBtn
-            submission={submission}
-            reviewComment={reviewComment}
-            setReviewComment={setReviewComment}
-            onSubmissionUpdate={onSubmissionUpdate}
-          />
         </div>
       </WrapperContainer>
+
+      <ReviewDetailsBtn
+        submission={submission}
+        reviewComment={reviewComment}
+        setReviewComment={setReviewComment}
+        onSubmissionUpdate={onSubmissionUpdate}
+      />
     </div>
   );
 };

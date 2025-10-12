@@ -46,7 +46,7 @@ const ReviewDetailsTimeline = ({ submission }) => {
   const questName = submission.quest_data?.name || "Unknown Quest";
 
   return (
-    <div className="max-h-64 overflow-y-auto pr-4">
+    <div className="thin-scrollbar max-h-64 overflow-y-auto pr-4">
       <h3 className="mb-4 font-semibold text-white">Activity Timeline</h3>
 
       <div className="space-y-3">
