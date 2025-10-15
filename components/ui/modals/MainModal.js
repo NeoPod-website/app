@@ -27,7 +27,7 @@ const MainModal = ({
         backdrop="blur"
         onClose={handleOnClose}
         classNames={{
-          body: "p-6",
+          body: "p-4 2xl:p-6",
           base: "border border-gray-400 bg-black/80 text-white",
           closeButton: "hover:bg-white/20 p-2 mt-3 mr-3 rounded text-xl",
         }}
@@ -45,10 +45,12 @@ const MainModal = ({
                 </div>
               </ModalHeader>
 
-              <ModalBody className="mx-auto w-full pb-6">{children}</ModalBody>
+              <ModalBody className="mx-auto w-full pb-6 pt-2">
+                {children}
+              </ModalBody>
 
               {showFooter && (
-                <ModalFooter className="flex items-center justify-end gap-2.5">
+                <ModalFooter className="flex items-center justify-end gap-2.5 pt-0">
                   {footer}
                 </ModalFooter>
               )}
