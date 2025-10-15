@@ -1,8 +1,7 @@
 "use client";
 
-import { DatePicker } from "@heroui/react";
-import { addToast, Button } from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
+import { addToast, Button, DatePicker } from "@heroui/react";
 import React, { useState, useCallback, useEffect } from "react";
 import { CalendarDate, parseDate } from "@internationalized/date";
 import { CalendarIcon, PlusIcon, TrashIcon, CheckIcon } from "lucide-react";
@@ -19,42 +18,53 @@ const AdminQuestDueDate = () => {
     due_date ? parseDate(due_date.split("T")[0]) : null,
   );
 
+  const [selectedTime, setSelectedTime] = useState("23:59");
   const [hasChanged, setHasChanged] = useState(false);
   const [originalDate, setOriginalDate] = useState(
     due_date ? parseDate(due_date.split("T")[0]) : null,
   );
+  const [originalTime, setOriginalTime] = useState("23:59");
 
   const handleDateChange = useCallback(
     (date) => {
       setSelectedDate(date);
 
-      // Check if date has changed from original
-      if (!originalDate && !date) {
-        setHasChanged(false);
-      } else if (!originalDate && date) {
-        setHasChanged(true);
-      } else if (originalDate && !date) {
-        setHasChanged(true);
-      } else if (originalDate && date) {
-        // Compare dates
-        const isChanged = !(
-          originalDate.year === date.year &&
-          originalDate.month === date.month &&
-          originalDate.day === date.day
-        );
-        setHasChanged(isChanged);
-      } else {
-        setHasChanged(false);
-      }
+      const isDateChanged =
+        !originalDate ||
+        date.year !== originalDate.year ||
+        date.month !== originalDate.month ||
+        date.day !== originalDate.day;
+
+      const isTimeChanged = selectedTime !== originalTime;
+
+      setHasChanged(isDateChanged || isTimeChanged);
     },
-    [originalDate],
+    [originalDate, originalTime, selectedTime],
+  );
+
+  const handleTimeChange = useCallback(
+    (e) => {
+      const newTime = e.target.value;
+      setSelectedTime(newTime);
+
+      const isDateChanged =
+        selectedDate &&
+        (!originalDate ||
+          selectedDate.year !== originalDate.year ||
+          selectedDate.month !== originalDate.month ||
+          selectedDate.day !== originalDate.day);
+
+      const isTimeChanged = newTime !== originalTime;
+
+      setHasChanged(isDateChanged || isTimeChanged);
+    },
+    [selectedDate, originalDate, originalTime],
   );
 
   const handleAdd = useCallback(() => {
     setIsActive(true);
     setHasChanged(false);
 
-    // Set default date to tomorrow
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const defaultDate = new CalendarDate(
@@ -62,51 +72,67 @@ const AdminQuestDueDate = () => {
       tomorrow.getMonth() + 1,
       tomorrow.getDate(),
     );
+
     setSelectedDate(defaultDate);
-    setOriginalDate(null); // No original date when adding new
-    setHasChanged(true); // Show check button immediately for new dates
+    setOriginalDate(null);
+    setSelectedTime("23:59");
+    setOriginalTime("23:59");
+    setHasChanged(true);
   }, []);
 
   const handleConfirm = useCallback(() => {
     if (selectedDate) {
-      // Convert CalendarDate to ISO string
-      const isoString = `${selectedDate.year}-${String(selectedDate.month).padStart(2, "0")}-${String(selectedDate.day).padStart(2, "0")}T23:59:59.999Z`;
+      const [hour, minute] = selectedTime.split(":");
+      const isoString = `${selectedDate.year}-${String(
+        selectedDate.month,
+      ).padStart(2, "0")}-${String(selectedDate.day).padStart(
+        2,
+        "0",
+      )}T${hour}:${minute}:00.000Z`;
 
       dispatch(setCurrentQuest({ due_date: isoString }));
 
-      // Update original date and reset changed state
       setOriginalDate(selectedDate);
+      setOriginalTime(selectedTime);
       setHasChanged(false);
 
       addToast({
         title: "Due Date Added",
-        description: "The due date has been successfully added.",
+        description: "The due date and time have been successfully set.",
         color: "default",
       });
     }
-  }, [selectedDate, dispatch]);
+  }, [selectedDate, selectedTime, dispatch]);
 
   const handleRemove = useCallback(() => {
     setIsActive(false);
     setSelectedDate(null);
     setOriginalDate(null);
+    setSelectedTime("23:59");
+    setOriginalTime("23:59");
     setHasChanged(false);
 
     dispatch(setCurrentQuest({ due_date: null }));
   }, [dispatch]);
 
-  // Update original date when component mounts with existing due_date
   useEffect(() => {
     if (due_date) {
-      const existingDate = parseDate(due_date.split("T")[0]);
+      const [datePart, timePart] = due_date.split("T");
+      const existingDate = parseDate(datePart);
+      const existingTime = timePart?.slice(0, 5) || "23:59";
+
       setOriginalDate(existingDate);
       setSelectedDate(existingDate);
+      setOriginalTime(existingTime);
+      setSelectedTime(existingTime);
 
       setIsActive(true);
       setHasChanged(false);
     } else {
       setOriginalDate(null);
       setSelectedDate(null);
+      setOriginalTime("23:59");
+      setSelectedTime("23:59");
 
       setIsActive(false);
       setHasChanged(false);
@@ -147,6 +173,13 @@ const AdminQuestDueDate = () => {
               inputWrapper:
                 "border border-gray-400 bg-gradient-dark text-white",
             }}
+          />
+
+          <input
+            type="time"
+            value={selectedTime}
+            onChange={handleTimeChange}
+            className="h-8 rounded border border-gray-400 bg-gradient-dark px-2 text-white"
           />
 
           <div className="flex">
