@@ -1,6 +1,5 @@
-import Link from "next/link";
-import React, { Suspense } from "react";
 import { cookies } from "next/headers";
+import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
 
 import WrapperContainer from "@/components/common/WrapperContainer";
@@ -9,35 +8,11 @@ import QuestListLoader from "@/components/ui/loader/quest/QuestListLoader";
 
 import QuestsWithFilter from "./AdminQuestWithFilter";
 
-// Shared button styles
-const buttonClasses =
-  "rounded-full border border-gray-400 bg-black/50 px-4 py-2 text-white transition-colors hover:border-gray-600 hover:bg-black/70";
-
 // Empty state components
 const EmptyStateMessage = ({ title, description }) => (
   <div className="space-y-2 text-center">
     <p className="text-xl font-bold text-white">{title}</p>
     <p className="text-base text-gray-200">{description}</p>
-  </div>
-);
-
-const QuestLoadError = ({ category, error }) => (
-  <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-lg border border-red-500/30 bg-red-500/10 p-6">
-    <EmptyStateMessage
-      title="Failed to load quests"
-      description={
-        error || "An error occurred while loading quests for this category"
-      }
-    />
-
-    <div className="flex gap-2">
-      <Link
-        href={`/admin/manage/categories/${category.pod_id}`}
-        className={buttonClasses}
-      >
-        Back to Categories
-      </Link>
-    </div>
   </div>
 );
 
@@ -124,9 +99,6 @@ const QuestContainerLayout = ({
       {showCategoryItem && category && (
         <CategoryItem
           isAdmin
-          style={{
-            borderRadius: "1.25rem 1.25rem 0 0",
-          }}
           showDescription
           isQuestPage={true}
           podId={category.pod_id || ""}
@@ -135,9 +107,10 @@ const QuestContainerLayout = ({
           title={category.name ?? "No Category"}
           description={category.description ?? ""}
           icon={category.icon ?? "/dashboard/category/icon-1.png"}
-          background={
-            category.background ?? "/dashboard/category/background-2.jpg"
-          }
+          style={{
+            borderRadius: "1.25rem 1.25rem 0 0",
+          }}
+          background={category.cover_photo}
         />
       )}
 
