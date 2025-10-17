@@ -365,9 +365,17 @@ const InboxItem = React.memo(
 
             <div className="mt-3 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                {totalPoints > 0 && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-green-500/20 bg-green-500/20 px-2 py-0.5 text-xs font-bold text-green-400">
-                    +{totalPoints} points
+                {totalPoints !== 0 && (
+                  <span
+                    className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-bold ${
+                      submission.review_status === REVIEW_STATUS.REJECTED
+                        ? "border-red-500/20 bg-red-500/20 text-red-400"
+                        : "border-green-500/20 bg-green-500/20 text-green-400"
+                    }`}
+                  >
+                    {submission.review_status === REVIEW_STATUS.REJECTED
+                      ? `-${totalPoints} points`
+                      : `+${totalPoints} points`}
                   </span>
                 )}
 

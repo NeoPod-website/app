@@ -8,6 +8,8 @@ import RewardClaimCard from "./right/RewardClaimCard";
 import TierProgressCard from "./right/TierProgressCard";
 
 import RefreshTokenBtn from "@/components/ui/buttons/profile/RefreshTokenBtn";
+import Link from "next/link";
+import { Star } from "lucide-react";
 
 const ProfileRightSidebar = ({ user, stats, me, isAdmin = false }) => {
   return (
@@ -19,6 +21,14 @@ const ProfileRightSidebar = ({ user, stats, me, isAdmin = false }) => {
       </div>
 
       <TierProgressCard user={user} stats={stats} />
+
+      <Link href="/xps" passHref className="block">
+        <div className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-400 bg-gradient-dark px-4 py-3 text-white transition-all duration-200 hover:bg-gradient-dark/60">
+          <Star className="h-5 w-5 text-yellow-400" />
+          <span className="font-medium">View XP Activity</span>
+        </div>
+      </Link>
+
       <StatisticsGrid user={user} />
       <RankingsCard stats={stats} />
       {me && <PromotionCard user={user} stats={stats} />}
