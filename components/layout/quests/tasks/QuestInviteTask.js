@@ -18,27 +18,27 @@ const QuestInviteTask = ({ task, questId, user }) => {
   const [copied, setCopied] = useState(false);
   const [invitees, setInvitees] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [validInviteCount, setValidInviteCount] = useState(0);
 
-  // Get current task completion status from Redux
   const currentAnswer = useSelector((state) =>
     selectTaskAnswer(state, questId, task.id),
   );
 
-  // Check if task is completed
   const isCompleted = currentAnswer === true;
 
-  // Generate user's unique invite link
   const generateInviteLink = () => {
     return `${process.env.NEXT_PUBLIC_BASE_URL}/invite?inviteCode=${user?.invite_code || "loading"}`;
   };
 
-  // Fetch invite statistics
+  // Fetch invite statistics with minimumXp
   const fetchInviteStats = async () => {
     try {
       setLoading(true);
 
+      // Pass minimumXp as query parameter
+      const minimumXp = task.minimumXp || 0;
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/invites/stats`,
+        `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/invites/stats?minimumXp=${minimumXp}`,
         {
           method: "GET",
           headers: {
@@ -52,13 +52,12 @@ const QuestInviteTask = ({ task, questId, user }) => {
 
       if (data.success) {
         setInvitees(data.invitees || []);
+        setValidInviteCount(data.stats.validInvites || 0);
 
-        // Check if task should be completed based on total invite count
-        const totalInvites = data.invitees?.length || 0;
+        // Check completion based on VALID invites, not total
+        const shouldBeCompleted =
+          data.stats.validInvites >= (task.requiredInvites || 1);
 
-        const shouldBeCompleted = totalInvites >= (task.requiredInvites || 1);
-
-        // Update Redux state if completion status changed
         if (shouldBeCompleted && !isCompleted) {
           dispatch(
             updateTaskAnswer({
@@ -90,12 +89,10 @@ const QuestInviteTask = ({ task, questId, user }) => {
 
   useEffect(() => {
     fetchInviteStats();
-    // Set up polling to check for new invites every 30 seconds
     const interval = setInterval(fetchInviteStats, 30000);
     return () => clearInterval(interval);
-  }, [task.id]);
+  }, [task.id, task.minimumXp]);
 
-  //  Copy invite link with proper state management
   const copyInviteLink = async () => {
     try {
       const inviteLink = generateInviteLink();
@@ -103,7 +100,6 @@ const QuestInviteTask = ({ task, questId, user }) => {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(inviteLink);
       } else {
-        // Fallback for older browsers
         const textArea = document.createElement("textarea");
         textArea.value = inviteLink;
         textArea.style.position = "fixed";
@@ -123,7 +119,6 @@ const QuestInviteTask = ({ task, questId, user }) => {
         color: "success",
       });
 
-      // Fixed: Reset copied state after 2 seconds
       setTimeout(() => {
         setCopied(false);
       }, 2000);
@@ -136,7 +131,6 @@ const QuestInviteTask = ({ task, questId, user }) => {
     }
   };
 
-  // Share invite link
   const shareInviteLink = () => {
     const inviteLink = generateInviteLink();
     const text = `Join me on NeoPod and start your Web3 journey! Use my invite link: ${inviteLink}`;
@@ -150,22 +144,18 @@ const QuestInviteTask = ({ task, questId, user }) => {
         })
         .catch(console.error);
     } else {
-      // Open Twitter share in new tab
       const encodedText = encodeURIComponent(text);
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
       window.open(twitterUrl, "_blank");
     }
   };
 
-  // Count total invites instead of valid invites
-  const totalInvites = invitees.length;
-
+  // NEW: Use validInviteCount instead of totalInvites
   const progress = Math.min(
-    (totalInvites / (task.requiredInvites || 1)) * 100,
+    (validInviteCount / (task.requiredInvites || 1)) * 100,
     100,
   );
 
-  // Don't render if user doesn't have invite code yet
   if (!user?.invite_code) {
     return (
       <QuestTask
@@ -178,7 +168,6 @@ const QuestInviteTask = ({ task, questId, user }) => {
       >
         <div className="flex items-center justify-center py-8">
           <Spinner size="sm" color="primary" />
-
           <span className="ml-2 text-gray-300">
             Setting up your invite system...
           </span>
@@ -190,11 +179,11 @@ const QuestInviteTask = ({ task, questId, user }) => {
   return (
     <QuestTask
       text="INVITE"
+      color="#10b981"
       isAdmin={false}
       heading="Invite Friends"
       description="Share your unique invite link with friends"
       icon={<Users size={12} className="text-white" />}
-      color="#10b981"
     >
       <div className="space-y-4">
         <div
@@ -217,12 +206,18 @@ const QuestInviteTask = ({ task, questId, user }) => {
 
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-100">Total Invites</span>
-
+              <span className="text-gray-100">Valid Invites</span>
               <span className="font-medium text-white">
-                {totalInvites} / {task.requiredInvites || 1}
+                {validInviteCount} / {task.requiredInvites || 1}
               </span>
             </div>
+
+            {task.minimumXp > 0 && (
+              <div className="flex justify-between text-xs text-gray-200">
+                <span>Minimum XP Required</span>
+                <span>{task.minimumXp} XP</span>
+              </div>
+            )}
 
             <div className="h-2 w-full rounded-full bg-gray-600">
               <div
@@ -231,6 +226,11 @@ const QuestInviteTask = ({ task, questId, user }) => {
                 }`}
                 style={{ width: `${progress}%` }}
               />
+            </div>
+
+            <div className="flex justify-between text-xs text-gray-300">
+              <span>Total Invites</span>
+              <span>{invitees.length}</span>
             </div>
           </div>
         </div>
@@ -283,7 +283,11 @@ const QuestInviteTask = ({ task, questId, user }) => {
               {invitees.map((invitee, index) => (
                 <div
                   key={`${invitee.ambassador_id}-${index}`}
-                  className="flex items-center justify-between rounded-lg border border-gray-400 bg-gray-700 p-2"
+                  className={`flex items-center justify-between rounded-lg border p-2 ${
+                    invitee.isValid
+                      ? "border-green-500 bg-green-500/10"
+                      : "border-gray-400 bg-gray-700"
+                  }`}
                 >
                   <div className="flex items-center gap-3">
                     <Avatar
@@ -306,9 +310,17 @@ const QuestInviteTask = ({ task, questId, user }) => {
 
                   <div className="text-right">
                     <p className="text-sm font-medium text-white">
-                      {invitee.points || 0} XP
+                      {invitee.total_points || 0} XP
                     </p>
-                    <span className="text-xs text-green-400">✓ Counted</span>
+
+                    {invitee.isValid ? (
+                      <span className="text-xs text-green-400">✓ Valid</span>
+                    ) : (
+                      <span className="text-xs text-yellow-400">
+                        ⏳ Need {task.minimumXp - (invitee.total_points || 0)}{" "}
+                        more XP
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
@@ -319,9 +331,8 @@ const QuestInviteTask = ({ task, questId, user }) => {
         {invitees.length === 0 && !loading && (
           <div className="py-8 text-center">
             <Gift className="mx-auto mb-3 h-12 w-12 text-gray-400" />
-
             <p className="text-gray-400">No invites yet</p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-300">
               Share your link to get started!
             </p>
           </div>
@@ -330,7 +341,6 @@ const QuestInviteTask = ({ task, questId, user }) => {
         {loading && (
           <div className="flex items-center justify-center py-8">
             <Spinner size="sm" color="primary" />
-
             <span className="ml-2 text-gray-300">Loading invite data...</span>
           </div>
         )}
@@ -338,7 +348,6 @@ const QuestInviteTask = ({ task, questId, user }) => {
         {isCompleted && (
           <div className="mt-2 flex items-center gap-1 text-sm text-green-400">
             <Check className="h-4 w-4" />
-
             <span>Invite quest completed! You can now submit the quest.</span>
           </div>
         )}
