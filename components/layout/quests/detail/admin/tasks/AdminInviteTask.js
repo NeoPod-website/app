@@ -49,7 +49,7 @@ const InviteTaskSettings = ({ taskId }) => {
   useEffect(() => {
     setLocalRequiredInvites(currentTask.requiredInvites || 1);
     setLocalMinimumXp(currentTask.minimumXp || 0);
-  }, [currentTask.id]); // Only depend on task ID, not the whole object
+  }, [currentTask.id]);
 
   const safeUpdateTask = (changes) => {
     if (!taskId) return;
@@ -67,7 +67,6 @@ const InviteTaskSettings = ({ taskId }) => {
     }
   };
 
-  // Fixed: Add proper dependency arrays and null checks
   useEffect(() => {
     if (
       !taskId ||
@@ -75,12 +74,68 @@ const InviteTaskSettings = ({ taskId }) => {
     )
       return;
     safeUpdateTask({ requiredInvites: debouncedRequiredInvites });
-  }, [debouncedRequiredInvites, taskId]); // Remove currentTask.requiredInvites from deps
+  }, [debouncedRequiredInvites, taskId]);
 
   useEffect(() => {
     if (!taskId || debouncedMinimumXp === (currentTask.minimumXp || 0)) return;
     safeUpdateTask({ minimumXp: debouncedMinimumXp });
-  }, [debouncedMinimumXp, taskId]); // Remove currentTask.minimumXp from deps
+  }, [debouncedMinimumXp, taskId]);
+
+  // ✅ FIX: Auto-select all text on focus for better UX
+  const handleRequiredInvitesFocus = (e) => {
+    e.target.select();
+  };
+
+  const handleMinimumXpFocus = (e) => {
+    e.target.select();
+  };
+
+  // ✅ FIX: Handle input changes properly to allow deletion
+  const handleRequiredInvitesChange = (e) => {
+    const value = e.target.value;
+
+    // Allow empty string temporarily while typing
+    if (value === "") {
+      setLocalRequiredInvites("");
+      return;
+    }
+
+    const numValue = parseInt(value);
+    // Ensure minimum of 1 for required invites
+    if (!isNaN(numValue) && numValue >= 1) {
+      setLocalRequiredInvites(numValue);
+    }
+  };
+
+  // ✅ FIX: Handle minimum XP changes to allow clearing the field
+  const handleMinimumXpChange = (e) => {
+    const value = e.target.value;
+
+    // Allow empty string temporarily while typing
+    if (value === "") {
+      setLocalMinimumXp("");
+      return;
+    }
+
+    const numValue = parseInt(value);
+    // Allow 0 or positive numbers
+    if (!isNaN(numValue) && numValue >= 0) {
+      setLocalMinimumXp(numValue);
+    }
+  };
+
+  // ✅ FIX: Handle blur to set default values if empty
+  const handleRequiredInvitesBlur = () => {
+    if (localRequiredInvites === "" || localRequiredInvites < 1) {
+      setLocalRequiredInvites(1);
+    }
+  };
+
+  const handleMinimumXpBlur = () => {
+    if (localMinimumXp === "") {
+      setLocalMinimumXp(0);
+    }
+  };
 
   return (
     <div className="space-y-3">
@@ -101,9 +156,9 @@ const InviteTaskSettings = ({ taskId }) => {
           placeholder="5"
           id="required-invites"
           min="1"
-          onChange={(e) =>
-            setLocalRequiredInvites(parseInt(e.target.value) || 1)
-          }
+          onChange={handleRequiredInvitesChange}
+          onFocus={handleRequiredInvitesFocus}
+          onBlur={handleRequiredInvitesBlur}
           className="bg-dark"
           classNames={{
             inputWrapper:
@@ -133,7 +188,9 @@ const InviteTaskSettings = ({ taskId }) => {
           placeholder="100"
           id="minimum-xp"
           min="0"
-          onChange={(e) => setLocalMinimumXp(parseInt(e.target.value) || 0)}
+          onChange={handleMinimumXpChange}
+          onFocus={handleMinimumXpFocus}
+          onBlur={handleMinimumXpBlur}
           className="bg-dark"
           classNames={{
             inputWrapper:
