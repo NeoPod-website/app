@@ -110,7 +110,9 @@ const QuestContainerLayout = ({
           style={{
             borderRadius: "1.25rem 1.25rem 0 0",
           }}
-          background={category.cover_photo}
+          background={
+            category.cover_photo ?? "/dashboard/category/background-2.jpg"
+          }
         />
       )}
 
