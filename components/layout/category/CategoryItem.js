@@ -23,18 +23,12 @@ const CategoryItem = ({
   showDescription = false,
 }) => {
   const backgroundURL =
-    typeof background === "string"
+    typeof background === "string" && background
       ? background
-      : background instanceof File
-        ? URL.createObjectURL(background)
-        : "/dashboard/category/background-2.jpg";
+      : "/dashboard/category/background-2.jpg";
 
   const iconURL =
-    typeof icon === "string"
-      ? icon
-      : icon instanceof File
-        ? URL.createObjectURL(icon)
-        : "/dashboard/category/icon-1.png";
+    typeof icon === "string" && icon ? icon : "/dashboard/category/icon-1.png";
 
   const borderColor =
     isAdmin &&
