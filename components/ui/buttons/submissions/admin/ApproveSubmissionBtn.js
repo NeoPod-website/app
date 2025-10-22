@@ -1,15 +1,68 @@
+// "use client";
+
+// import { Button } from "@heroui/react";
+// import React, { useState } from "react";
+// import { SendHorizonalIcon } from "lucide-react";
+
+// const ApproveSubmissionBtn = ({
+//   submission,
+//   reviewComment = "",
+//   onReviewSubmission,
+// }) => {
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+
+//   const handleApprove = async () => {
+//     setIsSubmitting(true);
+
+//     try {
+//       // Comment is optional for approval
+//       await onReviewSubmission("approved", reviewComment, submission.rewards);
+//     } catch (error) {
+//       // Error handling is done in parent component
+//       console.error("Approve failed:", error);
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+
+//   return (
+//     <Button
+//       size="lg"
+//       radius="full"
+//       onPress={handleApprove}
+//       disabled={isSubmitting}
+//       endContent={<SendHorizonalIcon size={16} />}
+//       className={`neo-button flex h-12 items-center gap-2 rounded-full border border-white ${
+//         !isSubmitting
+//           ? "cursor-pointer bg-gradient-primary hover:opacity-90"
+//           : "cursor-not-allowed bg-gray-400 opacity-50"
+//       }`}
+//     >
+//       {isSubmitting ? "Approving..." : "Approve"}
+//     </Button>
+//   );
+// };
+
+// export default ApproveSubmissionBtn;
+
 "use client";
 
 import { Button } from "@heroui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SendHorizonalIcon } from "lucide-react";
 
 const ApproveSubmissionBtn = ({
   submission,
   reviewComment = "",
   onReviewSubmission,
+  isTransitioning = false,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Reset button state when submission changes (new submission loaded)
+  useEffect(() => {
+    setIsSubmitting(false);
+  }, [submission?.submission_id]);
 
   const handleApprove = async () => {
     setIsSubmitting(true);
@@ -17,28 +70,36 @@ const ApproveSubmissionBtn = ({
     try {
       // Comment is optional for approval
       await onReviewSubmission("approved", reviewComment, submission.rewards);
+
+      // Success - parent will handle navigation to next submission
+      // Button state will be reset by useEffect when new submission loads
     } catch (error) {
       // Error handling is done in parent component
       console.error("Approve failed:", error);
-    } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false); // Reset immediately on error
     }
   };
+
+  const isDisabled = isSubmitting || isTransitioning;
 
   return (
     <Button
       size="lg"
       radius="full"
       onPress={handleApprove}
-      disabled={isSubmitting}
+      disabled={isDisabled}
       endContent={<SendHorizonalIcon size={16} />}
       className={`neo-button flex h-12 items-center gap-2 rounded-full border border-white ${
-        !isSubmitting
+        !isDisabled
           ? "cursor-pointer bg-gradient-primary hover:opacity-90"
           : "cursor-not-allowed bg-gray-400 opacity-50"
       }`}
     >
-      {isSubmitting ? "Approving..." : "Approve"}
+      {isSubmitting
+        ? "Approving..."
+        : isTransitioning
+          ? "Loading..."
+          : "Approve"}
     </Button>
   );
 };
