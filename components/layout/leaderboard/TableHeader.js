@@ -22,7 +22,7 @@ const TableHeader = ({ leaderboardType }) => (
 
     <div className="flex gap-8">
       <div className="w-20 text-right sm:w-24 md:w-28 xl:w-32">Points</div>
-      <div className="hidden text-right lg:inline-block lg:w-20">Change</div>
+      <div className="hidden text-right lg:inline-block lg:w-20">Rewards</div>
       <div className="hidden text-right lg:inline-block xl:w-12">Profile</div>
     </div>
   </div>

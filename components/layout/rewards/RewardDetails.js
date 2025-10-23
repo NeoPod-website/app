@@ -362,7 +362,7 @@ const RewardDetails = ({ reward, user }) => {
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
-                href={`https://explorer.neo.org/transaction/${reward.transaction_hash}`}
+                href={`https://xexplorer.neo.org/tx/${reward.transaction_hash}`}
                 className="flex items-center gap-2 rounded-lg bg-gray-600/30 px-4 py-2 text-sm font-medium text-gray-100 transition-colors hover:bg-gray-600/50"
               >
                 <span>View on Explorer</span>

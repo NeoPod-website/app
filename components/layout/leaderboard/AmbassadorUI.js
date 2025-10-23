@@ -155,3 +155,15 @@ export const RankChangeIndicator = ({ change }) => {
     );
   }
 };
+
+export const RewardsSection = ({ ambassador }) => {
+  return (
+    <div className="text-center">
+      <div className="text-sm font-bold text-gray-100 md:text-lg">
+        {Math.round(ambassador.total_tokens_earned) || 0}
+      </div>
+
+      <div className="text-xs text-gray-200">NEO</div>
+    </div>
+  );
+};

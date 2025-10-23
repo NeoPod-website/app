@@ -8,6 +8,7 @@ import {
   PointsSection,
   AvatarWithRole,
   RankChangeIndicator,
+  RewardsSection,
 } from "./AmbassadorUI";
 import Link from "next/link";
 
@@ -45,7 +46,8 @@ const AmbassadorRow = ({
         <PointsSection ambassador={ambassador} />
 
         <div className="hidden w-20 flex-shrink-0 justify-center lg:flex lg:w-20">
-          <RankChangeIndicator change={ambassador.rank_change} />
+          {/* <RankChangeIndicator change={ambassador.rank_change} /> */}
+          <RewardsSection ambassador={ambassador} />
         </div>
 
         <div className="hidden h-8 w-8 flex-shrink-0 items-center justify-center lg:flex xl:h-12 xl:w-12">

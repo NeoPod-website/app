@@ -161,11 +161,11 @@ const RewardRow = ({ reward }) => {
       <div className="flex items-center gap-3">
         {reward.transaction_hash && (
           <Link
-            href={`https://explorer.neo.org/transaction/${reward.transaction_hash}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full p-2 transition-colors hover:bg-gray-600/50"
             aria-label="View transaction on Neo Explorer"
+            href={`https://xexplorer.neo.org/tx/${reward.transaction_hash}`}
+            className="rounded-full p-2 transition-colors hover:bg-gray-600/50"
           >
             <ExternalLink size={16} className="text-gray-300" />
           </Link>
