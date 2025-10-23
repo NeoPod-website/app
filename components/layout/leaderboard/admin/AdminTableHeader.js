@@ -8,14 +8,14 @@ const AdminTableHeader = () => {
 
         <div className="flex-1 lg:w-80 lg:flex-initial">Ambassador</div>
 
-        <div className="hidden w-20 text-center sm:inline-block sm:w-24 md:text-left lg:w-28 lg:text-center xl:w-32">
+        <div className="hidden w-0 text-center sm:w-24 md:inline-block md:text-left lg:w-28 lg:text-center xl:w-32">
           Role
         </div>
       </div>
 
       <div className="flex gap-8">
         <div className="w-20 text-right sm:w-24 lg:w-28 xl:w-32">Points</div>
-        <div className="hidden text-right lg:inline-block lg:w-20">Change</div>
+        <div className="hidden text-right lg:inline-block lg:w-20">Reward</div>
         <div className="hidden text-right lg:inline-block xl:w-12">Profile</div>
       </div>
     </div>
