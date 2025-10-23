@@ -2,6 +2,7 @@ import {
   BellIcon,
   UsersIcon,
   InboxIcon,
+  HandCoins,
   MedalIcon,
   TrophyIcon,
   ShapesIcon,
@@ -212,6 +213,12 @@ const adminMenuItems = [
       />
     ),
     href: "/admin/webhooks",
+  },
+
+  {
+    name: "Rewards History",
+    icon: <HandCoins size={20} className="h-4 w-4 3xl:h-5 3xl:w-5" />,
+    href: "/admin/rewards",
   },
 ];
 
