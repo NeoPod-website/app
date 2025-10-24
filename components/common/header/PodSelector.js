@@ -7,28 +7,33 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { languages } from "@/data/langData";
 
+import { setLanguage } from "@/redux/slice/languageSlice";
 import { setCurrentPod, setPods } from "@/redux/slice/podsSlice";
 
 const PodSelector = () => {
   const router = useRouter();
+  const urlPodId = useParams();
   const dispatch = useDispatch();
   const pathname = usePathname();
-
-  const urlPodId = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState(new Set());
 
   const allPods = useSelector((state) => state.pods.pods);
 
-  // Handle selection change
   const handleSelectionChange = useCallback(
     (keys) => {
-      setSelectedLanguage(keys);
-
       const selectedPodId = keys.currentKey;
+      setSelectedLanguage(keys);
       dispatch(setCurrentPod(selectedPodId));
 
+      const selectedPod = allPods.find((p) => p.pod_id === selectedPodId);
+
+      if (selectedPod?.language) {
+        dispatch(setLanguage(selectedPod.language));
+      }
+
+      // handle route updates
       if (pathname.includes("/admin/manage/categories")) {
         router.push(`/admin/manage/categories/${selectedPodId}`);
       } else if (pathname.includes("/admin/manage/quests")) {
@@ -41,54 +46,47 @@ const PodSelector = () => {
         router.push(`/admin/manage/ambassadors/${selectedPodId}`);
       }
     },
-    [pathname],
+    [pathname, allPods],
   );
 
-  // Memoize the language name helper to avoid recreating it on each render
   const getLanguageName = useCallback((code) => {
     return languages.find((lang) => lang.code === code)?.name || code;
   }, []);
 
-  // Simplified approach - always use getAllPods since it handles role-based access
   useEffect(() => {
     const fetchPods = async () => {
       setIsLoading(true);
-
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-        const res = await fetch(`${API_URL}/pods?limit=100`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/pods?limit=100`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          },
+        );
 
         const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.message || `Error ${res.status}`);
-        }
+        if (!res.ok) throw new Error(data.message || `Error ${res.status}`);
 
         const pods = data.data.pods || [];
         dispatch(setPods(pods));
 
-        // Set first pod as default
         if (pods.length > 0) {
-          if (
-            urlPodId.podId &&
-            pods.some((pod) => pod.pod_id === urlPodId.podId)
-          ) {
-            setSelectedLanguage(new Set([urlPodId.podId]));
-            dispatch(setCurrentPod(urlPodId.podId));
-          } else {
-            setSelectedLanguage(new Set([pods[0].pod_id]));
-            dispatch(setCurrentPod(pods[0].pod_id));
+          let selectedPod = pods[0];
+
+          if (urlPodId.podId && pods.some((p) => p.pod_id === urlPodId.podId)) {
+            selectedPod = pods.find((p) => p.pod_id === urlPodId.podId);
           }
+
+          setSelectedLanguage(new Set([selectedPod.pod_id]));
+
+          dispatch(setCurrentPod(selectedPod.pod_id));
+          dispatch(setLanguage(selectedPod.language || "en"));
         }
       } catch (err) {
         console.error("Error fetching pods:", err);
         dispatch(setPods([]));
-
         addToast({
           title: "Error",
           color: "danger",
@@ -109,7 +107,7 @@ const PodSelector = () => {
       aria-label="Language"
       isLoading={isLoading}
       selectedKeys={selectedLanguage}
-      onSelectionChange={(keys) => handleSelectionChange(keys)}
+      onSelectionChange={handleSelectionChange}
       className="w-32 rounded-full bg-gradient-dark"
       classNames={{
         base: "h-11",

@@ -1,0 +1,27 @@
+{
+  "menu": {
+    "dashboard": "Dasbor",
+    "submissions": "Pengiriman",
+    "manage_tasks": "Kelola Tugas",
+    "manage_pods": "Kelola Pod",
+    "manage_categories": "Kelola Kategori",
+    "manage_quests": "Kelola Misi",
+    "manage_roles": "Kelola Peran",
+    "manage_admins": "Kelola Admin",
+    "manage_ambassadors": "Kelola Duta",
+    "analytics": "Analitik",
+    "leaderboard": "Papan Peringkat",
+    "notifications": "Notifikasi",
+    "webhooks": "Webhook",
+    "rewards_history": "Riwayat Hadiah",
+    "quest_center": "Pusat Misi",
+    "inbox": "Kotak Masuk",
+    "history": "Riwayat",
+    "approved": "Disetujui",
+    "rejected": "Ditolak",
+    "highlighted": "Sorotan",
+    "settings": "Pengaturan",
+    "monthly_leaderboard": "Peringkat Bulanan",
+    "all_time_leaderboard": "Peringkat Sepanjang Waktu"
+  }
+}
