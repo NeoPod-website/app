@@ -1,0 +1,27 @@
+{
+  "menu": {
+    "dashboard": "Dashboard",
+    "submissions": "Submissions",
+    "manage_tasks": "Manage Tasks",
+    "manage_pods": "Manage Pods",
+    "manage_categories": "Manage Categories",
+    "manage_quests": "Manage Quests",
+    "manage_roles": "Manage Roles",
+    "manage_admins": "Manage Admins",
+    "manage_ambassadors": "Manage Ambassadors",
+    "analytics": "Analytics",
+    "leaderboard": "Leaderboard",
+    "notifications": "Notifications",
+    "webhooks": "Webhooks",
+    "rewards_history": "Rewards History",
+    "quest_center": "Quest Center",
+    "inbox": "Inbox",
+    "history": "History",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "highlighted": "Highlighted",
+    "settings": "Settings",
+    "monthly_leaderboard": "Monthly Leaderboard",
+    "all_time_leaderboard": "All Time Leaderboard"
+  }
+}

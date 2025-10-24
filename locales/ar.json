@@ -1,0 +1,27 @@
+{
+  "menu": {
+    "dashboard": "لوحة التحكم",
+    "submissions": "الإرسال",
+    "manage_tasks": "إدارة المهام",
+    "manage_pods": "إدارة البودات",
+    "manage_categories": "إدارة الفئات",
+    "manage_quests": "إدارة المهام",
+    "manage_roles": "إدارة الأدوار",
+    "manage_admins": "إدارة المشرفين",
+    "manage_ambassadors": "إدارة السفراء",
+    "analytics": "تحليلات",
+    "leaderboard": "لوحة المتصدرين",
+    "notifications": "الإشعارات",
+    "webhooks": "الربط الخارجي",
+    "rewards_history": "سجل المكافآت",
+    "quest_center": "مركز المهام",
+    "inbox": "صندوق الوارد",
+    "history": "السجل",
+    "approved": "تمت الموافقة",
+    "rejected": "مرفوض",
+    "highlighted": "مميز",
+    "settings": "الإعدادات",
+    "monthly_leaderboard": "لوحة الشهر",
+    "all_time_leaderboard": "لوحة كل الأوقات"
+  }
+}

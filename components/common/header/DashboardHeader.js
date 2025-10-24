@@ -3,7 +3,7 @@ import Link from "next/link";
 import { UserIcon } from "lucide-react";
 
 import AdminHeader from "./AdminHeader";
-import SearchHeader from "./SearchHeader";
+// import SearchHeader from "./SearchHeader";
 import AmbassadorHeader from "./AmbassadorHeader";
 
 import MobileBurgerMenu from "../sidebar/burgerMenu/MobileBurgerMenu";
@@ -13,7 +13,7 @@ const DashboardHeader = async ({ session, menuItems }) => {
     <header className="flex w-full items-center justify-between gap-3 px-5 pb-4 pt-3 lg:px-6 3xl:px-8 3xl:py-5">
       <div className="flex items-center gap-3">
         <MobileBurgerMenu menuItems={menuItems} />
-        <SearchHeader />
+        {/* <SearchHeader /> */}
       </div>
 
       <div className="flex items-center gap-3">
