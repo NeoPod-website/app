@@ -1,7 +1,7 @@
 {
   "menu": {
-    "dashboard": "Dasbor",
-    "submissions": "Pengiriman",
+    "dashboard": "Beranda",
+    "submissions": "Pengajuan",
     "manage_tasks": "Kelola Tugas",
     "manage_pods": "Kelola Pod",
     "manage_categories": "Kelola Kategori",

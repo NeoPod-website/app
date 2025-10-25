@@ -1,7 +1,7 @@
 {
   "menu": {
     "dashboard": "Bảng điều khiển",
-    "submissions": "Gửi bài",
+    "submissions": "Các bài nộp",
     "manage_tasks": "Quản lý nhiệm vụ",
     "manage_pods": "Quản lý pod",
     "manage_categories": "Quản lý danh mục",
@@ -17,11 +17,11 @@
     "quest_center": "Trung tâm nhiệm vụ",
     "inbox": "Hộp thư đến",
     "history": "Lịch sử",
-    "approved": "Đã phê duyệt",
-    "rejected": "Từ chối",
+    "approved": "Đã duyệt",
+    "rejected": "Đã từ chối",
     "highlighted": "Nổi bật",
     "settings": "Cài đặt",
     "monthly_leaderboard": "Bảng xếp hạng tháng",
-    "all_time_leaderboard": "Bảng xếp hạng mọi thời đại"
+    "all_time_leaderboard": "Bảng xếp hạng toàn thời gian"
   }
 }

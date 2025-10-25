@@ -17,11 +17,11 @@
     "quest_center": "مركز المهام",
     "inbox": "صندوق الوارد",
     "history": "السجل",
-    "approved": "تمت الموافقة",
+    "approved": "مقبول",
     "rejected": "مرفوض",
     "highlighted": "مميز",
     "settings": "الإعدادات",
-    "monthly_leaderboard": "لوحة الشهر",
-    "all_time_leaderboard": "لوحة كل الأوقات"
+    "monthly_leaderboard": "لوحة المتصدرين الشهرية",
+    "all_time_leaderboard": "لوحة المتصدرين لجميع الأوقات"
   }
 }
