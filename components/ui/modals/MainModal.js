@@ -26,8 +26,9 @@ const MainModal = ({
         isOpen={isOpen}
         backdrop="blur"
         onClose={handleOnClose}
+        scrollBehavior="inside"
         classNames={{
-          body: "p-4 2xl:p-6",
+          body: "p-4 2xl:p-6 thin-scrollbar",
           base: "border border-gray-400 bg-black/80 text-white",
           closeButton: "hover:bg-white/20 p-2 mt-3 mr-3 rounded text-xl",
         }}
