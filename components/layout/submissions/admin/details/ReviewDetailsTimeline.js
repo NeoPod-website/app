@@ -9,6 +9,7 @@ import React from "react";
 
 const getTimeAgo = (timestamp) => {
   const now = new Date();
+
   const date = new Date(timestamp);
   const diffInMs = now.getTime() - date.getTime();
   const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));

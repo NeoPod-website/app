@@ -1,0 +1,27 @@
+{
+  "menu": {
+    "dashboard": "Kontrol Paneli",
+    "submissions": "Gönderimler",
+    "manage_tasks": "Görevleri Yönet",
+    "manage_pods": "Podları Yönet",
+    "manage_categories": "Kategorileri Yönet",
+    "manage_quests": "Görevleri Yönet",
+    "manage_roles": "Rolleri Yönet",
+    "manage_admins": "Yöneticileri Yönet",
+    "manage_ambassadors": "Elçileri Yönet",
+    "analytics": "Analitik",
+    "leaderboard": "Liderlik Tablosu",
+    "notifications": "Bildirimler",
+    "webhooks": "Webhooks",
+    "rewards_history": "Ödül Geçmişi",
+    "quest_center": "Görev Merkezi",
+    "inbox": "Gelen Kutusu",
+    "history": "Geçmiş",
+    "approved": "Onaylandı",
+    "rejected": "Reddedildi",
+    "highlighted": "Vurgulanan",
+    "settings": "Ayarlar",
+    "monthly_leaderboard": "Aylık Liderlik",
+    "all_time_leaderboard": "Tüm Zamanların Liderliği"
+  }
+}
