@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { useState, useCallback } from "react";
-import { MoreVertical, Edit, Trash2, Globe } from "lucide-react";
+import { MoreVertical, Edit, Trash2, Globe, Bug } from "lucide-react";
 
 import {
   setDeleteModalData,
@@ -139,6 +139,15 @@ const WebhookCard = ({ webhook, onDelete }) => {
               href={`/admin/webhooks/${webhook.webhook_id}`}
             >
               Edit
+            </DropdownItem>
+
+            <DropdownItem
+              as={Link}
+              key="test"
+              startContent={<Bug size={16} />}
+              href={`/admin/webhooks/${webhook.webhook_id}/test`}
+            >
+              Test
             </DropdownItem>
 
             <DropdownItem
