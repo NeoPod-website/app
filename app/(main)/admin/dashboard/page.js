@@ -11,35 +11,35 @@ export const metadata = {
     "Overview of NeoPod ambassador program, recent submissions, and key stats. Quickly access tools to manage quests, roles, and community engagement.",
 };
 
-// const fetchDashboardMetrics = async (podId) => {
-//   const cookieStore = await cookies();
-//   const token = cookieStore.get("neo-jwt");
+const fetchDashboardMetrics = async (podId) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("neo-jwt");
 
-//   if (!token?.value) {
-//     throw new Error("Authentication token not found");
-//   }
+  if (!token?.value) {
+    throw new Error("Authentication token not found");
+  }
 
-//   const url = podId
-//     ? `${process.env.NEXT_PUBLIC_API_URL}/metrics?pod_id=${podId}`
-//     : `${process.env.NEXT_PUBLIC_API_URL}/metrics`;
+  const url = podId
+    ? `${process.env.NEXT_PUBLIC_API_URL}/metrics?pod_id=${podId}`
+    : `${process.env.NEXT_PUBLIC_API_URL}/metrics`;
 
-//   const response = await fetch(url, {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token.value}`,
-//     },
-//     credentials: "include",
-//     cache: "no-store",
-//   });
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token.value}`,
+    },
+    credentials: "include",
+    cache: "no-store",
+  });
 
-//   if (!response.ok) {
-//     throw new Error(`Failed to fetch metrics: ${response.statusText}`);
-//   }
+  if (!response.ok) {
+    throw new Error(`Failed to fetch metrics: ${response.statusText}`);
+  }
 
-//   const data = await response.json();
-//   return data.data;
-// };
+  const data = await response.json();
+  return data.data;
+};
 
 const MetricCard = ({ title, value, subtitle, change }) => (
   <li className="group relative flex cursor-pointer items-center justify-between gap-4 rounded-2.5xl border-t border-gray-400 bg-gradient-dark/60 px-4 py-3 shadow shadow-white/10 transition-all duration-300 hover:scale-[1.02] hover:border-gray-200 hover:bg-gradient-dark hover:shadow-white/30 3xl:gap-6 3xl:px-5 3xl:py-4">
@@ -182,73 +182,72 @@ const RoleDistributionChart = ({ metrics }) => {
 };
 
 const AdminDashboardPage = async () => {
-  // const metrics = await fetchDashboardMetrics(null);
+  const metrics = await fetchDashboardMetrics(null);
 
   return (
-    // <MainPageScroll scrollable={true}>
-    //   <WrapperContainer scrollable={false}>
-    //     <CategoryItem
-    //       icon={null}
-    //       id="Dashboard"
-    //       isAdmin={false}
-    //       showDescription
-    //       podId="Dashboard"
-    //       title="Dashboard"
-    //       isQuestPage={false}
-    //       description="Welcome to your admin dashboard! Here you can manage quests, view submissions, and oversee community activities."
-    //       style={{
-    //         borderRadius: "1.25rem 1.25rem 0 0",
-    //       }}
-    //       background="/dashboard/category/background-3.png"
-    //     />
+    <MainPageScroll scrollable={true}>
+      <WrapperContainer scrollable={false}>
+        <CategoryItem
+          icon={null}
+          id="Dashboard"
+          isAdmin={false}
+          showDescription
+          podId="Dashboard"
+          title="Dashboard"
+          isQuestPage={false}
+          description="Welcome to your admin dashboard! Here you can manage quests, view submissions, and oversee community activities."
+          style={{
+            borderRadius: "1.25rem 1.25rem 0 0",
+          }}
+          background="/dashboard/category/background-3.png"
+        />
 
-    //     <ul className="grid min-w-80 grid-cols-1 gap-4 p-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6 lg:p-6 3xl:gap-8 3xl:p-8">
-    //       <MetricCard
-    //         title="Total Ambassadors"
-    //         value={metrics?.total_ambassadors}
-    //         subtitle="joined this week"
-    //         change={metrics?.new_ambassadors_this_week}
-    //       />
+        <ul className="grid min-w-80 grid-cols-1 gap-4 p-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6 lg:p-6 3xl:gap-8 3xl:p-8">
+          <MetricCard
+            title="Total Ambassadors"
+            value={metrics?.total_ambassadors}
+            subtitle="joined this week"
+            change={metrics?.new_ambassadors_this_week}
+          />
 
-    //       <MetricCard
-    //         title="Total Admins"
-    //         value={metrics?.total_admins}
-    //         subtitle={`${metrics?.active_admins || 0} active admins`}
-    //       />
+          <MetricCard
+            title="Total Admins"
+            value={metrics?.total_admins}
+            subtitle={`${metrics?.active_admins || 0} active admins`}
+          />
 
-    //       <MetricCard
-    //         title="Approval Rate"
-    //         value={`${metrics?.approval_rate || 0}%`}
-    //         subtitle={`${metrics?.approved_submissions || 0} approved • ${metrics?.rejected_submissions || 0} rejected`}
-    //       />
+          <MetricCard
+            title="Approval Rate"
+            value={`${metrics?.approval_rate || 0}%`}
+            subtitle={`${metrics?.approved_submissions || 0} approved • ${metrics?.rejected_submissions || 0} rejected`}
+          />
 
-    //       <MetricCard
-    //         title="Pending Submissions"
-    //         value={metrics?.pending_submissions}
-    //         subtitle={`out of ${metrics?.total_submissions?.toLocaleString() || 0} total`}
-    //       />
+          <MetricCard
+            title="Pending Submissions"
+            value={metrics?.pending_submissions}
+            subtitle={`out of ${metrics?.total_submissions?.toLocaleString() || 0} total`}
+          />
 
-    //       <MetricCard
-    //         title="Total Pods"
-    //         value={metrics?.total_pods}
-    //         subtitle={`${metrics?.live_pods || 0} live • ${metrics?.draft_pods || 0} drafts`}
-    //       />
+          <MetricCard
+            title="Total Pods"
+            value={metrics?.total_pods}
+            subtitle={`${metrics?.live_pods || 0} live • ${metrics?.draft_pods || 0} drafts`}
+          />
 
-    //       <MetricCard
-    //         title="Points Awarded"
-    //         value={metrics?.total_points_awarded?.toLocaleString()}
-    //         subtitle="earned this month"
-    //         change={metrics?.current_month_points}
-    //       />
-    //     </ul>
-    //   </WrapperContainer>
+          <MetricCard
+            title="Points Awarded"
+            value={metrics?.total_points_awarded?.toLocaleString()}
+            subtitle="earned this month"
+            change={metrics?.current_month_points}
+          />
+        </ul>
+      </WrapperContainer>
 
-    //   <div className="flex gap-8">
-    //     <RoleDistributionChart metrics={metrics} />
-    //     <RoleDistributionChart metrics={metrics} />
-    //   </div>
-    // </MainPageScroll>
-    <div>Hi</div>
+      <div className="flex gap-8">
+        <RoleDistributionChart metrics={metrics} />
+        <RoleDistributionChart metrics={metrics} />
+      </div>
+    </MainPageScroll>
   );
 };
 

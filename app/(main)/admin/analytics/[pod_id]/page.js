@@ -1,18 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
 import MainPageScroll from "@/components/common/MainPageScroll";
 import WrapperContainer from "@/components/common/WrapperContainer";
 import CategoryItem from "@/components/layout/category/CategoryItem";
 
-export const metadata = {
-  title: "Analytics | Admin Panel | NeoPod",
-  description:
-    "Deep dive into NeoPod analytics with comprehensive insights on ambassadors, quests, submissions, and rewards.",
-};
-
-const fetchDashboardMetrics = async (podId = null) => {
+const fetchDashboardMetrics = async (podId) => {
   const cookieStore = await cookies();
   const token = cookieStore.get("neo-jwt");
 
@@ -20,9 +15,7 @@ const fetchDashboardMetrics = async (podId = null) => {
     throw new Error("Authentication token not found");
   }
 
-  const url = podId
-    ? `${process.env.NEXT_PUBLIC_API_URL}/metrics?pod_id=${podId}`
-    : `${process.env.NEXT_PUBLIC_API_URL}/metrics`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/metrics?pod_id=${podId}`;
 
   const response = await fetch(url, {
     method: "GET",
@@ -35,6 +28,9 @@ const fetchDashboardMetrics = async (podId = null) => {
   });
 
   if (!response.ok) {
+    if (response.status === 403 || response.status === 404) {
+      notFound();
+    }
     throw new Error(`Failed to fetch metrics: ${response.statusText}`);
   }
 
@@ -215,29 +211,38 @@ const PodSelector = ({ pods, currentPodId }) => (
   </div>
 );
 
-const AnalyticsPage = async () => {
-  const metrics = await fetchDashboardMetrics(null);
+const PodAnalyticsPage = async ({ params }) => {
+  const { pod_id } = await params;
+
+  const metrics = await fetchDashboardMetrics(pod_id);
   const pods = await fetchPods();
+
+  const currentPod = pods?.find((pod) => pod.pod_id === pod_id);
+
+  if (!currentPod) {
+    notFound();
+  }
 
   return (
     <MainPageScroll scrollable={true}>
       <WrapperContainer scrollable={false}>
         <CategoryItem
           icon={null}
-          id="Analytics"
+          id={`analytics-${pod_id}`}
           isAdmin={false}
           showDescription
-          podId="Analytics"
-          title="Analytics"
+          podId={`analytics-${pod_id}`}
+          title={`${currentPod.name} Analytics`}
           isQuestPage={false}
-          description="Comprehensive analytics and insights across all pods and metrics."
+          description={`Comprehensive analytics and insights for ${currentPod.name} pod.`}
           style={{ borderRadius: "1.25rem 1.25rem 0 0" }}
           background="/dashboard/category/background-3.png"
         />
 
-        <PodSelector pods={pods} currentPodId={null} />
+        <PodSelector pods={pods} currentPodId={pod_id} />
       </WrapperContainer>
 
+      {/* Ambassador Analytics */}
       <WrapperContainer scrollable={false}>
         <CategoryItem
           icon={null}
@@ -432,73 +437,6 @@ const AnalyticsPage = async () => {
         </ul>
       </WrapperContainer>
 
-      {/* Rewards Analytics */}
-      <WrapperContainer scrollable={false}>
-        <CategoryItem
-          icon={null}
-          id="rewards-analytics"
-          isAdmin={false}
-          showDescription={false}
-          podId="rewards-analytics"
-          title="Rewards Analytics"
-          isQuestPage={false}
-          description=""
-          style={{ borderRadius: "1.25rem 1.25rem 0 0" }}
-          background="/dashboard/category/background-3.png"
-        />
-
-        <ul className="grid min-w-80 grid-cols-1 gap-4 p-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6 lg:p-6 3xl:gap-8 3xl:p-8">
-          <MetricCard
-            title="Total Points Awarded"
-            value={metrics?.total_points_awarded}
-            subtitle="all time"
-          />
-          <MetricCard
-            title="Current Month Points"
-            value={metrics?.current_month_points}
-            subtitle={
-              metrics?.total_points_awarded > 0
-                ? `${((metrics?.current_month_points / metrics?.total_points_awarded) * 100).toFixed(1)}% of total`
-                : "0% of total"
-            }
-          />
-          <MetricCard
-            title="Tokens Distributed"
-            value={metrics?.total_tokens_distributed?.toFixed(2)}
-            subtitle="total tokens"
-          />
-          <MetricCard
-            title="USD Value"
-            value={`$${metrics?.total_usd_distributed?.toLocaleString() || 0}`}
-            subtitle="total value"
-          />
-          <MetricCard
-            title="Completed Claims"
-            value={metrics?.completed_claims}
-            subtitle={
-              metrics?.total_claims > 0
-                ? `${((metrics?.completed_claims / metrics?.total_claims) * 100).toFixed(1)}% success rate`
-                : "0% success rate"
-            }
-          />
-          <MetricCard
-            title="Pending Claims"
-            value={metrics?.pending_claims}
-            subtitle="processing"
-          />
-          <MetricCard
-            title="Failed Claims"
-            value={metrics?.failed_claims}
-            subtitle="requires review"
-          />
-          <MetricCard
-            title="Total Claims"
-            value={metrics?.total_claims}
-            subtitle="all time"
-          />
-        </ul>
-      </WrapperContainer>
-
       {/* System Analytics */}
       <WrapperContainer scrollable={false}>
         <CategoryItem
@@ -516,34 +454,9 @@ const AnalyticsPage = async () => {
 
         <ul className="grid min-w-80 grid-cols-1 gap-4 p-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6 lg:p-6 3xl:gap-8 3xl:p-8">
           <MetricCard
-            title="Total Pods"
-            value={metrics?.total_pods}
-            subtitle={`${metrics?.live_pods} live • ${metrics?.draft_pods} drafts`}
-          />
-          <MetricCard
             title="Total Categories"
             value={metrics?.total_categories}
             subtitle={`${metrics?.live_categories} live`}
-          />
-          <MetricCard
-            title="Total Admins"
-            value={metrics?.total_admins}
-            subtitle={`${metrics?.active_admins} active`}
-          />
-          <MetricCard
-            title="Super Admins"
-            value={metrics?.super_admins}
-            subtitle="highest access"
-          />
-          <MetricCard
-            title="Community Admins"
-            value={metrics?.community_admins}
-            subtitle="pod managers"
-          />
-          <MetricCard
-            title="Total Reviews"
-            value={metrics?.total_reviews_conducted}
-            subtitle="conducted"
           />
         </ul>
       </WrapperContainer>
@@ -551,4 +464,4 @@ const AnalyticsPage = async () => {
   );
 };
 
-export default AnalyticsPage;
+export default PodAnalyticsPage;
