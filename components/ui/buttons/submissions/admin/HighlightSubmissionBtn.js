@@ -47,6 +47,7 @@
 //   submission,
 //   reviewComment,
 //   onReviewSubmission,
+//   isTransitioning = false,
 // }) => {
 //   const dispatch = useDispatch();
 //   const highlightManager = useHighlightActions();
@@ -66,6 +67,11 @@
 //   const [updatingHighlights, setUpdatingHighlights] = useState(false);
 //   const [fetchingSubmissions, setFetchingSubmissions] = useState(false);
 //   const [currentSubmissionIndex, setCurrentSubmissionIndex] = useState(0);
+
+//   // ✅ NEW: Reset loading state when submission changes (for auto-navigation)
+//   useEffect(() => {
+//     setLoading(false);
+//   }, [submission?.submission_id]);
 
 //   const currentHighlightedSubmission =
 //     highlightedSubmissionsData[currentSubmissionIndex];
@@ -118,6 +124,7 @@
 //       });
 
 //       const submissions = await Promise.all(submissionPromises);
+//       console.log("Fetching highlighted submissions:", submissions);
 
 //       const enrichedSubmissions = await Promise.all(
 //         submissions.map(async (sub) => {
@@ -169,6 +176,7 @@
 //         }),
 //       );
 
+//       console.log("Enriched highlighted submissions:", enrichedSubmissions);
 //       dispatch(setHighlightedSubmissionsData(enrichedSubmissions));
 //     } catch (error) {
 //       handleError(error, "fetching highlighted submissions");
@@ -194,10 +202,12 @@
 //         title: "Submission highlighted successfully",
 //         color: "success",
 //       });
+
+//       // ✅ Success - parent will handle navigation to next submission
+//       // State will be reset by useEffect when new submission loads
 //     } catch (error) {
 //       handleError(error, "highlighting submission");
-//     } finally {
-//       setLoading(false);
+//       setLoading(false); // ✅ Reset immediately on error
 //     }
 //   };
 
@@ -233,30 +243,29 @@
 //     setUpdatingHighlights(true);
 
 //     try {
-//       // First revert the submission status
-//       const statusReverted = await revertSubmissionStatus(submissionIdToRemove);
-//       if (!statusReverted) {
-//         throw new Error("Failed to revert submission status");
-//       }
-
-//       // Then remove from highlights using the bulletproof manager
+//       // Use the highlight manager to remove the highlight
 //       await highlightManager.removeHighlight(submissionIdToRemove, true);
 
-//       // Adjust current index if necessary
-//       const newLength = questHighlights.length - 1;
-//       if (currentSubmissionIndex >= newLength) {
-//         setCurrentSubmissionIndex(Math.max(0, newLength - 1));
+//       // Revert the submission status to pending
+//       await revertSubmissionStatus(submissionIdToRemove);
+
+//       // Remove from local state
+//       const updatedSubmissions = highlightedSubmissionsData.filter(
+//         (sub) => sub.submission_id !== submissionIdToRemove,
+//       );
+//       dispatch(setHighlightedSubmissionsData(updatedSubmissions));
+
+//       // Adjust current index if needed
+//       if (updatedSubmissions.length === 0) {
+//         setIsModalOpen(false);
+//       } else if (currentSubmissionIndex >= updatedSubmissions.length) {
+//         setCurrentSubmissionIndex(updatedSubmissions.length - 1);
 //       }
 
 //       addToast({
 //         title: "Highlight removed successfully",
 //         color: "success",
 //       });
-
-//       // Close modal if no more highlights
-//       if (newLength === 0) {
-//         handleCloseModal();
-//       }
 //     } catch (error) {
 //       handleError(error, "removing highlight");
 //     } finally {
@@ -265,30 +274,27 @@
 //   };
 
 //   const handleAddCurrentSubmission = async () => {
-//     setUpdatingHighlights(true);
-//     try {
-//       // Add to highlights using the bulletproof manager
-//       await highlightManager.addHighlight(submission.submission_id, true);
+//     if (isCurrentSubmissionHighlighted || questHighlights.length >= 3) {
+//       return;
+//     }
 
-//       // Also highlight the submission if it's pending
-//       if (submission.review_status === "pending") {
-//         try {
-//           await onReviewSubmission(
-//             "highlighted",
-//             reviewComment,
-//             currentQuest?.rewards,
-//           );
-//         } catch (error) {
-//           console.error("Error changing submission status:", error);
-//         }
-//       }
+//     setUpdatingHighlights(true);
+
+//     try {
+//       // First, highlight the submission (change its status to highlighted)
+//       await onReviewSubmission(
+//         "highlighted",
+//         reviewComment,
+//         currentQuest?.rewards,
+//       );
+
+//       // Then, add to highlights array
+//       await highlightManager.addHighlight(submission.submission_id, true);
 
 //       addToast({
 //         title: "Submission added to highlights",
 //         color: "success",
 //       });
-
-//       handleCloseModal();
 //     } catch (error) {
 //       handleError(error, "adding submission to highlights");
 //     } finally {
@@ -410,18 +416,29 @@
 //       return null;
 //     }
 
+//     // ✅ Disable highlight button during loading or transition
+//     const isDisabled = loading || isTransitioning;
+
 //     return (
 //       <div className="flex items-center gap-2">
 //         {showHighlightButton && (
 //           <Button
 //             size="lg"
 //             radius="full"
-//             disabled={loading}
+//             disabled={isDisabled}
 //             onPress={handleHighlight}
 //             endContent={<HighlighterIcon size={16} />}
-//             className="neo-button border border-gray-400 bg-gradient-dark hover:bg-gray-700"
+//             className={`neo-button border border-gray-400 ${
+//               !isDisabled
+//                 ? "cursor-pointer bg-gradient-dark hover:bg-gray-700"
+//                 : "cursor-not-allowed opacity-50"
+//             }`}
 //           >
-//             {loading ? "Highlighting..." : "Highlight"}
+//             {loading
+//               ? "Highlighting..."
+//               : isTransitioning
+//                 ? "Loading..."
+//                 : "Highlight"}
 //           </Button>
 //         )}
 
@@ -545,7 +562,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import MainModal from "@/components/ui/modals/MainModal";
 import ReviewDetailsSubmissions from "@/components/layout/submissions/admin/details/ReviewDetailsSubmissions";
 
-import { setHighlightedSubmissionsData } from "@/redux/slice/questSlice";
+import {
+  setCurrentQuest,
+  setHighlightedSubmissionsData,
+} from "@/redux/slice/questSlice";
 
 import {
   useHighlightActions,
@@ -573,7 +593,7 @@ const HighlightSubmissionBtn = ({
   submission,
   reviewComment,
   onReviewSubmission,
-  isTransitioning = false, // ✅ NEW: Accept transition state from parent
+  isTransitioning = false,
 }) => {
   const dispatch = useDispatch();
   const highlightManager = useHighlightActions();
@@ -594,13 +614,51 @@ const HighlightSubmissionBtn = ({
   const [fetchingSubmissions, setFetchingSubmissions] = useState(false);
   const [currentSubmissionIndex, setCurrentSubmissionIndex] = useState(0);
 
-  // ✅ NEW: Reset loading state when submission changes (for auto-navigation)
+  // ✅ Fetch and update quest data in Redux when submission's quest changes
+  useEffect(() => {
+    const fetchQuestData = async () => {
+      if (!submission?.quest_id) return;
+
+      // Skip if already loaded for this quest
+      if (currentQuest?.quest_id === submission.quest_id) return;
+
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/quests/${submission.quest_id}`,
+          { credentials: "include" },
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch quest data");
+        }
+
+        const data = await response.json();
+        const quest = data.data?.quest || data.quest || data;
+
+        // ✅ Update Redux with the quest for this submission
+        dispatch(setCurrentQuest(quest));
+      } catch (error) {
+        console.error("Error fetching quest data:", error);
+      }
+    };
+
+    fetchQuestData();
+  }, [submission?.quest_id, currentQuest?.quest_id, dispatch]);
+
+  // ✅ Clear cached submissions when quest changes
+  useEffect(() => {
+    dispatch(setHighlightedSubmissionsData([]));
+    setCurrentSubmissionIndex(0);
+  }, [submission?.quest_id, dispatch]);
+
+  // ✅ Reset loading state when submission changes
   useEffect(() => {
     setLoading(false);
   }, [submission?.submission_id]);
 
   const currentHighlightedSubmission =
     highlightedSubmissionsData[currentSubmissionIndex];
+
   const isCurrentSubmissionHighlighted = questHighlights.includes(
     submission?.submission_id,
   );
@@ -650,6 +708,7 @@ const HighlightSubmissionBtn = ({
       });
 
       const submissions = await Promise.all(submissionPromises);
+      console.log("Fetching highlighted submissions:", submissions);
 
       const enrichedSubmissions = await Promise.all(
         submissions.map(async (sub) => {
@@ -701,6 +760,7 @@ const HighlightSubmissionBtn = ({
         }),
       );
 
+      console.log("Enriched highlighted submissions:", enrichedSubmissions);
       dispatch(setHighlightedSubmissionsData(enrichedSubmissions));
     } catch (error) {
       handleError(error, "fetching highlighted submissions");
@@ -719,7 +779,7 @@ const HighlightSubmissionBtn = ({
         currentQuest?.rewards,
       );
 
-      // Then, add to highlights using the bulletproof manager
+      // Then, add to highlights using the manager (only 2 params!)
       await highlightManager.addHighlight(submission.submission_id, true);
 
       addToast({
@@ -728,14 +788,17 @@ const HighlightSubmissionBtn = ({
       });
 
       // ✅ Success - parent will handle navigation to next submission
-      // State will be reset by useEffect when new submission loads
     } catch (error) {
       handleError(error, "highlighting submission");
-      setLoading(false); // ✅ Reset immediately on error
+      setLoading(false);
     }
   };
 
-  const revertSubmissionStatus = async (submissionId) => {
+  // ✅ Change submission status from "highlighted" to "approved"
+  const changeSubmissionStatusToApproved = async (
+    submissionId,
+    submissionData,
+  ) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/submissions/${submissionId}/review`,
@@ -746,34 +809,46 @@ const HighlightSubmissionBtn = ({
           },
           credentials: "include",
           body: JSON.stringify({
-            review_status: "pending",
-            review_comment: "Reverted from highlighted to pending",
+            review_status: "approved",
+            review_comment: "Changed from highlighted to approved",
+            rewards: submissionData?.rewards || currentQuest?.rewards || [],
           }),
         },
       );
 
       if (!response.ok) {
-        throw new Error(`Failed to revert submission: ${response.status}`);
+        throw new Error(
+          `Failed to change submission status: ${response.status}`,
+        );
       }
 
       return true;
     } catch (error) {
-      console.error("Error reverting submission status:", error);
+      console.error("Error changing submission status to approved:", error);
       return false;
     }
   };
 
+  // ✅ Remove highlight (for the submission being viewed in modal)
   const handleRemoveHighlight = async (submissionIdToRemove) => {
     setUpdatingHighlights(true);
 
     try {
-      // Use the highlight manager to remove the highlight
+      // Find the submission data for rewards
+      const submissionToRemove = highlightedSubmissionsData.find(
+        (sub) => sub.submission_id === submissionIdToRemove,
+      );
+
+      // Step 1: Remove from quest's highlights array using highlightManager (only 2 params!)
       await highlightManager.removeHighlight(submissionIdToRemove, true);
 
-      // Revert the submission status to pending
-      await revertSubmissionStatus(submissionIdToRemove);
+      // Step 2: Change submission status from "highlighted" to "approved"
+      await changeSubmissionStatusToApproved(
+        submissionIdToRemove,
+        submissionToRemove,
+      );
 
-      // Remove from local state
+      // Step 3: Update local cache
       const updatedSubmissions = highlightedSubmissionsData.filter(
         (sub) => sub.submission_id !== submissionIdToRemove,
       );
@@ -788,6 +863,7 @@ const HighlightSubmissionBtn = ({
 
       addToast({
         title: "Highlight removed successfully",
+        description: "Submission status changed to approved",
         color: "success",
       });
     } catch (error) {
@@ -812,7 +888,7 @@ const HighlightSubmissionBtn = ({
         currentQuest?.rewards,
       );
 
-      // Then, add to highlights array
+      // Then, add to highlights array (only 2 params!)
       await highlightManager.addHighlight(submission.submission_id, true);
 
       addToast({
@@ -848,7 +924,6 @@ const HighlightSubmissionBtn = ({
     );
   };
 
-  // Rest of the component (modal, buttons, etc.) remains the same...
   const modalFooter = (
     <div className="flex w-full items-center justify-between">
       <div className="flex items-center gap-2">
@@ -940,7 +1015,6 @@ const HighlightSubmissionBtn = ({
       return null;
     }
 
-    // ✅ Disable highlight button during loading or transition
     const isDisabled = loading || isTransitioning;
 
     return (
@@ -973,7 +1047,7 @@ const HighlightSubmissionBtn = ({
             variant="flat"
             onPress={handleViewHighlighted}
             startContent={<StarIcon size={16} />}
-            className="border border-yellow-500/50 bg-yellow-500/20 text-yellow-100 hover:bg-yellow-500/30"
+            className="neo-button border border-yellow-500/50 bg-yellow-500/20 text-yellow-100 hover:bg-yellow-500/30"
           >
             View Highlighted ({questHighlights.length})
           </Button>
