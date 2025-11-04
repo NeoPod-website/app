@@ -38,22 +38,16 @@ const InviteTaskSettings = ({ taskId }) => {
   const [localRequiredInvites, setLocalRequiredInvites] = useState(
     currentTask.requiredInvites || 1,
   );
-  const [localMinimumXp, setLocalMinimumXp] = useState(
-    currentTask.minimumXp || 0,
-  );
 
   const debouncedRequiredInvites = useDebounce(localRequiredInvites, 500);
-  const debouncedMinimumXp = useDebounce(localMinimumXp, 500);
 
   // Initialize local state only once when currentTask changes
   useEffect(() => {
     setLocalRequiredInvites(currentTask.requiredInvites || 1);
-    setLocalMinimumXp(currentTask.minimumXp || 0);
   }, [currentTask.id]);
 
   const safeUpdateTask = (changes) => {
     if (!taskId) return;
-
     const taskExists = currentTasks.some((t) => t.id === taskId);
     if (taskExists) {
       dispatch(
@@ -76,64 +70,26 @@ const InviteTaskSettings = ({ taskId }) => {
     safeUpdateTask({ requiredInvites: debouncedRequiredInvites });
   }, [debouncedRequiredInvites, taskId]);
 
-  useEffect(() => {
-    if (!taskId || debouncedMinimumXp === (currentTask.minimumXp || 0)) return;
-    safeUpdateTask({ minimumXp: debouncedMinimumXp });
-  }, [debouncedMinimumXp, taskId]);
+  const handleRequiredInvitesFocus = (e) => e.target.select();
 
-  // ✅ FIX: Auto-select all text on focus for better UX
-  const handleRequiredInvitesFocus = (e) => {
-    e.target.select();
-  };
-
-  const handleMinimumXpFocus = (e) => {
-    e.target.select();
-  };
-
-  // ✅ FIX: Handle input changes properly to allow deletion
   const handleRequiredInvitesChange = (e) => {
     const value = e.target.value;
 
-    // Allow empty string temporarily while typing
     if (value === "") {
       setLocalRequiredInvites("");
       return;
     }
 
     const numValue = parseInt(value);
-    // Ensure minimum of 1 for required invites
+
     if (!isNaN(numValue) && numValue >= 1) {
       setLocalRequiredInvites(numValue);
     }
   };
 
-  // ✅ FIX: Handle minimum XP changes to allow clearing the field
-  const handleMinimumXpChange = (e) => {
-    const value = e.target.value;
-
-    // Allow empty string temporarily while typing
-    if (value === "") {
-      setLocalMinimumXp("");
-      return;
-    }
-
-    const numValue = parseInt(value);
-    // Allow 0 or positive numbers
-    if (!isNaN(numValue) && numValue >= 0) {
-      setLocalMinimumXp(numValue);
-    }
-  };
-
-  // ✅ FIX: Handle blur to set default values if empty
   const handleRequiredInvitesBlur = () => {
     if (localRequiredInvites === "" || localRequiredInvites < 1) {
       setLocalRequiredInvites(1);
-    }
-  };
-
-  const handleMinimumXpBlur = () => {
-    if (localMinimumXp === "") {
-      setLocalMinimumXp(0);
     }
   };
 
@@ -166,7 +122,6 @@ const InviteTaskSettings = ({ taskId }) => {
             input: "placeholder:text-gray-300",
           }}
         />
-
         <p className="mt-1 text-xs italic text-gray-300">
           How many valid invites needed to complete this task
         </p>
@@ -184,22 +139,18 @@ const InviteTaskSettings = ({ taskId }) => {
           size="lg"
           type="number"
           variant="bordered"
-          value={localMinimumXp}
-          placeholder="100"
+          value={200}
+          readOnly
           id="minimum-xp"
-          min="0"
-          onChange={handleMinimumXpChange}
-          onFocus={handleMinimumXpFocus}
-          onBlur={handleMinimumXpBlur}
           className="bg-dark"
           classNames={{
             inputWrapper:
-              "border-gray-300 rounded-lg focus-within:!border-gray-300 focus-within:!ring-gray-300 focus-within:!ring-1 hover:!bg-black data-[hover=true]:!bg-black",
-            input: "placeholder:text-gray-300",
+              "border-gray-500 rounded-lg opacity-60 cursor-not-allowed",
+            input: "text-gray-300 placeholder:text-gray-300",
           }}
         />
-        <p className="mt-1 text-xs italic text-gray-300">
-          Invitees must have this much XP to count as valid (0 = no requirement)
+        <p className="mt-1 text-xs italic text-gray-400">
+          This value is fixed to 200 XP and cannot be changed.
         </p>
       </div>
     </div>
