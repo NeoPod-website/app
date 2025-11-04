@@ -20,6 +20,12 @@ const QuestInviteTask = ({ task, questId, user }) => {
   const [loading, setLoading] = useState(false);
   const [validInviteCount, setValidInviteCount] = useState(0);
 
+  const [inviteStats, setInviteStats] = useState({
+    validInvites: 0,
+    consumedInvites: 0,
+    availableInvites: 0,
+  });
+
   const currentAnswer = useSelector((state) =>
     selectTaskAnswer(state, questId, task.id),
   );
@@ -31,19 +37,72 @@ const QuestInviteTask = ({ task, questId, user }) => {
   };
 
   // Fetch invite statistics with minimumXp
+  // const fetchInviteStats = async () => {
+  //   try {
+  //     setLoading(true);
+
+  //     // Pass minimumXp as query parameter
+  //     const minimumXp = task.minimumXp || 0;
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/invites/stats?minimumXp=${minimumXp}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         credentials: "include",
+  //       },
+  //     );
+
+  //     const data = await response.json();
+
+  //     if (data.success) {
+  //       setInvitees(data.invitees || []);
+  //       setValidInviteCount(data.stats.validInvites || 0);
+
+  //       // Check completion based on VALID invites, not total
+  //       const shouldBeCompleted =
+  //         data.stats.validInvites >= (task.requiredInvites || 1);
+
+  //       if (shouldBeCompleted && !isCompleted) {
+  //         dispatch(
+  //           updateTaskAnswer({
+  //             questId,
+  //             answer: true,
+  //             taskId: task.id,
+  //           }),
+  //         );
+  //       } else if (!shouldBeCompleted && isCompleted) {
+  //         dispatch(
+  //           updateTaskAnswer({
+  //             questId,
+  //             answer: false,
+  //             taskId: task.id,
+  //           }),
+  //         );
+  //       }
+  //     }
+  //   } catch (error) {
+  //     addToast({
+  //       title: "Error",
+  //       description: "Failed to load invite statistics",
+  //       color: "danger",
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const fetchInviteStats = async () => {
     try {
       setLoading(true);
-
-      // Pass minimumXp as query parameter
       const minimumXp = task.minimumXp || 0;
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/invites/stats?minimumXp=${minimumXp}`,
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
         },
       );
@@ -52,36 +111,24 @@ const QuestInviteTask = ({ task, questId, user }) => {
 
       if (data.success) {
         setInvitees(data.invitees || []);
-        setValidInviteCount(data.stats.validInvites || 0);
+        setInviteStats(data.stats); // ✅ SAVE STATS
 
-        // Check completion based on VALID invites, not total
+        // Check completion based on AVAILABLE invites
         const shouldBeCompleted =
-          data.stats.validInvites >= (task.requiredInvites || 1);
+          data.stats.availableInvites >= (task.requiredInvites || 1);
 
         if (shouldBeCompleted && !isCompleted) {
           dispatch(
-            updateTaskAnswer({
-              questId,
-              answer: true,
-              taskId: task.id,
-            }),
+            updateTaskAnswer({ questId, answer: true, taskId: task.id }),
           );
         } else if (!shouldBeCompleted && isCompleted) {
           dispatch(
-            updateTaskAnswer({
-              questId,
-              answer: false,
-              taskId: task.id,
-            }),
+            updateTaskAnswer({ questId, answer: false, taskId: task.id }),
           );
         }
       }
     } catch (error) {
-      addToast({
-        title: "Error",
-        description: "Failed to load invite statistics",
-        color: "danger",
-      });
+      console.error("Error:", error);
     } finally {
       setLoading(false);
     }
@@ -151,8 +198,13 @@ const QuestInviteTask = ({ task, questId, user }) => {
   };
 
   // NEW: Use validInviteCount instead of totalInvites
+  // const progress = Math.min(
+  //   (validInviteCount / (task.requiredInvites || 1)) * 100,
+  //   100,
+  // );
+
   const progress = Math.min(
-    (validInviteCount / (task.requiredInvites || 1)) * 100,
+    (inviteStats.availableInvites / (task.requiredInvites || 1)) * 100,
     100,
   );
 
@@ -207,8 +259,9 @@ const QuestInviteTask = ({ task, questId, user }) => {
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-gray-100">Valid Invites</span>
+
               <span className="font-medium text-white">
-                {validInviteCount} / {task.requiredInvites || 1}
+                {inviteStats.availableInvites} / {task.requiredInvites || 1}
               </span>
             </div>
 
@@ -233,6 +286,44 @@ const QuestInviteTask = ({ task, questId, user }) => {
               <span>{invitees.length}</span>
             </div>
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-100">Available Invites</span>
+            <span className="font-medium text-white">
+              {inviteStats.availableInvites} / {task.requiredInvites || 1}
+            </span>
+          </div>
+
+          <div className="h-2 w-full rounded-full bg-gray-600">
+            <div
+              className={`h-2 rounded-full transition-all ${
+                isCompleted ? "bg-green-400" : "bg-green-500"
+              }`}
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+
+          {/* Show breakdown */}
+          <div className="text-xs text-gray-300">
+            <div className="flex justify-between">
+              <span>Valid Invites</span>
+              <span>{inviteStats.validInvites}</span>
+            </div>
+            {inviteStats.consumedInvites > 0 && (
+              <div className="flex justify-between text-yellow-400">
+                <span>Used in Other Quests</span>
+                <span>-{inviteStats.consumedInvites}</span>
+              </div>
+            )}
+          </div>
+
+          {task.minimumXp > 0 && (
+            <div className="text-xs text-gray-300">
+              Minimum XP Required: {task.minimumXp}
+            </div>
+          )}
         </div>
 
         <div className="rounded-xl border border-gray-400 bg-dark p-4">
