@@ -21,7 +21,7 @@ const DashboardHeader = async ({ session, menuItems }) => {
           <AdminHeader />
         ) : (
           <>
-            <AmbassadorHeader />
+            <AmbassadorHeader session={session} />
 
             <Link href="/profile" className="shrink-0">
               <div className="h-9 w-fit rounded-full border-t border-gray-400 bg-gradient-dark px-3 py-2 transition-colors hover:bg-gray-700 3xl:h-11 3xl:px-4 3xl:py-2.5">

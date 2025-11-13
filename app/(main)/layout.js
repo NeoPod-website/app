@@ -48,7 +48,6 @@ const MainLayout = async ({ children }) => {
 
   const menuItems = user.isAdmin ? adminMenuItems : ambassadorMenuItems;
 
-  // Render the authenticated layout
   return (
     <div className="flex h-screen bg-[url('/hero-background.png')] bg-cover">
       <DashboardSidebar session={user} menuItems={menuItems} />

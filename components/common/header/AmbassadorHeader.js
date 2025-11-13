@@ -32,7 +32,7 @@ const fetchUserRank = async () => {
   return data.ambassador_rank || null;
 };
 
-const AmbassadorHeader = async () => {
+const AmbassadorHeader = async ({ session }) => {
   const userRank = await fetchUserRank();
 
   return (
@@ -56,7 +56,9 @@ const AmbassadorHeader = async () => {
         />
 
         <div className="space-x-1 text-sm text-white 3xl:text-base">
-          <span className="font-bold">{userRank?.points || 0}</span>
+          <span className="font-bold">
+            {session?.current_month_points || 0}
+          </span>
           <span>XPs</span>
         </div>
       </div>
