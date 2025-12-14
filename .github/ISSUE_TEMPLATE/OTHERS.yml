@@ -4,6 +4,7 @@ title: "[Other] <Short Description>"
 labels: ["other"]
 assignees: []
 
+body:
   - type: textarea
     id: issue_description
     attributes:
