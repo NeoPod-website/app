@@ -25,10 +25,11 @@ const EditAmbassadorModal = ({
   podId,
   onSuccess,
 }) => {
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const [status, setStatus] = useState(ambassador?.status || "active");
   const [roleType, setRoleType] = useState(ambassador?.role_type || "initiate");
-  const [error, setError] = useState("");
 
   // Reset form when ambassador changes or modal opens
   useEffect(() => {
@@ -69,9 +70,9 @@ const EditAmbassadorModal = ({
       // Only make API call if there are changes
       if (updatePayload.role_type || updatePayload.status) {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/${ambassador.ambassador_id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/ambassadors/admin/update/${ambassador.ambassador_id}`,
           {
-            method: "PUT",
+            method: "PATCH",
             headers: {
               "Content-Type": "application/json",
             },
@@ -89,7 +90,6 @@ const EditAmbassadorModal = ({
         }
 
         const responseData = await response.json();
-        console.log("Update successful:", responseData);
 
         // Create updated ambassador object
         const updatedAmbassador = {
