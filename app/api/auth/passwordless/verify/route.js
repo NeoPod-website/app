@@ -61,14 +61,6 @@ export async function POST(request) {
     // Get cookies instance
     const cookieStore = await cookies();
 
-    // Set cookies or session with the tokens
-    // cookieStore.set("auth_token", data.access_token, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production",
-    //   maxAge: data.expires_in,
-    //   path: "/",
-    // });
-
     // You can also decode and store user information
     return NextResponse.json({
       success: true,

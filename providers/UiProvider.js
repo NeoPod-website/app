@@ -7,7 +7,7 @@ const UiProviders = ({ children }) => {
   return (
     <HeroUIProvider>
       <NextThemesProvider defaultTheme="dark" forcedTheme="dark">
-        <ToastProvider />
+        <ToastProvider placement="top-right" />
         {children}
       </NextThemesProvider>
     </HeroUIProvider>

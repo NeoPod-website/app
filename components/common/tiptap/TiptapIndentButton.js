@@ -1,5 +1,3 @@
-// Optional: Add these functions to your TiptapToolbar component
-
 // Add these indent/outdent buttons to your toolbar
 const IndentButtons = ({ editor }) => {
   if (!editor) {
