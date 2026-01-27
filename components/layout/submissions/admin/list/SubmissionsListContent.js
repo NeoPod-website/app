@@ -21,13 +21,9 @@ const SubmissionsListContent = memo(
     onSubmissionDataLoaded,
     onAutoLoadMore,
   }) => {
-    // Ref for intersection observer trigger
     const observerTarget = useRef(null);
     const hasTriggeredRef = useRef(false);
 
-    /**
-     * Intersection Observer for auto-loading when user scrolls near bottom
-     */
     useEffect(() => {
       if (!observerTarget.current || loading || !hasMore || loadingMore) {
         return;
@@ -35,20 +31,18 @@ const SubmissionsListContent = memo(
 
       const observer = new IntersectionObserver(
         (entries) => {
-          // When the trigger element is visible and we haven't triggered yet
           if (entries[0].isIntersecting && !hasTriggeredRef.current) {
             hasTriggeredRef.current = true;
             onAutoLoadMore();
 
-            // Reset after a short delay to allow multiple triggers
             setTimeout(() => {
               hasTriggeredRef.current = false;
             }, 1000);
           }
         },
         {
-          root: null, // viewport
-          rootMargin: "200px", // Trigger 200px before reaching the element
+          root: null,
+          rootMargin: "200px",
           threshold: 0.1,
         },
       );
@@ -62,12 +56,10 @@ const SubmissionsListContent = memo(
       };
     }, [loading, hasMore, loadingMore, onAutoLoadMore]);
 
-    // Show initial loading skeleton
     if (loading) {
       return <SubmissionListSkeleton count={6} />;
     }
 
-    // Show empty state
     if (submissions.length === 0) {
       return <NoSubmissionsFound />;
     }
@@ -87,12 +79,10 @@ const SubmissionsListContent = memo(
           ))}
         </div>
 
-        {/* Intersection Observer Trigger - placed before the load more button */}
         {hasMore && !loadingMore && (
           <div ref={observerTarget} className="h-4 w-full" aria-hidden="true" />
         )}
 
-        {/* Manual Load More Button (still available for user control) */}
         <LoadMoreAdminSubmissions
           onLoadMore={onLoadMore}
           loading={loadingMore}

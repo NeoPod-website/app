@@ -139,7 +139,6 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
       // Step 1: Upload any files first
       let processedAnswers = submissionAnswers;
 
-      // Check if any answers contain files that need uploading
       const hasFilesToUpload = Object.values(submissionAnswers).some(
         (answer) => answer && answer.file && !answer.uploaded,
       );
@@ -147,8 +146,6 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
       if (hasFilesToUpload) {
         try {
           processedAnswers = await uploadFilesFromAnswers(submissionAnswers);
-
-          // Show success message for file uploads
           addToast({
             title: "Files Uploaded Successfully! ✓",
             description: "Now submitting your quest...",
@@ -160,7 +157,7 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
         }
       }
 
-      // Step 2: Create submission with processed answers (including uploaded file URLs)
+      // Step 2: Create submission
       const submissionPayload = {
         pod_id: podId,
         quest_id: questId,
@@ -172,97 +169,61 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/submissions`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(submissionPayload),
         },
       );
 
+      const createResult = await createResponse.json();
+
       if (!createResponse.ok) {
-        const errorData = await createResponse.json().catch(() => ({}));
-        throw new Error(errorData.message || "Failed to submit quest");
+        throw new Error(createResult.message || "Failed to submit quest");
       }
 
-      const createResult = await createResponse.json();
-      const submissionId = createResult.data.submission_id;
+      // Step 3: Map the response correctly based on your JSON structure
+      // Based on your response: createResult.data contains { submission_id, review_status }
+      const responseData = createResult?.data;
+      const status = responseData?.review_status;
 
-      // Step 3: Attempt auto-review (silent, in background)
-      try {
-        const autoReviewResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/submissions/${submissionId}/attempt-auto-review`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify({}),
-          },
-        );
+      console.log("Submission Result:", createResult);
 
-        if (autoReviewResponse.ok) {
-          const autoReviewResult = await autoReviewResponse.json();
-          console.log("autoReviewResponse", autoReviewResult);
+      // Update Redux with the final submission state
+      dispatch(
+        addSubmittedQuest({
+          questId,
+          submissionData: createResult,
+        }),
+      );
 
-          // Update Redux with the final submission state
-          dispatch(
-            addSubmittedQuest({
-              questId,
-              submissionData: autoReviewResult,
-            }),
-          );
-
-          // Show appropriate message based on auto-review result
-          if (
-            autoReviewResult.data.auto_review_attempted &&
-            autoReviewResult.data.auto_review_successful
-          ) {
-            if (autoReviewResult.data.approved) {
-              addToast({
-                title: "Quest Completed!",
-                description: "Your submission has been approved instantly!",
-                color: "success",
-              });
-            } else {
-              addToast({
-                title: "Quest Needs Revision",
-                description:
-                  "Some answers need correction. Please check your inbox.",
-                color: "warning",
-              });
-            }
-          } else {
-            // Auto-review failed or not applicable - normal pending message
-            addToast({
-              title: "Quest Submitted",
-              description: "Your submission is being reviewed by our team.",
-              color: "success",
-            });
-          }
-        } else {
-          // Auto-review endpoint failed, but submission was created successfully
-          addToast({
-            title: "Quest Submitted",
-            description: "Your submission is being reviewed by our team.",
-            color: "success",
-          });
-        }
-
-        router.refresh();
-      } catch (autoReviewError) {
+      // Step 4: UI Feedback based on auto-review status
+      if (status === "approved") {
+        addToast({
+          title: "Quest Completed! ✓",
+          description: "Your submission has been approved instantly!",
+          color: "success",
+        });
+      } else if (status === "rejected") {
+        addToast({
+          title: "Auto-Review Failed",
+          description:
+            "Some answers were incorrect. Please check and resubmit.",
+          color: "warning",
+        });
+      } else {
         addToast({
           title: "Quest Submitted",
-          description: "Your submission is being reviewed by our team.",
+          description: "Your submission is now pending manual review.",
           color: "success",
         });
       }
 
+      // Step 5: Clean up
       dispatch(clearAllSubmissions());
+      router.refresh();
     } catch (error) {
+      // This catches both Network errors and "Cannot read property of undefined"
       dispatch(setSubmissionError(error.message));
-
       addToast({
         title: "Submission Failed",
         description: error.message,
@@ -283,7 +244,6 @@ const SubmitQuestBtn = ({ podId, categoryId, questId, ambassadorId }) => {
           if (form && form.checkValidity()) {
             handleSubmit(e);
           } else {
-            // Show validation messages
             form?.reportValidity();
           }
         }}

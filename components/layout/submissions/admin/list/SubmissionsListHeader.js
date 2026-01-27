@@ -34,7 +34,7 @@ const STATUS_LABELS = {
 const DEFAULT_FILTERS = {
   primaryFilterKey: null,
   primaryFilterValue: null,
-  status: "all",
+  status: "pending",
   order: "desc",
 };
 
