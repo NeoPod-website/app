@@ -56,7 +56,7 @@ const api = {
 
   markAsRead: async (submissionId) => {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/inbox/${submissionId}/read-by-ambassador`,
+      `${process.env.NEXT_PUBLIC_API_URL}/submissions/${submissionId}/read-by-ambassador`,
       {
         method: "PATCH",
         headers: {
