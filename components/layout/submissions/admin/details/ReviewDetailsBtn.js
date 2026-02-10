@@ -12,7 +12,6 @@ const ReviewDetailsBtn = ({
   onSubmissionUpdate,
   isTransitioning = false,
 }) => {
-  // Shared review submission handler
   const handleReviewSubmission = async (
     reviewStatus,
     comment = null,
@@ -41,13 +40,9 @@ const ReviewDetailsBtn = ({
 
       const data = await response.json();
 
-      // Update the submission in parent state
-      // This will trigger auto-navigation to next submission
       if (onSubmissionUpdate && data.data?.submission) {
         onSubmissionUpdate(data.data.submission);
       }
-
-      // Note: Don't clear review comment here - it's cleared in parent after transition
 
       return data;
     } catch (error) {
@@ -64,9 +59,7 @@ const ReviewDetailsBtn = ({
     }
   };
 
-  // Only show buttons for pending submissions that are not flagged
-  const shouldShowButtons =
-    submission.review_status === "pending" && submission.is_flagged === "false";
+  const shouldShowButtons = submission.review_status === "pending";
 
   if (!shouldShowButtons) {
     return null;

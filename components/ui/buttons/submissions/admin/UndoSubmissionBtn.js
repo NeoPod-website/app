@@ -53,17 +53,12 @@ const UndoSubmissionBtn = ({ submission, onSubmissionUpdate }) => {
   };
 
   const handleUndoToPending = async () => {
-    // Prevent double-clicks and concurrent operations
     if (isLoading) return;
 
     setIsLoading(true);
 
     const isHighlighted = questHighlights.includes(submission.submission_id);
     const fromStatus = submission.review_status;
-
-    console.log(
-      `Starting undo operation for submission ${submission.submission_id} from ${fromStatus}, highlighted: ${isHighlighted}`,
-    );
 
     try {
       // STEP 1: Revert submission status (most critical operation)
